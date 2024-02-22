@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeadBarComponent } from './head-bar/head-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeadBarComponent
+    HeadBarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
