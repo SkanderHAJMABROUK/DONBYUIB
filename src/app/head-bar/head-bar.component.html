@@ -16,11 +16,21 @@
         <a href="" class="action_btn">Inscrire mon association</a>
         <a href="" class="action_btn">Se connecter</a>
 
-        <div class="toggle_btn">
-            <fa-icon [icon]="faB"></fa-icon>
+        <div class="toggle_btn" (click)="toggleMenu()">
+            <fa-icon [icon]="isMenuOpen ? faX : faB"></fa-icon>
         </div>
 
-
     </div>
-    
+
+    <div class="dropdown_menu" [class.open]="isMenuOpen">
+        <ul>
+            <li><a href="">Accueil</a></li>
+            <li><a href="">Associations</a></li>
+            <li><a href="">Collectes</a></li>
+            <li><a href="">FAQ</a></li>
+            <li><a href="" class="action_btn">S'inscrire</a></li>
+            <li><a href="" class="action_btn">Inscrire mon association</a></li>
+            <li><a href="" class="action_btn">Se connecter</a></li>
+        </ul>
+    </div>
 </header>

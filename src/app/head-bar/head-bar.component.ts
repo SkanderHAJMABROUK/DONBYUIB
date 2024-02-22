@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-head-bar',
@@ -7,7 +7,12 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./head-bar.component.css']
 })
 export class HeadBarComponent {
+  isMenuOpen: boolean = false;
+  faB = faBars;
+  faX = faXmark;
 
-  faB = faBars
-
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    console.log("Menu opened:", this.isMenuOpen);
+  }
 }
