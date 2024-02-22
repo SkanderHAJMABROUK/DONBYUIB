@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-head-bar',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./head-bar.component.css']
 })
 export class HeadBarComponent {
+
+  faB = faBars
 
 }
