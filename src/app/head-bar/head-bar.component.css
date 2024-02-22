@@ -60,7 +60,7 @@ a:hover{
     cursor: pointer;
 }
 .action_btn:hover{
-    scale: 1.05;
+    scale: 1.01;
     color:rgba(255, 255, 255, 0.461);
     text-decoration: none;
 }
