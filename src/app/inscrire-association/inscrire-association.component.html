@@ -1,47 +1,59 @@
 <div class="container">
-  <form action="" class="form-container">
+    <form [formGroup]="aFormGroup" class="form-container">
       <h2>Inscrire mon association</h2>
       <hr>
       <div>
-          <label for="nom_association">Nom de l'association</label>
-          <input type="text" id="nom_association" placeholder="Nom complet de l'association" required>
+        <label for="nom_association">Nom de l'association<span> *</span></label>
+        <input type="text" id="nom_association" placeholder="Nom complet de l'association" required>
       </div>
       <div>
-          <label for="email_association">Adresse email de l'association</label>
-          <input type="email" id="email_association" placeholder="adresse@email.com" required>
+        <label for="description_association">Description de l'association<span> *</span></label><br>
+        <textarea id="description_association" placeholder="Description de l'association" class="description_association" required></textarea>
       </div>
       <div>
-          <label for="num_association">Numéro téléphone de l'association</label>
-          <input type="number" id="num_association" placeholder="N° Téléphone" required>
+        <label for="email_association">Adresse email de l'association<span> *</span></label>
+        <input type="email" id="email_association" placeholder="adresse@email.com" required>
       </div>
       <div>
-          <label for="logo_association">Logo de l'association</label><br>
-          <input type="file" id="logo_association" required>
+        <label for="num_association">Numéro téléphone de l'association<span> *</span></label>
+        <input type="number" id="num_association" placeholder="N° Téléphone" required>
       </div>
       <div>
-          <label for="idfiscale_association">Carte d'identité fiscale</label><br>
-          <input type="file" id="idfiscale_association" required>
+        <label for="logo_association">Logo de l'association<span> *</span></label><br>
+        <input type="file" id="logo_association" required>
       </div>
       <div>
-          <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association</label>
-          <input type="text" id="rib_association" placeholder="N° RIB" required>
+        <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
+        <input type="file" id="idfiscale_association" required>
       </div>
       <div>
-        <label for="pwd_association">Mot de passe</label>
+        <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association<span> *</span></label>
+        <input type="text" id="rib_association" placeholder="N° RIB" required>
+      </div>
+      <div>
+        <label for="pwd_association">Mot de passe<span> *</span></label>
         <div class="password-input">
-            <input [type]="showPassword ? 'text' : 'password'" id="pwd_association" [(ngModel)]="password" aria-describedby="passwordHelpInline" required>
-            <button type="button" id="togglePassword" (click)="togglePassword()"> <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon> </button>
+          <input [type]="showPassword ? 'text' : 'password'" id="pwd_association" [(ngModel)]="password" aria-describedby="passwordHelpInline" required>
+          <button type="button" id="togglePassword" (click)="togglePassword()"> <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon> </button>
         </div>
         <small id="passwordHelpInline" class="text-muted">Ne pas dépasser les 20 caractères</small>
-    </div>
-    <div>
-        <label for="pwd_association">Confirmer le mot de passe</label>
+      </div>
+      <div>
+        <label for="pwd_association">Confirmer le mot de passe<span> *</span></label>
         <div class="password-input">
-            <input [type]="showPasswordConfirmation ? 'text' : 'password'" id="pwd_confirmation" [(ngModel)]="passwordConfirmation" required>
-            <button type="button" id="togglePasswordConfirmation" (click)="togglePasswordConfirmation()"> <fa-icon [icon]="showPasswordConfirmation ? faEye : faEyeSlash"></fa-icon> </button>
+          <input [type]="showPasswordConfirmation ? 'text' : 'password'" id="pwd_confirmation" [(ngModel)]="passwordConfirmation" required>
+          <button type="button" id="togglePasswordConfirmation" (click)="togglePasswordConfirmation()"> <fa-icon [icon]="showPasswordConfirmation ? faEye : faEyeSlash"></fa-icon> </button>
         </div>
     </div>
-    
-      <button type="button" class="btn_inscrire">Inscrire l'association</button>
-  </form>
-</div>
+    <p>Les champs avec un astérisque * sont obligatoires</p>
+        <input type="checkbox" id="accept_terms"  class="checkbox" required>
+        <label for="accept_terms">J'accepte toutes les conditions générales d'utilisation.</label>
+
+        <ngx-recaptcha2 #captchaElem
+    [siteKey]="siteKey"
+    formControlName="recaptcha">
+  </ngx-recaptcha2>
+
+      <button type="button" class="btn_inscrire" (click)="onSubmit()">Inscrire l'association</button>
+    </form>
+  </div>
