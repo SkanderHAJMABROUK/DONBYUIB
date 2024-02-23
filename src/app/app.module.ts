@@ -8,14 +8,18 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterComponent } from './footer/footer.component';
 import { InscrireAssociationComponent } from './inscrire-association/inscrire-association.component';
 import {  HttpClientModule } from '@angular/common/http';
-
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeadBarComponent,
     FooterComponent,
-    InscrireAssociationComponent
+    InscrireAssociationComponent,
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,12 @@ import {  HttpClientModule } from '@angular/common/http';
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxCaptchaModule,
+    RouterModule.forRoot([
+      
+      {path:'inscrireAssociation',component:InscrireAssociationComponent}
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
