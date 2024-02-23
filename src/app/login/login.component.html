@@ -1,1 +1,30 @@
-<p>login works!</p>
+<div class="container">
+    <form [formGroup]="aFormGroup" class="form-container">
+      <h2>Se connecter</h2>
+      <hr>
+      
+      <div>
+        <label for="email_association">Adresse email de l'association</label>
+        <input type="email" id="email_association" placeholder="adresse@email.com" required>
+      </div>
+      
+      
+      <div>
+        <label for="pwd_association">Mot de passe</label>
+        <div class="password-input">
+          <input [type]="showPassword ? 'text' : 'password'" id="pwd_association" [(ngModel)]="password" aria-describedby="passwordHelpInline" required>
+          <button type="button" id="togglePassword" (click)="togglePassword()"> <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon> </button>
+        </div>
+      </div>
+      
+        <input type="checkbox" id="accept_terms"  class="checkbox" required>
+        <label for="accept_terms">Se souvenir de moi</label>
+
+        <ngx-recaptcha2 #captchaElem
+    [siteKey]="siteKey"
+    formControlName="recaptcha">
+  </ngx-recaptcha2>
+
+      <button type="button" class="btn_login" (click)="onSubmit()">Connexion</button>
+    </form>
+  </div>
