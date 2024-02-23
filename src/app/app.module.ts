@@ -31,7 +31,8 @@ import { LoginComponent } from './login/login.component';
     NgxCaptchaModule,
     RouterModule.forRoot([
       
-      {path:'inscrireAssociation',component:InscrireAssociationComponent}
+      {path:'inscrireAssociation',component:InscrireAssociationComponent},
+      {path:'login',component:LoginComponent}
     ])
   ],
   providers: [],
