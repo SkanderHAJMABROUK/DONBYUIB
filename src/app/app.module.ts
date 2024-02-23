@@ -9,8 +9,13 @@ import { FooterComponent } from './footer/footer.component';
 import { InscrireAssociationComponent } from './inscrire-association/inscrire-association.component';
 import {  HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { RouterModule } from '@angular/router';
+import { RouterModule , RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+
+const routes: Routes = [
+  { path: 'inscrireAssociation', component: InscrireAssociationComponent },
+];
+
 
 @NgModule({
   declarations: [
@@ -29,10 +34,7 @@ import { LoginComponent } from './login/login.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
-    RouterModule.forRoot([
-      
-      {path:'inscrireAssociation',component:InscrireAssociationComponent}
-    ])
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
