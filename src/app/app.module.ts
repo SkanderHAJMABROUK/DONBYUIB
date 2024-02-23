@@ -12,9 +12,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { RouterModule , RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 
-const routes: Routes = [
-  { path: 'inscrireAssociation', component: InscrireAssociationComponent },
-];
 
 
 @NgModule({
@@ -34,7 +31,6 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
-    RouterModule.forRoot(routes)
 
     RouterModule.forRoot([
       
