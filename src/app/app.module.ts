@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { HeadBarComponent } from './head-bar/head-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterComponent } from './footer/footer.component';
+import { InscrireAssociationComponent } from './inscrire-association/inscrire-association.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeadBarComponent,
-    FooterComponent
+    FooterComponent,
+    InscrireAssociationComponent
   ],
   imports: [
     BrowserModule,

@@ -11,8 +11,8 @@ body {
     background-position: center;
 }
 img {
-    width: 80px; /* Vous pouvez ajuster cette valeur selon vos besoins */
-    height: auto; /* Cela assure que l'image conserve son aspect ratio */
+    width: 80px; 
+    height: auto; 
 }
 
 li{
