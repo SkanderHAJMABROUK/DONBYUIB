@@ -76,3 +76,30 @@ input:focus {
     margin: 0 auto; 
     margin-bottom: 4%;
 }
+
+
+.password-input {
+    position: relative;
+}
+
+.password-input input[type="password"],
+.password-input input[type="text"] {
+    width: calc(100% - 32px); /* Taille ajustée pour le champ de saisie */
+    padding-right: 32px; /* Espacement pour le bouton */
+}
+
+.password-input button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
+.password-input button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: -10px; /* Ajustez la marge selon vos besoins */
+    cursor: pointer;
+    padding-top: 2.5%;
+}
+
