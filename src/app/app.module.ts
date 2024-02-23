@@ -9,13 +9,15 @@ import { FooterComponent } from './footer/footer.component';
 import { InscrireAssociationComponent } from './inscrire-association/inscrire-association.component';
 import {  HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeadBarComponent,
     FooterComponent,
-    InscrireAssociationComponent
+    InscrireAssociationComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -24,7 +26,11 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    RouterModule.forRoot([
+      
+      {path:'inscrireAssociation',component:InscrireAssociationComponent}
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
