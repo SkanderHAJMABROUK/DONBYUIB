@@ -10,6 +10,7 @@ import { InscrireAssociationComponent } from './inscrire-association/inscrire-as
 import {  HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
     HeadBarComponent,
     FooterComponent,
     InscrireAssociationComponent,
+    LoginComponent,
     
   ],
   imports: [
