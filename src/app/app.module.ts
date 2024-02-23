@@ -34,15 +34,14 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
-<<<<<<< HEAD
     RouterModule.forRoot(routes)
-=======
+
     RouterModule.forRoot([
       
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'login',component:LoginComponent}
     ])
->>>>>>> 961fbc335ee8c0ebf911954e496173762d631c70
+
   ],
   providers: [],
   bootstrap: [AppComponent]
