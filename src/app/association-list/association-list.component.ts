@@ -12,7 +12,7 @@ constructor(private service:AuthentificationService){}
 associations:any=[];
 
 refreshAssociations(){
-  this.service.get().subscribe((res)=>{
+  this.service.getAssociations().subscribe((res)=>{
     this.associations=res;
   })
 }

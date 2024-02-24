@@ -8,12 +8,13 @@ export class AuthentificationService {
 
   constructor(private fs:Firestore) { }
 
-  get(){
+  getAssociations(){
     let association=collection(this.fs,'id_association');
     return collectionData(association,{idField:'id'})
 
   }
-  add(){
+  addAssociation(){
+    
 
   }
   delete(id:string){}
