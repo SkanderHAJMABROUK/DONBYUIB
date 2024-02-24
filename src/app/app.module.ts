@@ -16,6 +16,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AssociationListComponent } from './association-list/association-list.component';
 import { AuthentificationService } from './shared/authentification.service';
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -51,7 +52,7 @@ const firebaseConfig = {
     RouterModule.forRoot([
       
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
-      {path:'login',component:LoginComponent}
+      {path:'login',component:LoginComponent},
     ])
 
   ],

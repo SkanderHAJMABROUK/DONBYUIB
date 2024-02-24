@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
+
 
 @Component({
   selector: 'app-inscrire-association',
@@ -20,7 +23,8 @@ export class InscrireAssociationComponent implements OnInit{
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
 
-  constructor(private formBuilder : FormBuilder){}
+  constructor(private formBuilder : FormBuilder,
+    private router:Router){}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
@@ -55,6 +59,7 @@ export class InscrireAssociationComponent implements OnInit{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide, reCAPTCHA validé !");
+      this.router.navigate(['/verify-email']);
       // Soumettre le formulaire à votre backend ou effectuer d'autres actions
     } else {
       this.showErrorNotification = true;
