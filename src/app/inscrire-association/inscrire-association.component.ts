@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { AuthentificationService } from '../shared/authentification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inscrire-association',
@@ -20,7 +22,7 @@ export class InscrireAssociationComponent implements OnInit{
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
 
-  constructor(private formBuilder : FormBuilder){}
+  constructor(private formBuilder : FormBuilder, public service:AuthentificationService,private router: Router){}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
@@ -55,13 +57,25 @@ export class InscrireAssociationComponent implements OnInit{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide, reCAPTCHA validé !");
-      // Soumettre le formulaire à votre backend ou effectuer d'autres actions
+      
+      // Appel de la méthode addAssociation pour ajouter les données dans la base de données Firebase
+      this.service.addAssociation(this.aFormGroup.value)
+        .then(() => {
+          console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
+          // Réinitialiser le formulaire après l'ajout des données
+          this.aFormGroup.reset();
+          this.router.navigate(['/demande-association']);
+        })
+        .catch(error => {
+          console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
+        });
     } else {
       this.showErrorNotification = true;
       console.log("Formulaire invalide");
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
+  
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
