@@ -85,7 +85,7 @@ input:focus {
 
 
 .password-input {
-    position: relative;
+    position: flex;
 }
 
 .password-input input[type="password"],
@@ -95,17 +95,16 @@ input:focus {
 }
 
 .password-input button {
-    position: absolute;
+    position: flex;
     right: 0;
     top: 0;
     cursor: pointer;
-}
-.password-input button {
     background: none;
     border: none;
     padding: 0;
-    margin-left: -10px; 
+    margin-left: 10px; 
     cursor: pointer;
     padding-top: 2.5%;
 }
+
 
