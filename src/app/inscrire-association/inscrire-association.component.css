@@ -53,6 +53,13 @@ p{
     font-style: italic;
 }
 
+.error-message {
+    font-size: 0.9rem; /* Taille de police plus petite */
+    color: rgb(218, 0, 0); /* Couleur du texte en rouge */
+    margin-top: 0; /* Marge supérieure pour l'espacement */
+  }
+  
+
 input {
     width: 100%;
     padding: 8px;

@@ -1,59 +1,86 @@
 <div class="container">
-    <form [formGroup]="aFormGroup" class="form-container">
-      <h2>Inscrire mon association</h2>
-      <hr>
-      <div>
-        <label for="nom_association">Nom de l'association<span> *</span></label>
-        <input type="text" id="nom_association" placeholder="Nom complet de l'association" required>
+  <form [formGroup]="aFormGroup" class="form-container">
+    <h2>Inscrire mon association</h2>
+    <hr>
+    <div>
+      <label for="nom_association">Nom de l'association<span> *</span></label>
+      <input type="text" id="nom_association" formControlName="nom_association" placeholder="Nom complet de l'association" required>
+      <div class="error-message" *ngIf="aFormGroup.get('nom_association')?.invalid && (aFormGroup.get('nom_association')?.dirty || aFormGroup.get('nom_association')?.touched)">
+        <div *ngIf="aFormGroup.get('nom_association')?.errors?.['required']">Le nom de l'association est requis.</div>
       </div>
-      <div>
-        <label for="description_association">Description de l'association<span> *</span></label><br>
-        <textarea id="description_association" placeholder="Description de l'association" class="description_association" required></textarea>
+    </div>
+    <div>
+      <label for="description_association">Description de l'association<span> *</span></label><br>
+      <textarea id="description_association" formControlName="description_association" placeholder="Description de l'association" class="description_association" required></textarea>
+      <div class="error-message" *ngIf="aFormGroup.get('description_association')?.invalid && (aFormGroup.get('description_association')?.dirty || aFormGroup.get('description_association')?.touched)">
+        <div *ngIf="aFormGroup.get('description_association')?.errors?.['required']">La description de l'association est requise.</div>
       </div>
-      <div>
-        <label for="email_association">Adresse email de l'association<span> *</span></label>
-        <input type="email" id="email_association" placeholder="adresse@email.com" required>
+    </div>
+    <div>
+      <label for="email_association">Adresse email de l'association<span> *</span></label>
+      <input type="email" id="email_association" formControlName="email_association" placeholder="adresse@email.com" required>
+      <div class="error-message" *ngIf="aFormGroup.get('email_association')?.invalid && (aFormGroup.get('email_association')?.dirty || aFormGroup.get('email_association')?.touched)">
+        <div *ngIf="aFormGroup.get('email_association')?.errors?.['required']">L'adresse email de l'association est requise.</div>
+        <div *ngIf="aFormGroup.get('email_association')?.errors?.['email']">L'adresse email n'est pas valide.</div>
       </div>
-      <div>
-        <label for="num_association">Numéro téléphone de l'association<span> *</span></label>
-        <input type="number" id="num_association" placeholder="N° Téléphone" required>
+    </div>
+    <div>
+      <label for="num_association">Numéro téléphone de l'association<span> *</span></label>
+      <input type="text" id="num_association" formControlName="num_association" placeholder="N° Téléphone" required>
+      <div class="error-message" *ngIf="aFormGroup.get('num_association')?.invalid && (aFormGroup.get('num_association')?.dirty || aFormGroup.get('num_association')?.touched)">
+        <div *ngIf="aFormGroup.get('num_association')?.errors?.['required']">Le numéro de téléphone est requis.</div>
+        <div *ngIf="aFormGroup.get('num_association')?.errors?.['minlength'] || aFormGroup.get('num_association')?.errors?.['maxlength']">Le numéro de téléphone doit comporter exactement 8 chiffres.</div>
       </div>
-      <div>
-        <label for="logo_association">Logo de l'association<span> *</span></label><br>
-        <input type="file" id="logo_association" required>
+    </div>
+    <div>
+      <label for="logo_association">Logo de l'association<span> *</span></label><br>
+      <input type="file" id="logo_association" formControlName="logo_association" required>
+      <div class="error-message" *ngIf="aFormGroup.get('logo_association')?.invalid && (aFormGroup.get('logo_association')?.dirty || aFormGroup.get('logo_association')?.touched)">
+        <div *ngIf="aFormGroup.get('logo_association')?.errors?.['required']">Le logo de l'association est requis.</div>
       </div>
-      <div>
-        <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
-        <input type="file" id="idfiscale_association" required>
+    </div>
+    <div>
+      <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
+      <input type="file" id="idfiscale_association" formControlName="idfiscale_association" required>
+      <div class="error-message" *ngIf="aFormGroup.get('idfiscale_association')?.invalid && (aFormGroup.get('idfiscale_association')?.dirty || aFormGroup.get('idfiscale_association')?.touched)">
+        <div *ngIf="aFormGroup.get('idfiscale_association')?.errors?.['required']">La carte d'identité fiscale est requise.</div>
       </div>
-      <div>
-        <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association<span> *</span></label>
-        <input type="text" id="rib_association" placeholder="N° RIB" required>
+    </div>
+    <div>
+      <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association<span> *</span></label>
+      <input type="text" id="rib_association" formControlName="rib_association" placeholder="N° RIB" required>
+      <div class="error-message" *ngIf="aFormGroup.get('rib_association')?.invalid && (aFormGroup.get('rib_association')?.dirty || aFormGroup.get('rib_association')?.touched)">
+        <div *ngIf="aFormGroup.get('rib_association')?.errors?.['required']">Le RIB de l'association est requis.</div>
+        <div *ngIf="aFormGroup.get('rib_association')?.errors?.['minlength'] || aFormGroup.get('rib_association')?.errors?.['maxlength']">Le RIB de l'association doit être composé exactement de 20 caractères.</div>
       </div>
-      <div>
-        <label for="pwd_association">Mot de passe<span> *</span></label>
-        <div class="password-input">
-          <input [type]="showPassword ? 'text' : 'password'" id="pwd_association" [(ngModel)]="password" aria-describedby="passwordHelpInline" required>
-          <button type="button" id="togglePassword" (click)="togglePassword()"> <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon> </button>
-        </div>
-        <small id="passwordHelpInline" class="text-muted">Ne pas dépasser les 20 caractères</small>
+    </div>
+    <div>
+      <label for="pwd_association">Mot de passe<span> *</span></label>
+      <div class="password-input">
+        <input [type]="showPassword ? 'text' : 'password'" id="pwd_association" formControlName="pwd_association" aria-describedby="passwordHelpInline" required>
+        <button type="button" id="togglePassword" (click)="togglePassword()"> <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon> </button>
       </div>
-      <div>
-        <label for="pwd_association">Confirmer le mot de passe<span> *</span></label>
-        <div class="password-input">
-          <input [type]="showPasswordConfirmation ? 'text' : 'password'" id="pwd_confirmation" [(ngModel)]="passwordConfirmation" required>
-          <button type="button" id="togglePasswordConfirmation" (click)="togglePasswordConfirmation()"> <fa-icon [icon]="showPasswordConfirmation ? faEye : faEyeSlash"></fa-icon> </button>
-        </div>
+      <div class="error-message" *ngIf="aFormGroup.get('pwd_association')?.invalid && (aFormGroup.get('pwd_association')?.dirty || aFormGroup.get('pwd_association')?.touched)">
+        <div *ngIf="aFormGroup.get('pwd_association')?.errors?.['required']">Le mot de passe est requis.</div>
+        <div *ngIf="aFormGroup.get('pwd_association')?.errors?.['minlength'] || aFormGroup.get('pwd_association')?.errors?.['maxlength']">Le mot de passe doit comporter entre 8 et 20 caractères.</div>
+      </div>
+    </div>
+    <div>
+      <label for="pwd_confirmation">Confirmer le mot de passe<span> *</span></label>
+      <div class="password-input">
+        <input [type]="showPasswordConfirmation ? 'text' : 'password'" id="pwd_confirmation" formControlName="pwd_confirmation" required>
+        <button type="button" id="togglePasswordConfirmation" (click)="togglePasswordConfirmation()"> <fa-icon [icon]="showPasswordConfirmation ? faEye : faEyeSlash"></fa-icon> </button>
+      </div>
+      <div class="error-message" *ngIf="aFormGroup.get('pwd_confirmation')?.invalid && (aFormGroup.get('pwd_confirmation')?.dirty || aFormGroup.get('pwd_confirmation')?.touched)">
+        <div *ngIf="aFormGroup.get('pwd_confirmation')?.errors?.['required']">La confirmation du mot de passe est requise.</div>
+      </div>
     </div>
     <p>Les champs avec un astérisque * sont obligatoires</p>
-        <input type="checkbox" id="accept_terms"  class="checkbox" required>
-        <label for="accept_terms">J'accepte toutes les conditions générales d'utilisation.</label>
+    <input type="checkbox" id="accept_terms" formControlName="accept_terms" class="checkbox" required>
+    <label for="accept_terms">J'accepte toutes les conditions générales d'utilisation.</label>
 
-        <ngx-recaptcha2 #captchaElem
-    [siteKey]="siteKey"
-    formControlName="recaptcha">
-  </ngx-recaptcha2>
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
 
-      <button type="button" class="btn_inscrire" (click)="onSubmit()">Inscrire l'association</button>
-    </form>
-  </div>
+    <button type="button" class="btn_inscrire" (click)="onSubmit()" [disabled]="!aFormGroup.valid">Inscrire l'association</button>
+  </form>
+</div>
