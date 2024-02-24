@@ -74,6 +74,14 @@
       <div class="error-message" *ngIf="aFormGroup.get('pwd_confirmation')?.invalid && (aFormGroup.get('pwd_confirmation')?.dirty || aFormGroup.get('pwd_confirmation')?.touched)">
         <div *ngIf="aFormGroup.get('pwd_confirmation')?.errors?.['required']">La confirmation du mot de passe est requise.</div>
       </div>
+      <div *ngIf="aFormGroup.get('pwd_association')?.dirty || aFormGroup.get('pwd_confirmation')?.dirty">
+        <div *ngIf="aFormGroup.hasError('passwordMismatch')" class="error-message">
+          Les mots de passe ne correspondent pas.
+        </div>
+      </div>
+      
+      
+      
     </div>
     <p>Les champs avec un astérisque * sont obligatoires</p>
     <input type="checkbox" id="accept_terms" formControlName="accept_terms" class="checkbox" required>
@@ -81,6 +89,10 @@
 
     <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
 
-    <button type="button" class="btn_inscrire" (click)="onSubmit()" [disabled]="!aFormGroup.valid">Inscrire l'association</button>
+    <div *ngIf="showErrorNotification" class="error-notification">
+      Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
+    </div>
+
+    <button type="submit" class="btn_inscrire" (click)="onSubmit()">Inscrire l'association</button>
   </form>
 </div>

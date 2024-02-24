@@ -99,7 +99,7 @@ a:hover{
 }
 
 /* Responsive Styles */
-@media (max-width: 830px) {
+@media (max-width: 900px) {
     .navbar .links, .navbar .action_btn{
         display: none;
     }
