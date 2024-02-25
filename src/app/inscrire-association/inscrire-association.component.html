@@ -17,6 +17,22 @@
       </div>
     </div>
     <div>
+      <label for="categorie_association">Catégorie de l'association<span> *</span></label><br>
+      <select id="categorie_association" formControlName="categorie_association" required>
+        <option value="" disabled selected>Sélectionner une catégorie</option>
+        <option value="humanitaire">Humanitaire</option>
+        <option value="environnement">Environnement</option>
+        <option value="santé">Santé</option>
+        <option value="éducation">Éducation</option>
+        <option value="enfance">Enfance</option>
+        <option value="animaux">Animaux</option>
+        <option value="autres">Autres</option>
+      </select>
+      <div class="error-message" *ngIf="aFormGroup.get('categorie_association')?.invalid && (aFormGroup.get('categorie_association')?.dirty || aFormGroup.get('categorie_association')?.touched)">
+        <div *ngIf="aFormGroup.get('categorie_association')?.errors?.['required']">La catégorie de l'association est requise.</div>
+      </div>
+    </div>
+    <div>
       <label for="email_association">Adresse email de l'association<span> *</span></label>
       <input type="email" id="email_association" formControlName="email_association" placeholder="adresse@email.com" required>
       <div class="error-message" *ngIf="aFormGroup.get('email_association')?.invalid && (aFormGroup.get('email_association')?.dirty || aFormGroup.get('email_association')?.touched)">
@@ -37,13 +53,15 @@
       <input type="file" id="logo_association" formControlName="logo_association" required>
       <div class="error-message" *ngIf="aFormGroup.get('logo_association')?.invalid && (aFormGroup.get('logo_association')?.dirty || aFormGroup.get('logo_association')?.touched)">
         <div *ngIf="aFormGroup.get('logo_association')?.errors?.['required']">Le logo de l'association est requis.</div>
+        <div *ngIf="aFormGroup.get('logo_association')?.errors?.['invalidLogoFormat']">Le format du fichier doit être jpg, jpeg, png ou svg.</div>
       </div>
-    </div>
+    </div>       
     <div>
       <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
       <input type="file" id="idfiscale_association" formControlName="idfiscale_association" required>
       <div class="error-message" *ngIf="aFormGroup.get('idfiscale_association')?.invalid && (aFormGroup.get('idfiscale_association')?.dirty || aFormGroup.get('idfiscale_association')?.touched)">
         <div *ngIf="aFormGroup.get('idfiscale_association')?.errors?.['required']">La carte d'identité fiscale est requise.</div>
+        <div *ngIf="aFormGroup.get('idfiscale_association')?.errors?.['invalidPdfFormat']">Le format du fichier doit être PDF.</div>
       </div>
     </div>
     <div>
@@ -63,6 +81,7 @@
       <div class="error-message" *ngIf="aFormGroup.get('pwd_association')?.invalid && (aFormGroup.get('pwd_association')?.dirty || aFormGroup.get('pwd_association')?.touched)">
         <div *ngIf="aFormGroup.get('pwd_association')?.errors?.['required']">Le mot de passe est requis.</div>
         <div *ngIf="aFormGroup.get('pwd_association')?.errors?.['minlength'] || aFormGroup.get('pwd_association')?.errors?.['maxlength']">Le mot de passe doit comporter entre 8 et 20 caractères.</div>
+        <div *ngIf="aFormGroup.get('pwd_association')?.errors?.['invalidPasswordFormat']">Le mot de passe doit contenir au moins une lettre majuscule, un chiffre et un caractère spécial.</div>
       </div>
     </div>
     <div>
