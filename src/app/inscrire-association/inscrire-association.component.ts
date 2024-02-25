@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AuthentificationService } from '../shared/authentification.service';
-import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-inscrire-association',
@@ -59,6 +61,8 @@ export class InscrireAssociationComponent implements OnInit{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide, reCAPTCHA validé !");
+      this.router.navigate(['/verify-email']);
+      // Soumettre le formulaire à votre backend ou effectuer d'autres actions
       
       // Appel de la méthode addAssociation pour ajouter les données dans la base de données Firebase
       this.service.addAssociation(this.aFormGroup.value)
