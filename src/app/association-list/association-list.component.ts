@@ -9,17 +9,17 @@ import { Association } from '../association';
 })
 export class AssociationListComponent {
   constructor(private service:AuthentificationService){}
-  associations:Association[]=[];
+  associations:any;
   
   selectedAssociation: Association | null = null; 
   showAssociationDetails(association: Association): void {
-    this.selectedAssociation = association;
+    // this.selectedAssociation = association;
   }
-//  ngOnInit():void{
-//     this.service.getAssociations().subscribe((res)=>{
-//       this.associations=res;
-//     })
-//    }
+  ngOnInit():void{
+    this.service.getAssociations().subscribe((res)=>{
+     this.associations=res;
+   })
+   }
 
 
 }
