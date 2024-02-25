@@ -52,6 +52,8 @@ export class InscrireAssociationComponent implements OnInit{
   togglePasswordConfirmation(): void {
     this.showPasswordConfirmation = !this.showPasswordConfirmation;
   }
+  showSuccessMessage: boolean = false;
+
 
   onSubmit(): void {
     console.log("Fonction onSubmit() appelée");
@@ -64,7 +66,9 @@ export class InscrireAssociationComponent implements OnInit{
           console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
           this.aFormGroup.reset();
-          this.router.navigate(['/demande-association']);
+          // this.router.navigate(['/demande-association']);
+          this.showSuccessMessage = true;
+
         })
         .catch(error => {
           console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
