@@ -1,0 +1,12 @@
+<h2>Associations</h2>
+<div *ngFor="let ass of associations">
+  <h3>
+    <p>Nom de l'association : {{ ass.nom }}</p>
+    <p><img [src]="ass.logo"></p>
+    <p>Catégorie : {{ ass.categorie }}</p>
+    <p>Description : {{ ass.description }}</p>
+    <p>Email : {{ ass.email }}</p>
+    <p>Telephone : {{ ass.telephone }}</p>
+    
+  </h3>
+</div>

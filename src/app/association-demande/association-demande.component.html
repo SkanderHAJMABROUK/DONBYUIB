@@ -1,20 +1,12 @@
-<!-- <h2>Associations</h2>
-<h3 *ngFor="let ass of associations" >
-<p> {{ass.nom}}</p>
-<p><img src={{ass.logo}}></p></h3>
- -->
 
- <div class="container">
-    <h2>Détails de l'association</h2>
-    <div *ngIf="associationData">
-      <p><strong>Nom :</strong> {{ associationData.nom }}</p>
-      <p><strong>Description :</strong> {{ associationData.description }}</p>
-      <p><strong>Email :</strong> {{ associationData.email }}</p>
-      <!-- Ajoutez d'autres champs ici selon vos besoins -->
-    </div>
-    <div *ngIf="!associationData">
-      <p>Chargement des détails de l'association...</p>
-    </div>
+<div *ngIf="association">
+    <h2>Détails de l'association sélectionnée</h2>
+    <p>Nom: {{ association.nom }}</p>
+    <p>Catégorie: {{ association.categorie }}</p>
+    <p>Description: {{ association.description }}</p>
+    <p>Email: {{ association.email }}</p>
+    <p>Téléphone: {{ association.telephone }}</p>
   </div>
   
+
 

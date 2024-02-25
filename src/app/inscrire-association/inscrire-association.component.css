@@ -54,9 +54,17 @@ p{
 }
 
 .error-message {
-    font-size: 0.9rem; /* Taille de police plus petite */
-    color: rgb(218, 0, 0); /* Couleur du texte en rouge */
-    margin-top: 0; /* Marge supérieure pour l'espacement */
+    font-size: 0.9rem; 
+    color: rgb(218, 0, 0); 
+    margin-top: 0; 
+  }
+  .success-message {
+    background-color: #dff0d8; 
+    color: #3c763d; 
+    border: 1px solid #d6e9c6; 
+    padding: 10px 15px; 
+    margin-bottom: 15px; 
+    border-radius: 4px; 
   }
   
 

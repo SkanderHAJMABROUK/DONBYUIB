@@ -2,11 +2,11 @@
     <div class="navbar">
 
         <div class="logo">
-            <a href=""><img src="../../assets/logodonbyuib.png" alt=""></a>
+            <a href=""><img src="../../assets/images/logodonbyuib.png" alt=""></a>
         </div>
         <ul class="links">
             <li><a href="">Accueil</a></li>
-            <li><a href="">Associations</a></li>
+            <li><a [routerLink]="['listeAssociations']">Associations</a></li>
             <li><a href="">Collectes</a></li>
             <li><a href="">FAQ</a></li>
     
@@ -27,7 +27,7 @@
     <div class="dropdown_menu" [class.open]="isMenuOpen">
         <ul>
             <li><a href="">Accueil</a></li>
-            <li><a href="">Associations</a></li>
+            <li><a [routerLink]="['listeAssociations']">Associations</a></li>
             <li><a href="">Collectes</a></li>
             <li><a href="">FAQ</a></li>
             <li><a href="" class="action_btn">S'inscrire</a></li>

@@ -15,6 +15,7 @@ import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AuthentificationService } from './shared/authentification.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
+import { AssociationListComponent } from './association-list/association-list.component';
 
 
 const firebaseConfig = {
@@ -35,6 +36,7 @@ const firebaseConfig = {
     InscrireAssociationComponent,
     LoginComponent,
     AssociationDemandeComponent,
+    AssociationListComponent,
     
   ],
   imports: [
@@ -52,8 +54,11 @@ const firebaseConfig = {
     RouterModule.forRoot([
       
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
+
+      {path:'listeAssociations',component:AssociationListComponent},
+
       {path:'login',component:LoginComponent},
-      {path:'demande-association',component:AssociationDemandeComponent},
+
       {path:'login',component:LoginComponent}
     ])
 

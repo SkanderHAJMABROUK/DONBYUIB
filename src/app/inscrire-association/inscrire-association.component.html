@@ -111,6 +111,11 @@
     <div *ngIf="showErrorNotification" class="error-notification">
       Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
     </div>
+    <div *ngIf="showSuccessMessage" class="success-message">
+      Votre demande a été prise en considération avec succès ! 
+     
+    </div>
+    
 
     <button type="submit" class="btn_inscrire" (click)="onSubmit()">Inscrire l'association</button>
   </form>
