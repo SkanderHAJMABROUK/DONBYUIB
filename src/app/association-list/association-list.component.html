@@ -1,12 +1,15 @@
-<h2>Associations</h2>
-<div *ngFor="let ass of associations">
-  <h3>
-    <p>Nom de l'association : {{ ass.nom }}</p>
-    <p><img [src]="ass.logo"></p>
-    <p>Catégorie : {{ ass.categorie }}</p>
-    <p>Description : {{ ass.description }}</p>
-    <p>Email : {{ ass.email }}</p>
-    <p>Telephone : {{ ass.telephone }}</p>
-    
-  </h3>
-</div>
+<body>
+  <div class="container">
+     <div class="card__container" >
+        <article class="card__article" *ngFor="let ass of associations">
+           <img [src]="ass.logo" alt="image" class="card__img">
+
+           <div class="card__data">
+              <span class="card__description">{{ ass.description }}</span>
+              <h2 class="card__title">{{ ass.nom }}</h2>
+              <a href="#" class="card__button">Read More</a>
+           </div>
+        </article>
+     </div>
+  </div>
+</body>

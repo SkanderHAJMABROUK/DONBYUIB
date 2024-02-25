@@ -20,6 +20,8 @@ export class InscrireAssociationComponent implements OnInit {
   faEyeSlash = faEyeSlash;
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
+  showSuccessMessage: boolean = false;
+
 
   constructor(private formBuilder: FormBuilder, public service: AuthentificationService, private router: Router) {}
 
@@ -51,7 +53,6 @@ export class InscrireAssociationComponent implements OnInit {
   togglePasswordConfirmation(): void {
     this.showPasswordConfirmation = !this.showPasswordConfirmation;
   }
-  showSuccessMessage: boolean = false;
 
 
   onSubmit(): void {
@@ -95,34 +96,50 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
   logoFileValidator(control: AbstractControl): ValidationErrors | null {
-    const file = control.value as File;
-    if (!file) {
-      return { required: true };
-    } else { console.log('Tout est bien'); }
-    const filenameParts = (file.name || '').toString().split('.');
-    const extension = filenameParts[filenameParts.length - 1].toLowerCase();
-    console.log(extension);
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'svg'];
-    if (!allowedExtensions.includes(extension)) {
-      console.log('Format valide');
-      return { invalidLogoFormat: true };  
+    const fileName = (control.value as string).split('\\').pop(); // Extract file name from input value
+    console.log('File name:', fileName);
+  
+    if (!fileName) {
+      console.log('File name not found');
+      return { invalidFileName: true };
     }
+  
+    const filenameParts = fileName.split('.');
+    const extension = filenameParts[filenameParts.length - 1].toLowerCase();
+    console.log('Extension:', extension);
+  
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'svg'];
+  
+    if (!allowedExtensions.includes(extension)) {
+      console.log('Invalid logo format');
+      return { invalidLogoFormat: true };
+    }
+  
+    console.log('Logo file is valid');
     return null;
   }
   
   
+  
   pdfFileValidator(control: AbstractControl): ValidationErrors | null {
-    const file = control.value as File;
-    if (!file) {
-      console.log('Pas de fichier')
-      return { required: true };
-    } else { console.log('Tout est bien'); }
-    const filenameParts = (file.name || '').toString().split('.');
+    const fileName = (control.value as string).split('\\').pop(); // Extract file name from input value
+    console.log('File name:', fileName);
+  
+    if (!fileName) {
+      console.log('File name not found');
+      return { invalidFileName: true };
+    }
+  
+    const filenameParts = fileName.split('.');
     const extension = filenameParts[filenameParts.length - 1].toLowerCase();
-    console.log(extension);
+    console.log('Extension:', extension);
+  
     if (extension !== 'pdf') {
+      console.log('Invalid PDF format');
       return { invalidPdfFormat: true };
     }
+  
+    console.log('PDF file is valid');
     return null;
   }
   

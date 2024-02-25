@@ -18,7 +18,6 @@ body{
 .row{
 	display: flex;
 	flex-wrap: wrap;
-    display: flex;
     justify-content: space-between;
 }
 ul{
