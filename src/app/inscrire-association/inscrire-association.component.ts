@@ -31,6 +31,7 @@ export class InscrireAssociationComponent implements OnInit {
         recaptcha: ['', Validators.required],
         nom_association: ['', Validators.required],
         description_association: ['', Validators.required],
+        categorie_association: ['', Validators.required],
         email_association: ['', [Validators.required, Validators.email]],
         num_association: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
         logo_association: ['', [Validators.required, this.logoFileValidator.bind(this)]],

@@ -11,15 +11,14 @@ export class AssociationListComponent {
   constructor(private service:AuthentificationService){}
   associations:any;
   
-  selectedAssociation: Association | null = null; 
-  showAssociationDetails(association: Association): void {
-    // this.selectedAssociation = association;
-  }
-  ngOnInit():void{
+  
+  OnInit():void{
     this.service.getAssociations().subscribe((res)=>{
      this.associations=res;
    })
    }
+
+
 
 
 }

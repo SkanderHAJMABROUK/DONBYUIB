@@ -1,12 +1,12 @@
 
-<div *ngIf="association">
+<div *ngIf="showDetails">
     <h2>Détails de l'association sélectionnée</h2>
-    <p>Nom: {{ association.nom }}</p>
-    <p>Catégorie: {{ association.categorie }}</p>
-    <p>Description: {{ association.description }}</p>
-    <p>Email: {{ association.email }}</p>
-    <p>Téléphone: {{ association.telephone }}</p>
+    <p>Nom: {{ selectedAssociation.nom }}</p>
+    <p>Catégorie: {{ selectedAssociation.categorie }}</p>
+    <p>Description: {{ selectedAssociation.description }}</p>
+    <p>Email: {{ selectedAssociation.email }}</p>
+    <p>Téléphone: {{ selectedAssociation.telephone }}</p>
   </div>
-  
+
 
 

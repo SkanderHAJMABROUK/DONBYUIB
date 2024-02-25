@@ -1,4 +1,5 @@
 export interface Association {
+    id?: string;
     nom:string,
     etat:string,
     categorie:string,
