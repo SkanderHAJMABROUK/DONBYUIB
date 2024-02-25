@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+
+
 import { Association } from '../association';
 import { Observable, from, map } from 'rxjs';
 @Injectable({
@@ -31,7 +34,9 @@ export class AuthentificationService {
     );}
  
 
-  addAssociation(associationData: Association) { 
+
+  addAssociation(associationData: Association) {
+
     const dataToAdd: Association = {
         nom: associationData.nom,
         description: associationData.description,
@@ -47,4 +52,8 @@ export class AuthentificationService {
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
   
-}
+
+
+  delete(id:string){}
+  }
+

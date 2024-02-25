@@ -12,7 +12,7 @@ export class AssociationListComponent {
   associations:any;
   
   
-  OnInit():void{
+  ngOnInit():void{
     this.service.getAssociations().subscribe((res)=>{
      this.associations=res;
    })

@@ -27,7 +27,7 @@ const firebaseConfig = {
   messagingSenderId: "586021322511",
   appId: "1:586021322511:web:fe97e78a0e10165d2b487a",
   measurementId: "G-D749N7NPLF"
-}
+};
 
 @NgModule({
   declarations: [
@@ -57,7 +57,7 @@ const firebaseConfig = {
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'listeAssociations',component:AssociationListComponent},
       {path:'login',component:LoginComponent},
-      {path:'details',component:AssociationDemandeComponent},
+      {path:'listeAssociations/details',component:AssociationDemandeComponent},
 
 
     ])

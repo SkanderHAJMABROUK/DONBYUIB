@@ -29,16 +29,17 @@ export class InscrireAssociationComponent implements OnInit {
     this.aFormGroup = this.formBuilder.group(
       {
         recaptcha: ['', Validators.required],
-        nom_association: ['', Validators.required],
-        description_association: ['', Validators.required],
-        categorie_association: ['', Validators.required],
-        email_association: ['', [Validators.required, Validators.email]],
-        num_association: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-        logo_association: ['', [Validators.required, this.logoFileValidator.bind(this)]],
-        idfiscale_association: ['', [Validators.required, this.pdfFileValidator.bind(this)]],
-        rib_association: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
-        pwd_association: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
-        pwd_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+
+        nom: ['', Validators.required],
+        categorie: ['', Validators.required],
+        description: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+        logo: ['', [Validators.required, this.logoFileValidator.bind(this)]],
+        id_fiscale: ['', [Validators.required, this.pdfFileValidator.bind(this)]],
+        rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
+        mdp: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
+        mdp_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
         accept_terms: ['', Validators.requiredTrue]
       },
       {
@@ -60,7 +61,7 @@ export class InscrireAssociationComponent implements OnInit {
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide, reCAPTCHA validé !");
-      this.router.navigate(['/verify-email']);
+      console.log(this.aFormGroup.value.nom);
       // Soumettre le formulaire à votre backend ou effectuer d'autres actions
 
       // Appel de la méthode addAssociation pour ajouter les données dans la base de données Firebase
@@ -85,8 +86,8 @@ export class InscrireAssociationComponent implements OnInit {
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const passwordControl = control.get('pwd_association')!;
-      const confirmPasswordControl = control.get('pwd_confirmation')!;
+      const passwordControl = control.get('mdp')!;
+      const confirmPasswordControl = control.get('mdp_confirmation')!;
 
       if (!passwordControl.value || !confirmPasswordControl.value) {
         return null;
@@ -97,7 +98,7 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
   logoFileValidator(control: AbstractControl): ValidationErrors | null {
-    const fileName = (control.value as string).split('\\').pop(); // Extract file name from input value
+    const fileName = (control.value as string); // Extract file name from input value
     console.log('File name:', fileName);
   
     if (!fileName) {
@@ -123,7 +124,7 @@ export class InscrireAssociationComponent implements OnInit {
   
   
   pdfFileValidator(control: AbstractControl): ValidationErrors | null {
-    const fileName = (control.value as string).split('\\').pop(); // Extract file name from input value
+    const fileName = (control.value as string); // Extract file name from input value
     console.log('File name:', fileName);
   
     if (!fileName) {
