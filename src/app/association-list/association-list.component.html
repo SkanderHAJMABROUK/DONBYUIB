@@ -7,8 +7,8 @@
            <div class="card__data">
               <span class="card__description">{{ ass.description }}</span>
               <h2 class="card__title">{{ ass.nom }}</h2>
-              <a [routerLink]="['details']" class="card__button">Read More</a>
-           </div>
+              <a [routerLink]="['details', ass.id]"  class="card__button" (click)="service.showDetails = true">Read More</a>
+            </div>
         </article>
      </div>
   </div>
