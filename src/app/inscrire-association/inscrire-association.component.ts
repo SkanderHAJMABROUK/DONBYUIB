@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { AuthentificationService } from '../shared/authentification.service';
+import { AuthentificationService } from '../shared/associationService.service';
 
 @Component({
   selector: 'app-inscrire-association',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthentificationService } from '../shared/authentification.service';
+import { AuthentificationService } from '../shared/associationService.service';
 import { Association } from '../association';
 
 

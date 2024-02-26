@@ -42,7 +42,7 @@ body{
   background: #33333300;
   border-radius: 12px;
   overflow: hidden;
-  transition: 0.5s;
+  transition: 0.7s;
 }
 .container .card:hover .imgBx{
   top: -100px; 

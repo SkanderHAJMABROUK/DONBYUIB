@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AuthentificationService } from '../shared/authentification.service';
+import { AuthentificationService } from '../shared/associationService.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from '../association';
 

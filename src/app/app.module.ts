@@ -13,7 +13,7 @@ import { RouterModule , RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { AuthentificationService } from './shared/authentification.service';
+import { AuthentificationService } from './shared/associationService.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
 import { AssociationListComponent } from './association-list/association-list.component';
 
