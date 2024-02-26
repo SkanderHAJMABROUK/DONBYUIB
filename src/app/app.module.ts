@@ -16,6 +16,8 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AssociationService} from './shared/associationService.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
 import { AssociationListComponent } from './association-list/association-list.component';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 
 
@@ -48,6 +50,7 @@ const firebaseConfig = {
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
+    AngularFireStorageModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
 
@@ -63,7 +66,8 @@ const firebaseConfig = {
     ])
 
   ],
-  providers: [AssociationService],
+  providers: [AssociationService,
+    AngularFireStorage],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+
 
 @Component({
   selector: 'app-inscrire-association',
@@ -23,7 +25,7 @@ export class InscrireAssociationComponent implements OnInit {
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router , private storage:AngularFireStorage) {}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
@@ -57,14 +59,12 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
 
-  onSubmit(): void {
+  onSubmit():void{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
+
       console.log("Formulaire valide, reCAPTCHA validé !");
       console.log(this.aFormGroup.value.nom);
-      // Soumettre le formulaire à votre backend ou effectuer d'autres actions
-
-      // Appel de la méthode addAssociation pour ajouter les données dans la base de données Firebase
       this.service.addAssociation(this.aFormGroup.value)
         .then(() => {
           console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
@@ -83,6 +83,25 @@ export class InscrireAssociationComponent implements OnInit {
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
+
+  // async uploadFile(file: File): Promise<string | null> {
+  //   const filePath = `path/to/upload/${file.name}`;
+  //   const fileRef = this.storage.ref(filePath);
+  //   const task = this.storage.upload(filePath, file);
+
+  //   try {
+  //     // Attendre la fin du téléchargement
+  //     await task;
+
+  //     // Récupérer l'URL de téléchargement
+  //     const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+  //     return downloadUrl;
+  //   } catch (error) {
+  //     console.error('Une erreur est survenue lors du téléchargement du fichier :', error);
+  //     return null;
+  //   }
+  // }
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
