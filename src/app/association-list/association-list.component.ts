@@ -2,14 +2,17 @@ import { Component } from '@angular/core';
 import { AuthentificationService } from '../shared/authentification.service';
 import { Association } from '../association';
 
+
 @Component({
   selector: 'app-association-list',
   templateUrl: './association-list.component.html',
   styleUrls: ['./association-list.component.css']
 })
 export class AssociationListComponent {
-  constructor(private service:AuthentificationService){}
+  constructor(public service:AuthentificationService){}
   associations:any;
+
+
   
   
   ngOnInit():void{

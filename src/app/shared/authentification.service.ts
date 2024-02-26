@@ -51,6 +51,8 @@ export class AuthentificationService {
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
+
+showDetails = false;
   
 
 
