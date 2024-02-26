@@ -13,7 +13,7 @@ import { RouterModule , RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { AuthentificationService } from './shared/associationService.service';
+import { AssociationService} from './shared/associationService.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
 import { AssociationListComponent } from './association-list/association-list.component';
 
@@ -57,13 +57,13 @@ const firebaseConfig = {
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'listeAssociations',component:AssociationListComponent},
       {path:'login',component:LoginComponent},
-      {path:'listeAssociations/details',component:AssociationDemandeComponent},
+      { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
 
 
     ])
 
   ],
-  providers: [AuthentificationService],
+  providers: [AssociationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

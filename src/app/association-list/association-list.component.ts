@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthentificationService } from '../shared/associationService.service';
 import { Association } from '../association';
+import { AssociationService } from '../shared/associationService.service';
 
 
 @Component({
@@ -9,11 +9,10 @@ import { Association } from '../association';
   styleUrls: ['./association-list.component.css']
 })
 export class AssociationListComponent {
-  constructor(public service:AuthentificationService){}
-  associations:any;
-
+  constructor(public service:AssociationService){}
 
   
+  associations:any;
   
   ngOnInit():void{
     this.service.getAssociations().subscribe((res)=>{

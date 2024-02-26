@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { AuthentificationService } from '../shared/associationService.service';
+import { AssociationService } from '../shared/associationService.service';
 
 @Component({
   selector: 'app-inscrire-association',
@@ -23,7 +23,7 @@ export class InscrireAssociationComponent implements OnInit {
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: AuthentificationService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router) {}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
