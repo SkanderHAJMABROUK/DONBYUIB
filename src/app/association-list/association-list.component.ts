@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Association } from '../association';
 import { AssociationService } from '../shared/associationService.service';
 
+
 @Component({
   selector: 'app-association-list',
   templateUrl: './association-list.component.html',
