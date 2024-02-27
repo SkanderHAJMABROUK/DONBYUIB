@@ -23,7 +23,6 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -59,8 +58,7 @@ const firebaseConfig = {
     LoginComponent,
     AssociationDemandeComponent,
     AssociationListComponent,
-    ProfilAssociationComponent,
-    
+    ProfilAssociationComponent,    
   ],
   imports: [
     BrowserModule,

@@ -1,26 +1,44 @@
-<body>
-  <div class="container">
+<body>  
 
-   <div class="category-icons">
-      <fa-icon [icon]="faHandshakeAngle" (click)="filterByCategory('category1')"></fa-icon>
-      <fa-icon [icon]="faSuitcaseMedical" (click)="filterByCategory('category2')"></fa-icon>
-      <fa-icon [icon]="faEarthAfrica" (click)="filterByCategory('category3')"></fa-icon>
-      <fa-icon [icon]="faBaby" (click)="filterByCategory('category4')"></fa-icon>
-      <fa-icon [icon]="faPaw" (click)="filterByCategory('category5')"></fa-icon>
-      <fa-icon [icon]="faGraduationCap" (click)="filterByCategory('category6')"></fa-icon>
-    </div>
+   <div class="container">
 
-
+      <div class="category-icons">
+         <div class="category-icon" (click)="filterByCategory('humanitaire')">
+           <fa-icon [icon]="faHandshakeAngle"></fa-icon>
+           <span>Humanitaire</span>
+         </div>
+         <div class="category-icon" (click)="filterByCategory('santé')">
+           <fa-icon [icon]="faSuitcaseMedical"></fa-icon>
+           <span>Santé</span>
+         </div>
+         <div class="category-icon" (click)="filterByCategory('environnement')">
+           <fa-icon [icon]="faEarthAfrica"></fa-icon>
+           <span>Environnement</span>
+         </div>
+         <div class="category-icon" (click)="filterByCategory('enfance')">
+           <fa-icon [icon]="faBaby"></fa-icon>
+           <span>Enfance</span>
+         </div>
+         <div class="category-icon" (click)="filterByCategory('animaux')">
+           <fa-icon [icon]="faPaw"></fa-icon>
+           <span>Animaux</span>
+         </div>
+         <div class="category-icon" (click)="filterByCategory('éducation')">
+           <fa-icon [icon]="faGraduationCap"></fa-icon>
+           <span>Éducation</span>
+         </div>
+       </div>
+       
      <div class="card_container" *ngFor="let ass of associations">
-        <div class="card">
-            <div class="imgBx"><img [src]="ass.logo" alt="image"></div>
-           <div class="content">
-            <h2>{{ ass.nom }}</h2>
-            <p>{{ ass.description }}</p>
-            <a [routerLink]="['details', ass.id]"  class="card__button" (click)="service.showDetails = true">Read More</a>
-        </div>
-        </div>
-
+       <div class="card">
+         <div class="imgBx"><img [src]="ass.logo" alt="image"></div>
+         <div class="content">
+           <h2>{{ ass.nom }}</h2>
+           <p>{{ ass.description }}</p>
+           <a [routerLink]="['details', ass.id]"  class="card__button" (click)="service.showDetails = true">Read More</a>
+         </div>
+       </div>
      </div>
-  </div>
-</body>
+   </div>
+ </body>
+ 
