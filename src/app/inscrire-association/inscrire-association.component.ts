@@ -3,8 +3,6 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-
 
 @Component({
   selector: 'app-inscrire-association',
@@ -25,7 +23,7 @@ export class InscrireAssociationComponent implements OnInit {
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router , private storage:AngularFireStorage) {}
+  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router) {}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
@@ -59,13 +57,36 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
 
-  onSubmit():void{
+  async onSubmit(): Promise<void>{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
 
       console.log("Formulaire valide, reCAPTCHA validé !");
+
+      // Upload logo file
+      const logoFile = this.aFormGroup.value.logo;
+      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
+      if (!logoDownloadUrl) {
+        console.error('Failed to upload logo file.');
+        // Handle error appropriately, e.g., show error message to user
+        return;
+      }
+      console.log('Logo file uploaded. Download URL:', logoDownloadUrl);
+
+      // Upload ID file
+      const idFile = this.aFormGroup.value.id_fiscale;
+      const idDownloadUrl = await this.service.uploadPDF(idFile);
+      if (!idDownloadUrl) {
+        console.error('Failed to upload ID file.');
+        // Handle error appropriately, e.g., show error message to user
+        return;
+      }
+      console.log('ID file uploaded. Download URL:', idDownloadUrl);
+
       console.log(this.aFormGroup.value.nom);
-      this.service.addAssociation(this.aFormGroup.value)
+      this.service.addAssociation({...this.aFormGroup.value,
+        logo: logoDownloadUrl,
+        id_fiscale: idDownloadUrl})
         .then(() => {
           console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
@@ -83,25 +104,6 @@ export class InscrireAssociationComponent implements OnInit {
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
-
-  // async uploadFile(file: File): Promise<string | null> {
-  //   const filePath = `path/to/upload/${file.name}`;
-  //   const fileRef = this.storage.ref(filePath);
-  //   const task = this.storage.upload(filePath, file);
-
-  //   try {
-  //     // Attendre la fin du téléchargement
-  //     await task;
-
-  //     // Récupérer l'URL de téléchargement
-  //     const downloadUrl = await fileRef.getDownloadURL().toPromise();
-
-  //     return downloadUrl;
-  //   } catch (error) {
-  //     console.error('Une erreur est survenue lors du téléchargement du fichier :', error);
-  //     return null;
-  //   }
-  // }
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

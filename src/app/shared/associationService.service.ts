@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
-
-
-
 import { Association } from '../association';
 import { Observable, from, map } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class AssociationService {
 
-  constructor(private fs:Firestore) { }
+
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage) { }
 
  showDetails=false;
 
@@ -26,29 +26,47 @@ export class AssociationService {
     );
   }
 
-  //  getAssociationById(associationId: string) {
-  //    const associationRef = doc(this.fs, 'Association', associationId);
-  //   console.log("Association Ref:", associationRef); // Vérifiez la référence du document
-    
-  //   return from(getDoc(associationRef)).pipe(
-  //     map((snapshot: DocumentSnapshot<DocumentData>) => {
-  //       console.log("Snapshot:", snapshot); // Vérifiez le snapshot récupéré
-  //       if (snapshot.exists()) {
-  //         const data = snapshot.data();
-  //         const id = associationRef.id; // Utilisez associationRef.id pour obtenir l'ID de l'association
-  //         console.log("Data:", data); // Vérifiez les données récupérées
-  //         console.log("ID:", id); // Vérifiez l'ID de l'association
-  //         return { ...data, id } as unknown as Association;
-  //       } else {
-  //         console.log("Document does not exist."); // Le document n'existe pas
-  //         return undefined;
-  //       }
-  //     })
-  //   );
-  // }
+  async uploadLogo(file: File): Promise<string | null> {
+    const filePath = `LogosAssociations/${file.name}`;
+    console.log('in upload' , filePath);
+    const fileRef = this.fireStorage.ref(filePath);
+    const task = this.fireStorage.upload(filePath, file);
+
+    try {
+      // Wait for the upload to complete
+      await task;
+
+      // Get the download URL
+      const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+      return downloadUrl;
+    } catch (error) {
+      console.error('An error occurred while uploading the file:', error);
+      return null;
+    }
+  }
+
+  async uploadPDF(file: File): Promise<string | null> {
+    const filePath = `IDFiscauxAssociations/${file.name}`;
+    console.log('in upload' , filePath);
+    const fileRef = this.fireStorage.ref(filePath);
+    const task = this.fireStorage.upload(filePath, file);
+
+    try {
+      // Wait for the upload to complete
+      await task;
+
+      // Get the download URL
+      const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+      return downloadUrl;
+    } catch (error) {
+      console.error('An error occurred while uploading the file:', error);
+      return null;
+    }
+  }
 
  
-
   addAssociation(associationData: Association) {
 
     const dataToAdd: Association = {
@@ -67,10 +85,4 @@ export class AssociationService {
 }
 
 
-
-  
-
-
-  delete(id:string){}
-  }
-
+}

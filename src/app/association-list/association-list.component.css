@@ -16,7 +16,7 @@ body{
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 50px 50px;
+  gap: 100px 50px;
   padding: 100px 50px;
 }
 .container .card{
