@@ -15,7 +15,7 @@ export class AssociationDemandeComponent {
   // associationData: any;
 
   id!: string;
-  data: any;
+  data: Association| undefined;
 
    ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -24,11 +24,17 @@ export class AssociationDemandeComponent {
        this.getAssociationById(this.id); 
      });
    }
-  getAssociationById(id: string) {
-   this.service.getAssociationById(id).subscribe(data => {
-   this.data = data; 
-    });
-    }
+   getAssociationById(id: string){
+    this.service.getAssociationById(id).subscribe(
+      (data) => {
+        this.data = data; 
+        console.log(data);
+      },
+      error => {
+        console.error('Erreur lors de la récupération des données :', error);
+      }
+    );
+  }
 
   // selectedAssociation !: Association ; 
  

@@ -26,9 +26,10 @@ export class AssociationService {
   }
 
 
-  getAssociationById(id: string): Observable<any> {
-    return this.firestore.doc(`listeAssociations/details/:id/${id}`).valueChanges(); 
+  getAssociationById(id: string): Observable<Association | undefined> {
+    return this.firestore.doc<Association>(`listeAssociations/details/${id}`).valueChanges(); 
   }
+
 
 
 
