@@ -48,6 +48,17 @@ export class InscrireAssociationComponent implements OnInit {
     );
   }
 
+  onLogoFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.aFormGroup.get('logo')?.setValue(file);
+  }
+  
+  onIdFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.aFormGroup.get('id_fiscale')?.setValue(file);
+  }
+  
+
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
