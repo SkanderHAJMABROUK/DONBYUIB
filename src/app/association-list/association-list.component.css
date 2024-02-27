@@ -19,8 +19,8 @@ body{
   gap: 100px 50px;
   padding: 100px 50px;
 }
-.category-icons {
-  position: fixed; 
+/* .category-icons {
+  position: flex; 
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -41,7 +41,7 @@ body{
 .category-icon span {
   font-size: 0.8rem;
   margin-top: 5px;
-}
+} */
 
 .card_container {
   display: flex;
