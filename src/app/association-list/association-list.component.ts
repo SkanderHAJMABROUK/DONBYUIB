@@ -20,29 +20,26 @@ export class AssociationListComponent {
   faHandshakeAngle=faHandshakeAngle;
 
   
-  associations:any;
+  associations:Association[]=[];
+  categorySelected: string | null = null;
+
+  
+  
+  filterByCategory(cat: string): void {
+    this.categorySelected = cat;
+    console.log(this.categorySelected);
+    this.service.getAssociations().subscribe((res: Association[]) => {
+      this.associations = res.filter((association: Association) => {
+        return association.categorie === cat;
+      });
+    });
+  }
   
   ngOnInit():void{
     this.service.getAssociations().subscribe((res)=>{
      this.associations=res;
    })
    }
-
-   filterByCategory(cat: string): void {
-    // Reset associations to show all associations
-    this.service.getAssociations().subscribe((res: Association[]) => {
-      this.associations = res;
-  
-      // Filter associations based on the selected category
-      this.associations = this.associations.filter((association: Association) => {
-        // Assuming each association has a 'category' property
-        return association.categorie === cat;
-      });
-    });
-  }
-  
-
-
 
 
 }

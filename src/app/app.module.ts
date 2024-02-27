@@ -21,6 +21,7 @@ import { ProfilAssociationComponent } from './profil-association/profil-associat
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { CategorieComponent } from './categorie/categorie.component';
 
 
 const firebaseConfig = {
@@ -58,7 +59,8 @@ const firebaseConfig = {
     LoginComponent,
     AssociationDemandeComponent,
     AssociationListComponent,
-    ProfilAssociationComponent,    
+    ProfilAssociationComponent,
+    CategorieComponent,    
   ],
   imports: [
     BrowserModule,

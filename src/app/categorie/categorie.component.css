@@ -1,0 +1,23 @@
+.category-icons {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 50px auto -60px auto   ; 
+   
+  }
+  
+  .category-icon {
+    text-align: center;
+    cursor: pointer;
+    flex: 1; 
+  }
+  
+  .category-icon fa-icon {
+    font-size: 2rem;
+  }
+  
+  .category-icon span {
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+  

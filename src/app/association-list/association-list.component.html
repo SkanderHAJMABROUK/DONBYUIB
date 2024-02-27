@@ -1,35 +1,7 @@
+<app-categorie (categorySelected)="filterByCategory($event)"></app-categorie>
 <body>  
 
-   <div class="container">
-
-      <div class="category-icons">
-         <div class="category-icon" (click)="filterByCategory('humanitaire')">
-           <fa-icon [icon]="faHandshakeAngle"></fa-icon>
-           <span>Humanitaire</span>
-         </div>
-         <div class="category-icon" (click)="filterByCategory('santé')">
-           <fa-icon [icon]="faSuitcaseMedical"></fa-icon>
-           <span>Santé</span>
-         </div>
-         <div class="category-icon" (click)="filterByCategory('environnement')">
-           <fa-icon [icon]="faEarthAfrica"></fa-icon>
-           <span>Environnement</span>
-         </div>
-         <div class="category-icon" (click)="filterByCategory('enfance')">
-           <fa-icon [icon]="faBaby"></fa-icon>
-           <span>Enfance</span>
-         </div>
-         <div class="category-icon" (click)="filterByCategory('animaux')">
-           <fa-icon [icon]="faPaw"></fa-icon>
-           <span>Animaux</span>
-         </div>
-         <div class="category-icon" (click)="filterByCategory('éducation')">
-           <fa-icon [icon]="faGraduationCap"></fa-icon>
-           <span>Éducation</span>
-         </div>
-       </div>
-
-       
+   <div class="container">     
      <div class="card_container" *ngFor="let ass of associations">
        <div class="card">
          <div class="imgBx"><img [src]="ass.logo" alt="image"></div>
