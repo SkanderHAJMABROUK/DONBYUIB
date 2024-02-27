@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Association } from '../association';
 import { AssociationService } from '../shared/associationService.service';
+import { faSuitcaseMedical, faEarthAfrica , faGraduationCap , faBaby , faPaw , faHandshakeAngle} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -11,6 +12,13 @@ import { AssociationService } from '../shared/associationService.service';
 export class AssociationListComponent {
   constructor(public service:AssociationService){}
 
+  faSuitcaseMedical = faSuitcaseMedical; 
+  faEarthAfrica=faEarthAfrica;
+  faGraduationCap=faGraduationCap; 
+  faBaby=faBaby;
+  faPaw=faPaw;
+  faHandshakeAngle=faHandshakeAngle;
+
   
   associations:any;
   
@@ -19,6 +27,20 @@ export class AssociationListComponent {
      this.associations=res;
    })
    }
+
+   filterByCategory(cat: string): void {
+    // Reset associations to show all associations
+    this.service.getAssociations().subscribe((res: Association[]) => {
+      this.associations = res;
+  
+      // Filter associations based on the selected category
+      this.associations = this.associations.filter((association: Association) => {
+        // Assuming each association has a 'category' property
+        return association.categorie === cat;
+      });
+    });
+  }
+  
 
 
 

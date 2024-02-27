@@ -1,6 +1,15 @@
 <body>
   <div class="container">
 
+   <div class="category-icons">
+      <fa-icon [icon]="faHandshakeAngle" (click)="filterByCategory('category1')"></fa-icon>
+      <fa-icon [icon]="faSuitcaseMedical" (click)="filterByCategory('category2')"></fa-icon>
+      <fa-icon [icon]="faEarthAfrica" (click)="filterByCategory('category3')"></fa-icon>
+      <fa-icon [icon]="faBaby" (click)="filterByCategory('category4')"></fa-icon>
+      <fa-icon [icon]="faPaw" (click)="filterByCategory('category5')"></fa-icon>
+      <fa-icon [icon]="faGraduationCap" (click)="filterByCategory('category6')"></fa-icon>
+    </div>
+
 
      <div class="card_container" *ngFor="let ass of associations">
         <div class="card">
