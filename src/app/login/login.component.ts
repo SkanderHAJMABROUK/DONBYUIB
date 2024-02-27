@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +12,14 @@ import { AssociationService } from '../shared/associationService.service';
 export class LoginComponent {
 
   ngOnInit(): void {
-    this.aFormGroup = this.formBuilder.group(
-      {
-        recaptcha: ['', Validators.required]
-      }
-    )
+    this.aFormGroup = this.formBuilder.group({
+      email: ['', Validators.required], 
+      password: ['', Validators.required], 
+      recaptcha: ['', Validators.required]
+    });
   }
 
-  constructor(private formBuilder : FormBuilder, private service:AssociationService){
+  constructor(private formBuilder : FormBuilder, private service:AssociationService , private route:Router){
 
   }
 
@@ -29,20 +30,31 @@ export class LoginComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   protected aFormGroup!: FormGroup;
+  showErrorNotification:boolean=false;
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
-
   onSubmit(): void {
-
     if (this.aFormGroup.valid) {
-      console.log("Formulaire valide, reCAPTCHA validé !");
-    } else {
-      console.log("Formulaire invalide");
+      const email = this.aFormGroup.get('email')?.value;
+      const password = this.aFormGroup.get('password')?.value;
+
+      this.service.getAssociationByEmailAndPassword(email, password).subscribe(
+        (association) => {
+          if (association) {
+            this.route.navigate(['/login/profilAssociation']);
+          } else {
+            this.showErrorNotification = true;
+            console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
+          }
+        },
+        (error) => {
+          console.error('Erreur lors de la recherche de l\'association:', error);
+        }
+      );
     }
-    
   }
 
 }
