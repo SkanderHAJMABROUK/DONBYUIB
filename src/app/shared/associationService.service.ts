@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 
-import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc ,} from '@angular/fire/firestore';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { Association } from '../association';
-import { Observable, from, map } from 'rxjs';
 import { Router } from '@angular/router';
 
+import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { Association } from '../association';
+import { Observable, from, map } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class AssociationService {
 
-  constructor(private fs:Firestore , private router:Router, private firestore: AngularFirestore) { }
+
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage, private firestore:AngularFirestore) { }
 
  showDetails=false;
+
   
   getAssociations(){
     let association=collection(this.fs,'Association');
@@ -89,5 +92,47 @@ export class AssociationService {
 
 
 
+  
+
+  async uploadLogo(file: File): Promise<string | null> {
+    const filePath = `LogosAssociations/${file.name}`;
+    console.log('in upload' , filePath);
+    const fileRef = this.fireStorage.ref(filePath);
+    const task = this.fireStorage.upload(filePath, file);
+
+    try {
+      // Wait for the upload to complete
+      await task;
+
+      // Get the download URL
+      const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+      return downloadUrl;
+    } catch (error) {
+      console.error('An error occurred while uploading the file:', error);
+      return null;
+    }
   }
 
+  async uploadPDF(file: File): Promise<string | null> {
+    const filePath = `IDFiscauxAssociations/${file.name}`;
+    console.log('in upload' , filePath);
+    const fileRef = this.fireStorage.ref(filePath);
+    const task = this.fireStorage.upload(filePath, file);
+
+    try {
+      // Wait for the upload to complete
+      await task;
+
+      // Get the download URL
+      const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+      return downloadUrl;
+    } catch (error) {
+      console.error('An error occurred while uploading the file:', error);
+      return null;
+    }
+  }
+
+
+}

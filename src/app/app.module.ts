@@ -11,14 +11,16 @@ import {  HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { RouterModule , RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AssociationService} from './shared/associationService.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
 import { AssociationListComponent } from './association-list/association-list.component';
+
 import { ProfilAssociationComponent } from './profil-association/profil-association.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 
 
@@ -68,11 +70,13 @@ const firebaseConfig = {
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireStorageModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
 
-
     RouterModule.forRoot([
+
       
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
 
@@ -85,7 +89,6 @@ const firebaseConfig = {
 
 
     ])
-
   ],
   providers: [AssociationService,AngularFirestore,AngularFireModule],
   bootstrap: [AppComponent]

@@ -17,18 +17,18 @@ export class AssociationDemandeComponent {
   id!: string;
   data: any;
 
-  ngOnInit(): void {
+   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id']; 
       console.log(this.id)
        this.getAssociationById(this.id); 
-    });
-  }
+     });
+   }
   getAssociationById(id: string) {
    this.service.getAssociationById(id).subscribe(data => {
-    this.data = data; 
-   });
-   }
+   this.data = data; 
+    });
+    }
 
   // selectedAssociation !: Association ; 
  

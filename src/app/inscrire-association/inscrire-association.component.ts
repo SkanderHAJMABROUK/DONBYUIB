@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
+
 @Component({
   selector: 'app-inscrire-association',
   templateUrl: './inscrire-association.component.html',
@@ -56,15 +57,36 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void>{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
-      console.log("Formulaire valide, reCAPTCHA validé !");
-      console.log(this.aFormGroup.value.nom);
-      // Soumettre le formulaire à votre backend ou effectuer d'autres actions
 
-      // Appel de la méthode addAssociation pour ajouter les données dans la base de données Firebase
-      this.service.addAssociation(this.aFormGroup.value)
+      console.log("Formulaire valide, reCAPTCHA validé !");
+
+      // Upload logo file
+      const logoFile = this.aFormGroup.value.logo;
+      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
+      if (!logoDownloadUrl) {
+        console.error('Failed to upload logo file.');
+        // Handle error appropriately, e.g., show error message to user
+        return;
+      }
+      console.log('Logo file uploaded. Download URL:', logoDownloadUrl);
+
+      // Upload ID file
+      const idFile = this.aFormGroup.value.id_fiscale;
+      const idDownloadUrl = await this.service.uploadPDF(idFile);
+      if (!idDownloadUrl) {
+        console.error('Failed to upload ID file.');
+        // Handle error appropriately, e.g., show error message to user
+        return;
+      }
+      console.log('ID file uploaded. Download URL:', idDownloadUrl);
+
+      console.log(this.aFormGroup.value.nom);
+      this.service.addAssociation({...this.aFormGroup.value,
+        logo: logoDownloadUrl,
+        id_fiscale: idDownloadUrl})
         .then(() => {
           console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
