@@ -15,7 +15,7 @@ export class AssociationDemandeComponent {
   // associationData: any;
 
   id!: string;
-  data: Association| undefined;
+  data: Association |undefined;
 
    ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -27,7 +27,7 @@ export class AssociationDemandeComponent {
    getAssociationById(id: string){
     this.service.getAssociationById(id).subscribe(
       (data) => {
-        this.data = data; 
+        this.selectedAssociation = data; 
         console.log(data);
       },
       error => {
@@ -36,7 +36,7 @@ export class AssociationDemandeComponent {
     );
   }
 
-  // selectedAssociation !: Association ; 
+ selectedAssociation!: Association |undefined; 
  
 
 

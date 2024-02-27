@@ -15,19 +15,37 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 export class AssociationService {
 
 
-  constructor(private fs:Firestore, private fireStorage : AngularFireStorage, private firestore:AngularFirestore) { }
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore) { }
 
  showDetails=false;
 
   
-  getAssociations(){
-    let association=collection(this.fs,'Association');
-    return collectionData(association,{idField:'id'})
+  
+  getAssociations(): Observable<Association[]> {
+    let associationCollection = collection(this.fs, 'Association');
+    return collectionData(associationCollection, { idField: 'id' }).pipe(
+      map((associations: any[]) => {
+        return associations.map(association => ({
+          id: association.id,
+          nom: association.nom,
+          etat: association.etat,
+          categorie: association.categorie,
+          description: association.description,
+          email: association.email,
+          id_fiscale: association.id_fiscale,
+          logo: association.logo,
+          mdp: association.mdp,
+          rib: association.rib,
+          telephone: association.telephone
+        }));
+      })
+    );
   }
 
-
   getAssociationById(id: string): Observable<Association | undefined> {
-    return this.firestore.doc<Association>(`listeAssociations/details/${id}`).valueChanges(); 
+    return this.getAssociations().pipe(
+      map(associations => associations.find(association => association.id === id))
+    );
   }
 
 
