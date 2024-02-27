@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { AssociationService } from '../shared/associationService.service';
 
 @Component({
   selector: 'app-login',
@@ -17,16 +18,14 @@ export class LoginComponent {
     )
   }
 
-  constructor(private formBuilder : FormBuilder){
+  constructor(private formBuilder : FormBuilder, private service:AssociationService){
 
   }
 
   siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; 
 
   password: string = '';
-  passwordConfirmation: string = '';
   showPassword: boolean = false;
-  showPasswordConfirmation: boolean = false;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   protected aFormGroup!: FormGroup;
@@ -35,15 +34,15 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  togglePasswordConfirmation(): void {
-    this.showPasswordConfirmation = !this.showPasswordConfirmation;
-  }
 
   onSubmit(): void {
+
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide, reCAPTCHA validé !");
     } else {
       console.log("Formulaire invalide");
     }
+    
   }
+
 }

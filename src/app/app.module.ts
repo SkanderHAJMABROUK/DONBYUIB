@@ -16,8 +16,13 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AssociationService} from './shared/associationService.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
 import { AssociationListComponent } from './association-list/association-list.component';
+
+import { ProfilAssociationComponent } from './profil-association/profil-association.component';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -29,6 +34,22 @@ const firebaseConfig = {
   measurementId: "G-D749N7NPLF"
 };
 
+
+// import { createConnection, Connection } from 'mysql';
+
+// const db: Connection = createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "donbyuib"
+// });
+
+// export default db;
+
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +59,7 @@ const firebaseConfig = {
     LoginComponent,
     AssociationDemandeComponent,
     AssociationListComponent,
+    ProfilAssociationComponent,
     
   ],
   imports: [
@@ -54,13 +76,21 @@ const firebaseConfig = {
     provideFirestore(() => getFirestore()),
 
     RouterModule.forRoot([
-      { path: 'inscrireAssociation', component: InscrireAssociationComponent },
-      { path: 'listeAssociations', component: AssociationListComponent },
-      { path: 'login', component: LoginComponent },
+
+      
+      {path:'inscrireAssociation',component:InscrireAssociationComponent},
+
+      {path:'listeAssociations',component:AssociationListComponent},
       { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
+
+      {path:'login',component:LoginComponent},
+      { path: 'login/profilAssociation/', component: ProfilAssociationComponent },
+
+
+
     ])
   ],
-  providers: [AssociationService],
+  providers: [AssociationService,AngularFirestore,AngularFireModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
