@@ -50,6 +50,15 @@ export class AssociationService {
 
 
 
+  getAssociationByEmailAndPassword(email: string, password: string): Observable<Association | undefined> {
+    return this.getAssociations().pipe(
+      map(associations => associations.find(association => association.email === email && association.mdp === password))
+    );
+  }
+
+
+
+
 
 
 
@@ -80,34 +89,7 @@ export class AssociationService {
 
 
 
-  // getAssociationById(id: string){
-  //   return this.getAssociations().pipe(
-  //     map(associations => associations.find(association => association.id === id))
-  //   );
-  // }
 
-  //  getAssociationById(associationId: string) {
-  //    const associationRef = doc(this.fs, 'Association', associationId);
-  //   console.log("Association Ref:", associationRef); // Vérifiez la référence du document
-    
-  //   return from(getDoc(associationRef)).pipe(
-  //     map((snapshot: DocumentSnapshot<DocumentData>) => {
-  //       console.log("Snapshot:", snapshot); // Vérifiez le snapshot récupéré
-  //       if (snapshot.exists()) {
-  //         const data = snapshot.data();
-  //         const id = associationRef.id; // Utilisez associationRef.id pour obtenir l'ID de l'association
-  //         console.log("Data:", data); // Vérifiez les données récupérées
-  //         console.log("ID:", id); // Vérifiez l'ID de l'association
-  //         return { ...data, id } as unknown as Association;
-  //       } else {
-  //         console.log("Document does not exist."); // Le document n'existe pas
-  //         return undefined;
-  //       }
-  //     })
-  //   );
-  // }
-
- 
 
 
 
