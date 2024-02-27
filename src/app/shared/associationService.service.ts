@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 
 import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc ,} from '@angular/fire/firestore';
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { Association } from '../association';
 import { Observable, from, map } from 'rxjs';
+import { Router } from '@angular/router';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class AssociationService {
 
-  constructor(private fs:Firestore) { }
+  constructor(private fs:Firestore , private router:Router, private firestore: AngularFirestore) { }
 
  showDetails=false;
   
@@ -19,11 +22,47 @@ export class AssociationService {
     return collectionData(association,{idField:'id'})
   }
 
-  getAssociationById(id: string){
-    return this.getAssociations().pipe(
-      map(associations => associations.find(association => association.id === id))
-    );
+
+  getAssociationById(id: string): Observable<any> {
+    return this.firestore.doc(`listeAssociations/details/:id/${id}`).valueChanges(); 
   }
+
+
+
+
+
+  addAssociation(associationData: Association) {
+
+    const dataToAdd: Association = {
+        nom: associationData.nom,
+        description: associationData.description,
+        categorie: associationData.categorie,
+        email: associationData.email,
+        telephone: associationData.telephone,
+        logo: associationData.logo,
+        id_fiscale: associationData.id_fiscale,
+        rib: associationData.rib,
+        mdp: associationData.mdp,
+        etat: "en_attente"
+    };
+    return addDoc(collection(this.fs, 'Association'), dataToAdd);
+}
+  
+
+
+
+
+
+
+
+
+
+
+  // getAssociationById(id: string){
+  //   return this.getAssociations().pipe(
+  //     map(associations => associations.find(association => association.id === id))
+  //   );
+  // }
 
   //  getAssociationById(associationId: string) {
   //    const associationRef = doc(this.fs, 'Association', associationId);
@@ -47,25 +86,8 @@ export class AssociationService {
   // }
 
  
-  addAssociation(associationData: Association) {
-
-    const dataToAdd: Association = {
-        nom: associationData.nom,
-        description: associationData.description,
-        categorie: associationData.categorie,
-        email: associationData.email,
-        telephone: associationData.telephone,
-        logo: associationData.logo,
-        id_fiscale: associationData.id_fiscale,
-        rib: associationData.rib,
-        mdp: associationData.mdp,
-        etat: "en_attente"
-    };
-    return addDoc(collection(this.fs, 'Association'), dataToAdd);
-}
-  
 
 
-  delete(id:string){}
+
   }
 

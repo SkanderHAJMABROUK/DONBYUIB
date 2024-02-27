@@ -10,32 +10,45 @@ import { AssociationService } from '../shared/associationService.service';
 })
 export class AssociationDemandeComponent {
   constructor(public service:AssociationService,public route:ActivatedRoute){}
-  associations:any=[];
-  associationId: string ="";
-  associationData: any;
+  // associations:any=[];
+  // associationId: string ="";
+  // associationData: any;
 
+  id!: string;
+  data: any;
 
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.id = params['id']; 
+      console.log(this.id)
+       this.getAssociationById(this.id); 
+    });
+  }
+  getAssociationById(id: string) {
+   this.service.getAssociationById(id).subscribe(data => {
+    this.data = data; 
+   });
+   }
 
-
-  selectedAssociation !: Association ; 
+  // selectedAssociation !: Association ; 
  
 
 
-  showAssociationDetails(associationId: string): void {
-    this.service.getAssociationById(associationId).subscribe(
-      (association) => {
-        if (association) {
-          this.selectedAssociation = association as Association; // Assertion de type
-          console.log(this.selectedAssociation);
-        } else {
-          console.log("Association introuvable");
-        }
-      },
-      (error) => {
-        console.error("Une erreur s'est produite lors de la récupération des détails de l'association:", error);
-      }
-    );
-  }
+  // showAssociationDetails(associationId: string): void {
+  //   this.service.getAssociationById(associationId).subscribe(
+  //     (association) => {
+  //       if (association) {
+  //         this.selectedAssociation = association as Association; // Assertion de type
+  //         console.log(this.selectedAssociation);
+  //       } else {
+  //         console.log("Association introuvable");
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error("Une erreur s'est produite lors de la récupération des détails de l'association:", error);
+  //     }
+  //   );
+  // }
  
   // showAssociationDetails(association: Association): void {
   //   this.selectedAssociation = association;
