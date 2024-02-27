@@ -1,11 +1,13 @@
-.category-icons {
+ .category-icons {
     display: flex;
     justify-content: space-between;
     width: 80%;
-    margin: 50px auto -60px auto   ; 
+    margin: 50px auto 0px auto   ; 
    
   }
-  
+  body{
+    height: 10px;
+  }
   .category-icon {
     text-align: center;
     cursor: pointer;
@@ -14,6 +16,7 @@
   
   .category-icon fa-icon {
     font-size: 2rem;
+    cursor: pointer;
   }
   
   .category-icon span {

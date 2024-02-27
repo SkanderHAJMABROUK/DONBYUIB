@@ -22,7 +22,10 @@ export class CategorieComponent {
   @Output() categorySelected = new EventEmitter<string>();
 
   selectCategory(cat: string): void {
+    console.log('Fct select appelé')
     this.categorySelected.emit(cat);
-  }
+    if(!cat){console.log('no cat')} else{
+    console.log(cat);
+  }}
 
 }
