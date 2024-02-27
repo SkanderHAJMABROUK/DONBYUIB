@@ -20,7 +20,7 @@ body{
   padding: 100px 50px;
 }
 .category-icons {
-  position: fixed; /* Changer de position absolue à fixe */
+  position: fixed; 
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -141,4 +141,4 @@ body{
   color: rgb(255,0,0);
   transition-duration: 0.5s;
   transition-delay: 0.5s;
-}
+} 
