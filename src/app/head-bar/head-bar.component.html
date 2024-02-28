@@ -12,11 +12,17 @@
     
         </ul>
 
-        <a href="" class="action_btn">S'inscrire</a>
+        <a href="" class="action_btn" *ngIf="!service.connexion" >S'inscrire</a>
 
 
-        <a [routerLink]="['inscrireAssociation']"  class="action_btn">Inscrire mon association</a>
-        <a [routerLink]="['login']" class="action_btn">Se connecter</a>
+        <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!service.connexion" >Inscrire mon association</a>
+        <a [routerLink]="['login']" class="action_btn"  *ngIf="!service.connexion" >Se connecter</a>
+        <a [routerLink]="['login/profilAssociation']" class="action_btn"  *ngIf="service.connexion" > 
+            
+             <span>{{ service.nomAssociation }}</span>
+             <div class="connection-indicator"></div>
+        </a>
+
 
         <div class="toggle_btn" (click)="toggleMenu()">
             <fa-icon [icon]="isMenuOpen ? faX : faB"></fa-icon>
@@ -30,9 +36,13 @@
             <li><a [routerLink]="['listeAssociations']">Associations</a></li>
             <li><a href="">Collectes</a></li>
             <li><a href="">FAQ</a></li>
-            <li><a href="" class="action_btn">S'inscrire</a></li>
-            <li><a [routerLink]="['inscrireAssociation']" class="action_btn">Inscrire mon association</a></li>
-            <li><a [routerLink]="['login']" class="action_btn">Se connecter</a></li>
+            <li><a href="" class="action_btn"   *ngIf="!service.connexion"  >S'inscrire</a></li>
+            <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!service.connexion"  >Inscrire mon association</a></li>
+            <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!service.connexion"  >Se connecter</a></li>
+            <li><a [routerLink]="['login/profilAssociation']" class="action_btn"  *ngIf="service.connexion" > 
+            
+              {{ service.nomAssociation }}
+           </a></li>
 
         </ul>
     </div>
