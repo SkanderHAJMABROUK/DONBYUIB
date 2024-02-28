@@ -99,6 +99,17 @@ a:hover{
     display: flex;
     justify-self: center;
 }
+.connection-indicator {
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 5px; 
+    vertical-align: middle; 
+  }
+  
+
 
 /* Responsive Styles */
 @media (max-width: 900px) {

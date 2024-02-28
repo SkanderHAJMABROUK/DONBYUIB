@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Router} from '@angular/router';
+import { AssociationService } from '../shared/associationService.service';
 
 @Component({
   selector: 'app-head-bar',
@@ -11,10 +12,19 @@ export class HeadBarComponent {
   isMenuOpen: boolean = false;
   faB = faBars;
   faX = faXmark;
-  constructor(private  router: Router) {}
+
+  constructor(private  router: Router, public service:AssociationService) {}
+
+
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     console.log("Menu opened:", this.isMenuOpen);
   }
+ngOnInit()
+{
+
+}
+
+
 }

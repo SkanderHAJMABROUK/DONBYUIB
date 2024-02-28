@@ -44,6 +44,8 @@ export class LoginComponent {
       this.service.getAssociationByEmailAndPassword(email, password).subscribe(
         (association) => {
           if (association) {
+            this.service.nomAssociation = association.nom;
+            this.service.connexion=true;
             this.route.navigate(['/login/profilAssociation']);
           } else {
             this.showErrorNotification = true;

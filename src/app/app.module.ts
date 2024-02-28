@@ -22,6 +22,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { CategorieComponent } from './categorie/categorie.component';
+import { SideBarComponent } from './side-bar/side-bar.component';
 
 
 const firebaseConfig = {
@@ -60,7 +61,8 @@ const firebaseConfig = {
     AssociationDemandeComponent,
     AssociationListComponent,
     ProfilAssociationComponent,
-    CategorieComponent,    
+    CategorieComponent,
+    SideBarComponent,    
   ],
   imports: [
     BrowserModule,
