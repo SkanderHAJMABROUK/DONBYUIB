@@ -1,0 +1,162 @@
+/* Style for the association details container */
+.association-details {
+    display: flex;
+    border: 2px solid black;
+    border-radius: 20px;
+    overflow: hidden; /* Prevent content overflow */
+    margin: 20px auto; /* Center the container horizontally */
+    width: 60%; /* Set a reduced width for the container */
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the left section */
+.left-content {
+    flex: 1; /* Make both sections take up equal space */
+    padding: 20px;
+    border-right: 1px solid black; /* Add border between sections */
+    overflow: hidden; /* Prevent content overflow */
+    display: flex; /* Add display flex to center the content */
+    flex-direction: column; /* Set flex direction to column */
+    align-items: center; /* Center items horizontally */
+}
+
+/* Style for the right section */
+.right-content {
+    flex: 1; /* Make both sections take up equal space */
+    padding: 20px;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+/* Style for the image container */
+.association-logo {
+    margin-bottom: 20px;
+    width: 150px; /* Set a fixed width for the logo */
+}
+
+/* Style for the image */
+.association-logo img {
+    max-width: 100%;
+    max-height: 100%; /* Maintain aspect ratio */
+    border-radius: 10px;
+}
+
+/* Style for the association info */
+.association-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+/* Style for the association name */
+.association-info .association-name {
+    margin-bottom: 5px; /* Adjust margin as needed */
+    text-align: center; /* Center the text horizontally */
+    border-bottom: 1px solid black; /* Add a small line below the name */
+    padding-bottom: 5px; /* Add space below the name */
+}
+
+/* Style for the association description */
+.association-info .association-description {
+    margin-top: 5px; /* Adjust margin as needed */
+    text-align: center; /* Center the text horizontally */
+}
+
+/* Style for the association contact */
+.association-contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    text-align: center; /* Center text horizontally */
+    height: 150px; /* Set a fixed height */
+}
+
+
+/* Style for the contact title */
+.association-contact h3 {
+    margin: 0;
+    margin-bottom: 10px; /* Adjust margin as needed */
+    font-size: 24px; /* Increase font size */}
+
+/* Style for the contact information */
+.contact-info {
+    display: flex;
+    justify-content: space-between; /* Align items on the left and right */
+    align-items: center; /* Center content vertically */
+    width: 100%; /* Ensure full width */
+}
+
+/* Style for each contact item */
+.contact-item {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    margin-bottom: 10px; /* Add space between contact items */
+}
+
+/* Style for the phone icon */
+.contact-item .phone-icon {
+    margin-right: 5px; /* Adjust margin as needed */
+    color:red;
+}
+
+/* Style for the email icon */
+.contact-item .email-icon {
+    margin-left: 5px; /* Adjust margin as needed */
+    color:red;
+}
+
+fa-icon {
+    font-size: 20px; /* Increase icon size */
+    margin-right: 2px; /* Add space between icon and text */
+}
+
+/* Style for the phone number and email */
+.contact-item p {
+    margin: 0 0 0 10px;  /* Reset margin */
+    font-size: 16px; /* Set font size */
+    font-weight: bold; /* Set font weight to bold */
+}
+
+/* Style for the donate section */
+.donate {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+}
+
+/* Style for the donate buttons */
+.donate button {
+    margin-bottom: 10px;
+    padding: 8px 16px; /* Adjust button padding */
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add smooth transition on hover */
+}
+
+/* Change background color of donate buttons on hover */
+.donate button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the range input */
+.donate input[type="range"] {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Style for the label of the range input */
+.donate label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Style for the line between contact and donate parts */
+.right-content .donate {
+    border-top: 1px solid black; /* Add border between sections */
+    padding-top: 20px; /* Add space between the sections */
+}
