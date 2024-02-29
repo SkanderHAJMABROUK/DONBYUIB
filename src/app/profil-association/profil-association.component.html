@@ -1,1 +1,14 @@
-<p>profil-association works!</p>
+
+<div *ngIf="selectedAssociation">
+    <h2>Mon association</h2>
+      <p>Nom: {{ selectedAssociation.nom }}</p>
+    <p>Catégorie: {{ selectedAssociation.categorie }}</p>
+    <p>Description: {{ selectedAssociation.description }}</p>
+    <p>Email: {{ selectedAssociation.email }}</p>
+    <p>Téléphone: {{ selectedAssociation.telephone }}</p> 
+    <button (click)="modifier=true">Modifier</button> 
+    <app-modifier-association *ngIf="modifier" ></app-modifier-association>
+  </div>
+
+
+

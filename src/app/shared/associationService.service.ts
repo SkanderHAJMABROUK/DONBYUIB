@@ -85,19 +85,14 @@ export class AssociationService {
   
 
 
+modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): Promise<void> {
+  const associationRef = this.firestore.collection('Association').doc(id);
+  return associationRef.update(associationDataToUpdate);
+}
 
 
 
 
-
-
-
-
-
-
-
-
-  
 
   async uploadLogo(file: File): Promise<string | null> {
     const filePath = `LogosAssociations/${file.name}`;

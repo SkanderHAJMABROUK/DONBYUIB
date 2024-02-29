@@ -46,7 +46,7 @@ export class LoginComponent {
           if (association) {
             this.service.nomAssociation = association.nom;
             this.service.connexion=true;
-            this.route.navigate(['/login/profilAssociation']);
+            this.route.navigate(['/login/profilAssociation',association.id]);
           } else {
             this.showErrorNotification = true;
             console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');

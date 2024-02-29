@@ -1,20 +1,4 @@
-<!-- <app-categorie (categorySelected)="filterByCategory($event)"></app-categorie>
-<body>  
 
-   <div class="container">     
-     <div class="card_container" *ngFor="let ass of associations">
-       <div class="card">
-         <div class="imgBx"><img [src]="ass.logo" alt="image"></div>
-         <div class="content">
-           <h2>{{ ass.nom }}</h2>
-           <p>{{ ass.description }}</p>
-           <a [routerLink]="['details', ass.id]"  class="card__button" (click)="service.showDetails = true">Read More</a>
-         </div>
-       </div>
-     </div>
-   </div>
- </body>
-  -->
   <app-categorie (categorySelected)="filterByCategory($event)"></app-categorie>
   <body>  
     <div class="container">

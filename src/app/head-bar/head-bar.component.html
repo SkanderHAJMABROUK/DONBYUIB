@@ -7,7 +7,7 @@
         <ul class="links">
             <li><a href="">Accueil</a></li>
             <li><a [routerLink]="['listeAssociations']">Associations</a></li>
-            <li><a href="">Collectes</a></li>
+            <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
             <li><a href="">FAQ</a></li>
     
         </ul>
@@ -34,7 +34,7 @@
         <ul>
             <li><a href="">Accueil</a></li>
             <li><a [routerLink]="['listeAssociations']">Associations</a></li>
-            <li><a href="">Collectes</a></li>
+            <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
             <li><a href="">FAQ</a></li>
             <li><a href="" class="action_btn"   *ngIf="!service.connexion"  >S'inscrire</a></li>
             <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!service.connexion"  >Inscrire mon association</a></li>

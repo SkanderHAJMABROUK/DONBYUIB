@@ -23,6 +23,9 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { CategorieComponent } from './categorie/categorie.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
+import { CollecteListComponent } from './collecte-list/collecte-list.component';
+import { Firestore } from 'firebase/firestore';
+import { ModifierAssociationComponent } from './modifier-association/modifier-association.component';
 
 
 const firebaseConfig = {
@@ -34,18 +37,6 @@ const firebaseConfig = {
   appId: "1:586021322511:web:fe97e78a0e10165d2b487a",
   measurementId: "G-D749N7NPLF"
 };
-
-
-// import { createConnection, Connection } from 'mysql';
-
-// const db: Connection = createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "donbyuib"
-// });
-
-// export default db;
 
 
 
@@ -62,7 +53,9 @@ const firebaseConfig = {
     AssociationListComponent,
     ProfilAssociationComponent,
     CategorieComponent,
-    SideBarComponent,    
+    SideBarComponent,
+    CollecteListComponent,
+    ModifierAssociationComponent,    
   ],
   imports: [
     BrowserModule,
@@ -85,8 +78,10 @@ const firebaseConfig = {
       {path:'listeAssociations',component:AssociationListComponent},
       { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
 
+      {path:'listeCollectes',component:CollecteListComponent},
+
       {path:'login',component:LoginComponent},
-      { path: 'login/profilAssociation', component: ProfilAssociationComponent },
+      { path: 'login/profilAssociation/:id', component: ProfilAssociationComponent },
 
 
 
