@@ -36,20 +36,6 @@ const firebaseConfig = {
 };
 
 
-// import { createConnection, Connection } from 'mysql';
-
-// const db: Connection = createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "donbyuib"
-// });
-
-// export default db;
-
-
-
-
 
 @NgModule({
   declarations: [

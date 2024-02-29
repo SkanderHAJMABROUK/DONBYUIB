@@ -1,12 +1,43 @@
-
-<div *ngIf="service.showDetails && selectedAssociation">
-    <h2>Détails de l'association sélectionnée</h2>
-      <p>Nom: {{ selectedAssociation.nom }}</p>
-    <p>Catégorie: {{ selectedAssociation.categorie }}</p>
-    <p>Description: {{ selectedAssociation.description }}</p>
-    <p>Email: {{ selectedAssociation.email }}</p>
-    <p>Téléphone: {{ selectedAssociation.telephone }}</p>  
+<div *ngIf="service.showDetails && selectedAssociation" class="association-details">
+  <div class="left-content">
+    <div class="association-logo">
+      <img [src]="selectedAssociation.logo" alt="Oups!" class="logo-image">
+    </div>
+    <div class="association-info">
+      <h2 class="association-name">{{ selectedAssociation.nom }}</h2>      <p class="association-description">{{ selectedAssociation.description }}</p>
+    </div>
   </div>
 
-
-
+  <div class="right-content">
+    <div class="association-contact">
+      <h3>Contact</h3>
+      <div class="contact-info">
+          <div class="contact-item">
+              <fa-icon class="phone-icon" [icon]="faPhoneFlip"></fa-icon>
+              <p>{{ selectedAssociation.telephone }}</p>
+          </div>
+          <div class="contact-item">
+              <fa-icon class="email-icon" [icon]="faEnvelope"></fa-icon>
+              <p>{{ selectedAssociation.email }}</p>
+          </div>
+      </div>
+  </div>
+  <div class="donate">
+    <button (click)="updateDonationAmountFromButton(10)">10DT</button>
+    <button (click)="updateDonationAmountFromButton(20)">20DT</button>
+    <button (click)="updateDonationAmountFromButton(50)">50DT</button>
+    <button (click)="updateDonationAmountFromButton(100)">100DT</button>
+    <div>
+    
+      <input type="range" id="donationRange" min="0" max="2000" step="10" />
+      <label for="donationRange">DT</label>
+    </div> 
+    <input type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
+    <button (click)="donate()">Faire un don</button>
+  </div>
+  
+  
+  </div>
+  
+  
+</div>
