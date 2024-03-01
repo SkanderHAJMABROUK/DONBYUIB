@@ -34,17 +34,23 @@ export class AssociationDemandeComponent implements OnInit{
        this.getAssociationById(this.id); 
      });
    }
+   
    getAssociationById(id: string){
-    this.service.getAssociationById(id).subscribe(
-      (data) => {
-        this.selectedAssociation = data; 
-        console.log(data);
+    this.service.getAssociationById(id).subscribe({
+      next: (data: Association | undefined) => {
+        if (data !== undefined) {
+          this.selectedAssociation = data; 
+          console.log(data);
+        } else {
+          console.error('Erreur: Aucune donnée n\'a été renvoyée.');
+        }
       },
-      error => {
+      error: error => {
         console.error('Erreur lors de la récupération des données :', error);
       }
-    );
+    });
   }
+  
 
  selectedAssociation!: Association |undefined; 
 

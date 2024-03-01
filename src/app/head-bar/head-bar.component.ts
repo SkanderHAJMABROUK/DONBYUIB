@@ -16,8 +16,6 @@ export class HeadBarComponent {
 
   constructor(private  router: Router, public service:AssociationService) {}
 
-
-
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     console.log("Menu opened:", this.isMenuOpen);

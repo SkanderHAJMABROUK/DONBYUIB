@@ -19,6 +19,7 @@
     display: flex; /* Add display flex to center the content */
     flex-direction: column; /* Set flex direction to column */
     align-items: center; /* Center items horizontally */
+    line-height: 1.5; 
 }
 
 /* Style for the right section */
@@ -152,7 +153,7 @@
     padding: 8px 16px; /* Adjust button padding */
     border: none;
     border-radius: 5px;
-    background-color: red; /* Set red background color */
+    background-color: #cc0000; /* Set red background color */
     color: white;
     cursor: pointer;
     font-weight: bold;
@@ -184,4 +185,38 @@
 }
 .donate ngx-slider{
     color:red;
+}
+.validerDon{
+    padding: 1em 2.1em 1.1em;
+    border-radius: 3px;
+    margin: 8px 8px 8px 8px;
+    color: #fbdedb;
+    display: inline-block;
+    background: #e74c3c;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    font-family: sans-serif;
+    font-weight: 800;
+    font-size: .70em;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+    -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+    position: relative;
+    border-radius: 50em;
+    background-color: #cc0000;
+}
+.validerDon:hover, .validerDon:focus{
+    opacity: 0.8;
+}
+.validerDon:active{
+    -webkit-transform: scale(0.80);
+    -moz-transform: scale(0.80);
+    -ms-transform: scale(0.80);
+    -o-transform: scale(0.80);
+    transform: scale(0.80);
 }

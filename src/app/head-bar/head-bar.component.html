@@ -17,9 +17,9 @@
 
         <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!service.connexion" >Inscrire mon association</a>
         <a [routerLink]="['login']" class="action_btn"  *ngIf="!service.connexion" >Se connecter</a>
-        <a [routerLink]="['login/profilAssociation']" class="action_btn"  *ngIf="service.connexion" > 
-            
-             <span>{{ service.nomAssociation }}</span>
+        <a [routerLink]="['login/profilAssociation']" class="action_btn"  *ngIf="service.connexion" >
+            <span>{{ service.nomAssociation }}</span>
+ 
              <div class="connection-indicator"></div>
         </a>
 
@@ -40,7 +40,6 @@
             <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!service.connexion"  >Inscrire mon association</a></li>
             <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!service.connexion"  >Se connecter</a></li>
             <li><a [routerLink]="['login/profilAssociation']" class="action_btn"  *ngIf="service.connexion" > 
-            
               {{ service.nomAssociation }}
            </a></li>
 

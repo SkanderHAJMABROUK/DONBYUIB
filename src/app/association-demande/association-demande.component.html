@@ -35,7 +35,8 @@
       <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> <!-- Updated ngx-slider with change event -->
       <label for="montant">Saisir un montant</label>
       <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
-      <button class="donate-button" (click)="donate()">Faire un don</button>
+      <!-- <button class="donate-button" (click)="donate()">Faire un don</button> -->
+      <a href="#fakeLink" class="validerDon" (click)="donate()">Valider le don de {{donationAmount}} vers "{{selectedAssociation.nom}}".</a>
     </div>
     
   </div>

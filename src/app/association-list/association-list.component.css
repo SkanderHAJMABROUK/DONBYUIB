@@ -8,7 +8,7 @@
     transition: .2s linear;
     position: relative;
     margin-top: 2.7%;
-    font-family: system-ui;
+    font-family: "Garamond", Times, serif;
 }
 
 .container{
@@ -72,13 +72,14 @@
 
 
 .container .box-container .box .btn {
-  background:#ff0000;
+  background:#cc0000;
   color:#fff;
   width: 120px;
   font-size: 17px;
   border-radius: 12px;
   padding: 8px 10px;
   margin-left: 70px ;
+  font-weight: bold;
 }
 
 .container .box-container .box .btn:hover {
