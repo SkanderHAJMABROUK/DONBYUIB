@@ -38,15 +38,22 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.aFormGroup.valid) {
-      const email = this.aFormGroup.get('email')?.value;
+      this.logIn();
+    }
+  }
+
+  logIn(){
+    const email = this.aFormGroup.get('email')?.value;
       const password = this.aFormGroup.get('password')?.value;
 
       this.service.getAssociationByEmailAndPassword(email, password).subscribe(
         (association) => {
           if (association) {
-            this.service.nomAssociation = association.nom;
             this.service.connexion=true;
+            localStorage.setItem(this.service.nomAssociation, association.nom);
+            localStorage.setItem('this.service.connexion','true');
             this.route.navigate(['/login/profilAssociation',association.id]);
+            console.log(this.service.connexion)
           } else {
             this.showErrorNotification = true;
             console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
@@ -56,7 +63,7 @@ export class LoginComponent {
           console.error('Erreur lors de la recherche de l\'association:', error);
         }
       );
-    }
+
   }
 
 }

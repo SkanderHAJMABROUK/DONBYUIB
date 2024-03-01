@@ -7,6 +7,7 @@
     <p>Email: {{ selectedAssociation.email }}</p>
     <p>Téléphone: {{ selectedAssociation.telephone }}</p> 
     <button (click)="modifier=true">Modifier</button> 
+    <button (click)="logOut()">Se déconnecter</button> 
     <app-modifier-association *ngIf="modifier" ></app-modifier-association>
   </div>
 
