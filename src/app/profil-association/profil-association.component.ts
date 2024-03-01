@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AssociationService } from '../shared/associationService.service';
 import { Association } from '../association';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profil-association',
@@ -10,11 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProfilAssociationComponent {
 
-constructor(public service:AssociationService ,private route:ActivatedRoute){}
+constructor(public service:AssociationService ,private route:ActivatedRoute, private router:Router){}
 
 
 id!: string;
 data: Association |undefined;
+
+selectedAssociation!: Association |undefined; 
+
+modifier:boolean=false;
 
  ngOnInit(): void {
   this.route.params.subscribe(params => {
@@ -22,6 +26,8 @@ data: Association |undefined;
     console.log(this.id)
      this.getAssociationById(this.id); 
    });
+
+  
  }
  getAssociationById(id: string){
   this.service.getAssociationById(id).subscribe(
@@ -35,9 +41,17 @@ data: Association |undefined;
   );
 }
 
-selectedAssociation!: Association |undefined; 
+logOut(){
+ this.service.connexion=false;
+  localStorage.setItem('this.service.connexion','false');
+  localStorage.removeItem(this.service.nomAssociation);
+  this.router.navigate(['/login']);
+  console.log(this.service.connexion  )
 
-modifier:boolean=false;
+ 
+}
+
+
 
   
 

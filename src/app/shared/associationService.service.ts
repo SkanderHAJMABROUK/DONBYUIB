@@ -58,8 +58,8 @@ export class AssociationService {
     );
   }
   
-  connexion: boolean = false;
-  nomAssociation: string = '';
+  connexion: boolean = localStorage.getItem('this.service.connexion') === 'true';
+  nomAssociation: string = localStorage.getItem('nomAssociation') || '';
 
 
 
