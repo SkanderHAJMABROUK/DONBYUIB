@@ -42,12 +42,7 @@ modifier:boolean=false;
 }
 
 logOut(){
- this.service.connexion=false;
-  localStorage.setItem('this.service.connexion','false');
-  localStorage.removeItem(this.service.nomAssociation);
-  this.router.navigate(['/login']);
-  console.log(this.service.connexion  )
-
+ this.service.logOut();
  
 }
 

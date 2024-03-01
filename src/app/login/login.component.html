@@ -24,7 +24,7 @@
     <label for="accept_terms">Se souvenir de moi</label>
 
     <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
-    <div *ngIf="showErrorNotification" class="error-notification">
+    <div *ngIf="service.showErrorNotification" class="error-notification">
       Adresse e-mail ou mot de passe incorrect !
     </div>
 

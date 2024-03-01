@@ -84,6 +84,7 @@ const firebaseConfig = {
 
 
 
+
     ])
   ],
   providers: [AssociationService,AngularFirestore,AngularFireModule],
