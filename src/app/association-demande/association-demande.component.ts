@@ -2,7 +2,8 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from '../association';
 import { AssociationService } from '../shared/associationService.service';
-import { faPhoneFlip, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { faSquarePhone, faAt} from '@fortawesome/free-solid-svg-icons';
+import { Options } from 'ngx-slider-v2';
 
 
 @Component({
@@ -13,12 +14,18 @@ import { faPhoneFlip, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 export class AssociationDemandeComponent implements OnInit{
   constructor(public service:AssociationService,public route:ActivatedRoute){}
 
+  value=0;
+  options:Options={
+    floor: 0,
+    ceil: 2000
+  }
+
 
   id!: string;
   data: Association |undefined;
 
-  faPhoneFlip = faPhoneFlip; 
-  faEnvelope = faEnvelope;
+  faSquarePhone = faSquarePhone; 
+  faAt = faAt;
 
    ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -44,16 +51,14 @@ export class AssociationDemandeComponent implements OnInit{
  donationAmount: number = 0;
 
 
- @ViewChild('donationRange') donationRange!: ElementRef<HTMLInputElement>;
-
- updateDonationAmountFromRange(value:string) {
-  this.donationAmount = parseInt(value) || 0;
- 
-}
-
-
+// Method to update donation amount from button click
 updateDonationAmountFromButton(amount: number) {
   this.donationAmount = amount;
+}
+
+// Method to update donation amount from slider
+updateDonationAmountFromSlider(event: any) {
+  this.donationAmount = event.value;
 }
 
 donate() {

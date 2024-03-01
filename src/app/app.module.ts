@@ -26,6 +26,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { CollecteListComponent } from './collecte-list/collecte-list.component';
 import { Firestore } from 'firebase/firestore';
 import { ModifierAssociationComponent } from './modifier-association/modifier-association.component';
+import { NgxSliderModule } from 'ngx-slider-v2';
 
 
 const firebaseConfig = {
@@ -62,6 +63,7 @@ const firebaseConfig = {
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
+    NgxSliderModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),

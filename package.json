@@ -28,6 +28,7 @@
     "mysql": "^2.18.1",
     "ng-recaptcha": "^13.2.1",
     "ngx-captcha": "^13.0.0",
+    "ngx-slider-v2": "^17.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

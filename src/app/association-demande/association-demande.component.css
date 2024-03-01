@@ -1,4 +1,4 @@
-/* Style for the association details container */
+/* Updated Style for the association details container */
 .association-details {
     display: flex;
     border: 2px solid black;
@@ -7,7 +7,7 @@
     margin: 20px auto; /* Center the container horizontally */
     width: 60%; /* Set a reduced width for the container */
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    background-color: rgba(0, 0, 0, 0.1);
+    /* background-color: rgba(0, 0, 0, 0.1); */
 }
 
 /* Style for the left section */
@@ -77,13 +77,15 @@
 /* Style for the contact title */
 .association-contact h3 {
     margin: 0;
-    margin-bottom: 10px; /* Adjust margin as needed */
-    font-size: 24px; /* Increase font size */}
+    border-bottom: 1px solid black;
+    margin-bottom: 5px; /* Adjust margin as needed */
+    font-size: 24px; /* Increase font size */
+}
 
-/* Style for the contact information */
+/* Updated Style for the contact information */
 .contact-info {
     display: flex;
-    justify-content: space-between; /* Align items on the left and right */
+    justify-content: space-around; /* Spread items across the container */
     align-items: center; /* Center content vertically */
     width: 100%; /* Ensure full width */
 }
@@ -91,35 +93,53 @@
 /* Style for each contact item */
 .contact-item {
     display: flex;
-    align-items: center; /* Center items vertically */
-    margin-bottom: 10px; /* Add space between contact items */
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    cursor: pointer; /* Change cursor to pointer */
+    transition: color 0.8s ease; /* Add smooth transition on hover */
 }
 
 /* Style for the phone icon */
-.contact-item .phone-icon {
-    margin-right: 5px; /* Adjust margin as needed */
-    color:red;
-}
-
-/* Style for the email icon */
+.contact-item .phone-icon,
 .contact-item .email-icon {
-    margin-left: 5px; /* Adjust margin as needed */
-    color:red;
+    margin: 5px; /* Adjust margin as needed */
+    color: rgb(0, 0, 0);
+    font-size: 24px; /* Increase icon size */
 }
 
-fa-icon {
-    font-size: 20px; /* Increase icon size */
-    margin-right: 2px; /* Add space between icon and text */
+/* Change color of icons and text on hover */
+.contact-item:hover .phone-icon,
+.contact-item:hover .email-icon,
+.contact-item:hover p {
+    color: rgba(0, 0, 0, 0.25); /* Change color on hover */
+}
+
+.contact-item .phone-icon,
+.contact-item .email-icon {
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.contact-item:hover .phone-icon,
+.contact-item:hover .email-icon {
+    transform: scale(1.2); /* Increase icon size */
 }
 
 /* Style for the phone number and email */
 .contact-item p {
-    margin: 0 0 0 10px;  /* Reset margin */
+    margin-bottom: 0; /* Reset margin */
     font-size: 16px; /* Set font size */
     font-weight: bold; /* Set font weight to bold */
+    text-align: center; /* Center text */
 }
 
 /* Style for the donate section */
+.donate h3{
+    margin: 0;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px; /* Adjust margin as needed */
+    font-size: 24px; /* Increase font size */
+}
+
 .donate {
     display: flex;
     flex-direction: column;
@@ -128,19 +148,20 @@ fa-icon {
 
 /* Style for the donate buttons */
 .donate button {
-    margin-bottom: 10px;
+    margin: 10px 5px; /* Add margin between buttons and between input and button */
     padding: 8px 16px; /* Adjust button padding */
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: red; /* Set red background color */
     color: white;
     cursor: pointer;
+    font-weight: bold;
     transition: background-color 0.3s ease; /* Add smooth transition on hover */
 }
 
 /* Change background color of donate buttons on hover */
 .donate button:hover {
-    background-color: #0056b3;
+    background-color: #ff000077; 
 }
 
 /* Style for the range input */
@@ -151,12 +172,16 @@ fa-icon {
 
 /* Style for the label of the range input */
 .donate label {
-    display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px; /* Add space below the label */
+    font-weight: bold; /* Make the label bold */
+    font-size: 18px; /* Increase font size */
 }
 
 /* Style for the line between contact and donate parts */
 .right-content .donate {
     border-top: 1px solid black; /* Add border between sections */
-    padding-top: 20px; /* Add space between the sections */
+    padding-top: 8px; /* Add space between the sections */
+}
+.donate ngx-slider{
+    color:red;
 }
