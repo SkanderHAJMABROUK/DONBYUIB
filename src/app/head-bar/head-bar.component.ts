@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Router} from '@angular/router';
 import { AssociationService } from '../shared/associationService.service';
+import { Association } from '../association';
 
 @Component({
   selector: 'app-head-bar',
@@ -23,12 +24,15 @@ export class HeadBarComponent {
     console.log("Menu opened:", this.isMenuOpen);
    
   }
+
+ 
+  association!:Association|undefined;
 ngOnInit()
 {
 
   const connexion=localStorage.getItem('this.service.connexion');
    const nomAssociation=localStorage.getItem(this.service.nomAssociation);
-if(connexion!=null && nomAssociation!=null){
+  if(connexion!=null && nomAssociation!=null){
   this.service.connexion=connexion==='true';
   console.log(this.service.connexion);
   this.service.nomAssociation=nomAssociation;

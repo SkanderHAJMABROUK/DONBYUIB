@@ -13,9 +13,10 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
   providedIn: 'root' 
 })
 export class AssociationService {
+  showErrorNotification: boolean=false;
 
 
-  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore) { }
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
 
  showDetails=false;
 
@@ -58,7 +59,7 @@ export class AssociationService {
     );
   }
   
-  connexion: boolean = localStorage.getItem('this.service.connexion') === 'true';
+  connexion: boolean = localStorage.getItem('this.connexion') === 'true';
   nomAssociation: string = localStorage.getItem('nomAssociation') || '';
 
 
@@ -91,6 +92,43 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
 }
 
 
+id!:string|undefined;
+
+logIn(email:string,password:string){
+ 
+
+    this.getAssociationByEmailAndPassword(email,password).subscribe(
+      (association) => {
+        if (association) {
+          this.connexion=true;
+          this.id=association?.id;
+          console.log(this.id);
+          localStorage.setItem(this.nomAssociation, association.nom);
+          localStorage.setItem('this.service.connexion','true');
+          this.route.navigate(['/login/profilAssociation',association.id]);
+          console.log(this.connexion)
+        } else {
+          this.showErrorNotification = true;
+          console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
+        }
+      },
+      (error) => {
+        console.error('Erreur lors de la recherche de l\'association:', error);
+      }
+    );
+
+}
+
+
+logOut(){
+  this.connexion=false;
+   localStorage.setItem('this.service.connexion','false');
+   localStorage.removeItem(this.nomAssociation);
+   this.route.navigate(['/login']);
+   console.log(this.connexion  )
+ 
+  
+ }
 
 
 

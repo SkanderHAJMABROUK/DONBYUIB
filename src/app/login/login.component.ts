@@ -19,7 +19,7 @@ export class LoginComponent {
     });
   }
 
-  constructor(private formBuilder : FormBuilder, private service:AssociationService , private route:Router){
+  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService){
 
   }
 
@@ -30,7 +30,6 @@ export class LoginComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   protected aFormGroup!: FormGroup;
-  showErrorNotification:boolean=false;
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -46,23 +45,7 @@ export class LoginComponent {
     const email = this.aFormGroup.get('email')?.value;
       const password = this.aFormGroup.get('password')?.value;
 
-      this.service.getAssociationByEmailAndPassword(email, password).subscribe(
-        (association) => {
-          if (association) {
-            this.service.connexion=true;
-            localStorage.setItem(this.service.nomAssociation, association.nom);
-            localStorage.setItem('this.service.connexion','true');
-            this.route.navigate(['/login/profilAssociation',association.id]);
-            console.log(this.service.connexion)
-          } else {
-            this.showErrorNotification = true;
-            console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
-          }
-        },
-        (error) => {
-          console.error('Erreur lors de la recherche de l\'association:', error);
-        }
-      );
+      this.service.logIn(email,password);
 
   }
 
