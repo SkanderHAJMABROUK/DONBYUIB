@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Firestore, collection } from 'firebase/firestore';
+
+import { Router } from '@angular/router';
+
+import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Collecte } from '../collecte';
-import { Observable, map } from 'rxjs';
-import { collectionData } from '@angular/fire/firestore';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { Observable, from, map } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 
 
@@ -15,7 +17,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 export class CollecteService {
 
   
- constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore) { }
+ constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
 
  collectes: Collecte[]=[]
 
