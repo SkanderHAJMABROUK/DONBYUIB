@@ -23,7 +23,8 @@ modifier:boolean=false;
  ngOnInit(): void {
   this.route.params.subscribe(params => {
     this.id = params['id']; 
-    console.log(this.id)
+    this.service.id=this.id;
+    console.log(this.id);
      this.getAssociationById(this.id); 
    });
 
