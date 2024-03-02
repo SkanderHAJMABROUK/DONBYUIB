@@ -10,7 +10,7 @@
                 <h3>{{ ass.nom }}</h3>
                 <p class="description">{{ ass.description }}</p>
                 <a href="#" class="btn" [routerLink]="['details', ass.id]"
-                (click)="service.showDetails = true"
+                (click)="toggleShowDetails()"
                (mouseenter)="ass.id && toggleIconState(ass.id, true)" 
                (mouseleave)="ass.id && toggleIconState(ass.id, false)">
               <span *ngIf="!ass.id || !associationHoverState.get(ass.id)">Faire un don</span>

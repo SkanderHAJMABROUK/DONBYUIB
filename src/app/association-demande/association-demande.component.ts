@@ -21,9 +21,7 @@ export class AssociationDemandeComponent implements OnInit{
   }
 
 
-  id!: string;
-  data: Association |undefined;
-
+  
   faSquarePhone = faSquarePhone; 
   faAt = faAt;
 
@@ -34,13 +32,18 @@ export class AssociationDemandeComponent implements OnInit{
        this.getAssociationById(this.id); 
      });
    }
+   id!: string;
+  data: Association |undefined;
+
    
    getAssociationById(id: string){
     this.service.getAssociationById(id).subscribe({
       next: (data: Association | undefined) => {
         if (data !== undefined) {
           this.selectedAssociation = data; 
+          localStorage.setItem('service.showDetails', 'true');
           console.log(data);
+          console.log(this.service.showDetails)
         } else {
           console.error('Erreur: Aucune donnée n\'a été renvoyée.');
         }

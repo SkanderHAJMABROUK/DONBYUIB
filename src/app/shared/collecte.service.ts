@@ -9,12 +9,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 
 
-import { Router } from '@angular/router';
-
-import { DocumentData, DocumentSnapshot, addDoc, doc, getDoc } from '@angular/fire/firestore';
-import { Association } from '../association';
-import {  from } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })

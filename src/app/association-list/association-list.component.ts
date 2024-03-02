@@ -44,8 +44,16 @@ export class AssociationListComponent {
   ngOnInit():void{
     this.service.getAssociations().subscribe((res)=>{
      this.associations=res;
+     
+
    })
    }
+
+   toggleShowDetails() {
+    this.service.showDetails = true;
+    localStorage.setItem('service.showDetails', 'true');
+  }
+
 
 
 }
