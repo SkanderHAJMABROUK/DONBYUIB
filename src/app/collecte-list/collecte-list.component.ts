@@ -18,7 +18,6 @@ ngOnInit():void{
    this.collectes=res;
    console.log(this.collectes);
  })
- console.log('ici')
  }
 
 }

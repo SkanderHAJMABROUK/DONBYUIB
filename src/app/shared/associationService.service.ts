@@ -18,7 +18,9 @@ export class AssociationService {
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
 
- showDetails=false;
+  showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
+ 
+ 
 
   
   

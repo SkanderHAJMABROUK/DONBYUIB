@@ -27,6 +27,8 @@ import { CollecteListComponent } from './collecte-list/collecte-list.component';
 import { Firestore } from 'firebase/firestore';
 import { ModifierAssociationComponent } from './modifier-association/modifier-association.component';
 import { NgxSliderModule } from 'ngx-slider-v2';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+
 
 
 const firebaseConfig = {
@@ -58,6 +60,7 @@ const firebaseConfig = {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFirestoreModule,
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
