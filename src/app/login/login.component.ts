@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent {
     });
   }
 
-  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService){
+  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService,
+    public cookie:CookieService){
 
   }
 
@@ -43,9 +45,11 @@ export class LoginComponent {
 
   logIn(){
     const email = this.aFormGroup.get('email')?.value;
-      const password = this.aFormGroup.get('password')?.value;
+    const password = this.aFormGroup.get('password')?.value;
 
       this.service.logIn(email,password);
+
+      this.cookie.set("Details utilisateurs" ,"Email : "+email+"Password : "+password,7);
 
   }
 
