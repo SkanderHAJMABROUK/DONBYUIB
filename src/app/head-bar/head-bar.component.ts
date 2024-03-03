@@ -15,7 +15,8 @@ export class HeadBarComponent {
   faX = faXmark;
  
 
-  constructor(private  router: Router, public service:AssociationService) {}
+  constructor(private  router: Router,
+     public service:AssociationService) {}
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
@@ -29,7 +30,8 @@ ngOnInit()
 {
 
   const connexion=localStorage.getItem('this.service.connexion');
-   const nomAssociation=localStorage.getItem(this.service.nomAssociation);
+  const nomAssociation=localStorage.getItem(this.service.nomAssociation);
+
   if(connexion!=null && nomAssociation!=null){
   this.service.connexion=connexion==='true';
   console.log(this.service.connexion);
