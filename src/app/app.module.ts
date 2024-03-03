@@ -28,6 +28,7 @@ import { Firestore } from 'firebase/firestore';
 import { ModifierAssociationComponent } from './modifier-association/modifier-association.component';
 import { NgxSliderModule } from 'ngx-slider-v2';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { CollecteDetailsComponent } from './collecte-details/collecte-details.component';
 
 
 
@@ -55,7 +56,8 @@ const firebaseConfig = {
     CategorieComponent,
     SideBarComponent,
     CollecteListComponent,
-    ModifierAssociationComponent,    
+    ModifierAssociationComponent,
+    CollecteDetailsComponent,    
   ],
   imports: [
     BrowserModule,
@@ -81,6 +83,8 @@ const firebaseConfig = {
       { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
 
       {path:'listeCollectes',component:CollecteListComponent},
+      { path: 'listeCollectes/details/:id', component: AssociationDemandeComponent },
+
 
       {path:'login',component:LoginComponent},
       { path: 'login/profilAssociation/:id', component: ProfilAssociationComponent },

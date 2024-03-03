@@ -1,1 +1,22 @@
-<p>collecte-list works!</p>
+<div class="container">
+    <div class="box-container">
+      <div class="box" *ngFor="let collecte of collectes">
+        <img [src]="collecte.image" alt="Oups!">
+        <h3>{{ collecte.nom }}</h3>
+        <p class="description">{{ collecte.description }}</p>
+        <p>Montant : {{ collecte.montant }}</p>
+        <p>Date de début : {{ collecte.date_debut | date }}</p>
+        <p>Date de fin : {{ collecte.date_fin | date }}</p>
+        <!-- <a href="#" class="btn" [routerLink]="['details', ass.id]"
+                (click)="toggleShowDetails()"
+               (mouseenter)="ass.id && toggleIconState(ass.id, true)" 
+               (mouseleave)="ass.id && toggleIconState(ass.id, false)">
+              <span *ngIf="!ass.id || !collecteHoverState.get(ass.id)">Faire un don</span>
+              <span class="icon" *ngIf="ass.id && collecteHoverState.get(ass.id)">
+                  <fa-icon [icon]="faHandHoldingDollar"></fa-icon>
+              </span>
+          </a> -->
+      </div>
+    </div>
+  </div>
+  

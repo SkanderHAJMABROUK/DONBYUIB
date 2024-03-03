@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { Router } from '@angular/router';
 
-import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Collecte } from '../collecte';
 import { Observable, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -21,6 +21,11 @@ export class CollecteService {
 
  collectes: Collecte[]=[]
 
+
+ showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
+
+
+
  getCollectes(): Observable<Collecte[]> {
   let collecteCollection = collection(this.fs, 'Collecte');
  return collectionData(collecteCollection, { idField: 'id' }).pipe(
@@ -31,12 +36,21 @@ export class CollecteService {
         description: collecte.description,
         image: collecte.image,
         montant: collecte.montant,
-        date_debut: collecte.date_debut,
-        date_fin: collecte.date_fin,
-       id_association:collecte.id_association,
+        date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
+        date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
+        id_association:collecte.id_association,
       }));
     })
   );
  }
+
+ getCollecteById(id: string): Observable<Collecte | undefined> {
+  return this.getCollectes().pipe(
+    map(collectes => collectes.find(collecte => collecte.id === id))
+  );
+}
+
+
+
 
 }
