@@ -19,7 +19,6 @@
         <a [routerLink]="['login']" class="action_btn"  *ngIf="!service.connexion" >Se connecter</a>
  
         <a [routerLink]="['login/profilAssociation',service.id]" class="action_btn"  *ngIf="service.connexion" > 
-            
              <span>{{ service.nomAssociation }}</span>
              <div class="connection-indicator"></div>
         </a>

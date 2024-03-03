@@ -62,7 +62,7 @@ export class AssociationService {
   }
   
   connexion: boolean = localStorage.getItem('this.connexion') === 'true';
-  nomAssociation: string = localStorage.getItem('nomAssociation') || '';
+  nomAssociation: string = localStorage.getItem('this.nomAssociation') || '';
 
 
 
@@ -103,9 +103,11 @@ logIn(email:string,password:string){
       (association) => {
         if (association) {
           this.connexion=true;
+          this.nomAssociation=association.nom;
           this.id=association?.id;
           console.log(this.id);
           localStorage.setItem(this.nomAssociation, association.nom);
+          console.log(this.nomAssociation)
           localStorage.setItem('this.service.connexion','true');
           this.route.navigate(['/login/profilAssociation',association.id]);
           console.log(this.connexion)
