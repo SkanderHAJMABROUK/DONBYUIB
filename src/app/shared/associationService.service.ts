@@ -8,6 +8,7 @@ import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collecti
 import { Association } from '../association';
 import { Observable, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root' 
@@ -16,7 +17,8 @@ export class AssociationService {
   showErrorNotification: boolean=false;
 
 
-  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router
+    , public cookie:CookieService) { }
 
   showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
  
@@ -111,6 +113,10 @@ logIn(email:string,password:string){
           localStorage.setItem('this.service.connexion','true');
           this.route.navigate(['/login/profilAssociation',association.id]);
           console.log(this.connexion)
+
+
+          this.cookie.set("Details utilisateurs" ,"Email : "+email+"Password : "+password,7);
+
         } else {
           this.showErrorNotification = true;
           console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
@@ -127,9 +133,9 @@ logIn(email:string,password:string){
 logOut(){
   this.connexion=false;
    localStorage.setItem('this.service.connexion','false');
-   localStorage.removeItem(this.nomAssociation);
+   localStorage.removeItem('this.nomAssociation');
    this.route.navigate(['/login']);
-   console.log(this.connexion  )
+   console.log(this.nomAssociation)
  
   
  }

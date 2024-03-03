@@ -20,8 +20,7 @@ export class LoginComponent {
     });
   }
 
-  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService,
-    public cookie:CookieService){
+  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService){
 
   }
 
@@ -48,9 +47,6 @@ export class LoginComponent {
     const password = this.aFormGroup.get('password')?.value;
 
       this.service.logIn(email,password);
-
-      this.cookie.set("Details utilisateurs" ,"Email : "+email+"Password : "+password,7);
-
   }
 
 }
