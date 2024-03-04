@@ -17,6 +17,10 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 export class DonateurService {
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
+
+
+
+
   ajouterDonateur(donateur: Donateur) {
 
     const dataToAdd: Donateur = {

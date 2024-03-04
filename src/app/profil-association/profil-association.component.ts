@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AssociationService } from '../shared/associationService.service';
 import { Association } from '../association';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DonateurService } from '../shared/donateur.service';
 
 @Component({
   selector: 'app-profil-association',
@@ -9,6 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./profil-association.component.css']
 })
 export class ProfilAssociationComponent {
-
+constructor(public service:AssociationService){}
 
 }

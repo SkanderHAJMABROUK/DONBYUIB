@@ -42,10 +42,6 @@ export class CompteAssociationComponent {
     );
   }
   
-  logOut(){
-   this.service.logOut();
-   
-  }
   
   
   

@@ -20,6 +20,7 @@ export class CollecteService {
  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
 
  collectes: Collecte[]=[]
+ showErrorNotification: boolean=false;
 
 
  showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
@@ -44,6 +45,8 @@ export class CollecteService {
   );
  }
 
+
+
  getCollecteById(id: string): Observable<Collecte | undefined> {
   return this.getCollectes().pipe(
     map(collectes => collectes.find(collecte => collecte.id === id))
@@ -51,6 +54,45 @@ export class CollecteService {
 }
 
 
+
+
+
+async uploadLogo(file: File): Promise<string | null> {
+  const filePath = `ImagesCollectes/${file.name}`;
+  console.log('in upload' , filePath);
+  const fileRef = this.fireStorage.ref(filePath);
+  const task = this.fireStorage.upload(filePath, file);
+
+  try {
+    // Wait for the upload to complete
+    await task;
+
+    // Get the download URL
+    const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+    return downloadUrl;
+  } catch (error) {
+    console.error('An error occurred while uploading the file:', error);
+    return null;
+  }
+}
+
+
+
+
+ajouterCollecte(collecteData: Collecte) {
+
+  const dataToAdd: Collecte = {
+      nom: collecteData.nom,
+      description: collecteData.description,
+      image: collecteData.image,
+      montant: collecteData.montant,
+      date_debut: collecteData.date_debut,
+      date_fin: collecteData.date_fin,
+      
+  };
+  return addDoc(collection(this.fs, 'Collecte'), dataToAdd);
+}
 
 
 }

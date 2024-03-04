@@ -30,6 +30,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { CollecteDetailsComponent } from './collecte-details/collecte-details.component';
 import { CompteAssociationComponent } from './profil-association/compte-association/compte-association.component';
 import { SinscrireComponent } from './sinscrire/sinscrire.component';
+import { AjouterCollecteComponent } from './ajouter-collecte/ajouter-collecte.component';
 
 
 
@@ -60,7 +61,8 @@ const firebaseConfig = {
     ModifierAssociationComponent,
     CollecteDetailsComponent,
     CompteAssociationComponent,
-    SinscrireComponent,    
+    SinscrireComponent,
+    AjouterCollecteComponent,    
   ],
   imports: [
     BrowserModule,

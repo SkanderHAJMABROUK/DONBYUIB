@@ -10,11 +10,11 @@
         <h4>Compte</h4>
         <li>
           <span class="material-symbols-outlined">person</span>
-          <a [routerLink]="['compteAssociation']">Mon compte</a>
+          <a (click)="service.compte=true">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
-            <a href="#">Se déconnecter</a>
+            <a (click)="logOut()">Se déconnecter</a>
           </li>
         
        
@@ -26,7 +26,7 @@
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a href="#">Ajouter une collecte </a>
+          <a (click)="service.ajouter=true">Ajouter une collecte </a>
         </li>
         <li>
           <span class="material-symbols-outlined">edit</span>

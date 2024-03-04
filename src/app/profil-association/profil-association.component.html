@@ -1,7 +1,8 @@
 <div class="container">
   <app-side-bar></app-side-bar>
 <div class="content">
-<router-outlet></router-outlet>
+<app-compte-association *ngIf="service.compte"></app-compte-association>
+<app-ajouter-collecte *ngIf="service.ajouter"></app-ajouter-collecte>
 </div>
 </div>
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Association } from 'src/app/association';
 import { AssociationService } from 'src/app/shared/associationService.service';
+import { DonateurService } from 'src/app/shared/donateur.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -43,5 +44,10 @@ export class SideBarComponent implements OnInit{
       }
     });
   }
+  
+  logOut(){
+    this.service.logOut();
+    
+   }
 
 }
