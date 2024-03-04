@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Router} from '@angular/router';
 import { AssociationService } from '../shared/associationService.service';
 import { Association } from '../association';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-head-bar',
   templateUrl: './head-bar.component.html',
   styleUrls: ['./head-bar.component.css']
 })
-export class HeadBarComponent {
+export class HeadBarComponent implements OnInit{
   isMenuOpen: boolean = false;
   faB = faBars;
   faX = faXmark;
- 
+
 
   constructor(private  router: Router,
      public service:AssociationService) {}
@@ -26,16 +27,16 @@ export class HeadBarComponent {
 
  
   association!:Association|undefined;
+  connexion=localStorage.getItem('connexion');
+  nomAssociation=localStorage.getItem('nomAssociation');
+
 ngOnInit()
 {
 
-  const connexion=localStorage.getItem('this.service.connexion');
-  const nomAssociation=localStorage.getItem(this.service.nomAssociation);
-
-  if(connexion!=null && nomAssociation!=null){
-  this.service.connexion=connexion==='true';
+  if(this.connexion && this.nomAssociation){
+  this.service.connexion=this.connexion==='true';
   console.log(this.service.connexion);
-  this.service.nomAssociation=nomAssociation;
+  this.service.nomAssociation=this.nomAssociation;
 }
 
 

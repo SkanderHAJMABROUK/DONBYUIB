@@ -14,17 +14,16 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root' 
 })
 export class AssociationService {
-  showErrorNotification: boolean=false;
 
+  showErrorNotification: boolean=false;
+  connexion: boolean = localStorage.getItem('connexion') === 'true';
+  nomAssociation: string = localStorage.getItem('nomAssociation') || '';
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router
-    , public cookie:CookieService) { }
+    , public cookie:CookieService){}
 
   showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
  
- 
-
-  
   
   getAssociations(): Observable<Association[]> {
     let associationCollection = collection(this.fs, 'Association');
@@ -63,13 +62,6 @@ export class AssociationService {
     );
   }
   
-  connexion: boolean = localStorage.getItem('this.connexion') === 'true';
-  nomAssociation: string = localStorage.getItem('this.nomAssociation') || '';
-
-
-
-
-
 
   addAssociation(associationData: Association) {
 
@@ -98,46 +90,35 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
 
 id!:string|undefined;
 
-logIn(email:string,password:string){
- 
-
-    this.getAssociationByEmailAndPassword(email,password).subscribe(
-      (association) => {
-        if (association) {
-          this.connexion=true;
-          this.nomAssociation=association.nom;
-          this.id=association?.id;
-          console.log(this.id);
-          localStorage.setItem(this.nomAssociation, association.nom);
-          console.log(this.nomAssociation)
-          localStorage.setItem('this.service.connexion','true');
-          this.route.navigate(['/login/profilAssociation',association.id]);
-          console.log(this.connexion)
-
-
-          this.cookie.set("Details utilisateurs" ,"Email : "+email+"Password : "+password,7);
-
-        } else {
-          this.showErrorNotification = true;
-          console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
-        }
-      },
-      (error) => {
-        console.error('Erreur lors de la recherche de l\'association:', error);
+logIn(email: string, password: string) {
+  this.getAssociationByEmailAndPassword(email, password).subscribe(
+    (association) => {
+      if (association) {
+        this.connexion = true;
+        this.nomAssociation = association.nom;
+        localStorage.setItem('connexion', 'true');
+        localStorage.setItem('nomAssociation', this.nomAssociation); // Set the association name in localStorage
+        this.route.navigate(['/login/profilAssociation', association.id]);
+        this.cookie.set("Details utilisateurs", "Email : " + email + "Password : " + password, 7);
+      } else {
+        this.showErrorNotification = true;
+        console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
       }
-    );
-
+    },
+    (error) => {
+      console.error('Erreur lors de la recherche de l\'association:', error);
+    }
+  );
 }
+
 
 
 logOut(){
   this.connexion=false;
-   localStorage.setItem('this.service.connexion','false');
-   localStorage.removeItem('this.nomAssociation');
+   localStorage.setItem('connexion','false');
+   localStorage.removeItem('nomAssociation');
    this.route.navigate(['/login']);
-   console.log(this.nomAssociation)
- 
-  
+   console.log(this.nomAssociation) 
  }
 
 
