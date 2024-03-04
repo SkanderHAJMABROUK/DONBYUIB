@@ -16,20 +16,19 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AssociationService} from './shared/associationService.service';
 import { AssociationDemandeComponent } from './association-demande/association-demande.component';
 import { AssociationListComponent } from './association-list/association-list.component';
-
 import { ProfilAssociationComponent } from './profil-association/profil-association.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { CategorieComponent } from './categorie/categorie.component';
-import { SideBarComponent } from './side-bar/side-bar.component';
+import { SideBarComponent } from './profil-association/side-bar/side-bar.component';
 import { CollecteListComponent } from './collecte-list/collecte-list.component';
 import { Firestore } from 'firebase/firestore';
 import { ModifierAssociationComponent } from './modifier-association/modifier-association.component';
 import { NgxSliderModule } from 'ngx-slider-v2';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { CollecteDetailsComponent } from './collecte-details/collecte-details.component';
-import { CompteAssociationComponent } from './compte-association/compte-association.component';
+import { CompteAssociationComponent } from './profil-association/compte-association/compte-association.component';
 import { SinscrireComponent } from './sinscrire/sinscrire.component';
 
 
@@ -93,9 +92,9 @@ const firebaseConfig = {
 
 
       {path:'login',component:LoginComponent},
-      { path: 'login/profilAssociation/:id', component: ProfilAssociationComponent },
+      {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
 
-
+      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent}
 
 
 
