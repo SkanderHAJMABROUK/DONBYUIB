@@ -19,7 +19,10 @@ export class AssociationDemandeComponent implements OnInit{
     floor: 0,
     ceil: 2000
   }
-
+  id!: string;
+  data: Association |undefined;
+  selectedAssociation!: Association |undefined; 
+  donationAmount: number = 0;
 
   
   faSquarePhone = faSquarePhone; 
@@ -32,8 +35,7 @@ export class AssociationDemandeComponent implements OnInit{
        this.getAssociationById(this.id); 
      });
    }
-   id!: string;
-  data: Association |undefined;
+   
 
    
    getAssociationById(id: string){
@@ -55,9 +57,7 @@ export class AssociationDemandeComponent implements OnInit{
   }
   
 
- selectedAssociation!: Association |undefined; 
 
- donationAmount: number = 0;
 
 
 // Method to update donation amount from button click
