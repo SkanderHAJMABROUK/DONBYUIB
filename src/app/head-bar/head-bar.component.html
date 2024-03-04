@@ -12,7 +12,7 @@
     
         </ul>
 
-        <a href="" class="action_btn" *ngIf="!service.connexion" >S'inscrire</a>
+        <a [routerLink]="['Sinscrire']" class="action_btn" *ngIf="!service.connexion" >S'inscrire</a>
 
 
         <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!service.connexion" >Inscrire mon association</a>
@@ -36,7 +36,7 @@
             <li><a [routerLink]="['listeAssociations']">Associations</a></li>
             <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
             <li><a href="">FAQ</a></li>
-            <li><a href="" class="action_btn"   *ngIf="!service.connexion"  >S'inscrire</a></li>
+            <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!service.connexion"  >S'inscrire</a></li>
             <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!service.connexion"  >Inscrire mon association</a></li>
             <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!service.connexion"  >Se connecter</a></li>
             <li><a [routerLink]="['login/profilAssociation',service.id]" class="action_btn"  *ngIf="service.connexion" > 

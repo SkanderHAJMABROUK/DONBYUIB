@@ -29,6 +29,8 @@ import { ModifierAssociationComponent } from './modifier-association/modifier-as
 import { NgxSliderModule } from 'ngx-slider-v2';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { CollecteDetailsComponent } from './collecte-details/collecte-details.component';
+import { CompteAssociationComponent } from './compte-association/compte-association.component';
+import { SinscrireComponent } from './sinscrire/sinscrire.component';
 
 
 
@@ -57,7 +59,9 @@ const firebaseConfig = {
     SideBarComponent,
     CollecteListComponent,
     ModifierAssociationComponent,
-    CollecteDetailsComponent,    
+    CollecteDetailsComponent,
+    CompteAssociationComponent,
+    SinscrireComponent,    
   ],
   imports: [
     BrowserModule,
@@ -78,6 +82,8 @@ const firebaseConfig = {
 
       
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
+      {path:'Sinscrire',component:SinscrireComponent},
+
 
       {path:'listeAssociations',component:AssociationListComponent},
       { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
@@ -88,6 +94,8 @@ const firebaseConfig = {
 
       {path:'login',component:LoginComponent},
       { path: 'login/profilAssociation/:id', component: ProfilAssociationComponent },
+
+
 
 
 
