@@ -31,6 +31,7 @@ import { CollecteDetailsComponent } from './collecte-details/collecte-details.co
 import { CompteAssociationComponent } from './profil-association/compte-association/compte-association.component';
 import { SinscrireComponent } from './sinscrire/sinscrire.component';
 import { AjouterCollecteComponent } from './ajouter-collecte/ajouter-collecte.component';
+import { ModifierCollecteComponent } from './modifier-collecte/modifier-collecte.component';
 
 
 
@@ -62,7 +63,8 @@ const firebaseConfig = {
     CollecteDetailsComponent,
     CompteAssociationComponent,
     SinscrireComponent,
-    AjouterCollecteComponent,    
+    AjouterCollecteComponent,
+    ModifierCollecteComponent,    
   ],
   imports: [
     BrowserModule,
@@ -90,7 +92,7 @@ const firebaseConfig = {
       { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
 
       {path:'listeCollectes',component:CollecteListComponent},
-      { path: 'listeCollectes/details/:id', component: AssociationDemandeComponent },
+      { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
 
 
       {path:'login',component:LoginComponent},

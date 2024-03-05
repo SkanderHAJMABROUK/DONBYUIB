@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CollecteService } from '../shared/collecte.service';
+import { AssociationService } from '../shared/associationService.service';
 @Component({
   selector: 'app-ajouter-collecte',
   templateUrl: './ajouter-collecte.component.html',
@@ -43,6 +44,9 @@ export class AjouterCollecteComponent {
   }
   
  
+
+
+
 
   async onSubmit(): Promise<void>{
     console.log("Fonction onSubmit() appelée");

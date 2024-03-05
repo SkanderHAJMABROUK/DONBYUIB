@@ -10,7 +10,7 @@
         <h4>Compte</h4>
         <li>
           <span class="material-symbols-outlined">person</span>
-          <a (click)="service.compte=true">Mon compte</a>
+          <a (click)="serviceAssociation.compte=true">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -22,11 +22,11 @@
         <h4>Gestion des collectes</h4>
         <li>
           <span class="material-symbols-outlined">list</span>
-          <a href="#">Afficher mes collectes</a>
+          <a (click)="getCollectesByAssociationId()">Afficher mes collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a (click)="service.ajouter=true">Ajouter une collecte </a>
+          <a (click)="serviceAssociation.ajouter=true">Ajouter une collecte </a>
         </li>
         <li>
           <span class="material-symbols-outlined">edit</span>
@@ -41,7 +41,7 @@
         <h4>Gestion des actualités</h4>
         <li>
           <span class="material-symbols-outlined">list</span>
-          <a href="#">Afficher mes actualités</a>
+          <a >Afficher mes actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>

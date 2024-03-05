@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Association } from 'src/app/association';
+import { Collecte } from 'src/app/collecte';
 import { AssociationService } from 'src/app/shared/associationService.service';
+import { CollecteService } from 'src/app/shared/collecte.service';
 import { DonateurService } from 'src/app/shared/donateur.service';
 
 @Component({
@@ -12,7 +14,7 @@ import { DonateurService } from 'src/app/shared/donateur.service';
 export class SideBarComponent implements OnInit{
 
 
-  constructor(public service:AssociationService,public route:ActivatedRoute){}
+  constructor(public serviceAssociation:AssociationService,public serviceCollecte:CollecteService,public route:ActivatedRoute){}
 
   id!: string;
   data: Association |undefined;
@@ -28,13 +30,13 @@ export class SideBarComponent implements OnInit{
    }
    
    getAssociationById(id: string){
-    this.service.getAssociationById(id).subscribe({
+    this.serviceAssociation.getAssociationById(id).subscribe({
       next: (data: Association | undefined) => {
         if (data !== undefined) {
           this.selectedAssociation = data; 
           localStorage.setItem('service.showDetails', 'true');
           console.log(data);
-          console.log(this.service.showDetails)
+          console.log(this.serviceAssociation.showDetails)
         } else {
           console.error('Erreur: Aucune donnée n\'a été renvoyée.');
         }
@@ -46,8 +48,21 @@ export class SideBarComponent implements OnInit{
   }
   
   logOut(){
-    this.service.logOut();
+    this.serviceAssociation.logOut();
     
    }
+
+
+
+   collectes:Collecte[]=[];
+   
+getCollectesByAssociationId(){
+  const associationId=this.serviceCollecte.getAssociationIdFromUrl();
+  this.serviceCollecte.getCollectesByAssociationId(associationId).subscribe((res)=>{
+    this.collectes=res;
+    console.log(this.collectes)
+  })
+}
+
 
 }

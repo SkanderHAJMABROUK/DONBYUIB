@@ -8,6 +8,7 @@ import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collectio
 import { Collecte } from '../collecte';
 import { Observable, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AssociationService } from './associationService.service';
 
 
 
@@ -45,7 +46,11 @@ export class CollecteService {
   );
  }
 
-
+ getCollectesByAssociationId(associationId: string): Observable<Collecte[]> {
+  return this.getCollectes().pipe(
+    map(collectes => collectes.filter(collecte => collecte.id_association === associationId))
+  );
+}
 
  getCollecteById(id: string): Observable<Collecte | undefined> {
   return this.getCollectes().pipe(
@@ -80,8 +85,25 @@ async uploadLogo(file: File): Promise<string | null> {
 
 
 
+getAssociationIdFromUrl():string{
+  const urlParts = window.location.href.split('/');
+  console.log(urlParts[urlParts.length - 1])
+  return urlParts[urlParts.length - 1];
+}
+
+
+
+modifierCollecte(id: string, collecteDataToUpdate: Partial<Collecte>): Promise<void> {
+  const collecteRef = this.firestore.collection('Collecte').doc(id);
+  return collecteRef.update(collecteDataToUpdate);
+}
+
+
+
 ajouterCollecte(collecteData: Collecte) {
 
+  const associationId=this.getAssociationIdFromUrl();
+    
   const dataToAdd: Collecte = {
       nom: collecteData.nom,
       description: collecteData.description,
@@ -89,6 +111,7 @@ ajouterCollecte(collecteData: Collecte) {
       montant: collecteData.montant,
       date_debut: collecteData.date_debut,
       date_fin: collecteData.date_fin,
+      id_association:associationId,
       
   };
   return addDoc(collection(this.fs, 'Collecte'), dataToAdd);
