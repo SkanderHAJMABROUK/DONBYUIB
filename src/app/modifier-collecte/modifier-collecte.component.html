@@ -1,75 +1,35 @@
+<div class="dialog">
 
-
-<div class="container">
-    <form [formGroup]="aFormGroup" class="form-container">
-      <h2>Modifier une collecte</h2>
-      <hr>
-      <div>
-        <label for="nom">Nom de la collecte</label>
-        <input type="text" id="nom" formControlName="nom" placeholder="Nom complet de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('nom')?.invalid && (aFormGroup.get('nom')?.dirty || aFormGroup.get('nom')?.touched)">
-          <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">Le nom de la collecte est requis.</div>
-        </div>
-      </div>
-
-      <div>
-        <label for="description">Description de la collecte</label><br>
-        <textarea id="description" formControlName="description" placeholder="Description de la collecte" class="description" required></textarea>
-        <div class="error-message" *ngIf="aFormGroup.get('description')?.invalid && (aFormGroup.get('description')?.dirty || aFormGroup.get('description')?.touched)">
-          <div *ngIf="aFormGroup.get('description')?.errors?.['required']">La description de l'association est requise.</div>
-        </div>
-      </div>
-
-     
-      <div>
-        <label for="image">Photo de couverture de la collecte</label><br>
-        <input type="file" id="image" formControlName="image" (change)="onLogoFileSelected($event)" required>
-        <div class="error-message" *ngIf="aFormGroup.get('image')?.invalid && (aFormGroup.get('image')?.dirty || aFormGroup.get('image')?.touched)">
-          <div *ngIf="aFormGroup.get('image')?.errors?.['required']">La photo de couverture de la collecte est requise.</div>
-          <div *ngIf="aFormGroup.get('image')?.errors?.['invalidLogoFormat']">Le format de la photo doit être jpg, jpeg, png ou svg.</div>
-        </div>
-      </div>       
-
-      
-      <div>
-        <label for="montant">Le montant estimé de la collecte</label>
-        <input type="text" id="montant" formControlName="montant" placeholder="montant estimé de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('montant')?.invalid && (aFormGroup.get('montant')?.dirty || aFormGroup.get('montant')?.touched)">
-          <div *ngIf="aFormGroup.get('montant')?.errors?.['required']">Le montant estimé de la collecte est requis.</div>
-        </div>
-      </div>
-
-
-      <div>
-        <label for="date_debut">Date du début de la collecte </label>
-        <input type="date" id="date_debut" formControlName="date_debut" placeholder="Date du début de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('date_debut')?.invalid && (aFormGroup.get('date_debut')?.dirty || aFormGroup.get('date_debut')?.touched)">
-          <div *ngIf="aFormGroup.get('date_debut')?.errors?.['required']">La date du début de la collecte est requise.</div>
-        </div>
-      </div>
-
-
-      <div>
-        <label for="date_fin">Date de fin de la collecte </label>
-        <input type="date" id="date_fin" formControlName="date_fin" placeholder="Date de fin de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('date_fin')?.invalid && (aFormGroup.get('date_fin')?.dirty || aFormGroup.get('date_fin')?.touched)">
-          <div *ngIf="aFormGroup.get('date_fin')?.errors?.['required']">La date de fin de la collecte est requise.</div>
-        </div>
-      </div>
-
-      
-     
-      
-      <div *ngIf="showErrorNotification" class="error-notification">
-        Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
-      </div>
-      <div *ngIf="showSuccessMessage" class="success-message">
-        Modification faite avec succès ! 
-       
-      </div>
-      
-  
-      <button type="submit" class="btn_modifier" (click)="onSubmit()">Modifier</button>
-    </form>
+  <div class="header">
+      <h3>Modifier la collecte</h3>
+      <button class="btn btn-close" (click)="service.collecteModifierShowModal=false"></button>
   </div>
+<hr>
+<div>
+  <form [formGroup]="collecteForm" (ngSubmit)="modifierCollecte()">
+
+    <label for="nom">Nom</label>
+    <input type="text" formControlName="nom"><br>
+    
+    <label for="desc">Description</label>
+    <textarea formControlName="description"></textarea><br>
   
+    <label for="image">Image</label>
+    <input type="file" formControlName="image"><br>
+    <img *ngIf="collecte.image" [src]="collecte.image" alt="Image actuelle">
+
+  
+    <label for="montant">Montant</label>
+    <input type="number" formControlName="montant"><br>
+    
+    <label for="dateDebut">Date de début</label>
+    <input type="date" formControlName="date_debut"><br>
+  
+    <label for="dateFin">Date de fin</label>
+    <input type="date" formControlName="date_fin"><br>
+  
+    <button type="submit" class="btn btn-dark" [ngStyle]="{'width':'300px'}">Modifier</button>
+  </form>
+  
+</div>
+</div>

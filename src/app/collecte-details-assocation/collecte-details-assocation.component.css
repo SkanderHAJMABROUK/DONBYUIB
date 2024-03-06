@@ -1,7 +1,6 @@
 .dialog{
-    max-height: 80vh; 
-    overflow-y: auto; 
-    width: 500px;
+    height: fit-content;    
+    width: 300px;
     background-color: lightgrey;
     box-shadow: 10px 5px 10px rgba(131, 7, 7, 0.538);
     border-radius: 5px;
@@ -16,8 +15,9 @@ h3{
     
 }
 
+
 :host{
-    display: block;
+    /* display: block; */
     position: fixed;
     left:0px;
     right: 0px;
@@ -26,32 +26,14 @@ h3{
     display: flex;
     justify-content: center;
 }
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 img{
     display: flex;
     width: 50%;
     height: 50%;
 }
-
-   
-.header{
-    display: flex;
-    justify-content: space-between;
-}
-
-label{
-    color: rgb(6, 70, 32);
-    font-weight: bold;
-    width: 100px;
-    display: inline-block;
-    
-}
-input, textarea{
-    background: none;
-    border: 2px solid rgb(6, 70, 32);
-    padding: 5px;
-    border-radius: 5px;
-    width: 300px;
-    padding:5px;
-    margin: 5px
-}
-textarea{height: 100px;}

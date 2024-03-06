@@ -3,14 +3,14 @@
   <body>
     <div class="sidebar">
       <div class="logo">
-        <img src="{{selectedAssociation?.logo}}" alt="logo">
+        <img src="{{selectedAssociation?.logo}}" alt="logo"  (click)="serviceAssociation.compte=true;serviceAssociation.modifierCollecte=false;serviceAssociation.ajouterCollecte=false">
        
       </div>
       <ul class="links">
         <h4>Compte</h4>
         <li>
           <span class="material-symbols-outlined">person</span>
-          <a (click)="serviceAssociation.compte=true">Mon compte</a>
+          <a (click)="serviceAssociation.compte=true;serviceAssociation.modifierCollecte=false;serviceAssociation.ajouterCollecte=false">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -22,20 +22,13 @@
         <h4>Gestion des collectes</h4>
         <li>
           <span class="material-symbols-outlined">list</span>
-          <a (click)="getCollectesByAssociationId()">Afficher mes collectes</a>
+          <a (click)="serviceAssociation.modifierCollecte=true;serviceAssociation.compte=false;serviceAssociation.ajouterCollecte=false">Afficher mes collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a (click)="serviceAssociation.ajouter=true">Ajouter une collecte </a>
+          <a (click)="serviceAssociation.ajouterCollecte=true;serviceAssociation.compte=false;serviceAssociation.modifierCollecte=false">Ajouter une collecte </a>
         </li>
-        <li>
-          <span class="material-symbols-outlined">edit</span>
-          <a href="#">Modifier une collecte </a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">delete</span>
-          <a href="#">Supprimer une collecte</a>
-        </li>
+        
         
         <hr>
         <h4>Gestion des actualités</h4>
@@ -47,14 +40,7 @@
           <span class="material-symbols-outlined">add</span>
           <a href="#">Ajouter une actualité</a>
         </li>
-        <li>
-          <span class="material-symbols-outlined">edit</span>
-          <a href="#">Modifier une actualité </a>
-        </li>
-        <li>
-            <span class="material-symbols-outlined">delete</span>
-            <a href="#">Supprimer une actualité </a>
-          </li>
+        
         
       </ul>
     </div>

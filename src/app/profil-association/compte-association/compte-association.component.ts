@@ -16,7 +16,9 @@ export class CompteAssociationComponent {
   id!: string;
   data: Association |undefined;
   
+  
   selectedAssociation!: Association |undefined; 
+  
   
   modifier:boolean=false;
   
@@ -28,7 +30,7 @@ export class CompteAssociationComponent {
        this.getAssociationById(this.id); 
      });
   
-    
+   
    }
    getAssociationById(id: string){
     this.service.getAssociationById(id).subscribe(

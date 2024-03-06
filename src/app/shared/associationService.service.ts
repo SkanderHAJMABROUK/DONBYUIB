@@ -15,8 +15,10 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AssociationService {
 
-  compte: boolean = localStorage.getItem('compte') === 'true';
-  ajouter:boolean=false;
+  compte: boolean = false;
+  ajouterCollecte:boolean=false;
+  modifierCollecte:boolean=false;
+
 
   showErrorNotification: boolean=false;
   connexion: boolean = localStorage.getItem('connexion') === 'true';

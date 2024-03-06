@@ -54,15 +54,7 @@ export class SideBarComponent implements OnInit{
 
 
 
-   collectes:Collecte[]=[];
-   
-getCollectesByAssociationId(){
-  const associationId=this.serviceCollecte.getAssociationIdFromUrl();
-  this.serviceCollecte.getCollectesByAssociationId(associationId).subscribe((res)=>{
-    this.collectes=res;
-    console.log(this.collectes)
-  })
-}
+  
 
 
 }

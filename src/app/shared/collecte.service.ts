@@ -23,6 +23,8 @@ export class CollecteService {
  collectes: Collecte[]=[]
  showErrorNotification: boolean=false;
 
+ collecteDetailShowModal:boolean=false;
+ collecteModifierShowModal:boolean=false;
 
  showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
 
@@ -74,6 +76,7 @@ async uploadLogo(file: File): Promise<string | null> {
 
     // Get the download URL
     const downloadUrl = await fileRef.getDownloadURL().toPromise();
+    console.log('Image Uploaded')
 
     return downloadUrl;
   } catch (error) {
@@ -93,11 +96,16 @@ getAssociationIdFromUrl():string{
 
 
 
-modifierCollecte(id: string, collecteDataToUpdate: Partial<Collecte>): Promise<void> {
-  const collecteRef = this.firestore.collection('Collecte').doc(id);
+// modifierCollecte(id: string, collecteDataToUpdate: Partial<Collecte>): Promise<void> {
+//   const collecteRef = this.firestore.collection('Collecte').doc(id);
+//   return collecteRef.update(collecteDataToUpdate);
+// }
+
+modifierCollecte(collecte: Collecte): Promise<void> {
+  let collecteRef = this.firestore.collection('Collecte').doc(collecte.id); 
+  let collecteDataToUpdate = { ...collecte }; 
   return collecteRef.update(collecteDataToUpdate);
 }
-
 
 
 ajouterCollecte(collecteData: Collecte) {
