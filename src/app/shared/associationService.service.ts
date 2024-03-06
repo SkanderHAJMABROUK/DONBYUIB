@@ -19,6 +19,8 @@ export class AssociationService {
   compte: boolean = false;
   ajouterCollecte:boolean=false;
   modifierCollecte:boolean=false;
+  modifierAss:boolean=false;
+
 
 
   showErrorNotification: boolean=false;

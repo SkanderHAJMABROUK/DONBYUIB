@@ -20,7 +20,6 @@ export class CompteAssociationComponent {
   selectedAssociation!: Association |undefined; 
   
   
-  modifier:boolean=false;
   
    ngOnInit(): void {
     this.route.params.subscribe(params => {
