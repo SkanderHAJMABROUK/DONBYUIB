@@ -104,9 +104,7 @@ const firebaseConfig = {
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
 
-      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent}
-
-
+      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
 
 
     ])

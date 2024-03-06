@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 
 import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
@@ -25,7 +25,7 @@ export class AssociationService {
   nomAssociation: string = localStorage.getItem('nomAssociation') || '';
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router
-    , public cookie:CookieService){}
+    , public cookie:CookieService, public fireAuth:AngularFireAuth){}
 
   showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
  
@@ -57,17 +57,12 @@ export class AssociationService {
     );
   }
 
-
-
-
-
   getAssociationByEmailAndPassword(email: string, password: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map(associations => associations.find(association => association.email === email && association.mdp === password))
     );
   }
   
-
   addAssociation(associationData: Association) {
 
     const dataToAdd: Association = {
@@ -168,5 +163,5 @@ logOut(){
     }
   }
 
-
+  
 }
