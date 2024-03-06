@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
+import { Association } from '../association';
+import emailjs from '@emailjs/browser'
 
 @Component({
   selector: 'app-inscrire-association',
@@ -72,8 +74,10 @@ export class InscrireAssociationComponent implements OnInit {
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
 
-      console.log("Formulaire valide, reCAPTCHA validé !");
+      this.sendVerificationEmail();
 
+      console.log("Formulaire valide, reCAPTCHA validé !");
+      
       // Upload logo file
       const logoFile = this.aFormGroup.value.logo;
       const logoDownloadUrl = await this.service.uploadLogo(logoFile);
@@ -191,4 +195,27 @@ export class InscrireAssociationComponent implements OnInit {
     }
     return null;
   }
+
+  genererCodeOTP(): number {
+    let codeOTP: string = '';
+    for (let i = 0; i < 6; i++) {
+        codeOTP += Math.floor(Math.random() * 10).toString(); // Génère un chiffre aléatoire entre 0 et 9 inclus
+    }
+    return parseInt(codeOTP);
+}
+
+  // Code de la partie mailing de vérification
+  async sendVerificationEmail(){
+    const codeOtp : string = this.genererCodeOTP().toString();
+    emailjs.init('_Y9fCqzL5ZcxWYmmg');
+    emailjs.send('service_hc9gqua','template_c1bhstr',{
+      from_name: "DonByUIB",
+      to_name: this.aFormGroup.value.nom,
+      code_otp: codeOtp,
+      to_email:this.aFormGroup.value.email
+    });
+    alert('Jek mail!');
+    this.aFormGroup.reset;
+  }
+
 }

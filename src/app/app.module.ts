@@ -32,7 +32,7 @@ import { CompteAssociationComponent } from './profil-association/compte-associat
 import { SinscrireComponent } from './sinscrire/sinscrire.component';
 import { AjouterCollecteComponent } from './ajouter-collecte/ajouter-collecte.component';
 import { ModifierCollecteComponent } from './modifier-collecte/modifier-collecte.component';
-
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 
 const firebaseConfig = {
@@ -64,8 +64,8 @@ const firebaseConfig = {
     CompteAssociationComponent,
     SinscrireComponent,
     AjouterCollecteComponent,
-    ModifierCollecteComponent,    
-  ],
+    ModifierCollecteComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -78,6 +78,7 @@ const firebaseConfig = {
     NgxSliderModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
+    AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
 
@@ -98,9 +99,7 @@ const firebaseConfig = {
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
 
-      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent}
-
-
+      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
 
 
     ])
