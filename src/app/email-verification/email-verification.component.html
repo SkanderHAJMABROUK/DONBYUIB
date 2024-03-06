@@ -1,0 +1,7 @@
+<div class="container">
+    <form [formGroup]="verificationForm" class="form-container">
+        <label>Entrer le code reçu par email ici :</label>
+        <input type="text" value="code" formControlName="codeOTP">
+        <button type="submit" class="btn_inscrire" (click)="checkEmail()">Continuer</button>
+    </form>
+</div>

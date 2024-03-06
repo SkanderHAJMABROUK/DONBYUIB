@@ -106,8 +106,9 @@ export class InscrireAssociationComponent implements OnInit {
           console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
           this.aFormGroup.reset();
-          // this.router.navigate(['/demande-association']);
           this.showSuccessMessage = true;
+          this.router.navigate(['/inscrireAssociation/email']);
+
 
         })
         .catch(error => {
@@ -196,17 +197,12 @@ export class InscrireAssociationComponent implements OnInit {
     return null;
   }
 
-  genererCodeOTP(): number {
-    let codeOTP: string = '';
-    for (let i = 0; i < 6; i++) {
-        codeOTP += Math.floor(Math.random() * 10).toString(); // Génère un chiffre aléatoire entre 0 et 9 inclus
-    }
-    return parseInt(codeOTP);
-}
-
   // Code de la partie mailing de vérification
   async sendVerificationEmail(){
-    const codeOtp : string = this.genererCodeOTP().toString();
+    
+    let codeOtp : string = this.service.genererCodeOTP().toString();
+    localStorage.setItem('code',codeOtp);
+
     emailjs.init('_Y9fCqzL5ZcxWYmmg');
     emailjs.send('service_hc9gqua','template_c1bhstr',{
       from_name: "DonByUIB",

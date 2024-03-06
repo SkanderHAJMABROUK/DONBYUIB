@@ -34,6 +34,7 @@ import { AjouterCollecteComponent } from './ajouter-collecte/ajouter-collecte.co
 import { ModifierCollecteComponent } from './modifier-collecte/modifier-collecte.component';
 import { CollecteListAssociationComponent } from './collecte-list-association/collecte-list-association.component';
 import { CollecteDetailsAssocationComponent } from './collecte-details-assocation/collecte-details-assocation.component';
+import { EmailVerificationComponent } from './email-verification/email-verification.component';
 
 
 
@@ -69,7 +70,8 @@ const firebaseConfig = {
     AjouterCollecteComponent,
     ModifierCollecteComponent,
     CollecteListAssociationComponent,
-    CollecteDetailsAssocationComponent,    
+    CollecteDetailsAssocationComponent,
+    EmailVerificationComponent,    
   ],
   imports: [
     BrowserModule,
@@ -90,6 +92,10 @@ const firebaseConfig = {
 
       
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
+      {path:'inscrireAssociation/email',component:EmailVerificationComponent},
+
+
+
       {path:'Sinscrire',component:SinscrireComponent},
 
 
@@ -105,6 +111,8 @@ const firebaseConfig = {
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
 
       {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
+
+      
 
 
     ])

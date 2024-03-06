@@ -10,6 +10,7 @@ import { Observable, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { CookieService } from 'ngx-cookie-service';
 
+
 @Injectable({
   providedIn: 'root' 
 })
@@ -62,6 +63,15 @@ export class AssociationService {
       map(associations => associations.find(association => association.email === email && association.mdp === password))
     );
   }
+
+  
+  genererCodeOTP(): number {
+    let codeOTP: string = '';
+    for (let i = 0; i < 6; i++) {
+        codeOTP += Math.floor(Math.random() * 10).toString(); // Génère un chiffre aléatoire entre 0 et 9 inclus
+    }
+    return parseInt(codeOTP);
+}
   
   addAssociation(associationData: Association) {
 
