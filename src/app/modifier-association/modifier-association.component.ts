@@ -63,6 +63,7 @@ export class ModifierAssociationComponent {
         .then(() => {
           console.log('Données de l\'association modifiées avec succès dans Firebase Firestore.');
                     this.showSuccessMessage = true;
+                    window.location.reload();
 
         })
         .catch(error => {

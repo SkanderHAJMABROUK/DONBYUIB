@@ -5,7 +5,6 @@
     <p>Description: {{ selectedAssociation.description }}</p>
     <p>Email: {{ selectedAssociation.email }}</p>
     <p>Téléphone: {{ selectedAssociation.telephone }}</p> 
-    <button (click)="modifier=true">Modifier</button> 
+    <button (click)="service.modifierAss=true;service.compte=false">Modifier</button> 
    
-    <app-modifier-association *ngIf="modifier" ></app-modifier-association>
   </div>

@@ -107,6 +107,7 @@ const firebaseConfig = {
       {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
 
 
+
     ])
   ],
   providers: [AssociationService,AngularFirestore,AngularFireModule],
