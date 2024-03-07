@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AssociationService } from '../shared/associationService.service';
 import { Router } from '@angular/router';
+import Swal from  'sweetalert2' ;
+import { Association } from '../association';
 
 @Component({
   selector: 'app-email-verification',
@@ -13,6 +15,8 @@ export class EmailVerificationComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router) {}
 
   protected verificationForm!: FormGroup;
+  verified: boolean = false;
+  remainingAttempts: number = 3;
 
   ngOnInit(): void {
     this.verificationForm = this.formBuilder.group({
@@ -29,12 +33,43 @@ export class EmailVerificationComponent implements OnInit {
     if (enteredCode === storedCode) {
       // Code matches, proceed with whatever action you need
       console.log('Code matched!');
-      // Redirect to another page or perform any desired action
-      this.router.navigate(['/']); // Change '/some-page' to your desired route
+      this.verified = true;
+
+      Swal.fire({
+        icon: "success",
+        title: "Votre demande d'habilitation est en cours de validation. Un email vous sera envoyé dès l'approbation de la demande!",
+        showConfirmButton: false,
+        timer: 10000
+      });
+
+      const associationData = JSON.parse(localStorage.getItem('associationData') || '{}');
+      this.service.addAssociation(associationData)
+        .then(() => {
+          console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
+          // Réinitialiser le formulaire après l'ajout des données
+          this.router.navigate(['/login']); // Rediriger vers la page de réussite
+        })
+        .catch(error => {
+          console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
+        });
+      
     } else {
       // Code does not match, handle this case accordingly
       console.log('Code did not match!');
-      // You may want to display an error message or take some other action here
+      this.remainingAttempts--;
+
+      if (this.remainingAttempts === 0) {
+        Swal.fire({
+          icon: "error",
+          title: "La vérification de votre adresse email est échoué! Veuillez saisir une adresse email valide.",
+          showConfirmButton: false,
+          timer: 3000
+        });
+        // Limite de tentatives atteinte, rediriger vers la page précédente
+        this.router.navigate(['/inscrireAssociation']);
+      }
     }
   }
+
+  
 }

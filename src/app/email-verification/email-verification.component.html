@@ -1,7 +1,9 @@
-<div class="container">
-    <form [formGroup]="verificationForm" class="form-container">
-        <label>Entrer le code reçu par email ici :</label>
-        <input type="text" value="code" formControlName="codeOTP">
-        <button type="submit" class="btn_inscrire" (click)="checkEmail()">Continuer</button>
-    </form>
+<div class="modal-overlay">
+    <div class="modal-container">
+        <form [formGroup]="verificationForm" class="form-container">
+            <label>Entrer le code reçu par email ici :</label>
+            <input type="text" value="code" formControlName="codeOTP" class="verification-input">
+            <button type="submit" class="btn_inscrire" (click)="checkEmail()">Continuer</button>
+        </form>
+    </div>
 </div>

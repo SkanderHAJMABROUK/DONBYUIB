@@ -23,6 +23,7 @@
     "@fortawesome/angular-fontawesome": "^0.14.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@sweetalert2/theme-bulma": "^5.0.16",
     "angularfire2": "^5.4.2",
     "bootstrap": "^5.3.3",
     "firebase": "^10.8.0",
@@ -32,6 +33,7 @@
     "ngx-cookie-service": "^17.1.0",
     "ngx-slider-v2": "^17.0.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.10.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
