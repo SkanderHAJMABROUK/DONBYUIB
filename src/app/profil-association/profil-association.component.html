@@ -2,9 +2,19 @@
   <app-side-bar></app-side-bar>
 <div class="content">
 <app-compte-association *ngIf="service.compte"></app-compte-association>
-<app-ajouter-collecte *ngIf="service.ajouterCollecte"></app-ajouter-collecte>
-<app-collecte-list-association *ngIf="service.modifierCollecte"></app-collecte-list-association>
 <app-modifier-association *ngIf="service.modifierAss" ></app-modifier-association>
+
+
+<app-ajouter-collecte *ngIf="service.ajouterCollecte"></app-ajouter-collecte>
+<app-collecte-list-association *ngIf="service.afficherCollecte"></app-collecte-list-association>
+
+
+
+<app-actualite-list-association *ngIf="service.afficherActualite"></app-actualite-list-association>
+<app-ajouter-actualite *ngIf="service.ajouterActualite"></app-ajouter-actualite>
+
+
+
 </div>
 </div>
 

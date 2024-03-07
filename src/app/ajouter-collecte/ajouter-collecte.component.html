@@ -16,7 +16,7 @@
         <label for="description">Description de la collecte<span> *</span></label><br>
         <textarea id="description" formControlName="description" placeholder="Description de la collecte" class="description" required></textarea>
         <div class="error-message" *ngIf="aFormGroup.get('description')?.invalid && (aFormGroup.get('description')?.dirty || aFormGroup.get('description')?.touched)">
-          <div *ngIf="aFormGroup.get('description')?.errors?.['required']">La description de l'association est requise.</div>
+          <div *ngIf="aFormGroup.get('description')?.errors?.['required']">La description de la collecte est requise.</div>
         </div>
       </div>
 
