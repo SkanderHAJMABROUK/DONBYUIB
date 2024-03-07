@@ -35,6 +35,9 @@ import { ModifierCollecteComponent } from './modifier-collecte/modifier-collecte
 import { CollecteListAssociationComponent } from './collecte-list-association/collecte-list-association.component';
 import { CollecteDetailsAssocationComponent } from './collecte-details-assocation/collecte-details-assocation.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { ActualiteListComponent } from './actualite-list/actualite-list.component';
+import { ActualiteListAssociationComponent } from './actualite-list-association/actualite-list-association.component';
+import { AjouterActualiteComponent } from './ajouter-actualite/ajouter-actualite.component';
 
 
 
@@ -71,7 +74,10 @@ const firebaseConfig = {
     ModifierCollecteComponent,
     CollecteListAssociationComponent,
     CollecteDetailsAssocationComponent,
-    EmailVerificationComponent,    
+    EmailVerificationComponent,
+    ActualiteListComponent,
+    ActualiteListAssociationComponent,
+    AjouterActualiteComponent,    
   ],
   imports: [
     BrowserModule,
@@ -104,6 +110,8 @@ const firebaseConfig = {
 
       {path:'listeCollectes',component:CollecteListComponent},
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
+
+      {path:'listeActualites',component:ActualiteListComponent},
 
 
 

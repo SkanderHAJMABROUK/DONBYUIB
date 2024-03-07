@@ -16,9 +16,15 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AssociationService {
 
-  compte: boolean = false;
+  compte: boolean = true;
+
   ajouterCollecte:boolean=false;
-  modifierCollecte:boolean=false;
+  ajouterActualite:boolean=false;
+
+
+  afficherCollecte:boolean=false;
+  afficherActualite:boolean=false;
+
   modifierAss:boolean=false;
 
 

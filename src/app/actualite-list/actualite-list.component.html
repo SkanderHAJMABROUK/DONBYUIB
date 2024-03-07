@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="box-container">
+      <div class="box" *ngFor="let actualite of actualites">
+        <img [src]="actualite.image" alt="Oups!">
+        <h3>{{ actualite.titre }}</h3>
+        <p class="description">{{ actualite.description }}</p>
+        <p>Date de publication : {{ actualite.date_publication | date }}</p>
+        <a  class="btn" [routerLink]="['details', actualite.id]"
+                (click)="toggleShowDetails()"
+               >
+              
+          </a> 
+      </div>
+    </div>
+  </div>
+  
