@@ -68,10 +68,16 @@ export class CollecteListAssociationComponent implements OnInit{
 
 }
 chercherCollecte(searchTerm: string) {
-  // Filter the todoList based on the searchTerm
   this.filteredCollecteList = this.collectes.filter((collecte) =>
     collecte.nom.toLowerCase().includes(searchTerm.toLowerCase())
   );
 }
+
+supprimerCollecte(collecte: Collecte) {
+  this.service.supprimerCollecte(collecte).subscribe((response) => {
+     this.collectes = response;
+     this.filteredCollecteList = this.collectes; 
+   });
+ }
 
 }

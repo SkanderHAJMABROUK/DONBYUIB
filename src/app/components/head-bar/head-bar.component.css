@@ -48,27 +48,27 @@ a:hover{
     display: flex;
     gap: 4rem;
 }
-.action_btn{
-    background-color: black;
-    color:white;
+
+.action_btn {
+    color: black;
     padding: 0.5rem 1rem;
     border: none;
     outline: none;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
 }
 .action_btn:hover{
-    scale: 1.01;
-    color:rgba(255, 255, 255, 0.461);
-    text-decoration: none;
+   
+    background-color: rgba(0, 0, 0, 0.1);
+
 }
 .action_btn:active{
     scale:0.95;
+  
 }
 
-/* Dropdown menu */
 .dropdown_menu{
     display: none;
     position: absolute;
@@ -84,7 +84,7 @@ a:hover{
     z-index: 1000;
 }
 .dropdown_menu.open{
-    height: 38%;
+    height: 50%;
 }
 
 .dropdown_menu li{

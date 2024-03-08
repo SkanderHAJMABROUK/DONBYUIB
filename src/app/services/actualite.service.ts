@@ -102,4 +102,17 @@ modifierActualite(actualite: Actualite): Promise<void> {
   return actualiteRef.update(actualiteDataToUpdate);
 }
 
+supprimerActualite(actualite: Actualite): Observable<Actualite[]> {
+  const actualiteRef = this.firestore.collection('Actualite').doc(actualite.id);
+  return new Observable<Actualite[]>(observer => {
+    actualiteRef.delete().then(() => {
+      
+      observer.next([]);
+      observer.complete();
+    }).catch(error => {
+      observer.error(error);
+    });
+  });
+}
+
 }
