@@ -40,12 +40,12 @@ export class ActualiteListAssociationComponent {
     this.getActualitesByAssociationId();
   }
 
-  // supprimerCollecte(collecte: Collecte) {
-  //  this.service.deleteTodo(todo).subscribe((response) => {
-  // //     this.todoList = response;
-  // //     this.filteredTodoList = this.todoList; // Update filteredTodoList after deleting a todo
-  // //   });
-  // // }
+  supprimerActualite(actualite: Actualite) {
+   this.service.supprimerActualite(actualite).subscribe((response) => {
+      this.actualites = response;
+      this.filteredActualiteList = this.actualites; 
+    });
+  }
 
   afficherDetails(actualite: Actualite) {
     if(actualite.id){
