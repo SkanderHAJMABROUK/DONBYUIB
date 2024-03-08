@@ -1,0 +1,51 @@
+
+.container{
+    padding: 0px;
+}
+
+fa-icon{
+    font-size: large;
+    margin-left: 20px;
+}
+
+.on-icon:hover{
+    cursor:pointer;
+}
+
+
+
+
+
+ 
+
+.search-container {
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+  
+  .search-container label {
+    margin-right: 10px; 
+  }
+  
+  #searchInput {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-button {
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px; 
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+  

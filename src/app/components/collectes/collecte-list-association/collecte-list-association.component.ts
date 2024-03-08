@@ -31,11 +31,15 @@ export class CollecteListAssociationComponent implements OnInit{
 
     this.service.getCollectesByAssociationId(associationId).subscribe((res)=>{
       this.collectes=res;
-      console.log(this.collectes)
+      this.filteredCollecteList = [...this.collectes];
+      console.log(this.collectes);
     })
   }
   ngOnInit(): void {
-    this.getCollectesByAssociationId();}
+    this.getCollectesByAssociationId();
+
+    
+  }
 
   // supprimerCollecte(collecte: Collecte) {
   //  this.service.deleteTodo(todo).subscribe((response) => {
@@ -63,10 +67,11 @@ export class CollecteListAssociationComponent implements OnInit{
   }
 
 }
-  // searchTodo() {
-  //   // Filter the todoList based on the searchTerm
-  //   this.filteredTodoList = this.todoList.filter((todo) =>
-  //     todo.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-  //   );
-  // }
+chercherCollecte(searchTerm: string) {
+  // Filter the todoList based on the searchTerm
+  this.filteredCollecteList = this.collectes.filter((collecte) =>
+    collecte.nom.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}
+
 }
