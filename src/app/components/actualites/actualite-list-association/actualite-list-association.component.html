@@ -1,14 +1,13 @@
 <div class="container">
      <app-actualite-details-associations *ngIf="service.actualiteDetailShowModal" [actualite]="selectedActualite"></app-actualite-details-associations>
     <app-modifier-actualite *ngIf="service.actualiteModifierShowModal" [actualite]="selectedActualite"></app-modifier-actualite>
-  <!-- <app-todo-template-driven-form *ngIf="todoService.todoAddShowModal"></app-todo-template-driven-form> -->
  
-   <!-- <div class="search-container">
-     <label for="searchInput">Search Todo:</label>
-     <input type="text" id="searchInput" [(ngModel)]="searchTerm" (input)="searchTodo()" placeholder="Enter todo name">
-   </div> -->
+    <div class="search-container">
+      <label for="searchInput">Chercher une actualité :</label>
+      <input type="text" id="searchInput" [ngModel]="searchTerm" (ngModelChange)="chercherActualite($event)" placeholder="Entrer le nom de l'actualité">
+  </div>
  
-   <div *ngFor="let actualite of actualites" >
+   <div *ngFor="let actualite of filteredActualiteList" >
    
  
      {{ actualite.titre }}

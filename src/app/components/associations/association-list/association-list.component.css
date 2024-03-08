@@ -4,11 +4,9 @@
     box-sizing: border-box;
     outline: none; border:none;
     text-decoration: none;
-    /* text-transform: capitalize; */
     transition: .2s linear;
     position: relative;
     margin-top: 2.7%;
-    font-family: "Garamond", Times, serif;
 }
 
 .container{

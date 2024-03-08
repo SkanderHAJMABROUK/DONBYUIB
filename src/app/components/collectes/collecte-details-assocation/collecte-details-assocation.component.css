@@ -12,7 +12,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     overflow-y: auto; /* Ajout du défilement vertical automatique */
-    font-family: Calibri, sans-serif; /* Utilisation de la police Calibri */
 }
 
 .dialog h3 {

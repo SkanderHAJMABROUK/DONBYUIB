@@ -1,14 +1,14 @@
 <div class="container">
      <app-collecte-details-assocation *ngIf="service.collecteDetailShowModal" [collecte]="selectedCollecte"></app-collecte-details-assocation>
     <app-modifier-collecte *ngIf="service.collecteModifierShowModal" [collecte]="selectedCollecte"></app-modifier-collecte>
-   <!-- <app-todo-template-driven-form *ngIf="todoService.todoAddShowModal"></app-todo-template-driven-form> -->
   
-    <!-- <div class="search-container">
-      <label for="searchInput">Search Todo:</label>
-      <input type="text" id="searchInput" [(ngModel)]="searchTerm" (input)="searchTodo()" placeholder="Enter todo name">
-    </div> -->
+    <div class="search-container">
+      <label for="searchInput">Chercher une collecte :</label>
+      <input type="text" id="searchInput" [ngModel]="searchTerm" (ngModelChange)="chercherCollecte($event)" placeholder="Entrer le nom de la collecte">
+  </div>
   
-    <div *ngFor="let collecte of collectes" >
+  
+    <div *ngFor="let collecte of filteredCollecteList" >
     
   
       {{ collecte.nom }}

@@ -32,11 +32,13 @@ export class ActualiteListAssociationComponent {
 
     this.service.getActualitesByAssociationId(associationId).subscribe((res)=>{
       this.actualites=res;
-      console.log(this.actualites)
+      this.filteredActualiteList=this.actualites;
+      console.log(this.actualites);
     })
   }
   ngOnInit(): void {
-    this.getActualitesByAssociationId();}
+    this.getActualitesByAssociationId();
+  }
 
   // supprimerCollecte(collecte: Collecte) {
   //  this.service.deleteTodo(todo).subscribe((response) => {
@@ -65,12 +67,11 @@ export class ActualiteListAssociationComponent {
 
  }
 
-
-  // searchTodo() {
-  //   // Filter the todoList based on the searchTerm
-  //   this.filteredTodoList = this.todoList.filter((todo) =>
-  //     todo.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-  //   );
-  // }
+ chercherActualite(searchTerm: string) {
+  // Filter the todoList based on the searchTerm
+  this.filteredActualiteList = this.actualites.filter((actualite) =>
+    actualite.titre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}
 }
 
