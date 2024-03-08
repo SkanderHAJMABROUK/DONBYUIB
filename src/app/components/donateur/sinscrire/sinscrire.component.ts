@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { DonateurService } from '../../../services/donateur.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sinscrire',
@@ -23,7 +24,8 @@ export class SinscrireComponent {
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: DonateurService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, public service: DonateurService, 
+    private router: Router,private spinner:NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
@@ -67,6 +69,8 @@ export class SinscrireComponent {
 
       console.log("Formulaire valide, reCAPTCHA validé !");
 
+      this.spinner.show(); // Afficher le spinner
+
       // Upload logo file
       const File = this.aFormGroup.value.photo;
       const PhotoDownloadUrl = await this.service.uploadPhoto(File);
@@ -79,14 +83,14 @@ export class SinscrireComponent {
 
      console.log(this.aFormGroup.value.date_de_naissance)
       this.service.ajouterDonateur({...this.aFormGroup.value,
-        logo: PhotoDownloadUrl})
+        photo: PhotoDownloadUrl})
         .then(() => {
+          this.spinner.hide();
           console.log('Données du donateur ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
           this.aFormGroup.reset();
           // this.router.navigate(['/demande-association']);
           this.showSuccessMessage = true;
-
         })
         .catch(error => {
           console.error('Erreur lors de l\'ajout des données du donateur dans Firebase Firestore:', error);

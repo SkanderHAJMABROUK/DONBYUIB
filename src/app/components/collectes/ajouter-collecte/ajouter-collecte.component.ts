@@ -27,7 +27,7 @@ export class AjouterCollecteComponent implements OnInit{
         nom: ['', Validators.required],
         description: ['', Validators.required],
         montant: ['', Validators.required],
-        image: ['', [Validators.required, this.logoFileValidator.bind(this)]],
+        image: ['', Validators.required],
         date_debut: ['', Validators.required],
         date_fin: ['', Validators.required]
 
@@ -78,32 +78,5 @@ export class AjouterCollecteComponent implements OnInit{
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
-
- 
-
-  logoFileValidator(control: AbstractControl): ValidationErrors | null {
-    const fileName = (control.value as string); // Extract file name from input value
-    console.log('File name:', fileName);
-  
-    if (!fileName) {
-      console.log('File name not found');
-      return { invalidFileName: true };
-    }
-  
-    const filenameParts = fileName.split('.');
-    const extension = filenameParts[filenameParts.length - 1].toLowerCase();
-    console.log('Extension:', extension);
-  
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'svg'];
-  
-    if (!allowedExtensions.includes(extension)) {
-      console.log('Invalid logo format');
-      return { invalidLogoFormat: true };
-    }
-  
-    console.log('Logo file is valid');
-    return null;
-  }
-  
-  
+   
 }

@@ -40,8 +40,8 @@ import { ActualiteListAssociationComponent } from './components/actualites/actua
 import { AjouterActualiteComponent } from './components/actualites/ajouter-actualite/ajouter-actualite.component';
 import { ActualiteDetailsAssociationsComponent } from './components/actualites/actualite-details-associations/actualite-details-associations.component';
 import { ModifierActualiteComponent } from './components/actualites/modifier-actualite/modifier-actualite.component';
-
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 const firebaseConfig = {
@@ -93,6 +93,8 @@ const firebaseConfig = {
     HttpClientModule,
     NgxCaptchaModule,
     NgxSliderModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),

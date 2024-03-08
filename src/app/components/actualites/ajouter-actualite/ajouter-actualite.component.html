@@ -26,7 +26,6 @@
         <input type="file" id="image" (change)="onCoverFileSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml" required>
         <div class="error-message" *ngIf="aFormGroup.get('image')?.invalid && (aFormGroup.get('image')?.dirty || aFormGroup.get('image')?.touched)">
           <div *ngIf="aFormGroup.get('image')?.errors?.['required']">La photo de couverture de l'actualité' est requise.</div>
-          <div *ngIf="aFormGroup.get('image')?.errors?.['invalidCoverFormat']">Le format de la photo doit être jpg, jpeg, png ou svg.</div>
         </div>
       </div>       
 
