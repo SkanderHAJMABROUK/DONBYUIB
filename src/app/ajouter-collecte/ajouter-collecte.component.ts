@@ -8,7 +8,7 @@ import { AssociationService } from '../shared/associationService.service';
   templateUrl: './ajouter-collecte.component.html',
   styleUrls: ['./ajouter-collecte.component.css']
 })
-export class AjouterCollecteComponent {
+export class AjouterCollecteComponent implements OnInit{
 
 
  
@@ -32,9 +32,6 @@ export class AjouterCollecteComponent {
         date_fin: ['', Validators.required]
 
     
-      },
-      {
-      
       }
     );
   }
@@ -44,10 +41,6 @@ export class AjouterCollecteComponent {
     this.aFormGroup.get('image')?.setValue(file);
   }
   
- 
-
-
-
 
   async onSubmit(): Promise<void>{
     console.log("Fonction onSubmit() appelée");
@@ -64,8 +57,7 @@ export class AjouterCollecteComponent {
         return;
       }
       console.log('Logo file uploaded. Download URL:', logoDownloadUrl);
-
-     
+   
       this.service.ajouterCollecte({...this.aFormGroup.value,
         image: logoDownloadUrl,
        })

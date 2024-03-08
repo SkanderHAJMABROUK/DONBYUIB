@@ -44,12 +44,13 @@ export class ActualiteService {
 
   getAssociationIdFromUrl():string{
     const urlParts = window.location.href.split('/');
-    console.log(urlParts[urlParts.length - 1])
+    console.log(urlParts[urlParts.length - 1]);
     return urlParts[urlParts.length - 1];
   }
   
   
-async uploadLogo(file: File): Promise<string | null> {
+async uploadCover(file: File): Promise<string | null> {
+  console.log('File name:',file.name);
   const filePath = `ImagesActualites/${file.name}`;
   console.log('in upload' , filePath);
   const fileRef = this.fireStorage.ref(filePath);
@@ -58,7 +59,6 @@ async uploadLogo(file: File): Promise<string | null> {
   try {
     // Wait for the upload to complete
     await task;
-
     // Get the download URL
     const downloadUrl = await fileRef.getDownloadURL().toPromise();
     console.log('Image Uploaded')

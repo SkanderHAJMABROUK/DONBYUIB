@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from '../shared/associationService.service';
-import { Association } from '../association';
 import emailjs from '@emailjs/browser'
 
 @Component({

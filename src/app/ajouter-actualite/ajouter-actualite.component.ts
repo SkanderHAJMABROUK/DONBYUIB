@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActualiteService } from '../shared/actualite.service';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { AssociationService } from '../shared/associationService.service';
   templateUrl: './ajouter-actualite.component.html',
   styleUrls: ['./ajouter-actualite.component.css']
 })
-export class AjouterActualiteComponent {
+export class AjouterActualiteComponent implements OnInit{
 
 
  
@@ -27,25 +27,23 @@ export class AjouterActualiteComponent {
 
         titre: ['', Validators.required],
         description: ['', Validators.required],
-        image: ['', [Validators.required, this.logoFileValidator.bind(this)]],
+        image: ['', [Validators.required]],
 
-    
-      },
-      {
-      
       }
     );
   }
 
-  onLogoFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    this.aFormGroup.get('image')?.setValue(file);
-  }
+  onCoverFileSelected(event: any) {
+    console.log('La fct change est appelé');
+    const file: File = event?.target?.files[0]; 
+    if (file) {
+        this.aFormGroup.get('image')?.setValue(file);
+    } else {
+        console.error('Aucun fichier sélectionné');
+    }
+}
+
   
- 
-
-
-
 
   async onSubmit(): Promise<void>{
     console.log("Fonction onSubmit() appelée");
@@ -53,19 +51,19 @@ export class AjouterActualiteComponent {
 
       console.log("Formulaire valide");
 
-      // Upload logo file
-      const logoFile = this.aFormGroup.value.image;
-      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
-      if (!logoDownloadUrl) {
-        console.error('Failed to upload logo file.');
+      // Upload cover file
+      const coverFile = this.aFormGroup.value.image;
+      const coverDownloadUrl = await this.service.uploadCover(coverFile);
+      if (!coverDownloadUrl) {
+        console.error('Failed to upload cover file.');
         // Handle error appropriately, e.g., show error message to user
         return;
       }
-      console.log('Logo file uploaded. Download URL:', logoDownloadUrl);
+      console.log('Cover file uploaded. Download URL:', coverDownloadUrl);
 
      
       this.service.ajouterActualite({...this.aFormGroup.value,
-        image: logoDownloadUrl
+        image: coverDownloadUrl
        })
         .then(() => {
           console.log('Données de lactualité ajoutées avec succès dans Firebase Firestore.');
@@ -83,32 +81,6 @@ export class AjouterActualiteComponent {
       console.log("Formulaire invalide");
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
-  }
-
- 
-
-  logoFileValidator(control: AbstractControl): ValidationErrors | null {
-    const fileName = (control.value as string); // Extract file name from input value
-    console.log('File name:', fileName);
-  
-    if (!fileName) {
-      console.log('File name not found');
-      return { invalidFileName: true };
-    }
-  
-    const filenameParts = fileName.split('.');
-    const extension = filenameParts[filenameParts.length - 1].toLowerCase();
-    console.log('Extension:', extension);
-  
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'svg'];
-  
-    if (!allowedExtensions.includes(extension)) {
-      console.log('Invalid logo format');
-      return { invalidLogoFormat: true };
-    }
-  
-    console.log('Logo file is valid');
-    return null;
   }
   
   

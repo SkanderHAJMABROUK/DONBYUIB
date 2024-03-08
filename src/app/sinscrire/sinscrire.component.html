@@ -20,7 +20,7 @@
 
       <div>
         <label for="photo">Photo de profil</label><br>
-        <input type="file" id="photo" formControlName="photo" >
+        <input type="file" id="photo" formControlName="photo" (change)="onPhotoFileSelected($event)">
       </div> 
      
       <div>
