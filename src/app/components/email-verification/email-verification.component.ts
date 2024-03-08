@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Router } from '@angular/router';
-import Swal from  'sweetalert2' ;
-import { Association } from 'src/app/interfaces/association';
+import Swal from  'sweetalert2';
+
 @Component({
   selector: 'app-email-verification',
   templateUrl: './email-verification.component.html',
@@ -16,6 +16,7 @@ export class EmailVerificationComponent implements OnInit {
   protected verificationForm!: FormGroup;
   verified: boolean = false;
   remainingAttempts: number = 3;
+  codeMismatch: boolean = false;
 
   ngOnInit(): void {
     this.verificationForm = this.formBuilder.group({
@@ -67,8 +68,13 @@ export class EmailVerificationComponent implements OnInit {
         // Limite de tentatives atteinte, rediriger vers la page précédente
         this.router.navigate(['/inscrireAssociation']);
       }
-    }
-  }
 
-  
+      this.codeMismatch = true; // Set flag for code mismatch
+    }
+    
+    // Reset codeMismatch flag after each validation attempt
+    setTimeout(() => {
+      this.codeMismatch = false;
+    }, 1000);
+  }
 }

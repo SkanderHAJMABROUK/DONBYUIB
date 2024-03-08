@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { ActualiteService } from '../../../services/actualite.service';
 import { Router } from '@angular/router';
 import { AssociationService } from '../../../services/associationService.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ajouter-actualite',
@@ -18,7 +19,8 @@ export class AjouterActualiteComponent implements OnInit{
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: ActualiteService, private router: Router,public serviceAssociation:AssociationService) {}
+  constructor(private formBuilder: FormBuilder, public service: ActualiteService, private router: Router,public serviceAssociation:AssociationService,
+    private spinner:NgxSpinnerService) {}
 
   ngOnInit(): void {
    
@@ -49,6 +51,8 @@ export class AjouterActualiteComponent implements OnInit{
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
 
+      this.spinner.show();
+
       console.log("Formulaire valide");
 
       // Upload cover file
@@ -76,6 +80,9 @@ export class AjouterActualiteComponent implements OnInit{
         .catch(error => {
           console.error('Erreur lors de l\'ajout des données de lactualité dans Firebase Firestore:', error);
         });
+
+        this.spinner.hide();
+        
     } else {
       this.showErrorNotification = true;
       console.log("Formulaire invalide");

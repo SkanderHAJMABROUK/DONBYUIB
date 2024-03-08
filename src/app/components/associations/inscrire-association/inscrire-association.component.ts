@@ -5,6 +5,7 @@ import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Association } from 'src/app/interfaces/association';
 import emailjs from '@emailjs/browser';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-inscrire-association',
@@ -25,7 +26,8 @@ export class InscrireAssociationComponent implements OnInit {
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router,
+    private spinner:NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
@@ -75,6 +77,7 @@ export class InscrireAssociationComponent implements OnInit {
     if (this.aFormGroup.valid) {
 
       this.sendVerificationEmail();
+      this.spinner.show();
 
       console.log("Formulaire valide, reCAPTCHA validé !");
       
@@ -103,7 +106,8 @@ export class InscrireAssociationComponent implements OnInit {
       localStorage.setItem('associationData', JSON.stringify({...this.aFormGroup.value,
         logo: logoDownloadUrl,
         id_fiscale: idDownloadUrl}));
-
+        
+          this.spinner.hide();
           this.aFormGroup.reset();
           this.showSuccessMessage = true;
           this.router.navigate(['/inscrireAssociation/email']);
@@ -204,7 +208,6 @@ export class InscrireAssociationComponent implements OnInit {
       code_otp: codeOtp,
       to_email:this.aFormGroup.value.email
     });
-    alert('Jek mail!');
     this.aFormGroup.reset;
   }
 

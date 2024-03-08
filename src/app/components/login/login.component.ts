@@ -14,9 +14,9 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group({
+      recaptcha: ['', Validators.required],
       email: ['', Validators.required], 
-      password: ['', Validators.required], 
-      recaptcha: ['', Validators.required]
+      password: ['', Validators.required]
     });
   }
 
@@ -31,6 +31,7 @@ export class LoginComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   protected aFormGroup!: FormGroup;
+  showErrorNotification: boolean = false;
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -39,7 +40,7 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.aFormGroup.valid) {
       this.logIn();
-    }
+    } else {this.showErrorNotification = true;}
   }
 
   logIn(){

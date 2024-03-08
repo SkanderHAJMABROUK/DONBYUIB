@@ -1,9 +1,15 @@
-<div class="modal-overlay">
-    <div class="modal-container">
-        <form [formGroup]="verificationForm" class="form-container">
-            <label>Entrer le code reçu par email ici :</label>
-            <input type="text" value="code" formControlName="codeOTP" class="verification-input">
-            <button type="submit" class="btn_inscrire" (click)="checkEmail()">Continuer</button>
-        </form>
-    </div>
+<div class="container">
+    <form [formGroup]="verificationForm" class="form-container">
+        <h2>Confirmez votre adresse e-mail</h2>
+        <hr>
+        <div>
+            <label for="code">Saisir le code reçu</label>
+            <input type="number" id="code" value="code" formControlName="codeOTP" [class.shake]="codeMismatch">
+            <div class="error-message">
+                Vous avez {{remainingAttempts}} tentative(s) restante(s)!
+            </div>
+        </div>
+        <a href="">Renvoyer le code?</a>
+        <button type="submit" class="btn_ajouter" (click)="checkEmail()">Valider</button>
+    </form>
 </div>

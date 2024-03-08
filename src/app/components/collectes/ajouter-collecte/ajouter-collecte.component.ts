@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, 
 import { Router } from '@angular/router';
 import { CollecteService } from '../../../services/collecte.service';
 import { AssociationService } from '../../../services/associationService.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-ajouter-collecte',
   templateUrl: './ajouter-collecte.component.html',
@@ -17,7 +18,8 @@ export class AjouterCollecteComponent implements OnInit{
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: CollecteService, private router: Router,public serviceAssociation:AssociationService) {}
+  constructor(private formBuilder: FormBuilder, public service: CollecteService, private router: Router,public serviceAssociation:AssociationService,
+    private spinner:NgxSpinnerService) {}
 
   ngOnInit(): void {
    
@@ -47,6 +49,7 @@ export class AjouterCollecteComponent implements OnInit{
     if (this.aFormGroup.valid) {
 
       console.log("Formulaire valide");
+      this.spinner.show();
 
       // Upload logo file
       const logoFile = this.aFormGroup.value.image;
@@ -72,6 +75,9 @@ export class AjouterCollecteComponent implements OnInit{
         .catch(error => {
           console.error('Erreur lors de l\'ajout des données de la collecte dans Firebase Firestore:', error);
         });
+
+        this.spinner.hide();
+        
     } else {
       this.showErrorNotification = true;
       console.log("Formulaire invalide");
