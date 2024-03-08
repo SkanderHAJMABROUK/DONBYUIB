@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Association } from 'src/app/interfaces/association';
-import emailjs from '@emailjs/browser'
+import emailjs from '@emailjs/browser';
 
 @Component({
   selector: 'app-inscrire-association',
@@ -99,21 +99,15 @@ export class InscrireAssociationComponent implements OnInit {
       console.log('ID file uploaded. Download URL:', idDownloadUrl);
 
       console.log(this.aFormGroup.value.nom);
-      this.service.addAssociation({...this.aFormGroup.value,
+
+      localStorage.setItem('associationData', JSON.stringify({...this.aFormGroup.value,
         logo: logoDownloadUrl,
-        id_fiscale: idDownloadUrl})
-        .then(() => {
-          console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
-          // Réinitialiser le formulaire après l'ajout des données
+        id_fiscale: idDownloadUrl}));
+
           this.aFormGroup.reset();
           this.showSuccessMessage = true;
           this.router.navigate(['/inscrireAssociation/email']);
 
-
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
-        });
     } else {
       this.showErrorNotification = true;
       console.log("Formulaire invalide");

@@ -37,7 +37,7 @@ export class ModifierActualiteComponent {
         ...this.actualiteForm.value // Utilisez les valeurs du formulaire
       };
       const logoFile = this.actualiteForm.value.image;
-      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
+      const logoDownloadUrl = await this.service.uploadCover(logoFile);
       if(logoDownloadUrl){collecteDataToUpdate.image = logoDownloadUrl;
       this.service.modifierActualite({...collecteDataToUpdate,image:logoDownloadUrl})
      

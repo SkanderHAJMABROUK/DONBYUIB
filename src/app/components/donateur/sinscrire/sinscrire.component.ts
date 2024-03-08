@@ -48,6 +48,7 @@ export class SinscrireComponent {
   onPhotoFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.aFormGroup.get('photo')?.setValue(file);
+    console.log('Le fichier est ', file.name);
   }
   
 
@@ -110,10 +111,7 @@ export class SinscrireComponent {
     };
   }
 
-  
-  
-  
-  
+ 
 
   passwordFormatValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;

@@ -23,9 +23,7 @@ export class ActualiteListComponent {
    })
    }
   
-  
-  
-  
+
   
   
    toggleShowDetails() {

@@ -23,6 +23,7 @@
     "@fortawesome/angular-fontawesome": "^0.14.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@sweetalert2/theme-bulma": "^5.0.16",
     "angularfire2": "^5.4.2",
     "bootstrap": "^5.3.3",
     "firebase": "^10.8.0",
