@@ -1,0 +1,22 @@
+<div class="container">
+     <app-actualite-details-associations *ngIf="service.actualiteDetailShowModal" [actualite]="selectedActualite"></app-actualite-details-associations>
+    <app-modifier-actualite *ngIf="service.actualiteModifierShowModal" [actualite]="selectedActualite"></app-modifier-actualite>
+  <!-- <app-todo-template-driven-form *ngIf="todoService.todoAddShowModal"></app-todo-template-driven-form> -->
+ 
+   <!-- <div class="search-container">
+     <label for="searchInput">Search Todo:</label>
+     <input type="text" id="searchInput" [(ngModel)]="searchTerm" (input)="searchTodo()" placeholder="Enter todo name">
+   </div> -->
+ 
+   <div *ngFor="let actualite of actualites" >
+   
+ 
+     {{ actualite.titre }}
+     <div>
+       <i><fa-icon [icon]="faList" class="on-icon" (click)="afficherDetails(actualite)"></fa-icon></i> 
+      <i><fa-icon [icon]="faPenToSquare" class="on-icon" (click)="modifierActualite(actualite)"></fa-icon></i> 
+        <!-- <i><fa-icon [icon]="faTrash" class="on-icon" (click)="deleteTodo(todo)"></fa-icon></i>  -->
+     </div>
+   </div>
+ </div>
+ 

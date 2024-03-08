@@ -1,0 +1,23 @@
+<div class="dialog">
+    <div class="header">
+        <h3>Détails de l'actualité</h3>
+        <fa-icon [icon]="faXmark" (click)="service.actualiteDetailShowModal=false"></fa-icon>
+    </div>
+    <hr />
+    <div>
+        <p>
+            {{actualite.titre}} 
+        </p>
+        <p>
+            {{ actualite.description }}
+        </p>
+        <p>
+            <img src="{{actualite.image}}">
+        </p>
+        
+        <p>
+            {{actualite.date_publication | date}}
+        </p>
+       
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="dialog">
+
+  <div class="header">
+      <h3>Modifier la collecte</h3>
+      <fa-icon [icon]="faXmark" (click)="service.collecteModifierShowModal=false"></fa-icon>
+  </div>
+<hr>
+<div>
+  <form [formGroup]="collecteForm" (ngSubmit)="modifierCollecte()">
+
+    <label for="nom">Nom</label>
+    <input type="text" formControlName="nom"><br>
+    
+    <label for="desc">Description</label>
+    <textarea formControlName="description"></textarea><br>
+  
+    <label for="image">Image</label>
+    <input type="file" formControlName="image"><br>
+    <img *ngIf="collecte.image" [src]="collecte.image" alt="Image actuelle">
+
+  
+    <label for="montant">Montant</label>
+    <input type="number" formControlName="montant"><br>
+    
+    <label for="dateDebut">Date de début</label>
+    <input type="date" formControlName="date_debut"><br>
+  
+    <label for="dateFin">Date de fin</label>
+    <input type="date" formControlName="date_fin"><br>
+  
+    <button type="submit" class="btn btn-dark" [ngStyle]="{'width':'300px'}">Modifier</button>
+  </form>
+  
+</div>
+</div>
