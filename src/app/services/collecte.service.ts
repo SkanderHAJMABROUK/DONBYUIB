@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Collecte } from '../interfaces/collecte';
-import { Observable, from, map } from 'rxjs';
+import { Observable, Observer, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AssociationService } from './associationService.service';
 
@@ -64,7 +64,7 @@ export class CollecteService {
 
 
 
-async uploadLogo(file: File): Promise<string | null> {
+async uploadCover(file: File): Promise<string | null> {
   const filePath = `ImagesCollectes/${file.name}`;
   console.log('in upload' , filePath);
   const fileRef = this.fireStorage.ref(filePath);
@@ -115,6 +115,9 @@ modifierCollecte(collecte: Collecte): Promise<void> {
   let collecteDataToUpdate = { ...collecte }; 
   return collecteRef.update(collecteDataToUpdate);
 }
+
+
+
 
 
 ajouterCollecte(collecteData: Collecte) {

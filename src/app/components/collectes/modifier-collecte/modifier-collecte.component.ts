@@ -28,33 +28,69 @@ export class ModifierCollecteComponent {
       montant: [this.collecte.montant],
       date_debut: [this.collecte.date_debut instanceof Date ? this.collecte.date_debut.toISOString().split('T')[0] : this.collecte.date_debut],
       date_fin: [this.collecte.date_fin instanceof Date ? this.collecte.date_fin.toISOString().split('T')[0] : this.collecte.date_fin]
-    });
+    }, { validator: this.dateFinSupDateDebutValidator });
   }
   
  
-
   async modifierCollecte(): Promise<void> {
     if (this.collecteForm.valid) {
-
       this.spinner.show();
-
-      let collecteDataToUpdate: Collecte = {
-        id: this.collecte.id, // Assurez-vous de récupérer l'ID de la collecte
-        ...this.collecteForm.value // Utilisez les valeurs du formulaire
+  
+      const collecteDataToUpdate: Collecte = {
+        id: this.collecte.id,
+        ...this.collecteForm.value
       };
-      const logoFile = this.collecteForm.value.image;
-      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
-      if(logoDownloadUrl){collecteDataToUpdate.image = logoDownloadUrl;
-      this.service.modifierCollecte({...collecteDataToUpdate,image:logoDownloadUrl})     
-        .then(() => window.location.reload()) // Rechargez la page après la modification
-        .catch(error => console.error('Erreur lors de la modification de la collecte :', error));
-        
+  
+      const coverFile = this.collecteForm.value.image;
+  
+      try {
+        // Vérifier si un fichier a été sélectionné
+        if (coverFile) {
+          const coverDownloadUrl = await this.service.uploadCover(coverFile);
+          if (coverDownloadUrl) {
+            collecteDataToUpdate.image = coverDownloadUrl;
+          }
+        } else {
+          // Si aucun fichier n'a été sélectionné, conserver l'image existante
+          collecteDataToUpdate.image = this.collecte.image;
+        }
+  
+        await this.service.modifierCollecte(collecteDataToUpdate);
+        window.location.reload();
+      } catch (error) {
+        console.error('Erreur lors de la modification de la collecte :', error);
+      } finally {
         this.spinner.hide();
-
+      }
     } else {
       console.error('Formulaire invalide. Veuillez corriger les erreurs.');
     }
-  }}
-
+  }
+  
+  
+  
+  
+  
+  
+  
+  onImageSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.collecteForm.patchValue({
+        image: file
+      });
+    }
+  }
+  
+   dateFinSupDateDebutValidator(control: FormGroup): ValidationErrors | null {
+    const dateDebut = control.get('date_debut')?.value;
+    const dateFin = control.get('date_fin')?.value;
+  
+    if (dateDebut && dateFin && new Date(dateFin) <= new Date(dateDebut)) {
+      return { dateFinSupDateDebut: true };
+    }
+    
+    return null;
+  }
 
 }

@@ -32,14 +32,14 @@ export class ModifierActualiteComponent {
 
   async modifierActualite(): Promise<void> {
     if (this.actualiteForm.valid) {
-      let collecteDataToUpdate: Actualite = {
+      let actualiteDataToUpdate: Actualite = {
         id: this.actualite.id, // Assurez-vous de récupérer l'ID de la collecte
         ...this.actualiteForm.value // Utilisez les valeurs du formulaire
       };
-      const logoFile = this.actualiteForm.value.image;
-      const logoDownloadUrl = await this.service.uploadCover(logoFile);
-      if(logoDownloadUrl){collecteDataToUpdate.image = logoDownloadUrl;
-      this.service.modifierActualite({...collecteDataToUpdate,image:logoDownloadUrl})
+      const ImageFile = this.actualiteForm.value.image;
+      const ImageDownloadUrl = await this.service.uploadCover(ImageFile);
+      if(ImageDownloadUrl){actualiteDataToUpdate.image = ImageDownloadUrl;
+      this.service.modifierActualite({...actualiteDataToUpdate,image:ImageDownloadUrl})
      
 
         .then(() => window.location.reload()) // Rechargez la page après la modification
@@ -48,6 +48,16 @@ export class ModifierActualiteComponent {
       console.error('Formulaire invalide. Veuillez corriger les erreurs.');
     }
   }}
+
+  onImageSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.actualiteForm.patchValue({
+        image: file
+      });
+    }
+  }
+  
 
 
 }

@@ -34,7 +34,7 @@ export class AjouterCollecteComponent implements OnInit{
         date_fin: ['', Validators.required]
 
     
-      }
+      }, { validator: this.dateFinSupDateDebutValidator }
     );
   }
 
@@ -52,17 +52,17 @@ export class AjouterCollecteComponent implements OnInit{
       this.spinner.show();
 
       // Upload logo file
-      const logoFile = this.aFormGroup.value.image;
-      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
-      if (!logoDownloadUrl) {
+      const CoverFile = this.aFormGroup.value.image;
+      const CoverDownloadUrl = await this.service.uploadCover(CoverFile);
+      if (!CoverDownloadUrl) {
         console.error('Failed to upload logo file.');
         // Handle error appropriately, e.g., show error message to user
         return;
       }
-      console.log('Logo file uploaded. Download URL:', logoDownloadUrl);
+      console.log('Logo file uploaded. Download URL:', CoverDownloadUrl);
    
       this.service.ajouterCollecte({...this.aFormGroup.value,
-        image: logoDownloadUrl,
+        image: CoverDownloadUrl,
        })
         .then(() => {
           console.log('Données de la collecte ajoutées avec succès dans Firebase Firestore.');
@@ -83,6 +83,16 @@ export class AjouterCollecteComponent implements OnInit{
       console.log("Formulaire invalide");
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
+  }
+  dateFinSupDateDebutValidator(control: FormGroup): ValidationErrors | null {
+    const dateDebut = control.get('date_debut')?.value;
+    const dateFin = control.get('date_fin')?.value;
+  
+    if (dateDebut && dateFin && new Date(dateFin) <= new Date(dateDebut)) {
+      return { dateFinSupDateDebut: true };
+    }
+    
+    return null;
   }
    
 }

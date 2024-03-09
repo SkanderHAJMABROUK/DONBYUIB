@@ -73,7 +73,11 @@
        
       </div>
       
-  
+      <div *ngIf="aFormGroup.errors?.['dateFinSupDateDebut']" class="error-message">
+        La date de fin doit être postérieure à la date de début.
+      </div>
+
+
       <button type="submit" class="btn_ajouter" (click)="onSubmit()">Ajouter</button>
     </form>
   </div>

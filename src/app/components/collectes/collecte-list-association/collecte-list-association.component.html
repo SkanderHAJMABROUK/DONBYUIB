@@ -8,14 +8,21 @@
   </div>
   
   
-    <div *ngFor="let collecte of filteredCollecteList" >
+    <div *ngFor="let collecte of filteredCollecteList" class="actualite">
     
   
       {{ collecte.nom }}
-      <div>
+      <div class="icons-container">
+        <div class="icon-wrapper">
         <i><fa-icon [icon]="faList" class="on-icon" (click)="afficherDetails(collecte)"></fa-icon></i>
-       <i><fa-icon [icon]="faPenToSquare" class="on-icon" (click)="modifierCollecte(collecte)"></fa-icon></i>
-         <i><fa-icon [icon]="faTrash" class="on-icon" (click)="supprimerCollecte(collecte)"></fa-icon></i> 
+       </div>
+       <div class="icon-wrapper">
+        <i><fa-icon [icon]="faPenToSquare" class="on-icon" (click)="modifierCollecte(collecte)"></fa-icon></i>
+       </div>
+       <div class="icon-wrapper">
+
+        <i><fa-icon [icon]="faTrash" class="on-icon" (click)="supprimerCollecte(collecte)"></fa-icon></i> 
+       </div>
       </div>
     </div>
   </div>

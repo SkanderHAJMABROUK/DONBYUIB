@@ -124,3 +124,7 @@ input:focus {
     border-radius: 8px;
     text-align: center;
   }
+  .error-message {
+    color: red;
+    font-size: 0.8em; /* Taille de la police plus petite */
+  }

@@ -7,15 +7,23 @@
       <input type="text" id="searchInput" [ngModel]="searchTerm" (ngModelChange)="chercherActualite($event)" placeholder="Entrer le nom de l'actualité">
   </div>
  
-   <div *ngFor="let actualite of filteredActualiteList" >
+   <div *ngFor="let actualite of filteredActualiteList" class="actualite">
    
  
      {{ actualite.titre }}
-     <div>
-       <i><fa-icon [icon]="faList" class="on-icon" (click)="afficherDetails(actualite)"></fa-icon></i> 
-      <i><fa-icon [icon]="faPenToSquare" class="on-icon" (click)="modifierActualite(actualite)"></fa-icon></i> 
-        <i><fa-icon [icon]="faTrash" class="on-icon" (click)="supprimerActualite(actualite)"></fa-icon></i> 
-     </div>
+     <div class="icons-container">
+       <div class="icon-wrapper">
+        <i><fa-icon  [icon]="faList" class="on-icon" (click)="afficherDetails(actualite)">
+        </fa-icon>
+      </i> 
+       </div>
+       <div class="icon-wrapper">
+        <i><fa-icon  [icon]="faPenToSquare" class="on-icon" (click)="modifierActualite(actualite)"></fa-icon></i> 
+       </div>
+       <div class="icon-wrapper">
+        <i><fa-icon  [icon]="faTrash" class="on-icon" (click)="supprimerActualite(actualite)"></fa-icon></i> 
+    </div>
+      </div>
    </div>
  </div>
  

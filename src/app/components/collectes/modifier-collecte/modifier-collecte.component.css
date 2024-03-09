@@ -1,57 +1,91 @@
-.dialog{
-    max-height: 80vh; 
-    overflow-y: auto; 
-    width: 500px;
-    background-color: lightgrey;
-    box-shadow: 10px 5px 10px rgba(131, 7, 7, 0.538);
-    border-radius: 5px;
-    padding: 10px;
-    position: relative;
-    top:50px
-}
-h3{
-    color: rgba(131, 7, 7, 0.966);
-    text-align:center ;
-    font: bolder;
-    
+.dialog {
+    height: 80%;
+    max-height: 600px;
+    width: 600px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
 }
 
-:host{
+.dialog h3 {
+    color: #850707;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.dialog hr {
+    border: none;
+    height: 1.5px;
+    background-color: #0e4d10;
+    width: 50%;
+    margin: 10px auto;
+}
+
+.dialog p {
+    margin-bottom: 10px;
+}
+
+.dialog img {
+    max-width: 50%;
+    height: auto;
     display: block;
-    position: fixed;
-    left:0px;
-    right: 0px;
-    width: 100%;
-    height: 100%;
+    margin: 0 auto 10px;
+    border-radius: 5px;
+}
+
+.header {
     display: flex;
     justify-content: center;
-}
-img{
-    display: flex;
-    width: 50%;
-    height: 50%;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-   
-.header{
-    display: flex;
-    justify-content: space-between;
+.close-icon {
+    cursor: pointer;
+    color: #850707;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
-label{
-    color: rgb(6, 70, 32);
-    font-weight: bold;
-    width: 100px;
-    display: inline-block;
-    
+.close-icon:hover {
+    color: red;
 }
-input, textarea{
-    background: none;
-    border: 2px solid rgb(6, 70, 32);
-    padding: 5px;
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 17px;
+}
+
+/* Ajoutez ces styles pour les boutons */
+.btn {
+    background-color: #850707;
+    color: white;
+    border: none;
     border-radius: 5px;
-    width: 300px;
-    padding:5px;
-    margin: 5px
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
 }
-textarea{height: 100px;}
+
+.btn:hover {
+    background-color: #a51e1e;
+}
+.error-message {
+    color: red;
+    font-size: 0.8em; /* Taille de la police plus petite */
+  }
