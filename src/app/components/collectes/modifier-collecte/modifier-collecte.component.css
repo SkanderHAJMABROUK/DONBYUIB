@@ -25,7 +25,7 @@
 .dialog hr {
     border: none;
     height: 1.5px;
-    background-color: #0e4d10;
+    background-color: black; 
     width: 50%;
     margin: 10px auto;
 }

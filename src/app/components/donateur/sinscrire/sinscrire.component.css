@@ -75,14 +75,14 @@ input:focus {
 
 
 .btn_inscrire {
-    background-color: #0e4d10;
+    background-color: #850707;
     border: none;
     color: white;
     padding: 10px 15px 10px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    margin: 4px 2px 0 72%;
+    margin: 4px 2px 0 80%;
     cursor: pointer;
     border-radius: 10px;
     transition-duration: 0.2s;
@@ -91,12 +91,12 @@ input:focus {
   
   .btn_inscrire:hover {
     background-color: #ffffff;
-    color: #0e4d10
+    color: #850707;
   }
   hr {
     border: none;
     height: 1.5px;
-    background-color: #0e4d10; 
+    background-color: black; 
     width: 50%; 
     margin: 0 auto; 
     margin-bottom: 4%;

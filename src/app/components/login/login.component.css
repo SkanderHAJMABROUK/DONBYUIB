@@ -55,7 +55,7 @@ input:focus {
     box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.594);
 }
 .btn_login {
-    background-color: #0e4d10;
+    background-color: #850707;
     border: none;
     color: white;
     padding: 10px 15px 10px 15px;
@@ -71,12 +71,12 @@ input:focus {
   
   .btn_login:hover {
     background-color: #ffffff;
-    color: #0e4d10
+    color: #850707;
   }
   hr {
     border: none;
     height: 1.5px;
-    background-color: #0e4d10; 
+    background-color: black; 
     width: 50%; 
     margin: 0 auto; 
     margin-bottom: 4%;

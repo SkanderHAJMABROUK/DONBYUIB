@@ -78,28 +78,33 @@ input:focus {
 
 
 .btn_ajouter {
-    background-color: #0e4d10;
+    
+    background-color: #850707;
     border: none;
     color: white;
-    padding: 10px 15px 10px 15px;
+    padding: 10px 15px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px 0 72%;
+    display: block;
+    margin: 0 auto;
+    margin-left: 80%;
+    margin-top: 5%;
     cursor: pointer;
     border-radius: 10px;
     transition-duration: 0.2s;
     font-weight: bold;
-  }
-  
-  .btn_ajouter:hover {
-    background-color: #ffffff;
-    color: #0e4d10
-  }
+}
+
+
+
+.btn_ajouter:hover {
+background-color: #ffffff;
+    color: #850707;
+}
   hr {
     border: none;
     height: 1.5px;
-    background-color: #0e4d10; 
+    background-color: black; 
     width: 50%; 
     margin: 0 auto; 
     margin-bottom: 4%;

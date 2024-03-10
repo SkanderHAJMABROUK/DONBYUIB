@@ -1,10 +1,18 @@
-<div *ngIf="selectedAssociation">
+<div class="association-details" *ngIf="selectedAssociation">
     <h2>Mon association</h2>
-      <p>Nom: {{ selectedAssociation.nom }}</p>
-    <p>Catégorie: {{ selectedAssociation.categorie }}</p>
-    <p>Description: {{ selectedAssociation.description }}</p>
-    <p>Email: {{ selectedAssociation.email }}</p>
-    <p>Téléphone: {{ selectedAssociation.telephone }}</p> 
+    <hr>
+    <strong><p>Logo : </p></strong>
+    <img [src]="selectedAssociation.logo">
+    <strong><p>Nom : </p></strong>  
+    <p>{{ selectedAssociation.nom }}</p>
+    <strong><p>Catégorie : </p></strong>
+    <p> {{ selectedAssociation.categorie }}</p>
+    <strong><p>Description : </p></strong>
+    <p>{{ selectedAssociation.description }}</p>
+    <strong><p>Email : </p></strong>
+    <p>{{ selectedAssociation.email }}</p>
+    <strong><p>Téléphone : </p></strong>
+    <p> {{ selectedAssociation.telephone }}</p> 
     <button (click)="service.modifierAss=true;service.compte=false">Modifier</button> 
    
   </div>
