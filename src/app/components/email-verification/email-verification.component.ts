@@ -34,7 +34,7 @@ export class EmailVerificationComponent implements OnInit {
       // Code matches, proceed with whatever action you need
       console.log('Code matched!');
       this.verified = true;
-
+      localStorage.removeItem('code');
       Swal.fire({
         icon: "success",
         title: "Votre demande d'habilitation est en cours de validation. Un email vous sera envoyé dès l'approbation de la demande!",
@@ -65,7 +65,7 @@ export class EmailVerificationComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         });
-        // Limite de tentatives atteinte, rediriger vers la page précédente
+        localStorage.removeItem('code');        // Limite de tentatives atteinte, rediriger vers la page précédente
         this.router.navigate(['/inscrireAssociation']);
       }
 

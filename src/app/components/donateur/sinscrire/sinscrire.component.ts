@@ -91,6 +91,7 @@ export class SinscrireComponent {
           this.aFormGroup.reset();
           // this.router.navigate(['/demande-association']);
           this.showSuccessMessage = true;
+          this.showErrorNotification=false;
         })
         .catch(error => {
           console.error('Erreur lors de l\'ajout des données du donateur dans Firebase Firestore:', error);
