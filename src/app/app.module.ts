@@ -42,6 +42,7 @@ import { ActualiteDetailsAssociationsComponent } from './components/actualites/a
 import { ModifierActualiteComponent } from './components/actualites/modifier-actualite/modifier-actualite.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 const firebaseConfig = {
@@ -94,6 +95,7 @@ const firebaseConfig = {
     NgxCaptchaModule,
     NgxSliderModule,
     NgxSpinnerModule,
+    CarouselModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,

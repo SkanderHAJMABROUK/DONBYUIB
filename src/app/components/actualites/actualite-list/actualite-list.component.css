@@ -1,90 +1,55 @@
-*{  
-    margin:0; 
-    padding:0;
-    box-sizing: border-box;
-    outline: none; border:none;
-    text-decoration: none;
-    /* text-transform: capitalize; */
-    transition: .2s linear;
-    position: relative;
-    margin-top: 2.7%;
+.container {
+  position: relative;
+  margin: 1%;
 }
 
-.container{
-    padding:50px 9%;
-    padding-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-}
-
-.container .heading{
-    text-align: center;
-    padding-bottom: 15px;
-    color:#fff;
-    text-shadow: 0 5px 10px rgba(0,0,0,.2);
-    font-size: 50px;
-}
-
-.container .box-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap:15px;
-    z-index: 999;
-}
-
-.container .box-container .box {
-  box-shadow: 0 5px 10px rgba(0,0,0,.2);
-  border-radius: 5px;
-  background: #fff;
+.main-heading {
   text-align: center;
-  padding:30px 20px;
-  width: 300px;
-  height: 350px; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
- position: flex;
- border-radius: 20px;
- border: 2px solid black;
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
-.container .box-container .box img {
-  height: 80px;
-  align-self: center; /* Center image vertically */
+.main-heading::after {
+  content: '';
+  display: block;
+  width: 70%;
+  height: 2px;
+  background-color: black;
+  margin: auto;
+  margin-top: 15px; /* Adjust the space between the underline and the text */
 }
 
-.container .box-container .box h3 {
-  color:#444;
-  font-size: 20px;
-  padding:10px 0;
+.carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black background */
+  color: white;
+  padding: 20px;
+  text-align: center;
 }
 
-.container .box-container .box .description {
-  color:#777;
-  font-size: 12px;
-  line-height: 1.5;
-  flex-grow: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+.carousel-caption h3 {
+  margin: 0 0 10px; /* Added bottom margin for space between title and description */
+  font-size: 24px;
+  font-weight: bold;
 }
 
-
-
-
-
-.container .box-container .box:hover {
-  box-shadow: 0 10px 15px rgba(0,0,0,.3);
-  transform: scale(1.03);
+.carousel-caption p {
+  margin: 0;
+  font-size: 15px;
+  font-style: italic;
 }
 
+.carousel-item {
+  position: relative;
+  width: 100%;
+  overflow: hidden; /* Ensures text doesn't overflow beyond the image */
+}
 
-
-
-
-
-@media (max-width:768px) {
-  .container {
-      padding:20px;
-  }
+.carousel-item img {
+  width: 100%;
+  height: 500px;
+  object-fit: contain;
 }

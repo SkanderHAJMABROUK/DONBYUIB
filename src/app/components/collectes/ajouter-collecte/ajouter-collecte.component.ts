@@ -70,6 +70,7 @@ export class AjouterCollecteComponent implements OnInit{
           this.aFormGroup.reset();
           // this.router.navigate(['/demande-association']);
           this.showSuccessMessage = true;
+          this.showErrorNotification = false;
 
         })
         .catch(error => {
@@ -80,6 +81,7 @@ export class AjouterCollecteComponent implements OnInit{
         
     } else {
       this.showErrorNotification = true;
+      this.showSuccessMessage = false;
       console.log("Formulaire invalide");
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
