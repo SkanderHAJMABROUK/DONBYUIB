@@ -55,18 +55,16 @@
     </div>
     <div>
       <label for="logo_association">Logo de l'association<span> *</span></label><br>
-      <input type="file" id="logo_association" formControlName="logo" (change)="onLogoFileSelected($event)" required>
+      <input type="file" id="logo_association" formControlName="logo" (change)="onLogoFileSelected($event)" accept="image/png, image/jpeg, image/svg+xml" required>
       <div class="error-message" *ngIf="aFormGroup.get('logo')?.invalid && (aFormGroup.get('logo')?.dirty || aFormGroup.get('logo')?.touched)">
         <div *ngIf="aFormGroup.get('logo')?.errors?.['required']">Le logo de l'association est requis.</div>
-        <div *ngIf="aFormGroup.get('logo')?.errors?.['invalidLogoFormat']">Le format du fichier doit être jpg, jpeg, png ou svg.</div>
       </div>
     </div>       
     <div>
       <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
-      <input type="file" id="idfiscale_association" formControlName="id_fiscale" (change)="onIdFileSelected($event)" required>
+      <input type="file" id="idfiscale_association" formControlName="id_fiscale" (change)="onIdFileSelected($event)" accept="application/pdf" required>
       <div class="error-message" *ngIf="aFormGroup.get('id_fiscale')?.invalid && (aFormGroup.get('id_fiscale')?.dirty || aFormGroup.get('id_fiscale')?.touched)">
         <div *ngIf="aFormGroup.get('id_fiscale')?.errors?.['required']">La carte d'identité fiscale est requise.</div>
-        <div *ngIf="aFormGroup.get('id_fiscale')?.errors?.['invalidPdfFormat']">Le format du fichier doit être PDF.</div>
       </div>
     </div>
     <div>

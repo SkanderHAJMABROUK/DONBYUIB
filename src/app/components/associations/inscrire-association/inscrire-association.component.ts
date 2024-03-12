@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
-import { Association } from 'src/app/interfaces/association';
 import emailjs from '@emailjs/browser';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { sha256 } from 'js-sha256';
 
 @Component({
   selector: 'app-inscrire-association',
@@ -21,26 +21,27 @@ export class InscrireAssociationComponent implements OnInit {
   showPasswordConfirmation: boolean = false;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-  protected aFormGroup!: FormGroup;
+  aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
-
+  logoFile: File | null = null;
+  idFile: File | null = null;
 
   constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router,
-    private spinner:NgxSpinnerService) {}
+    private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group(
       {
         recaptcha: ['', Validators.required],
-
+        
         nom: ['', Validators.required],
         categorie: ['', Validators.required],
         description: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-        logo: ['', [Validators.required, this.logoFileValidator.bind(this)]],
-        id_fiscale: ['', [Validators.required, this.pdfFileValidator.bind(this)]],
+        logo: ['', Validators.required],
+        id_fiscale: ['', Validators.required],
         rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
         mdp: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
         mdp_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
@@ -53,15 +54,12 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
   onLogoFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    this.aFormGroup.get('logo')?.setValue(file);
+    this.logoFile = event.target.files[0];
   }
   
   onIdFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    this.aFormGroup.get('id_fiscale')?.setValue(file);
+    this.idFile = event.target.files[0];
   }
-  
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -71,51 +69,38 @@ export class InscrireAssociationComponent implements OnInit {
     this.showPasswordConfirmation = !this.showPasswordConfirmation;
   }
 
-
   async onSubmit(): Promise<void>{
-    console.log("Fonction onSubmit() appelée");
-    if (this.aFormGroup.valid) {
+    if (this.aFormGroup.valid && this.logoFile && this.idFile) {
 
       this.sendVerificationEmail();
       this.spinner.show();
 
-      console.log("Formulaire valide, reCAPTCHA validé !");
-      
-      // Upload logo file
-      const logoFile = this.aFormGroup.value.logo;
-      const logoDownloadUrl = await this.service.uploadLogo(logoFile);
+      const logoDownloadUrl = await this.service.uploadLogo(this.logoFile);
       if (!logoDownloadUrl) {
         console.error('Failed to upload logo file.');
-        // Handle error appropriately, e.g., show error message to user
         return;
       }
-      console.log('Logo file uploaded. Download URL:', logoDownloadUrl);
 
-      // Upload ID file
-      const idFile = this.aFormGroup.value.id_fiscale;
-      const idDownloadUrl = await this.service.uploadPDF(idFile);
+      const idDownloadUrl = await this.service.uploadPDF(this.idFile);
       if (!idDownloadUrl) {
         console.error('Failed to upload ID file.');
-        // Handle error appropriately, e.g., show error message to user
         return;
       }
-      console.log('ID file uploaded. Download URL:', idDownloadUrl);
 
-      console.log(this.aFormGroup.value.nom);
-
-      localStorage.setItem('associationData', JSON.stringify({...this.aFormGroup.value,
+      const associationData = {
+        ...this.aFormGroup.value,
         logo: logoDownloadUrl,
-        id_fiscale: idDownloadUrl}));
-        
-          this.spinner.hide();
-          this.aFormGroup.reset();
-          this.showSuccessMessage = true;
-          this.router.navigate(['/inscrireAssociation/email']);
+        id_fiscale: idDownloadUrl
+      };
 
+      localStorage.setItem('associationData', JSON.stringify(associationData));
+      console.log(associationData);
+      this.spinner.hide();
+      this.aFormGroup.reset();
+      this.showSuccessMessage = true;
+      this.router.navigate(['/inscrireAssociation/email']);
     } else {
       this.showErrorNotification = true;
-      console.log("Formulaire invalide");
-      // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
 
@@ -132,55 +117,6 @@ export class InscrireAssociationComponent implements OnInit {
     };
   }
 
-  logoFileValidator(control: AbstractControl): ValidationErrors | null {
-    const fileName = (control.value as string); // Extract file name from input value
-    console.log('File name:', fileName);
-  
-    if (!fileName) {
-      console.log('File name not found');
-      return { invalidFileName: true };
-    }
-  
-    const filenameParts = fileName.split('.');
-    const extension = filenameParts[filenameParts.length - 1].toLowerCase();
-    console.log('Extension:', extension);
-  
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'svg'];
-  
-    if (!allowedExtensions.includes(extension)) {
-      console.log('Invalid logo format');
-      return { invalidLogoFormat: true };
-    }
-  
-    console.log('Logo file is valid');
-    return null;
-  }
-  
-  
-  
-  pdfFileValidator(control: AbstractControl): ValidationErrors | null {
-    const fileName = (control.value as string); // Extract file name from input value
-    console.log('File name:', fileName);
-  
-    if (!fileName) {
-      console.log('File name not found');
-      return { invalidFileName: true };
-    }
-  
-    const filenameParts = fileName.split('.');
-    const extension = filenameParts[filenameParts.length - 1].toLowerCase();
-    console.log('Extension:', extension);
-  
-    if (extension !== 'pdf') {
-      console.log('Invalid PDF format');
-      return { invalidPdfFormat: true };
-    }
-  
-    console.log('PDF file is valid');
-    return null;
-  }
-  
-
   passwordFormatValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;
     if (!password) {
@@ -195,20 +131,19 @@ export class InscrireAssociationComponent implements OnInit {
     return null;
   }
 
-  // Code de la partie mailing de vérification
-  async sendVerificationEmail(){
-    
-    let codeOtp : string = this.service.genererCodeOTP().toString();
-    localStorage.setItem('code',codeOtp);
-
+  async sendVerificationEmail() {
+    let codeOtp: string = this.service.genererCodeOTP().toString();
+    let hashedCodeOtp: string = sha256(codeOtp);  
+    localStorage.setItem('code', hashedCodeOtp);
+  
     emailjs.init('_Y9fCqzL5ZcxWYmmg');
-    emailjs.send('service_hc9gqua','template_c1bhstr',{
+    emailjs.send('service_hc9gqua', 'template_c1bhstr', {
       from_name: "DonByUIB",
       to_name: this.aFormGroup.value.nom,
       code_otp: codeOtp,
-      to_email:this.aFormGroup.value.email
+      to_email: this.aFormGroup.value.email
     });
-    this.aFormGroup.reset;
+  
+    // this.aFormGroup.reset();
   }
-
 }

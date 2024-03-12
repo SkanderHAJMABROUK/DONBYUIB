@@ -39,13 +39,29 @@ ngOnInit():void{
   this.collecteHoverState.set(collecteId, state);
 }
 
-
-
-
-
  toggleShowDetails() {
   this.service.showDetails = true;
   localStorage.setItem('service.showDetails', 'true');
+}
+
+getProgressWidth(collecte: any): string {
+  const progressPercentage = (collecte.montant / collecte.objectif) * 100;
+  return progressPercentage + '%';
+}
+
+getTimeRemaining(endDate: Date): string {
+  const now = new Date();
+  const endTime = new Date(endDate);
+  const timeDiff = endTime.getTime() - now.getTime();
+  const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  if (daysRemaining <= 0) {
+    return 'Terminée';
+  } else if (daysRemaining === 1) {
+    return '1 jour restant';
+  } else {
+    return daysRemaining + ' jours restants';
+  }
 }
 
 

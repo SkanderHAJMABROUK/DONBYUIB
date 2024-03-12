@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Router } from '@angular/router';
+import { sha256 } from 'js-sha256';
 import Swal from  'sweetalert2';
 
 @Component({
@@ -25,16 +26,15 @@ export class EmailVerificationComponent implements OnInit {
   }
 
   checkEmail() {
-    const enteredCode = this.verificationForm.get('codeOTP')?.value;
-    const storedCode = localStorage.getItem('code');
-    console.log(enteredCode);
-    console.log(storedCode);
+    const enteredCode = String(this.verificationForm.get('codeOTP')?.value); // Convert to string
+  const hashedCode = sha256(enteredCode);
+  const storedCode = localStorage.getItem('code');
 
-    if (enteredCode === storedCode) {
+    if (hashedCode === storedCode) {
       // Code matches, proceed with whatever action you need
       console.log('Code matched!');
       this.verified = true;
-      localStorage.removeItem('code');
+      // localStorage.removeItem('code');
       Swal.fire({
         icon: "success",
         title: "Votre demande d'habilitation est en cours de validation. Un email vous sera envoyé dès l'approbation de la demande!",
@@ -65,7 +65,7 @@ export class EmailVerificationComponent implements OnInit {
           showConfirmButton: false,
           timer: 3000
         });
-        localStorage.removeItem('code');        // Limite de tentatives atteinte, rediriger vers la page précédente
+        // localStorage.removeItem('code');
         this.router.navigate(['/inscrireAssociation']);
       }
 

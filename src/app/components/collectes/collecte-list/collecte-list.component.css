@@ -1,124 +1,97 @@
-*{  
-    margin:0; 
+*{
+  margin:0; 
     padding:0;
     box-sizing: border-box;
     outline: none; border:none;
     text-decoration: none;
-    /* text-transform: capitalize; */
     transition: .2s linear;
     position: relative;
     margin-top: 2.7%;
 }
 
-.container{
-    padding:50px 9%;
+.container {
+  padding:50px 9%;
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;
 }
 
-.container .heading{
-    text-align: center;
-    padding-bottom: 15px;
-    color:#fff;
-    text-shadow: 0 5px 10px rgba(0,0,0,.2);
-    font-size: 50px;
+.box-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap:15px;
+  z-index: 999;
 }
 
-.container .box-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap:15px;
-    z-index: 999;
+.description {
+  font-size: 14px; /* Decrease the font size */
+  line-height: 1.2; /* Adjust line height */
+  max-height: 60px; /* Limit maximum height of the description */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add ellipsis for truncated text */
 }
 
-.container .box-container .box {
+.box {
   box-shadow: 0 5px 10px rgba(0,0,0,.2);
   border-radius: 5px;
   background: #fff;
   text-align: center;
-  padding:30px 20px;
+  padding:20px 10px;
   width: 300px;
-  height: 350px; 
+  height: auto; 
   display: flex; 
   flex-direction: column; 
   justify-content: space-between; 
- position: flex;
- border-radius: 20px;
- border: 2px solid black;
+  position: flex;
+  border-radius: 20px;
+  border: 2px solid black;
 }
 
-.container .box-container .box img {
-  height: 80px;
-  align-self: center; /* Center image vertically */
+.dates, .amount {
+  width: auto; /* Adjust based on your design */
 }
 
-.container .box-container .box h3 {
-  color:#444;
-  font-size: 20px;
-  padding:10px 0;
+.box img {
+  width: 100%; /* Ensures the image does not exceed the container width */
+  height: 200px; /* Sets a maximum height for the image */
+  display: block; /* Ensures proper spacing and alignment */
+  margin: 0 auto; /* Centers the image horizontally */
+  object-fit: contain;
 }
 
-.container .box-container .box .description {
-  color:#777;
-  font-size: 12px;
-  line-height: 1.5;
-  flex-grow: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+h3::after {
+  content: '';
+  display: block;
+  width: 50%;
+  height: 1.5px;
+  background-color: black;
+  margin: auto;
+  margin-top: 15px; /* Adjust the space between the underline and the text */
 }
 
-
-.container .box-container .box .btn {
-  background:#cc0000;
-  color:#fff;
-  width: 120px;
-  font-size: 17px;
-  border-radius: 12px;
-  padding: 8px 10px;
-  margin-left: 70px ;
-  font-weight: bold;
+.progress-bar {
+  background-color: #f0f0f081;
+  border-radius: 5px;
+  height: 15px;
+  margin: 10px 0;
 }
 
-.container .box-container .box .btn:hover {
-  letter-spacing: 0.5px;
-  background:white;
-  color:#ff0000;
+.progress {
+  background-color: #4caf50;
+  border-radius: 5px;
+  height: 100%;
 }
 
-
-.container .box-container .box:hover {
-  box-shadow: 0 10px 15px rgba(0,0,0,.3);
-  transform: scale(1.03);
+.btn {
+  display: inline-block;
+  background-color: #ff0000;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
 }
 
-
-
-.container .box-container .box .btn .icon {
-  opacity: 0;
-  transition: opacity 0.3s ease; /* Add transition for opacity */
-}
-
-.container .box-container .box .btn .icon.show {
-  opacity: 1;
-}
-
-.container .box-container .box .btn span {
-  opacity: 1;
-  transition: opacity 0.3s ease; /* Add transition for opacity */
-}
-
-.container .box-container .box .btn:hover .icon {
-  opacity: 1;
-}
-
-.container .box-container .box .btn:hover span {
-  opacity: 0;
-}
-
-@media (max-width:768px) {
-  .container {
-      padding:20px;
-  }
+.btn:hover {
+  background-color: #ffffff;
+  color: red;
 }
