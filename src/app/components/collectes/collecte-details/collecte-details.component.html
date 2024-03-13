@@ -1,1 +1,45 @@
-<p>collecte-details works!</p>
+<div *ngIf="service.showDetails && selectedCollecte" class="collecte-details">
+    <div class="left-content">
+      <div class="collecte-photo">
+        <img [src]="selectedCollecte.image" alt="Oups!" class="collecte-image">
+      </div>
+      <div class="collecte-info">
+        <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
+        <p class="collecte-description">{{ selectedCollecte.description }}</p>
+      </div>
+      <div class="dates">
+        <p>Date de début : {{ selectedCollecte.date_debut | date }}</p>
+        <p>Date de fin : {{ selectedCollecte.date_fin | date }}</p>
+      </div>
+      <div class="amount">
+        <p>Montant : {{ selectedCollecte.montant }}</p>
+      </div>
+    </div>
+  
+    <div class="right-content">
+        <div class="details">
+            
+          </div>
+          <h3>Progression : </h3>
+          <div class="progress-bar">
+            <div class="progress" [style.width]="getProgressWidth(selectedCollecte)"></div>
+          </div>
+          <h3>Temps restant : <br>{{ getTimeRemaining(selectedCollecte.date_fin) }}</h3>
+      
+      <div class="donate">
+        <h3>Faire un don</h3> 
+        <div class="donate-buttons"> 
+          <button (click)="updateDonationAmountFromButton(10)">10DT</button>
+          <button (click)="updateDonationAmountFromButton(20)">20DT</button>
+          <button (click)="updateDonationAmountFromButton(50)">50DT</button>
+          <button (click)="updateDonationAmountFromButton(100)">100DT</button>
+        </div>
+        <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> 
+        <label for="montant">Saisir un montant</label>
+        <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
+        <a href="#fakeLink" class="validerDon" (click)="donate()">Valider le don de {{donationAmount}} vers "{{selectedCollecte.nom}}".</a>
+      </div>
+      
+    </div>
+  </div>
+  
