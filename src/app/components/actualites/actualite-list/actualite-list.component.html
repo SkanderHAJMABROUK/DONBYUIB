@@ -2,7 +2,8 @@
   <div class="main-heading">" Grâce à vous... "</div>
   <owl-carousel-o [options]="customOptions">
     <ng-template carouselSlide *ngFor="let actualite of actualites">
-      <a href="">
+      <a class="btn" [routerLink]="['details', actualite.id]"
+      (click)="toggleShowDetails()">
         <div class="carousel-item">
           <img src="{{actualite.image}}" alt="">
           <div class="carousel-caption">
@@ -10,7 +11,8 @@
             <p>{{actualite.description}}</p>
           </div>
         </div>
-      </a>      
+      </a>    
+       
     </ng-template>  
   </owl-carousel-o>
 </div>

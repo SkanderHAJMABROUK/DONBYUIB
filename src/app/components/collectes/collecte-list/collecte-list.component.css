@@ -70,14 +70,13 @@ h3::after {
 }
 
 .progress-bar {
-  background-color: #f0f0f081;
   border-radius: 5px;
   height: 15px;
   margin: 10px 0;
 }
 
 .progress {
-  background-color: #4caf50;
+  background-color: #606060c2;
   border-radius: 5px;
   height: 100%;
 }

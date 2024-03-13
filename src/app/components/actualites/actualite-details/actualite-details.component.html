@@ -1,0 +1,28 @@
+<div *ngIf="service.showDetails && selectedActualite" class="actualite-details">
+    <div class="left-content">
+      <div class="actualite-photo">
+        <img [src]="selectedActualite.image" alt="Oups!" class="actualite-image">
+      </div>
+      <div class="actualite-info">
+        <h2 class="actualite-name">{{ selectedActualite.titre }}</h2>
+        <p class="actualite-description">{{ selectedActualite.description }}</p>
+      </div>
+      <div class="dates">
+        <p>Date de publication : {{ selectedActualite.date_publication | date }}</p>
+      </div>
+      
+    </div>
+  
+    <div class="right-content">
+        <div class="details">
+            <h3>Ajouter un commentaire: </h3>
+            <textarea></textarea>
+          </div>
+        
+          
+      
+      
+      
+    </div>
+  </div>
+  
