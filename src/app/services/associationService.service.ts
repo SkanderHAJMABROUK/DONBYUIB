@@ -9,6 +9,7 @@ import { Association } from '../interfaces/association';
 import { Observable, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { CookieService } from 'ngx-cookie-service';
+import { sha256 } from 'js-sha256';
 
 
 @Injectable({
@@ -54,7 +55,8 @@ export class AssociationService {
           logo: association.logo,
           mdp: association.mdp,
           rib: association.rib,
-          telephone: association.telephone
+          telephone: association.telephone,
+          salt: association.salt,
         }));
       })
     );
@@ -72,6 +74,26 @@ export class AssociationService {
     );
   }
 
+  getAssociationByEmail(email: string): Observable<Association | undefined> {
+    return this.getAssociations().pipe(
+      map(associations => associations.find(association => association.email === email))
+    );
+  }
+
+  getAssociationSaltByEmail(email: string): Observable<string | undefined> {
+    return this.getAssociationByEmail(email).pipe(
+      map((association: Association | undefined) => {
+        // Vérifie si l'association a été trouvée
+        if (association) {
+          // Retourne le sel de l'association
+          return association.salt;
+        } else {
+          // Si aucune association n'a été trouvée, retourne undefined
+          return undefined;
+        }
+      })
+    );}
+  
   
   genererCodeOTP(): number {
     let codeOTP: string = '';
@@ -83,6 +105,11 @@ export class AssociationService {
   
   addAssociation(associationData: Association) {
 
+    // Génération du sel
+    const salt: string = this.generateSalt(16);
+    // Hachage du mot de passe avec salage
+    const hashedPassword: string = sha256(associationData.mdp+salt).toString();
+
     const dataToAdd: Association = {
         nom: associationData.nom,
         description: associationData.description,
@@ -91,9 +118,10 @@ export class AssociationService {
         telephone: associationData.telephone,
         logo: associationData.logo,
         id_fiscale: associationData.id_fiscale,
-        rib: associationData.rib,
-        mdp: associationData.mdp,
-        etat: "en_attente"
+        rib: associationData.rib, // Stockage du mot de passe haché
+        mdp: hashedPassword,
+        etat: "en_attente",
+        salt:salt //Stockage du sel
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
@@ -139,47 +167,73 @@ logOut(){
    console.log(this.nomAssociation) 
  }
 
-
-
-  async uploadLogo(file: File): Promise<string | null> {
-    const filePath = `LogosAssociations/${file.name}`;
-    console.log('in upload' , filePath);
-    const fileRef = this.fireStorage.ref(filePath);
-    const task = this.fireStorage.upload(filePath, file);
-
-    try {
-      // Wait for the upload to complete
-      await task;
-
-      // Get the download URL
-      const downloadUrl = await fileRef.getDownloadURL().toPromise();
-
-      return downloadUrl;
-    } catch (error) {
-      console.error('An error occurred while uploading the file:', error);
-      return null;
-    }
+ async uploadLogo(file: File): Promise<string | null> {
+  if (!file) {
+    console.error('File is null or undefined');
+    return null;
   }
 
-  async uploadPDF(file: File): Promise<string | null> {
-    const filePath = `IDFiscauxAssociations/${file.name}`;
-    console.log('in upload' , filePath);
-    const fileRef = this.fireStorage.ref(filePath);
-    const task = this.fireStorage.upload(filePath, file);
+  const filePath = `LogosAssociations/${file.name}`;
+  console.log('in upload', filePath);
+  const fileRef = this.fireStorage.ref(filePath);
+  const task = this.fireStorage.upload(filePath, file);
 
-    try {
-      // Wait for the upload to complete
-      await task;
+  try {
+    // Wait for the upload to complete
+    await task;
 
-      // Get the download URL
-      const downloadUrl = await fileRef.getDownloadURL().toPromise();
+    // Get the download URL
+    const downloadUrl = await fileRef.getDownloadURL().toPromise();
 
-      return downloadUrl;
-    } catch (error) {
-      console.error('An error occurred while uploading the file:', error);
-      return null;
-    }
+    return downloadUrl;
+  } catch (error) {
+    console.error('An error occurred while uploading the file:', error);
+    return null;
   }
+}
+
+async uploadPDF(file: File): Promise<string | null> {
+  if (!file) {
+    console.error('File is null or undefined');
+    return null;
+  }
+
+  const filePath = `IDFiscauxAssociations/${file.name}`;
+  console.log('in upload', filePath);
+  const fileRef = this.fireStorage.ref(filePath);
+  const task = this.fireStorage.upload(filePath, file);
+
+  try {
+    // Wait for the upload to complete
+    await task;
+
+    // Get the download URL
+    const downloadUrl = await fileRef.getDownloadURL().toPromise();
+
+    return downloadUrl;
+  } catch (error) {
+    console.error('An error occurred while uploading the file:', error);
+    return null;
+  }
+}
+
+// Méthode pour vérifier si l'e-mail existe déjà
+checkEmailExists(email: string): Observable<boolean> {
+  return this.firestore.collection('Association', ref => ref.where('email', '==', email)).get().pipe(
+    map(snapshot => !snapshot.empty)
+  );
+}
+
+generateSalt(length: number): string {
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let salt = '';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * charset.length);
+    salt += charset[randomIndex];
+  }
+  return salt;
+}
+
 
   
 }

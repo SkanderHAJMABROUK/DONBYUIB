@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   templateUrl: './sinscrire.component.html',
   styleUrls: ['./sinscrire.component.css']
 })
-export class SinscrireComponent {
+export class SinscrireComponent implements OnInit{
 
   siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; // Site Key
   password: string = '';

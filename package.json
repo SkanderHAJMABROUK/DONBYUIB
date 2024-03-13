@@ -27,6 +27,7 @@
     "angularfire2": "^5.4.2",
     "bootstrap": "^5.3.3",
     "firebase": "^10.8.0",
+    "js-sha256": "^0.11.0",
     "mysql": "^2.18.1",
     "ng-recaptcha": "^13.2.1",
     "ngx-captcha": "^13.0.0",

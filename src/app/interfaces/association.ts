@@ -10,4 +10,5 @@ export interface Association {
     mdp:string,
     rib:number,
     telephone:number,
+    salt?:string
 }
