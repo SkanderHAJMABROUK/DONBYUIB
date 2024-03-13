@@ -26,11 +26,12 @@ export class EmailVerificationComponent implements OnInit {
   }
 
   checkEmail() {
-    const enteredCode = String(this.verificationForm.get('codeOTP')?.value); // Convert to string
-  const hashedCode = sha256(enteredCode);
-  const storedCode = localStorage.getItem('code');
-
-    if (hashedCode === storedCode) {
+    const salt : string  | null = localStorage.getItem('saltOtp');
+    const enteredCode = String(this.verificationForm.get('codeOTP')?.value);
+    const hashedEnteredCode = sha256(enteredCode+salt);
+    const storedCode = localStorage.getItem('codeOtp');
+    
+    if (hashedEnteredCode === storedCode) {
       // Code matches, proceed with whatever action you need
       console.log('Code matched!');
       this.verified = true;
@@ -47,7 +48,7 @@ export class EmailVerificationComponent implements OnInit {
         .then(() => {
           console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
-          this.router.navigate(['/login']); // Rediriger vers la page de réussite
+          this.router.navigate(['/login'],{ replaceUrl: true }); // Rediriger vers la page de réussite
         })
         .catch(error => {
           console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
@@ -66,7 +67,7 @@ export class EmailVerificationComponent implements OnInit {
           timer: 3000
         });
         // localStorage.removeItem('code');
-        this.router.navigate(['/inscrireAssociation']);
+        this.router.navigate(['/inscrireAssociation'],{ replaceUrl: true });
       }
 
       this.codeMismatch = true; // Set flag for code mismatch

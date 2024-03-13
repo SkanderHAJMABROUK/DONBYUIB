@@ -121,10 +121,11 @@ const firebaseConfig = {
 
       {path:'listeActualites',component:ActualiteListComponent},
 
-
-
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
+      {path: 'login/profilAssociation/:id/liste-actualites-association', component: ActualiteListAssociationComponent},
+
+    
 
       {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
 

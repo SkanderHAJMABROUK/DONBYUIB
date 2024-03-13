@@ -24,6 +24,7 @@ export class InscrireAssociationComponent implements OnInit {
   aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
+  showEmailExists: boolean = false;
   logoFile: File | null = null;
   idFile: File | null = null;
 
@@ -71,6 +72,11 @@ export class InscrireAssociationComponent implements OnInit {
 
   async onSubmit(): Promise<void>{
     if (this.aFormGroup.valid && this.logoFile && this.idFile) {
+      const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
+
+      if (!emailExists) {
+        
+
 
       this.sendVerificationEmail();
       this.spinner.show();
@@ -98,7 +104,11 @@ export class InscrireAssociationComponent implements OnInit {
       this.spinner.hide();
       this.aFormGroup.reset();
       this.showSuccessMessage = true;
-      this.router.navigate(['/inscrireAssociation/email']);
+      this.router.navigate(['/inscrireAssociation/email'],{ replaceUrl: true });
+    } else {
+      // Afficher un message d'erreur si l'e-mail existe déjà
+      this.showEmailExists = true;
+    }
     } else {
       this.showErrorNotification = true;
     }
@@ -132,18 +142,22 @@ export class InscrireAssociationComponent implements OnInit {
   }
 
   async sendVerificationEmail() {
+
     let codeOtp: string = this.service.genererCodeOTP().toString();
-    let hashedCodeOtp: string = sha256(codeOtp);  
-    localStorage.setItem('code', hashedCodeOtp);
+    let salt: string = this.service.generateSalt(16);
+    let hashedCodeOtp: string = sha256(codeOtp+salt);  
+
+    localStorage.setItem('codeOtp', hashedCodeOtp);
+    localStorage.setItem('saltOtp',salt);
   
     emailjs.init('_Y9fCqzL5ZcxWYmmg');
+
     emailjs.send('service_hc9gqua', 'template_c1bhstr', {
       from_name: "DonByUIB",
       to_name: this.aFormGroup.value.nom,
       code_otp: codeOtp,
       to_email: this.aFormGroup.value.email
     });
-  
-    // this.aFormGroup.reset();
+
   }
 }
