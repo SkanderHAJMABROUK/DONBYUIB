@@ -43,7 +43,6 @@ import { ModifierActualiteComponent } from './components/actualites/modifier-act
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
 
 
 const firebaseConfig = {
@@ -56,6 +55,16 @@ const firebaseConfig = {
   measurementId: "G-D749N7NPLF"
 };
 
+// const winston = require('winston');
+
+// const logger = winston.createLogger({
+//   level: 'debug',
+//   format: winston.format.json(),
+//   transpports: [
+//     new winston.transports.Console(),
+//     new winston.transports.File({filename : 'app.log' , level: 'error'}),    
+//   ]
+// })
 
 
 @NgModule({
@@ -84,8 +93,7 @@ const firebaseConfig = {
     ActualiteListAssociationComponent,
     AjouterActualiteComponent,
     ActualiteDetailsAssociationsComponent,
-    ModifierActualiteComponent,
-    ActualiteDetailsComponent,    
+    ModifierActualiteComponent,    
   ],
   imports: [
     BrowserModule,
@@ -123,8 +131,6 @@ const firebaseConfig = {
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
 
       {path:'listeActualites',component:ActualiteListComponent},
-      { path: 'listeActualites/details/:id', component: ActualiteDetailsComponent },
-
 
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
