@@ -1,0 +1,63 @@
+.donateur-details {
+    width: 600px;
+    padding: 20px;
+    background-color: white;
+    text-align: center;
+   
+}
+.container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+}
+
+
+.donateur-details h2 {
+    color: #850707;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.donateur-details p {
+    color: black;
+    margin-bottom: 10px;
+}
+
+.donateur-details img {
+    width: 100px; /* Ajustez la taille de l'image selon vos besoins */
+    height: 100px; /* Ajustez la taille de l'image selon vos besoins */
+    display: block;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.donateur-details button {
+    background-color: #850707;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.2s;
+    font-weight: bold;
+}
+
+.donateur-details button:hover {
+    background-color: #ffffff;
+    color: #850707;
+}
+hr {
+    border: none;
+    height: 1.5px;
+    background-color: black; 
+    width: 50%; 
+    margin: 0 auto; 
+    margin-bottom: 4%;
+}

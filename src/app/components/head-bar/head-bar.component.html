@@ -8,20 +8,31 @@
             <li><a [routerLink]="['listeActualites']">Accueil</a></li>
             <li><a [routerLink]="['listeAssociations']">Associations</a></li>
             <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
-            <li><a href="">FAQ</a></li>
+            <li><a [routerLink]="['']">FAQ</a></li>
     
         </ul>
 
 
-        <a [routerLink]="['Sinscrire']" class="action_btn" *ngIf="!service.connexion" >S'inscrire</a>
+        <a [routerLink]="['Sinscrire']" class="action_btn" *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur">S'inscrire</a>
 
 
-        <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!service.connexion" >Inscrire mon association</a>
-        <a [routerLink]="['login']" class="action_btn"  *ngIf="!service.connexion" >Se connecter</a>
+        <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" >Inscrire mon association</a>
+        <a [routerLink]="['login']" class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" >Se connecter</a>
  
-        <a [routerLink]="['login/profilAssociation',service.id]" class="action_btn"  *ngIf="service.connexion" > 
-             <span>{{ service.nomAssociation }}</span>
+        <a [routerLink]="['login/profilAssociation',serviceAssociation.id]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
+             <span>{{ serviceAssociation.nomAssociation }}</span>
              <div class="connection-indicator"></div>
+        </a>
+
+        <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" > 
+            <span>{{ serviceDonateur.nomDonateur }}</span><span>{{ serviceDonateur.prenomDonateur }}</span>
+
+            <div class="connection-indicator"></div>
+       </a>
+
+
+       <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"  (click)="logoutDonateur()"> 
+        Se déconnecter
         </a>
 
 
@@ -37,13 +48,13 @@
             <li><a [routerLink]="['listeAssociations']">Associations</a></li>
             <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
             <li><a href="">FAQ</a></li>
-            <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!service.connexion"  >S'inscrire</a></li>
-            <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!service.connexion"  >Inscrire mon association</a></li>
-            <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!service.connexion"  >Se connecter</a></li>
-            <li><a [routerLink]="['login/profilAssociation',service.id]" class="action_btn"  *ngIf="service.connexion" > 
-              {{ service.nomAssociation }}
-              <div class="connection-indicator"></div>
-
+            <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur"  >S'inscrire</a></li>
+            <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur"  >Inscrire mon association</a></li>
+            <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur"  >Se connecter</a></li>
+            <li> <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" > 
+                <span>{{ serviceDonateur.nomDonateur }}</span><span>{{ serviceDonateur.prenomDonateur }}</span>
+    
+                <div class="connection-indicator"></div>
            </a></li>
 
         </ul>

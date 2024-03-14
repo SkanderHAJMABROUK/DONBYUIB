@@ -44,6 +44,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
+import { ProfilDonateurComponent } from './components/donateur/profil-donateur/profil-donateur.component';
+import { ModifierDonateurComponent } from './components/donateur/modifier-donateur/modifier-donateur.component';
 
 
 const firebaseConfig = {
@@ -84,7 +86,9 @@ const firebaseConfig = {
     AjouterActualiteComponent,
     ActualiteDetailsAssociationsComponent,
     ModifierActualiteComponent,
-    ActualiteDetailsComponent,    
+    ActualiteDetailsComponent,
+    ProfilDonateurComponent,
+    ModifierDonateurComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,7 +110,8 @@ const firebaseConfig = {
 
     RouterModule.forRoot([
 
-      
+
+
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'inscrireAssociation/email',component:EmailVerificationComponent},
 
@@ -127,7 +132,9 @@ const firebaseConfig = {
 
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
-      {path: 'login/profilAssociation/:id/liste-actualites-association', component: ActualiteListAssociationComponent},
+      {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent},
+      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent},
+
 
     
 

@@ -1,0 +1,19 @@
+<div class="container">
+<div class="donateur-details" *ngIf="selectedDonateur">
+    <h2>Mon Compte</h2>
+    <hr>
+    <strong><p>Photo de profil : </p></strong>
+    <img [src]="selectedDonateur.photo">
+    <strong><p>Nom : </p></strong>  
+    <p>{{ selectedDonateur.nom }}</p>
+    <strong><p>Prénom : </p></strong>  
+    <p>{{ selectedDonateur.prenom }}</p>
+    <strong><p>Date de naissance : </p></strong>
+    <p>{{ selectedDonateur.date_de_naissance |date }}</p>
+    <strong><p>Email : </p></strong>
+    <p>{{ selectedDonateur.email }}</p>
+    
+    <button (click)="service.modifiercompte=true" [routerLink]="['modifier']">Modifier</button> 
+   
+  </div>
+</div>

@@ -27,6 +27,7 @@ export class AssociationService {
   afficherActualite:boolean=false;
 
   modifierAss:boolean=false;
+  id!:string|undefined;
 
 
 
@@ -134,7 +135,6 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
 }
 
 
-id!:string|undefined;
 
 logIn(email: string, password: string) {
   this.getAssociationByEmailAndPassword(email, password).subscribe(

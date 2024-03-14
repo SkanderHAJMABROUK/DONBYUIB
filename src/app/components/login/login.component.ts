@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
 import { Association } from 'src/app/interfaces/association';
+import { DonateurService } from 'src/app/services/donateur.service';
 
 @Component({
   selector: 'app-login',
@@ -18,11 +19,12 @@ export class LoginComponent {
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required],
       email: ['', Validators.required], 
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      userType:['',Validators.required],
     });
   }
 
-  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService){
+  constructor(private formBuilder : FormBuilder , private route:Router, public serviceAssociation:AssociationService, public serviceDonateur:DonateurService){
 
   }
 
@@ -42,17 +44,23 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.aFormGroup.valid) {
-      this.logIn();
-      this.showErrorNotification=false;
-    } else {this.showErrorNotification = true;}
+      if (this.aFormGroup.get('userType')?.value === 'association') {
+        this.logInAssociation();
+      } else {
+        this.logInDonateur();
+      }
+      this.showErrorNotification = false;
+    } else {
+      this.showErrorNotification = true;
+    }
   }
 
-  logIn() {
+  logInAssociation() {
     const email = this.aFormGroup.get('email')?.value;
     const password = this.aFormGroup.get('password')?.value;
   
     // Récupérer le sel de l'association par email
-    this.service.getAssociationSaltByEmail(email).subscribe(
+    this.serviceAssociation.getAssociationSaltByEmail(email).subscribe(
       (salt: string | undefined) => {
         if (salt) {
           // Hasher le mot de passe avec le sel
@@ -60,7 +68,7 @@ export class LoginComponent {
           const hashedPassword = sha256(password + salt);
   
           // Appeler la méthode de connexion avec l'email et le mot de passe haché
-          this.service.logIn(email, hashedPassword);
+          this.serviceAssociation.logIn(email, hashedPassword);
         } else {
           // Gérer le cas où le sel n'est pas trouvé pour l'email donné
           console.error('Salt not found for email:', email);
@@ -72,5 +80,11 @@ export class LoginComponent {
     );
   }
   
+
+  logInDonateur() {
+    const email = this.aFormGroup.get('email')?.value;
+    const password = this.aFormGroup.get('password')?.value;
+    this.serviceDonateur.logIn(email, password);
+  }
 
 }
