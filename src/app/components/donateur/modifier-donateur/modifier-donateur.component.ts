@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl,Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Donateur } from 'src/app/interfaces/donateur';
 import { DonateurService } from 'src/app/services/donateur.service';
@@ -26,11 +26,11 @@ export class ModifierDonateurComponent {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.donateurId= params['id']; 
-      
+      this.donateurId = params['id']; 
       this.service.getDonateurById(this.donateurId).subscribe(donateur => {
         if (donateur) {
           this.donateur = donateur; 
+          console.log(donateur)
           this.initializeForm(); 
         } else {
           console.error('Aucun donateur trouvé avec cet ID :', this.donateurId);
@@ -38,6 +38,7 @@ export class ModifierDonateurComponent {
       });
     });
   }
+  
 
   initializeForm(): void {
     this.aFormGroup = this.formBuilder.group({
@@ -51,12 +52,12 @@ export class ModifierDonateurComponent {
 
   
  
-  async onSubmit(): Promise<void>{
+  onSubmit(){
     console.log("Fonction onSubmit() appelée");
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide");
 
-      await this.service.modifierCompte(this.donateurId, { ...this.aFormGroup.value })
+      this.service.modifierCompte(this.donateurId, { ...this.aFormGroup.value })
         .then(() => {
           console.log('Données du donateur modifiées avec succès dans Firebase Firestore.');
                     this.showSuccessMessage = true;

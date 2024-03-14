@@ -147,7 +147,9 @@ const firebaseConfig = {
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule],
+  providers: [AssociationService,AngularFirestore,AngularFireModule,
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
