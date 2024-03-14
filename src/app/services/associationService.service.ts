@@ -164,7 +164,6 @@ logOut(){
    localStorage.setItem('connexion','false');
    localStorage.removeItem('nomAssociation');
    this.route.navigate(['/login']);
-   console.log(this.nomAssociation) 
  }
 
  async uploadLogo(file: File): Promise<string | null> {

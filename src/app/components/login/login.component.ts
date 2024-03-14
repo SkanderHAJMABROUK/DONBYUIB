@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Router } from '@angular/router';
@@ -7,6 +7,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
 import { Association } from 'src/app/interfaces/association';
 import { DonateurService } from 'src/app/services/donateur.service';
+
+
 
 @Component({
   selector: 'app-login',
@@ -72,6 +74,7 @@ export class LoginComponent {
         } else {
           // Gérer le cas où le sel n'est pas trouvé pour l'email donné
           console.error('Salt not found for email:', email);
+          this.serviceAssociation.showErrorNotification = true;
         }
       },
       (error) => {
