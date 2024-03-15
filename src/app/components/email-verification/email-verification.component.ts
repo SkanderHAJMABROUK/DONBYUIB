@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AssociationService } from 'src/app/services/associationService.service';
+import { DonateurService } from 'src/app/services/donateur.service';
 import { Router } from '@angular/router';
 import { sha256 } from 'js-sha256';
 import Swal from  'sweetalert2';
+
 
 @Component({
   selector: 'app-email-verification',
@@ -12,7 +14,8 @@ import Swal from  'sweetalert2';
 })
 export class EmailVerificationComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, public aService: AssociationService, private router: Router,
+    private dService:DonateurService) {}
 
   protected verificationForm!: FormGroup;
   verified: boolean = false;
@@ -35,7 +38,7 @@ export class EmailVerificationComponent implements OnInit {
       // Code matches, proceed with whatever action you need
       console.log('Code matched!');
       this.verified = true;
-      // localStorage.removeItem('code');
+
       Swal.fire({
         icon: "success",
         title: "Votre demande d'habilitation est en cours de validation. Un email vous sera envoyé dès l'approbation de la demande!",
@@ -43,16 +46,37 @@ export class EmailVerificationComponent implements OnInit {
         timer: 10000
       });
 
-      const associationData = JSON.parse(localStorage.getItem('associationData') || '{}');
-      this.service.addAssociation(associationData)
+      let type = localStorage.getItem('type');
+
+if (type === "association") {
+
+    const associationData = JSON.parse(localStorage.getItem('associationData') || '{}');
+
+    this.aService.addAssociation(associationData)
         .then(() => {
-          console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
-          // Réinitialiser le formulaire après l'ajout des données
-          this.router.navigate(['/login'],{ replaceUrl: true }); // Rediriger vers la page de réussite
+            console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
+            // Réinitialiser le formulaire après l'ajout des données
+            this.router.navigate(['/login'], { replaceUrl: true }); // Rediriger vers la page de réussite
         })
         .catch(error => {
-          console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
+            console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
         });
+} else if (type === "donateur") {
+
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+
+    this.dService.ajouterDonateur(userData)
+        .then(() => {
+            console.log('Données du donateur ajoutées avec succès dans Firebase Firestore.');
+            // Réinitialiser le formulaire après l'ajout des données
+            this.router.navigate(['/login'], { replaceUrl: true }); // Rediriger vers la page de réussite
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'ajout des données du donateur dans Firebase Firestore:', error);
+        });
+}
+
+      
       
     } else {
       // Code does not match, handle this case accordingly

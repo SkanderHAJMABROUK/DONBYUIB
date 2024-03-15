@@ -104,7 +104,7 @@ export class InscrireAssociationComponent implements OnInit {
     if (this.aFormGroup.valid && this.logoFile && this.idFile) {
       const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
 
-      if (!emailExists) {
+      if (emailExists) {
         
 
 
@@ -129,6 +129,8 @@ export class InscrireAssociationComponent implements OnInit {
         id_fiscale: idDownloadUrl
       };
 
+      localStorage.setItem('type', 'association');
+
       localStorage.setItem('associationData', JSON.stringify(associationData));
       console.log(associationData);
       this.spinner.hide();
@@ -143,6 +145,7 @@ export class InscrireAssociationComponent implements OnInit {
       this.showErrorNotification = true;
     }
   }
+  
 
   
 

@@ -46,11 +46,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
 import { ProfilDonateurComponent } from './components/donateur/profil-donateur/profil-donateur.component';
 import { ModifierDonateurComponent } from './components/donateur/modifier-donateur/modifier-donateur.component';
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } from '@abacritt/angularx-social-login';
-import {
-  GoogleLoginProvider,
 
-} from '@abacritt/angularx-social-login';
 
 
 const firebaseConfig = {
@@ -62,7 +58,6 @@ const firebaseConfig = {
   appId: "1:586021322511:web:fe97e78a0e10165d2b487a",
   measurementId: "G-D749N7NPLF"
 };
-
 
 
 @NgModule({
@@ -108,6 +103,7 @@ const firebaseConfig = {
     NgxSliderModule,
     NgxSpinnerModule,
     CarouselModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
@@ -124,7 +120,7 @@ const firebaseConfig = {
       {path:'',component:ActualiteListComponent},
 
       {path:'Sinscrire',component:SinscrireComponent},
-
+      {path:'sinscrire/email',component:EmailVerificationComponent},
 
       {path:'listeAssociations',component:AssociationListComponent},
       { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
@@ -133,13 +129,11 @@ const firebaseConfig = {
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
 
       {path:'listeActualites',component:ActualiteListComponent},
-      { path: 'listeActualites/details/:id', component: ActualiteDetailsComponent },
-
 
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
       {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent},
-      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent},
+      {path: 'login/profilDonateur/:id/modifier', component: ModifierCollecteComponent},
 
 
     
@@ -152,29 +146,7 @@ const firebaseConfig = {
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule,  {
-    provide: 'SocialAuthServiceConfig',
-    useValue: {
-      autoLogin: false,
-      providers: [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(
-            'clientId'
-          )
-        },
-        {
-          id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider('clientId')
-        }
-      ],
-      onError: (err) => {
-        console.error(err);
-      }
-    } as SocialAuthServiceConfig,
-  }
-    
-  ],
+  providers: [AssociationService,AngularFirestore,AngularFireModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

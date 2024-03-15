@@ -6,10 +6,13 @@ import { Router } from '@angular/router';
 
 import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
-import { Observable, from, map } from 'rxjs';
+import { Observable, catchError, from, map, of, throwError } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
+import { HttpClient } from '@angular/common/http';
+import { Log } from '../interfaces/log';
+import { LogService } from './log.service';
 
 
 @Injectable({
@@ -36,7 +39,7 @@ export class AssociationService {
   nomAssociation: string = localStorage.getItem('nomAssociation') || '';
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router
-    , public cookie:CookieService, public fireAuth:AngularFireAuth){}
+    , public cookie:CookieService, public fireAuth:AngularFireAuth, private http:HttpClient){}
 
   showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
  
@@ -142,34 +145,36 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
 
 
 
-logIn(email: string, password: string) {
-  this.getAssociationByEmailAndPassword(email, password).subscribe(
-    (association) => {
+logIn(email: string, password: string): Observable<boolean> {
+  return this.getAssociationByEmailAndPassword(email, password).pipe(
+    map(association => {
       if (association) {
         this.connexion = true;
         this.nomAssociation = association.nom;
         localStorage.setItem('connexion', 'true');
         localStorage.setItem('nomAssociation', this.nomAssociation); // Set the association name in localStorage
-        this.route.navigate(['/login/profilAssociation', association.id]);
-        this.cookie.set("Details utilisateurs", "Email : " + email + "Password : " + password, 7);
+        this.route.navigate(['/login/profilAssociation', association.id], { replaceUrl: true });
+        this.cookie.set("Details utilisateurs", "Email : " + email + " Password : " + password, 7);
+        return true; // Login succeeded
       } else {
         this.showErrorNotification = true;
         console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
+        return false; // Login failed
       }
-    },
-    (error) => {
+    }),
+    catchError(error => {
       console.error('Erreur lors de la recherche de l\'association:', error);
-    }
+      return of(false); // Return false in case of error
+    })
   );
 }
 
 
-
 logOut(){
-  this.connexion=false;
+   this.connexion=false;
    localStorage.setItem('connexion','false');
    localStorage.removeItem('nomAssociation');
-   this.route.navigate(['/login']);
+   this.route.navigate(['/login'],{replaceUrl:true});
  }
 
  async uploadLogo(file: File): Promise<string | null> {
@@ -238,7 +243,6 @@ generateSalt(length: number): string {
   }
   return salt;
 }
-
 
   
 }

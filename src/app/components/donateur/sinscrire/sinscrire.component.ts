@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { DonateurService } from '../../../services/donateur.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { sha256 } from 'js-sha256';
+import emailjs from '@emailjs/browser';
+import { AssociationService } from 'src/app/services/associationService.service';
 
 @Component({
   selector: 'app-sinscrire',
@@ -22,11 +25,11 @@ export class SinscrireComponent implements OnInit{
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
-
+  showEmailExists: boolean = false;
 
   constructor(private formBuilder: FormBuilder, public service: DonateurService, 
-    private router: Router,private spinner:NgxSpinnerService) {}
-  
+    private router: Router,private spinner:NgxSpinnerService, private aService:AssociationService) {}
+
 
   ngOnInit(): void {
 
@@ -72,12 +75,15 @@ export class SinscrireComponent implements OnInit{
 
 
   async onSubmit(): Promise<void>{
-    console.log("Fonction onSubmit() appelée");
+
     if (this.aFormGroup.valid) {
 
+      const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
+      if (!emailExists) {
       console.log("Formulaire valide, reCAPTCHA validé !");
 
       this.spinner.show(); // Afficher le spinner
+      this.sendVerificationEmail();
 
       // Upload logo file
       const File = this.aFormGroup.value.photo;
@@ -89,21 +95,24 @@ export class SinscrireComponent implements OnInit{
       }
       console.log(' file uploaded. Download URL:', PhotoDownloadUrl);
 
-     console.log(this.aFormGroup.value.date_de_naissance)
-      this.service.ajouterDonateur({...this.aFormGroup.value,
-        photo: PhotoDownloadUrl})
-        .then(() => {
-          this.spinner.hide();
-          console.log('Données du donateur ajoutées avec succès dans Firebase Firestore.');
-          // Réinitialiser le formulaire après l'ajout des données
-          this.aFormGroup.reset();
-          this.showSuccessMessage = true;
-          this.router.navigate(['/login'],{ replaceUrl: true });
-          this.showErrorNotification=false;
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'ajout des données du donateur dans Firebase Firestore:', error);
-        });
+
+      const userData = {
+        ...this.aFormGroup.value,
+        photo: PhotoDownloadUrl
+      };
+
+      localStorage.setItem('type' , 'donateur');
+
+      localStorage.setItem('userData', JSON.stringify(userData));
+      this.spinner.hide();
+      this.aFormGroup.reset();
+      this.showSuccessMessage=true;
+      this.showErrorNotification=false;
+      this.router.navigate(['/sinscrire/email'],{ replaceUrl: true });
+
+      } else  {
+          this.showEmailExists=true;
+      }
     } else {
       this.showErrorNotification = true;
       console.log("Formulaire invalide");
@@ -138,5 +147,25 @@ export class SinscrireComponent implements OnInit{
       return { invalidPasswordFormat: true };
     }
     return null;
+  }
+
+  async sendVerificationEmail() {
+
+    let codeOtp: string = this.aService.genererCodeOTP().toString();
+    let salt: string = this.aService.generateSalt(16);
+    let hashedCodeOtp: string = sha256(codeOtp+salt);  
+
+    localStorage.setItem('codeOtp', hashedCodeOtp);
+    localStorage.setItem('saltOtp',salt);
+  
+    emailjs.init('_Y9fCqzL5ZcxWYmmg');
+
+    emailjs.send('service_hc9gqua', 'template_c1bhstr', {
+      from_name: "DonByUIB",
+      to_name: this.aFormGroup.value.nom,
+      code_otp: codeOtp,
+      to_email: this.aFormGroup.value.email
+    });
+
   }
 }

@@ -139,5 +139,12 @@ logOut(){
   return donateurRef.update(updatedDonateurData);
 }
 
+// Méthode pour vérifier si l'e-mail existe déjà
+checkEmailExists(email: string): Observable<boolean> {
+  return this.firestore.collection('Donateur', ref => ref.where('email', '==', email)).get().pipe(
+    map(snapshot => !snapshot.empty)
+  );
+}
+
 
 }
