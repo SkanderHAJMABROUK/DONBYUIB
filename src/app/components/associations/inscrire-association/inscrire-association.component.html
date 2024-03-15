@@ -74,14 +74,17 @@
         <div *ngIf="aFormGroup.get('id_fiscale')?.errors?.['required']">La carte d'identité fiscale est requise.</div>
       </div>
     </div>
+    
     <div>
       <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association<span> *</span></label>
       <input type="text" id="rib_association" formControlName="rib" placeholder="N° RIB" required>
       <div class="error-message" *ngIf="aFormGroup.get('rib')?.invalid && (aFormGroup.get('rib')?.dirty || aFormGroup.get('rib')?.touched)">
         <div *ngIf="aFormGroup.get('rib')?.errors?.['required']">Le RIB de l'association est requis.</div>
         <div *ngIf="aFormGroup.get('rib')?.errors?.['minlength'] || aFormGroup.get('rib')?.errors?.['maxlength']">Le RIB de l'association doit être composé exactement de 20 caractères.</div>
+        <div *ngIf="aFormGroup.get('rib')?.errors?.['invalidRIB']">Le RIB de l'association est invalide.</div>
       </div>
     </div>
+    
     <div>
       <label for="pwd_association">Mot de passe<span> *</span></label>
       <div class="password-input">
