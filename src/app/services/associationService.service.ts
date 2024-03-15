@@ -30,6 +30,7 @@ export class AssociationService {
   afficherActualite:boolean=false;
 
   modifierAss:boolean=false;
+  id!:string|undefined;
 
 
 
@@ -52,6 +53,7 @@ export class AssociationService {
           nom: association.nom,
           etat: association.etat,
           categorie: association.categorie,
+          adresse:association.adresse,
           description: association.description,
           email: association.email,
           id_fiscale: association.id_fiscale,
@@ -117,6 +119,7 @@ export class AssociationService {
         nom: associationData.nom,
         description: associationData.description,
         categorie: associationData.categorie,
+        adresse: associationData.adresse,
         email: associationData.email,
         telephone: associationData.telephone,
         logo: associationData.logo,
@@ -137,7 +140,6 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
 }
 
 
-id!:string|undefined;
 
 logIn(email: string, password: string): Observable<boolean> {
   return this.getAssociationByEmailAndPassword(email, password).pipe(

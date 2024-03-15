@@ -3,6 +3,7 @@ export interface Association {
     nom:string,
     etat:string,
     categorie:string,
+    adresse:string,
     description:string,
     email:string,
     id_fiscale:string,

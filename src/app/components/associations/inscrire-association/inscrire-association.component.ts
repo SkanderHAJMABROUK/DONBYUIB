@@ -39,6 +39,7 @@ export class InscrireAssociationComponent implements OnInit {
         nom: ['', Validators.required],
         categorie: ['', Validators.required],
         description: ['', Validators.required],
+        adresse: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
         logo: ['', Validators.required],

@@ -4,6 +4,7 @@ export interface Donateur {
     prenom:string,
     photo:string,
     date_de_naissance:Date,
+    telephone:string,
     email: string,
     mdp:string,
 }

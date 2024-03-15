@@ -46,8 +46,15 @@
       </div>
     </div>
     <div>
+      <label for="adresse">Adresse de l'association<span> *</span></label>
+      <input type="text" id="adresse" formControlName="adresse" placeholder="Adresse complète de l'association" required>
+      <div class="error-message" *ngIf="aFormGroup.get('adresse')?.invalid && (aFormGroup.get('adresse')?.dirty || aFormGroup.get('adresse')?.touched)">
+        <div *ngIf="aFormGroup.get('adresse')?.errors?.['required']">L'adresse' de l'association est requise.</div>
+      </div>
+    </div>
+    <div>
       <label for="num_association">Numéro téléphone de l'association<span> *</span></label>
-      <input type="text" id="num_association" formControlName="telephone" placeholder="N° Téléphone" required>
+      <input type="tel" id="num_association" formControlName="telephone" placeholder="N° Téléphone" required>
       <div class="error-message" *ngIf="aFormGroup.get('telephone')?.invalid && (aFormGroup.get('telephone')?.dirty || aFormGroup.get('telephone')?.touched)">
         <div *ngIf="aFormGroup.get('telephone')?.errors?.['required']">Le numéro de téléphone est requis.</div>
         <div *ngIf="aFormGroup.get('telephone')?.errors?.['minlength'] || aFormGroup.get('telephone')?.errors?.['maxlength']">Le numéro de téléphone doit comporter exactement 8 chiffres.</div>
@@ -107,7 +114,7 @@
     </div>
     <p>Les champs avec un astérisque * sont obligatoires</p>
     <input type="checkbox" id="accept_terms" formControlName="accept_terms" class="checkbox" required>
-    <label for="accept_terms">J'accepte toutes les conditions générales d'utilisation.</label>
+    <a href="../../../../assets/fichiersPDF/UIB-DonByUIB-Mentions-legales.pdf" target="_blank"><label  >J'accepte toutes les conditions générales d'utilisation.</label></a>
 
     <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
 

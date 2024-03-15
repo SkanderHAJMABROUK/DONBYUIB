@@ -3,11 +3,14 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
+
 import { NGXLogger } from 'ngx-logger';
 import { Log } from 'src/app/interfaces/log';
 import { LogService } from 'src/app/services/log.service';
+
+import { DonateurService } from 'src/app/services/donateur.service';
+
 
 
 @Component({
@@ -22,12 +25,14 @@ export class LoginComponent {
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required],
       email: ['', Validators.required], 
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      userType:['',Validators.required],
     });
   }
 
-  constructor(private formBuilder : FormBuilder , private route:Router, public service:AssociationService,
+  constructor(private formBuilder : FormBuilder , private route:Router, public serviceAssociation:AssociationService, public serviceDonateur:DonateurService,
     private logService:LogService){
+
 
   }
 
@@ -47,18 +52,25 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.aFormGroup.valid) {
-      this.logIn();
-      this.showErrorNotification=false;
-    } else {this.showErrorNotification = true;}
-    
+
+      if (this.aFormGroup.get('userType')?.value === 'association') {
+        this.logInAssociation();
+      } else {
+        this.logInDonateur();
+      }
+      this.showErrorNotification = false;
+    } else {
+      this.showErrorNotification = true;
+    }
+
   }
 
-  logIn() {
+  logInAssociation() {
     const email = this.aFormGroup.get('email')?.value;
     const password = this.aFormGroup.get('password')?.value;
 
     // Récupérer le sel de l'association par email
-    this.service.getAssociationSaltByEmail(email).subscribe(
+    this.serviceAssociation.getAssociationSaltByEmail(email).subscribe(
       (salt: string | undefined) => {
         if (salt) {
           // Hasher le mot de passe avec le sel
@@ -66,7 +78,8 @@ export class LoginComponent {
           const hashedPassword = sha256(password + salt);        
 
           // Appeler la méthode de connexion avec l'email et le mot de passe haché
-          this.service.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
+
+          this.serviceAssociation.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
             if (loggedIn) {
               let message: string = `Tentative de connexion réussie de l'utilisateur avec l'email ${email}`;
               this.logSignin(message);
@@ -75,12 +88,11 @@ export class LoginComponent {
               this.logSignin(message);
             }
           });
-          
 
         } else {
           // Gérer le cas où le sel n'est pas trouvé pour l'email donné
           console.error('Salt not found for email:', email);
-          this.service.showErrorNotification = true;
+          this.serviceAssociation.showErrorNotification = true;
         }
       },
       (error) => {
@@ -106,5 +118,11 @@ export class LoginComponent {
     );
   }
   
+
+  logInDonateur() {
+    const email = this.aFormGroup.get('email')?.value;
+    const password = this.aFormGroup.get('password')?.value;
+    this.serviceDonateur.logIn(email, password);
+  }
 
 }

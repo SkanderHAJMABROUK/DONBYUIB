@@ -43,6 +43,12 @@ import { ModifierActualiteComponent } from './components/actualites/modifier-act
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+<<<<<<< HEAD
+=======
+import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
+import { ProfilDonateurComponent } from './components/donateur/profil-donateur/profil-donateur.component';
+import { ModifierDonateurComponent } from './components/donateur/modifier-donateur/modifier-donateur.component';
+>>>>>>> 76946ed954ccf05b3171940385086b84a05af8c5
 
 
 const firebaseConfig = {
@@ -82,7 +88,14 @@ const firebaseConfig = {
     ActualiteListAssociationComponent,
     AjouterActualiteComponent,
     ActualiteDetailsAssociationsComponent,
+<<<<<<< HEAD
     ModifierActualiteComponent,    
+=======
+    ModifierActualiteComponent,
+    ActualiteDetailsComponent,
+    ProfilDonateurComponent,
+    ModifierDonateurComponent,
+>>>>>>> 76946ed954ccf05b3171940385086b84a05af8c5
   ],
   imports: [
     BrowserModule,
@@ -105,7 +118,8 @@ const firebaseConfig = {
 
     RouterModule.forRoot([
 
-      
+
+
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'inscrireAssociation/email',component:EmailVerificationComponent},
 
@@ -124,7 +138,9 @@ const firebaseConfig = {
 
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
-      {path: 'login/profilAssociation/:id/liste-actualites-association', component: ActualiteListAssociationComponent},
+      {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent},
+      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent},
+
 
     
 
@@ -136,7 +152,9 @@ const firebaseConfig = {
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule],
+  providers: [AssociationService,AngularFirestore,AngularFireModule,
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
