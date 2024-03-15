@@ -55,17 +55,6 @@ const firebaseConfig = {
   measurementId: "G-D749N7NPLF"
 };
 
-// const winston = require('winston');
-
-// const logger = winston.createLogger({
-//   level: 'debug',
-//   format: winston.format.json(),
-//   transpports: [
-//     new winston.transports.Console(),
-//     new winston.transports.File({filename : 'app.log' , level: 'error'}),    
-//   ]
-// })
-
 
 @NgModule({
   declarations: [
@@ -107,6 +96,7 @@ const firebaseConfig = {
     NgxSliderModule,
     NgxSpinnerModule,
     CarouselModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
