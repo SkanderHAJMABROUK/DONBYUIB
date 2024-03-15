@@ -4,8 +4,6 @@ import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Router } from '@angular/router';
 import { sha256 } from 'js-sha256';
-
-import { NGXLogger } from 'ngx-logger';
 import { Log } from 'src/app/interfaces/log';
 import { LogService } from 'src/app/services/log.service';
 
@@ -81,10 +79,10 @@ export class LoginComponent {
 
           this.serviceAssociation.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
             if (loggedIn) {
-              let message: string = `Tentative de connexion réussie de l'utilisateur avec l'email ${email}`;
+              let message: string = `Tentative de connexion réussie de l'association avec l'email ${email}`;
               this.logSignin(message);
             } else {
-              let message: string = `Tentative de connexion échouée de l'utilisateur avec l'email ${email}`;
+              let message: string = `Tentative de connexion échouée de l'association avec l'email ${email}`;
               this.logSignin(message);
             }
           });
@@ -99,6 +97,44 @@ export class LoginComponent {
         console.error('Error retrieving salt by email:', error);
       }
     );
+  }
+
+  
+  logInDonateur() {
+    const email = this.aFormGroup.get('email')?.value;
+    const password = this.aFormGroup.get('password')?.value;
+    
+    // Récupérer le sel de l'association par email
+    this.serviceDonateur.getDonateurSaltByEmail(email).subscribe(
+      (salt: string | undefined) => {
+        if (salt) {
+          // Hasher le mot de passe avec le sel
+          console.log(salt)
+          const hashedPassword = sha256(password + salt);        
+
+          // Appeler la méthode de connexion avec l'email et le mot de passe haché
+
+          this.serviceDonateur.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
+            if (loggedIn) {
+              let message: string = `Tentative de connexion réussie de l'utilisateur avec l'email ${email}`;
+              this.logSignin(message);
+            } else {
+              let message: string = `Tentative de connexion échouée de l'utilisateur avec l'email ${email}`;
+              this.logSignin(message);
+            }
+          });
+
+        } else {
+          // Gérer le cas où le sel n'est pas trouvé pour l'email donné
+          console.error('Salt not found for email:', email);
+          this.serviceDonateur.showErrorNotification = true;
+        }
+      },
+      (error) => {
+        console.error('Error retrieving salt by email:', error);
+      }
+    );
+    
   }
 
   logSignin(message:string): void {
@@ -118,11 +154,5 @@ export class LoginComponent {
     );
   }
   
-
-  logInDonateur() {
-    const email = this.aFormGroup.get('email')?.value;
-    const password = this.aFormGroup.get('password')?.value;
-    this.serviceDonateur.logIn(email, password);
-  }
 
 }

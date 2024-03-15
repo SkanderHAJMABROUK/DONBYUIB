@@ -7,6 +7,7 @@ import emailjs from '@emailjs/browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
 
+
 @Component({
   selector: 'app-inscrire-association',
   templateUrl: './inscrire-association.component.html',
@@ -130,6 +131,7 @@ export class InscrireAssociationComponent implements OnInit {
       };
 
       localStorage.setItem('type', 'association');
+      localStorage.setItem('emailAssociation', associationData.email);
 
       localStorage.setItem('associationData', JSON.stringify(associationData));
       console.log(associationData);
