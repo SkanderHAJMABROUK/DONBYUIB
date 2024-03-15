@@ -103,8 +103,8 @@
         
       </div>
       <p>Les champs avec un astérisque * sont obligatoires</p>
-      <input type="checkbox" id="accept_terms" formControlName="accept_terms" class="checkbox" required>
-      <a href="../../../../assets/fichiersPDF/UIB-DonByUIB-Mentions-legales.pdf" target="_blank"><label>J'accepte toutes les conditions générales d'utilisation.</label></a>
+      <input type="checkbox" id="accept_terms" formControlName="accept_terms" class="checkbox" required>J'accepte toutes
+      <a href="../../../../assets/fichiersPDF/UIB-DonByUIB-Mentions-legales.pdf" target="_blank"><label>les conditions générales d'utilisation.</label></a>
   
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
   
@@ -112,10 +112,11 @@
         Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
       </div>
       <div *ngIf="showSuccessMessage" class="success-message">
-        Inscription validée avec succès ! 
-       
+        Inscription validée avec succès !        
       </div>
-      
+      <div *ngIf="showEmailExists" class="error-notification">
+        L'adresse e-mail est déjà utilisée. Veuillez saisir une autre adresse e-mail.
+      </div>
   
       <button type="submit" class="btn_inscrire" (click)="onSubmit()">S'inscrire </button>
     </form>

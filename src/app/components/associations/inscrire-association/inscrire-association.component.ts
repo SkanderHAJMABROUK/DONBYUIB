@@ -100,6 +100,8 @@ export class InscrireAssociationComponent implements OnInit {
         id_fiscale: idDownloadUrl
       };
 
+      localStorage.setItem('type', 'association');
+
       localStorage.setItem('associationData', JSON.stringify(associationData));
       console.log(associationData);
       this.spinner.hide();
