@@ -7,23 +7,6 @@
     <form [formGroup]="aFormGroup" class="form-container">
       <h2>S'inscrire </h2>
       <hr>
-      <div id="g_id_onload"
-     data-client_id="726494524711-tsifdq0nh5cbj21vsj28ga36m1vm4jje.apps.googleusercontent.com"
-     data-context="use"
-     data-ux_mode="popup"
-     data-login_uri="http://localhost:4200/SignInGoogle"
-     data-auto_prompt="false">
-    </div>
-
-    <div class="g_id_signin"
-        data-type="standard"
-        data-shape="pill"
-        data-theme="filled_black"
-        data-text="signin_with"
-        data-size="large"
-        data-logo_alignment="left">
-    </div>
-
 
       <div>
         <label for="nom">Nom <span> *</span></label>
@@ -103,8 +86,10 @@
         
       </div>
       <p>Les champs avec un astérisque * sont obligatoires</p>
+
       <input type="checkbox" id="accept_terms" formControlName="accept_terms" class="checkbox" required>J'accepte toutes
       <a href="../../../../assets/fichiersPDF/UIB-DonByUIB-Mentions-legales.pdf" target="_blank"><label>les conditions générales d'utilisation.</label></a>
+
   
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
   

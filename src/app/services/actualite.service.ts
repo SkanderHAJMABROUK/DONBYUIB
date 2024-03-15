@@ -28,6 +28,7 @@ export class ActualiteService {
      map((actualites: any[]) => {
         return actualites.map(actualite => ({
           id: actualite.id,
+          etat:actualite.etat,
           titre: actualite.titre,
           description: actualite.description,
           image: actualite.image,
@@ -82,6 +83,7 @@ ajouterActualite(actualiteData: Actualite) {
       titre: actualiteData.titre,
       description: actualiteData.description,
       image: actualiteData.image,
+      etat:"ajout",
       date_publication: datePublication,
       id_association:associationId,
       
@@ -97,16 +99,36 @@ getActualiteById(id: string): Observable<Actualite | undefined> {
 
 
 modifierActualite(actualite: Actualite): Promise<void> {
-  let actualiteRef = this.firestore.collection('Actualite').doc(actualite.id); 
-  let actualiteDataToUpdate = { ...actualite }; 
-  return actualiteRef.update(actualiteDataToUpdate);
+  const updatedActualiteData = {
+    ...actualite,
+    etat: "modification"
+  };
+  const actualiteRef = this.firestore.collection('Actualite').doc(actualite.id); 
+  return actualiteRef.update(updatedActualiteData);
 }
+
+// supprimerActualite(actualite: Actualite): Observable<Actualite[]> {
+//   const actualiteRef = this.firestore.collection('Actualite').doc(actualite.id);
+//   return new Observable<Actualite[]>(observer => {
+//     actualiteRef.delete().then(() => {
+      
+//       observer.next([]);
+//       observer.complete();
+//     }).catch(error => {
+//       observer.error(error);
+//     });
+//   });
+// }
 
 supprimerActualite(actualite: Actualite): Observable<Actualite[]> {
   const actualiteRef = this.firestore.collection('Actualite').doc(actualite.id);
+ 
+  const updatedActualiteData = {
+    ...actualite,
+    etat: "suppression"
+  };
   return new Observable<Actualite[]>(observer => {
-    actualiteRef.delete().then(() => {
-      
+    actualiteRef.update(updatedActualiteData).then(() => {
       observer.next([]);
       observer.complete();
     }).catch(error => {
@@ -114,5 +136,6 @@ supprimerActualite(actualite: Actualite): Observable<Actualite[]> {
     });
   });
 }
+
 
 }

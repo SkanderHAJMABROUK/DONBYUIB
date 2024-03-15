@@ -48,6 +48,7 @@ import { ProfilDonateurComponent } from './components/donateur/profil-donateur/p
 import { ModifierDonateurComponent } from './components/donateur/modifier-donateur/modifier-donateur.component';
 
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -116,7 +117,7 @@ const firebaseConfig = {
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'inscrireAssociation/email',component:EmailVerificationComponent},
 
-
+      {path:'',component:ActualiteListComponent},
 
       {path:'Sinscrire',component:SinscrireComponent},
       {path:'sinscrire/email',component:EmailVerificationComponent},
@@ -145,9 +146,7 @@ const firebaseConfig = {
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule,
-    
-  ],
+  providers: [AssociationService,AngularFirestore,AngularFireModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

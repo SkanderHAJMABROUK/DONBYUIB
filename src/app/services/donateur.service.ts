@@ -32,6 +32,7 @@ modifiercompte:boolean=false;
     const dataToAdd: Donateur = {
         nom: donateur.nom,
         prenom: donateur.prenom,
+        etat: "ajout",
         photo: donateur.photo,
         telephone:donateur.telephone,
         date_de_naissance:donateur.date_de_naissance,
@@ -69,6 +70,7 @@ getDonateurs(): Observable<Donateur[]> {
         id: donateur.id,
         nom: donateur.nom,
         prenom: donateur.prenom,
+        etat: donateur.etat,
         telephone:donateur.telephone,
         date_de_naissance: donateur.date_de_naissance,
         photo: donateur.photo,
@@ -129,8 +131,12 @@ logOut(){
  }
 
  modifierCompte(id: string, donateurDataToUpdate: Partial<Donateur>): Promise<void> {
+  const updatedDonateurData = {
+    ...donateurDataToUpdate,
+    etat: "modification"
+  };
   const donateurRef = this.firestore.collection('Donateur').doc(id);
-  return donateurRef.update(donateurDataToUpdate);
+  return donateurRef.update(updatedDonateurData);
 }
 
 // Méthode pour vérifier si l'e-mail existe déjà

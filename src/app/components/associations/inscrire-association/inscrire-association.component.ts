@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
@@ -44,7 +44,7 @@ export class InscrireAssociationComponent implements OnInit {
         telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
         logo: ['', Validators.required],
         id_fiscale: ['', Validators.required],
-        rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
+        rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20), this.ribValidator]],
         mdp: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
         mdp_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
         accept_terms: ['', Validators.requiredTrue]
@@ -54,6 +54,35 @@ export class InscrireAssociationComponent implements OnInit {
       }
     );
   }
+
+
+  ribValidator = (control: FormControl): {[key: string]: any} | null => {
+    const rib: string = control.value;
+    if (!this.checkRIB(rib)) {
+      return { 'invalidRIB': true };
+    }
+    return null;
+  }
+  
+
+  checkRIB(RIB: string): boolean {
+    if (RIB.length === 20) {
+        const cle: string = RIB.substring(18, 20);
+        const ribf2: string = RIB.substring(0, 18) + "00";
+        const p12: string = ribf2.substring(0, 10);
+        const p22: string = ribf2.substring(10, 20);
+        const r12: number = parseInt(p12) % 97;
+        const tmp2: string = r12.toString().concat(p22);
+        const r22: number = parseInt(tmp2) % 97;
+        const res2: number = 97 - r22;
+        const estOKRib: boolean = parseInt(cle) === res2;
+
+        return estOKRib;
+    } else {
+        return false;
+    }
+}
+
 
   onLogoFileSelected(event: any) {
     this.logoFile = event.target.files[0];
@@ -116,6 +145,7 @@ export class InscrireAssociationComponent implements OnInit {
       this.showErrorNotification = true;
     }
   }
+  
 
   passwordMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
