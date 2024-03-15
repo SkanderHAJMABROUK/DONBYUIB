@@ -69,7 +69,7 @@ if (type === "association") {
         .then(() => {
             console.log('Données du donateur ajoutées avec succès dans Firebase Firestore.');
             // Réinitialiser le formulaire après l'ajout des données
-            this.router.navigate(['/login'], { replaceUrl: true }); // Rediriger vers la page de réussite
+            this.router.navigate(['/listeAssociations'],{ replaceUrl: true });// Rediriger vers la page de réussite
         })
         .catch(error => {
             console.error('Erreur lors de l\'ajout des données du donateur dans Firebase Firestore:', error);
@@ -91,7 +91,7 @@ if (type === "association") {
           timer: 3000
         });
         // localStorage.removeItem('code');
-        this.router.navigate(['/listeAssociations'],{ replaceUrl: true });
+       
       }
 
       this.codeMismatch = true; // Set flag for code mismatch

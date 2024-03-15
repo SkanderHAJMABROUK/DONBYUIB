@@ -57,12 +57,17 @@ export class InscrireAssociationComponent implements OnInit {
 
 
   ribValidator = (control: FormControl): {[key: string]: any} | null => {
-    const rib: string = control.value;
-    if (!this.checkRIB(rib)) {
-      return { 'invalidRIB': true };
+    const rib: string | null = control.value; // Assurez-vous que rib peut être null
+    if (rib && rib.length === 20) { // Vérifiez si rib n'est pas null avant de vérifier sa longueur
+      if (!this.checkRIB(rib)) {
+        return { 'invalidRIB': true };
+      }
+    } else {
+      return { 'invalidRIB': true }; // Retournez une erreur si rib est null ou n'a pas la longueur attendue
     }
     return null;
   }
+  
   
 
   checkRIB(RIB: string): boolean {

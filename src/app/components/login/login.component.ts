@@ -5,7 +5,7 @@ import { AssociationService } from 'src/app/services/associationService.service'
 import { Router } from '@angular/router';
 import { sha256 } from 'js-sha256';
 
-import { NGXLogger } from 'ngx-logger';
+
 import { Log } from 'src/app/interfaces/log';
 import { LogService } from 'src/app/services/log.service';
 

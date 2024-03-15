@@ -71,14 +71,14 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #0e4d10;
+  border-color: rgba(255, 0, 0, 0.594);
   box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.594);
 }
 
 
 
-.btn_ajouter {
-  background-color: #0e4d10;
+.btn_valider {
+  background-color:rgba(255, 0, 0, 0.594);
   border: none;
   color: white;
   padding: 10px 15px 10px 15px;
@@ -94,12 +94,12 @@ input:focus {
 
 .btn_ajouter:hover {
   background-color: #ffffff;
-  color: #0e4d10
+  color: rgba(255, 0, 0, 0.594)
 }
 hr {
   border: none;
   height: 1.5px;
-  background-color: #0e4d10; 
+  background-color: rgba(255, 0, 0, 0.594); 
   width: 50%; 
   margin: 0 auto; 
   margin-bottom: 4%;
