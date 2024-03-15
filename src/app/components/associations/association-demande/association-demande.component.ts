@@ -4,6 +4,7 @@ import { Association } from '../../../interfaces/association';
 import { AssociationService } from '../../../services/associationService.service';
 import { faSquarePhone, faAt} from '@fortawesome/free-solid-svg-icons';
 import { Options } from 'ngx-slider-v2';
+import { PaymentService } from 'src/app/services/payment.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Options } from 'ngx-slider-v2';
   styleUrls: ['./association-demande.component.css']
 })
 export class AssociationDemandeComponent implements OnInit{
-  constructor(public service:AssociationService,public route:ActivatedRoute){}
+  constructor(public service:AssociationService,public route:ActivatedRoute,private paymentService: PaymentService,public router:Router){}
 
   value=0;
   options:Options={
@@ -71,9 +72,19 @@ updateDonationAmountFromSlider(event: any) {
 }
 
 donate() {
-  // Vous pouvez ajouter ici le code pour envoyer le montant à votre backend, par exemple
-  console.log(`Vous faites un don de ${this.donationAmount} DT`);
+
+
+  // Appel de la méthode pour initier le paiement
+  this.paymentService.initiatePayment(
+    this.selectedAssociation?.id || '', // Remplacez par la référence de l'association
+    this.selectedAssociation?.nom || '', // Remplacez par l'affiliation de l'association
+    'TND', // Remplacez par la devise appropriée
+    this.donationAmount, // Utilisez le montant de don actuel
+    this.selectedAssociation?.mdp || '', // Utilisation du mot de passe de l'association
+    this.selectedAssociation?.email || '',
+    this.router.url  );
 }
+
 
 
 
