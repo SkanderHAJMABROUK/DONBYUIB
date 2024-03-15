@@ -123,7 +123,7 @@ export class AssociationService {
         id_fiscale: associationData.id_fiscale,
         rib: associationData.rib, // Stockage du mot de passe haché
         mdp: hashedPassword,
-        etat: "en_attente",
+        etat: "ajout",
         salt:salt //Stockage du sel
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
@@ -132,8 +132,12 @@ export class AssociationService {
 
 
 modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): Promise<void> {
+  const updatedAssociationData = {
+    ...associationDataToUpdate,
+    etat: "modification"
+  };
   const associationRef = this.firestore.collection('Association').doc(id);
-  return associationRef.update(associationDataToUpdate);
+  return associationRef.update(updatedAssociationData);
 }
 
 

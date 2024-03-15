@@ -67,7 +67,7 @@ export class EmailVerificationComponent implements OnInit {
           timer: 3000
         });
         // localStorage.removeItem('code');
-        this.router.navigate(['/inscrireAssociation'],{ replaceUrl: true });
+        this.router.navigate(['/listeAssociations'],{ replaceUrl: true });
       }
 
       this.codeMismatch = true; // Set flag for code mismatch

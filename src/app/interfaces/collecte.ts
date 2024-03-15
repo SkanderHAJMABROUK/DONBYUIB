@@ -3,6 +3,7 @@ export interface Collecte {
     nom:string,
     description:string,
     image:string,
+    etat:string,
     montant:number;
     date_debut:Date,
     date_fin: Date,

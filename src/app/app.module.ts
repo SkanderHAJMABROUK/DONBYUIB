@@ -46,6 +46,11 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
 import { ProfilDonateurComponent } from './components/donateur/profil-donateur/profil-donateur.component';
 import { ModifierDonateurComponent } from './components/donateur/modifier-donateur/modifier-donateur.component';
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+
+} from '@abacritt/angularx-social-login';
 
 
 const firebaseConfig = {
@@ -116,7 +121,7 @@ const firebaseConfig = {
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'inscrireAssociation/email',component:EmailVerificationComponent},
 
-
+      {path:'',component:ActualiteListComponent},
 
       {path:'Sinscrire',component:SinscrireComponent},
 
@@ -147,7 +152,27 @@ const firebaseConfig = {
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule,
+  providers: [AssociationService,AngularFirestore,AngularFireModule,  {
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            'clientId'
+          )
+        },
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider('clientId')
+        }
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
+  }
     
   ],
   bootstrap: [AppComponent]

@@ -37,6 +37,7 @@ export class CollecteService {
       return collectes.map(collecte => ({
         id: collecte.id,
         nom: collecte.nom,
+        etat:collecte.etat,
         description: collecte.description,
         image: collecte.image,
         montant: collecte.montant,
@@ -96,11 +97,16 @@ getAssociationIdFromUrl():string{
 
 
 
+
 supprimerCollecte(collecte: Collecte): Observable<Collecte[]> {
   const collecteRef = this.firestore.collection('Collecte').doc(collecte.id);
+  const updatedCollecteData = {
+    ...collecte,
+    etat: "suppression"
+  };
+
   return new Observable<Collecte[]>(observer => {
-    collecteRef.delete().then(() => {
-      
+    collecteRef.update(updatedCollecteData).then(() => {
       observer.next([]);
       observer.complete();
     }).catch(error => {
@@ -110,10 +116,29 @@ supprimerCollecte(collecte: Collecte): Observable<Collecte[]> {
 }
 
 
+
+// supprimerCollecte(collecte: Collecte): Observable<Collecte[]> {
+//   const collecteRef = this.firestore.collection('Collecte').doc(collecte.id);
+
+//   return new Observable<Collecte[]>(observer => {
+//     collecteRef.delete().then(() => {
+      
+//       observer.next([]);
+//       observer.complete();
+//     }).catch(error => {
+//       observer.error(error);
+//     });
+//   });
+// }
+
+
 modifierCollecte(collecte: Collecte): Promise<void> {
+  const updatedCollecteData = {
+    ...collecte,
+    etat: "modification"
+  };
   let collecteRef = this.firestore.collection('Collecte').doc(collecte.id); 
-  let collecteDataToUpdate = { ...collecte }; 
-  return collecteRef.update(collecteDataToUpdate);
+  return collecteRef.update(updatedCollecteData);
 }
 
 
@@ -126,6 +151,7 @@ ajouterCollecte(collecteData: Collecte) {
     
   const dataToAdd: Collecte = {
       nom: collecteData.nom,
+      etat: "ajout",
       description: collecteData.description,
       image: collecteData.image,
       montant: collecteData.montant,

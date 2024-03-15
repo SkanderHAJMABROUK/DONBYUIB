@@ -3,6 +3,7 @@ export interface Donateur {
     nom:string,
     prenom:string,
     photo:string,
+    etat:string,
     date_de_naissance:Date,
     telephone:string,
     email: string,

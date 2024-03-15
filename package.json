@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-   
+    "@abacritt/angularx-social-login": "^2.2.0",
     "@angular/animations": "^16.2.0",
     "@angular/common": "^16.2.0",
     "@angular/compiler": "^16.2.0",
@@ -29,6 +29,7 @@
     "bootstrap": "^5.3.3",
     "firebase": "^10.8.0",
     "js-sha256": "^0.11.0",
+    "json-server": "^1.0.0-alpha.23",
     "mysql": "^2.18.1",
     "ng-recaptcha": "^13.2.1",
     "ngx-captcha": "^13.0.0",

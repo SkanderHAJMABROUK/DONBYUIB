@@ -26,13 +26,21 @@ export class SinscrireComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder, public service: DonateurService, 
     private router: Router,private spinner:NgxSpinnerService) {}
+  
 
   ngOnInit(): void {
+
+    // this.authService.authState.subscribe((user) => {
+    //   this.user = user;
+    //   this.loggedIn = (user != null);
+    // });
+
     this.aFormGroup = this.formBuilder.group(
       {
         recaptcha: ['', Validators.required],
 
         nom: ['', Validators.required],
+        telephone: ['', Validators.required] ,
         prenom: ['', Validators.required],
         date_de_naissance: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
@@ -89,8 +97,8 @@ export class SinscrireComponent implements OnInit{
           console.log('Données du donateur ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
           this.aFormGroup.reset();
-          // this.router.navigate(['/demande-association']);
           this.showSuccessMessage = true;
+          this.router.navigate(['/login'],{ replaceUrl: true });
           this.showErrorNotification=false;
         })
         .catch(error => {
