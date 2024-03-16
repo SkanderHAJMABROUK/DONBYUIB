@@ -22,10 +22,7 @@ body {
     border-radius: 10px;
     background-color: white;
 }
-.description_association {
-    width: 100%;
-    height: 150px;
-  }
+
 
 h2 {
     color: #000000;
@@ -140,31 +137,11 @@ select:focus{
     border-radius: 8px;
     text-align: center;
   }
+
+  .img-preview {
+    max-width: 200px; /* Définissez la largeur maximale souhaitée */
+    height: auto; /* Garantit que l'aspect ratio de l'image est préservé */
+}
+
   
-
-
-.password-input {
-    position: relative;
-}
-
-.password-input input[type="password"],
-.password-input input[type="text"] {
-    width: calc(100% - 32px); /* Taille ajustée pour le champ de saisie */
-    padding-right: 32px; /* Espacement pour le bouton */
-}
-
-.password-input button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    cursor: pointer;
-}
-.password-input button {
-    background: none;
-    border: none;
-    padding: 0;
-    margin-left: -10px; /* Ajustez la marge selon vos besoins */
-    cursor: pointer;
-    padding-top: 2.5%;
-}
 

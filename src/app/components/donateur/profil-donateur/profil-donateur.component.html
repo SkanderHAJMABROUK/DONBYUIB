@@ -13,7 +13,7 @@
     <strong><p>Email : </p></strong>
     <p>{{ selectedDonateur.email }}</p>
     
-    <button (click)="service.modifiercompte=true" [routerLink]="['modifier']">Modifier</button> 
+    <button type="submit" (click)="setModifierCompte()" [routerLink]="['modifier']">Modifier</button> 
    
   </div>
 </div>

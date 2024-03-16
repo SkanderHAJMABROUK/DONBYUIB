@@ -50,6 +50,20 @@ export class ModifierDonateurComponent {
     });
   }
 
+    
+  onImageSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.aFormGroup.patchValue({
+          photo: reader.result // Définir la valeur du champ 'photo' avec l'URL de données
+        });
+      };
+      reader.readAsDataURL(file); // Convertit le contenu de l'image en URL de données
+    }
+  }
+  
   
  
   onSubmit(){
@@ -61,8 +75,8 @@ export class ModifierDonateurComponent {
         .then(() => {
           console.log('Données du donateur modifiées avec succès dans Firebase Firestore.');
                     this.showSuccessMessage = true;
-                    window.location.reload();
-                    this.router.navigate(['login/profilDonateur/:id']);
+                    // window.location.reload();
+                    this.router.navigate(['login/profilDonateur/:id',this.donateurId]);
 
         })
         .catch(error => {

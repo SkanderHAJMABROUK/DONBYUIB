@@ -20,7 +20,9 @@ export class ProfilDonateurComponent {
   
   selectedDonateur!: Donateur |undefined; 
   
-  
+  setModifierCompte(): void {
+    this.service.modifiercompte = true;
+  }
   
    ngOnInit(): void {
     this.route.params.subscribe(params => {
