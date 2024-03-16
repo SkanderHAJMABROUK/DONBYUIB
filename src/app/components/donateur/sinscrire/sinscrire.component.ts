@@ -45,7 +45,7 @@ export class SinscrireComponent implements OnInit{
         nom: ['', Validators.required],
         telephone: ['', Validators.required] ,
         prenom: ['', Validators.required],
-        date_de_naissance: ['', Validators.required],
+        date_de_naissance: ['', [Validators.required, this.service.dateOfBirthValidator()]],
         email: ['', [Validators.required, Validators.email]],
         photo: ['', Validators.required],
         mdp: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
@@ -57,6 +57,8 @@ export class SinscrireComponent implements OnInit{
       }
     );
   }
+  
+  
 
   onPhotoFileSelected(event: any) {
     const file: File = event.target.files[0];

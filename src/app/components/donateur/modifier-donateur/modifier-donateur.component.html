@@ -39,6 +39,9 @@
         <div class="error-message" *ngIf="aFormGroup.get('date_de_naissance')?.invalid && (aFormGroup.get('date_de_naissance')?.dirty || aFormGroup.get('date_de_naissance')?.touched)">
             <div *ngIf="aFormGroup.get('date_de_naissance')?.errors?.['required']">La date de naissance est requise.</div>
         </div>
+        <div *ngIf="aFormGroup.get('date_de_naissance')?.errors?.['futureOrCurrentDate']" class="error-message">
+  La date de naissance ne peut pas être dans le futur .
+</div>
     </div>
       
         

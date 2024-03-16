@@ -8,8 +8,12 @@ import { Router } from '@angular/router';
 import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Observable, catchError, from, map, of } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
 import { AssociationService } from './associationService.service';
 import { sha256 } from 'js-sha256';
+
 
 
 @Injectable({
@@ -28,7 +32,18 @@ id!:string|undefined;
 modifiercompte:boolean=false;
 
 
+dateOfBirthValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const selectedDate: Date = new Date(control.value);
+    const currentDate: Date = new Date();
 
+    if (selectedDate >currentDate ) {
+      return { 'futureOrCurrentDate': true };
+    }
+
+    return null;
+  };
+}
 
   ajouterDonateur(donateur: Donateur) {
 
