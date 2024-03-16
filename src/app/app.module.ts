@@ -129,11 +129,13 @@ const firebaseConfig = {
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
 
       {path:'listeActualites',component:ActualiteListComponent},
+      { path: 'listeActualites/details/:id', component: ActualiteDetailsComponent },
+
 
       {path:'login',component:LoginComponent},
       {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
       {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent},
-      {path: 'login/profilDonateur/:id/modifier', component: ModifierCollecteComponent},
+      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent},
 
 
     
