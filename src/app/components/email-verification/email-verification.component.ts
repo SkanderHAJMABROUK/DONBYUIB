@@ -5,7 +5,8 @@ import { DonateurService } from 'src/app/services/donateur.service';
 import { Router } from '@angular/router';
 import { sha256 } from 'js-sha256';
 import Swal from  'sweetalert2';
-
+import { Log } from 'src/app/interfaces/log';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-email-verification',
@@ -15,7 +16,7 @@ import Swal from  'sweetalert2';
 export class EmailVerificationComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, public aService: AssociationService, private router: Router,
-    private dService:DonateurService) {}
+    private dService:DonateurService, private logService:LogService) {}
 
   protected verificationForm!: FormGroup;
   verified: boolean = false;
@@ -57,9 +58,15 @@ if (type === "association") {
             console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
             // Réinitialiser le formulaire après l'ajout des données
             this.router.navigate(['/login'], { replaceUrl: true }); // Rediriger vers la page de réussite
+            let email: string  | null = localStorage.getItem("emailAssociation");
+            let message: string = `Un compte association créé : [ ${email} ]`;
+            this.logSignUp(message);
         })
         .catch(error => {
             console.error('Erreur lors de l\'ajout des données de l\'association dans Firebase Firestore:', error);
+            let email: string  | null = localStorage.getItem("emailAssociation");
+            let message: string = `Echec lors de l'ajout de l'association : [ ${email} ]`;
+            this.logSignUp(message);
         });
 } else if (type === "donateur") {
 
@@ -69,10 +76,18 @@ if (type === "association") {
         .then(() => {
             console.log('Données du donateur ajoutées avec succès dans Firebase Firestore.');
             // Réinitialiser le formulaire après l'ajout des données
-            this.router.navigate(['/listeAssociations'],{ replaceUrl: true });// Rediriger vers la page de réussite
+
+            this.router.navigate(['/login'], { replaceUrl: true }); // Rediriger vers la page de réussite
+            let email: string  | null = localStorage.getItem("emailDonateur");
+            let message: string = `Un compte donateur créé : [ ${email} ]`;
+            this.logSignUp(message);
+
         })
         .catch(error => {
             console.error('Erreur lors de l\'ajout des données du donateur dans Firebase Firestore:', error);
+            let email: string  | null = localStorage.getItem("emailDonateur");
+            let message: string = `Echec lors de l'ajout du donateur : [ ${email} ]`;
+            this.logSignUp(message);
         });
 }
 
@@ -101,5 +116,22 @@ if (type === "association") {
     setTimeout(() => {
       this.codeMismatch = false;
     }, 1000);
+  }
+
+  logSignUp(message:string): void {
+    const newLog: Log = {
+      date: new Date(), // Current date
+      message: message // Message for the log
+    };
+    this.logService.addLog(newLog).subscribe(
+      response => {
+        console.log('Log added successfully:', response);
+        // Handle success
+      },
+      error => {
+        console.error('Error adding log:', error);
+        // Handle error
+      }
+    );
   }
 }

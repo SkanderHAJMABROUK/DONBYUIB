@@ -6,9 +6,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 
 import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
-import { Observable, from, map } from 'rxjs';
+import { Observable, catchError, from, map, of } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+import { AssociationService } from './associationService.service';
+import { sha256 } from 'js-sha256';
+
 
 
 @Injectable({
@@ -16,7 +21,8 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 })
 export class DonateurService {
 
-  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router,
+    private aService:AssociationService) { }
 
 connexionDonateur:boolean=false;
 nomDonateur:string='';
@@ -41,6 +47,10 @@ dateOfBirthValidator(): ValidatorFn {
 
   ajouterDonateur(donateur: Donateur) {
 
+    const salt: string = this.aService.generateSalt(16);
+
+    const hashedPassword: string = sha256(donateur.mdp+salt).toString();
+
     const dataToAdd: Donateur = {
         nom: donateur.nom,
         prenom: donateur.prenom,
@@ -49,10 +59,13 @@ dateOfBirthValidator(): ValidatorFn {
         telephone:donateur.telephone,
         date_de_naissance:donateur.date_de_naissance,
         email: donateur.email,
-        mdp: donateur.mdp,
+        mdp: hashedPassword,
+        salt: salt
     };
     return addDoc(collection(this.fs, 'Donateur'), dataToAdd);
 }
+
+
   
 async uploadPhoto(file: File): Promise<string | null> {
   const filePath = `PhotosDonateurs/${file.name}`;
@@ -88,6 +101,7 @@ getDonateurs(): Observable<Donateur[]> {
         photo: donateur.photo,
         email: donateur.email,
         mdp: donateur.mdp,
+        salt:donateur.salt
       }));
     })
   );
@@ -99,6 +113,25 @@ getDonateurById(id: string): Observable<Donateur | undefined> {
   );
 }
 
+getDonateurByEmail(email: string): Observable<Donateur | undefined> {
+  return this.getDonateurs().pipe(
+    map(donateurs => donateurs.find(donateur => donateur.email === email))
+  );
+}
+
+getDonateurSaltByEmail(email: string): Observable<string | undefined> {
+  return this.getDonateurByEmail(email).pipe(
+    map((donateur: Donateur | undefined) => {
+      // Vérifie si l'association a été trouvée
+      if (donateur) {
+        // Retourne le sel de l'association
+        return donateur.salt;
+      } else {
+        // Si aucune association n'a été trouvée, retourne undefined
+        return undefined;
+      }
+    })
+  );}
 
 
 getDonateurByEmailAndPassword(email: string, password: string): Observable<Donateur | undefined> {
@@ -106,9 +139,10 @@ getDonateurByEmailAndPassword(email: string, password: string): Observable<Donat
     map(donateurs => donateurs.find(donateur => donateur.email === email && donateur.mdp === password))
   );
 }
-logIn(email: string, password: string) {
-  this.getDonateurByEmailAndPassword(email, password).subscribe(
-    (donateur) => {
+
+logIn(email: string, password: string): Observable<boolean> {
+  return this.getDonateurByEmailAndPassword(email, password).pipe(
+    map((donateur) => {
       if (donateur) {
         this.connexionDonateur = true;
         console.log(this.connexionDonateur);
@@ -120,14 +154,16 @@ logIn(email: string, password: string) {
         localStorage.setItem('prenomDonateur', this.prenomDonateur); 
 
         this.route.navigate(['/login/profilDonateur', donateur.id]);
+        return true; // Return true if the login is successful
       } else {
         this.showErrorNotification = true;
         console.error('Aucun donateur trouvé avec cet e-mail et ce mot de passe.');
+        return false; // Return false if no donateur is found
       }
-    },
-    (error) => {
-      console.error('Erreur lors de la recherche du donateur:', error);
-    }
+    }),catchError(error => {
+      console.error('Erreur lors de la recherche du compte:', error);
+      return of(false); // Return false in case of error
+    })
   );
 }
 

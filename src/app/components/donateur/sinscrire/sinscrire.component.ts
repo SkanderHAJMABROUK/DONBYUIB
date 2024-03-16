@@ -81,7 +81,7 @@ export class SinscrireComponent implements OnInit{
     if (this.aFormGroup.valid) {
 
       const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
-      if (!emailExists) {
+      if (emailExists) {
       console.log("Formulaire valide, reCAPTCHA validé !");
 
       this.spinner.show(); // Afficher le spinner
@@ -89,21 +89,22 @@ export class SinscrireComponent implements OnInit{
 
       // Upload logo file
       const File = this.aFormGroup.value.photo;
-      const PhotoDownloadUrl = await this.service.uploadPhoto(File);
-      if (!PhotoDownloadUrl) {
+      const photoDownloadUrl = await this.service.uploadPhoto(File);
+      if (!photoDownloadUrl) {
         console.error('Failed to upload file.');
         // Handle error appropriately, e.g., show error message to user
         return;
       }
-      console.log(' file uploaded. Download URL:', PhotoDownloadUrl);
+      console.log(' file uploaded. Download URL:', photoDownloadUrl);
 
 
       const userData = {
         ...this.aFormGroup.value,
-        photo: PhotoDownloadUrl
+        photo: photoDownloadUrl
       };
 
       localStorage.setItem('type' , 'donateur');
+      localStorage.setItem('emailDonateur', userData.email);
 
       localStorage.setItem('userData', JSON.stringify(userData));
       this.spinner.hide();

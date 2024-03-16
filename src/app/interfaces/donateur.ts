@@ -8,4 +8,5 @@ export interface Donateur {
     telephone:string,
     email: string,
     mdp:string,
+    salt:string,
 }
