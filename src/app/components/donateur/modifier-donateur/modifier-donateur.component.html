@@ -1,5 +1,5 @@
 <div class="container">
-    <form [formGroup]="aFormGroup" class="form-container" >
+    <form [formGroup]="aFormGroup" class="form-container" *ngIf="aFormGroup" >
       <h2>Modifier mon compte</h2>
       <hr>
       
@@ -13,7 +13,14 @@
           <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">Le nom du donateur est requis.</div>
         </div>
       </div>
-     
+
+      <div>
+  <label for="imageFile">Photo de profil :</label>
+  <input type="file"   id="imageFile" formControlName="photo" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
+  <img *ngIf="aFormGroup.get('photo')?.value" [src]="aFormGroup.get('photo')?.value" alt="Aperçu de l'image sélectionnée" class="img-preview">
+</div>
+      
+
       <div>
         <label for="prenom">Prénom :</label>
         <input type="text" id="prenom" formControlName="prenom" placeholder="Prénom du donateur" required>
