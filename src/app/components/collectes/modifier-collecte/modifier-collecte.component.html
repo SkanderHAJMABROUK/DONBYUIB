@@ -17,8 +17,7 @@
       Image de la collecte :
     </p></strong>   
     <input type="file" id="imageFile" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
-    <img *ngIf="!collecteForm.value.image && collecte.image" [src]="collecte.image" alt="Image actuelle">
-    <img *ngIf="collecteForm.value.image" [src]="collecteForm.value.image" alt="Nouvelle Image">
+    <img *ngIf="collecteForm?.value.image" [src]="collecteForm.value.image" alt="Nouvelle Image">
     
   
     <strong><p>
