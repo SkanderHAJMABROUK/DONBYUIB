@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Donateur } from 'src/app/interfaces/donateur';
-import { DonateurService } from 'src/app/services/donateur.service';
+import { Association } from 'src/app/interfaces/association';
+import { AssociationService } from 'src/app/services/associationService.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-crud-utilisateurs',
-  templateUrl: './crud-utilisateurs.component.html',
-  styleUrls: ['./crud-utilisateurs.component.css']
+  selector: 'app-crud-associations',
+  templateUrl: './crud-associations.component.html',
+  styleUrls: ['./crud-associations.component.css']
 })
-export class CrudUtilisateursComponent implements OnInit {
+export class CrudAssociationsComponent {
 
   faList = faList;
   faPenToSquare = faPenToSquare;
@@ -17,68 +17,76 @@ export class CrudUtilisateursComponent implements OnInit {
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
 
-  donateurs: Donateur[] = [];
-  filteredDonateurList: Donateur[] = [];
+  associations: Association[] = [];
+  filteredAssociationList: Association[] = [];
   searchTerm: string = '';
-  selectedDonateur: Donateur = {} as Donateur;
+  selectedAssociation: Association = {} as Association;
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; // Par défaut, la taille de la page est définie sur 10
   selectedEtat: string = ''; // Par défaut, aucun état sélectionné
   etats: string[] = []; // Liste des états possibles
+  categories: string[] = [];
+  selectedCategorie: string = '';
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
 
-  constructor(private donateurService: DonateurService, private router: Router) { }
+  constructor(private associationService: AssociationService, private router: Router) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
-    this.getDonateurs();
+    this.getAssociations();
   }
 
   getEtats(): void {
     // Exclure les valeurs nulles et vides
-    this.etats = Array.from(new Set(this.donateurs
-      .map(donateur => donateur.etat)
+    this.etats = Array.from(new Set(this.associations
+      .map(association => association.etat)
       .filter(etat => !!etat))); // Filtre les valeurs nulles ou vides
   
     console.log('Etats', this.etats); // Récupère les états uniques parmi les donateurs
   }
-  
 
-  getDonateurs(): void {
-    this.donateurService.getDonateurs().subscribe(donateurs => {
-      this.donateurs = donateurs;
+  getCategories(){
+    this.categories = Array.from(new Set(this.associations
+      .map(association => association.categorie)
+      .filter(categorie => !!categorie)));
+  }
+
+  getAssociations(): void {
+    this.associationService.getAssociations().subscribe(associations => {
+      this.associations = associations;
       this.getEtats(); // Initialise la liste des états
-      this.chercherDonateur();
+      this.getCategories();
+      this.chercherAssociation();
     });
   }
 
-  chercherDonateur(): void {
+  chercherAssociation(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.filteredDonateurList = this.donateurs.filter((donateur, index) =>
+    this.filteredAssociationList = this.associations.filter((association, index) =>
       index >= startIndex && index < endIndex &&
-      (donateur.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      donateur.prenom.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-      (!this.selectedEtat || donateur.etat === this.selectedEtat)
-    );
+      (association.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      (!this.selectedEtat || association.etat === this.selectedEtat) &&
+      (!this.selectedCategorie || association.categorie === this.selectedCategorie)
+    ))
   }
 
   onPageChange(page: number): void {
     this.currentPage = page;
-    this.chercherDonateur();
+    this.chercherAssociation();
   }
 
   onPageSizeChange(): void {
     this.pageSize = +this.selectedPageSize; // Convertit la chaîne en nombre
     this.currentPage = 1; // Réinitialise à la première page
-    this.chercherDonateur(); // Réapplique la pagination avec la nouvelle taille de page
+    this.chercherAssociation(); // Réapplique la pagination avec la nouvelle taille de page
     this.getTotalPages(); // Recalcule le nombre total de pages
   }
   
 
   getTotalPages(): number {
-    return Math.ceil(this.donateurs.length / this.pageSize);
+    return Math.ceil(this.associations.length / this.pageSize);
   }
 
   afficherImage(url: string): void {
@@ -88,5 +96,6 @@ export class CrudUtilisateursComponent implements OnInit {
   cacherImage(): void {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
+
 
 }

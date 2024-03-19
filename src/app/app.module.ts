@@ -49,6 +49,7 @@ import { ModifierDonateurComponent } from './components/donateur/modifier-donate
 import { SideBarAdminComponent } from './components/administrateur/side-bar/side-bar-admin.component';
 import { ProfilAdminComponent } from './components/administrateur/profil-admin/profil-admin.component';
 import { CrudUtilisateursComponent } from './components/administrateur/crud-utilisateurs/crud-utilisateurs.component';
+import { CrudAssociationsComponent } from './components/administrateur/crud-associations/crud-associations.component';
 
 
 
@@ -95,7 +96,8 @@ const firebaseConfig = {
     ModifierDonateurComponent,
     SideBarAdminComponent,
     ProfilAdminComponent,
-    CrudUtilisateursComponent
+    CrudUtilisateursComponent,
+    CrudAssociationsComponent
     ],
   imports: [
     BrowserModule,

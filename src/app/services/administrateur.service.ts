@@ -8,6 +8,7 @@ export class AdministrateurService {
   compte: boolean = true;
 
   crudUtilisateurs:boolean = false;
+  crudAssociations:boolean = false;
 
   constructor() { }
 }

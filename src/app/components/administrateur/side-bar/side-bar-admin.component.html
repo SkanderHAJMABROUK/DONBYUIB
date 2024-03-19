@@ -23,7 +23,8 @@
         <li>
           <span class="material-symbols-outlined">list</span>
           <a (click)="service.crudUtilisateurs=true;
-          service.compte=false;">Gestion des utilisateurs</a>
+          service.compte=false;
+          service.crudAssociations=false">Gestion des utilisateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -32,22 +33,24 @@
         
         
         <hr>
-        <h4>Gestion des collectes</h4>
+        <h4>Associations</h4>
         <li>
           <span class="material-symbols-outlined">list</span>
-          <a>Afficher mes collectes</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=true">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une collecte</a>
+          <a>Ajouter une association</a>
         </li>
         
         
         <hr>
-        <h4>Gestion des actualités</h4>
+        <h4>Actualités</h4>
         <li>
           <span class="material-symbols-outlined">list</span>
-          <a>Afficher mes actualités</a>
+          <a>Gestion des actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
