@@ -46,8 +46,9 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
 import { ProfilDonateurComponent } from './components/donateur/profil-donateur/profil-donateur.component';
 import { ModifierDonateurComponent } from './components/donateur/modifier-donateur/modifier-donateur.component';
-import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
-
+import { SideBarAdminComponent } from './components/administrateur/side-bar/side-bar-admin.component';
+import { ProfilAdminComponent } from './components/administrateur/profil-admin/profil-admin.component';
+import { CrudUtilisateursComponent } from './components/administrateur/crud-utilisateurs/crud-utilisateurs.component';
 
 
 
@@ -92,8 +93,10 @@ const firebaseConfig = {
     ActualiteDetailsComponent,
     ProfilDonateurComponent,
     ModifierDonateurComponent,
-    AdminDashboardComponent,
-  ],
+    SideBarAdminComponent,
+    ProfilAdminComponent,
+    CrudUtilisateursComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,

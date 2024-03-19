@@ -29,6 +29,7 @@
     "@fortawesome/angular-fontawesome": "^0.14.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@popperjs/core": "^2.11.8",
     "@sweetalert2/theme-bulma": "^5.0.16",
     "angularfire2": "^5.4.2",
     "date-format": "^4.0.14",

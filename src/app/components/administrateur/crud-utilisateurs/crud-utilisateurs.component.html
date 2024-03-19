@@ -1,0 +1,73 @@
+<div class="container">
+    <!-- Barre de recherche -->
+    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherDonateur()" placeholder="Rechercher..." class="search-input">
+
+    <!-- Sélecteur d'état -->
+        <label  id="etat-label" for="etat-select">Filtrer par état:</label>
+        <select id="etat-select" [(ngModel)]="selectedEtat" (change)="chercherDonateur()">
+          <option value="" selected>Tous</option>
+          <option *ngFor="let etat of etats" [value]="etat">{{ etat }}</option>
+        </select>
+    
+  
+    <!-- Bouton Ajouter Utilisateur -->
+    <button class="add-button">Ajouter Utilisateur</button>
+  
+    <!-- Tableau des utilisateurs -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Date de Naissance</th>
+          <th>Téléphone</th>
+          <th>Email</th>
+          <th>Etat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let donateur of filteredDonateurList">
+          <td>{{ donateur.id }}</td>
+          <td>{{ donateur.nom }}</td>
+          <td>{{ donateur.prenom }}</td>
+          <td>{{ donateur.date_de_naissance }}</td>
+          <td>{{ donateur.telephone }}</td>
+          <td>{{ donateur.email }}</td>
+          <td>{{ donateur.etat }}</td>
+          <!-- Nouvelle colonne pour les actions -->
+          <td>
+            <div class="crud-buttons">
+              <!-- Bouton Supprimer -->
+              <button class="action-button delete-button"><span class="material-symbols-outlined">delete</span></button>
+              <!-- Bouton Modifier -->
+              <button class="action-button edit-button"><span class="material-symbols-outlined">border_color</span></button>
+              <!-- Bouton Consulter -->
+              <button class="action-button view-button"><span class="material-symbols-outlined">data_loss_prevention</span></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="pages">
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="prev-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
+        <span class="page-info"> Page {{ currentPage }} sur {{ getTotalPages() }} </span>
+        <button class="next-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()">&gt;</button>
+      </div>
+  
+      <!-- Choix du nombre d'utilisateurs par page -->
+      <div class="page-size-selection">
+        <label for="page-size-select">Nombre d'utilisateurs par page:</label>
+        <select id="page-size-select" [(ngModel)]="selectedPageSize" (change)="onPageSizeChange()">
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+      </div>
+    </div>
+  </div>
+  
