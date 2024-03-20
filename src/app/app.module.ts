@@ -51,8 +51,6 @@ import { ProfilAdminComponent } from './components/administrateur/profil-admin/p
 import { CrudUtilisateursComponent } from './components/administrateur/crud-utilisateurs/crud-utilisateurs.component';
 import { CrudAssociationsComponent } from './components/administrateur/crud-associations/crud-associations.component';
 
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
