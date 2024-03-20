@@ -28,7 +28,8 @@
           <span class="material-symbols-outlined">list</span>
           <a (click)="service.crudUtilisateurs=true;
           service.compte=false;
-          service.crudAssociations=false">Gestion des donateurs</a>
+          service.crudAssociations=false;
+          service.crudCollectes=false">Gestion des donateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -42,11 +43,27 @@
           <span class="material-symbols-outlined">list</span>
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
-          service.crudAssociations=true">Gestion des associations</a>
+          service.crudAssociations=true;
+          service.crudCollectes=false">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
           <a>Ajouter une association</a>
+        </li>
+        
+        
+        <hr>
+        <h4>Collectes</h4>
+        <li>
+          <span class="material-symbols-outlined">list</span>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=true">Gestion des collectes</a>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">add</span>
+          <a>Ajouter une collecte</a>
         </li>
         
         

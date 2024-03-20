@@ -24,6 +24,7 @@ export class AdministrateurService {
 
   crudUtilisateurs:boolean = false;
   crudAssociations:boolean = false;
+  crudCollectes:boolean = false;
 
   constructor(private fs:Firestore,public serviceAssociation:AssociationService) { }
 
