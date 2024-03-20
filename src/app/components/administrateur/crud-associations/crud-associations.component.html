@@ -18,7 +18,7 @@
     
   
     <!-- Bouton Ajouter Utilisateur -->
-    <button class="add-button">Ajouter Association</button>
+    <button class="add-button"[routerLink]="['ajouterAssociation']">Ajouter Association</button>
   
     <!-- Tableau des utilisateurs -->
     <table>
@@ -49,14 +49,15 @@
           <!-- Nouvelle colonne pour les actions -->
           <td>
             <div class="crud-buttons">
+              <!-- Bouton Consulter -->
+              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+            <!-- Bouton Modifier -->
+            <button class="action-button edit-button"><fa-icon [icon]="faPenToSquare"></fa-icon></button>
+             
               <!-- Bouton Supprimer -->
               <button class="action-button delete-button"> <fa-icon [icon]="faTrash"></fa-icon>
               </button>
-              <!-- Bouton Modifier -->
-              <button class="action-button edit-button"><fa-icon [icon]="faPenToSquare"></fa-icon></button>
-              <!-- Bouton Consulter -->
-              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
-            </div>
+               </div>
           </td>
         </tr>
       </tbody>

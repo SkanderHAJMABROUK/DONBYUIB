@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Donateur } from 'src/app/interfaces/donateur';
 import { DonateurService } from 'src/app/services/donateur.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import { AdministrateurService } from 'src/app/services/administrateur.service';
 
 @Component({
   selector: 'app-crud-utilisateurs',
@@ -28,7 +29,7 @@ export class CrudUtilisateursComponent implements OnInit {
   etats: string[] = []; // Liste des états possibles
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
 
-  constructor(private donateurService: DonateurService, private router: Router) { }
+  constructor(private serviceDonateur: DonateurService, private router: Router,public serviceAdmin:AdministrateurService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -46,7 +47,7 @@ export class CrudUtilisateursComponent implements OnInit {
   
 
   getDonateurs(): void {
-    this.donateurService.getDonateurs().subscribe(donateurs => {
+    this.serviceDonateur.getDonateurs().subscribe(donateurs => {
       this.donateurs = donateurs;
       this.getEtats(); // Initialise la liste des états
       this.chercherDonateur();
@@ -88,5 +89,6 @@ export class CrudUtilisateursComponent implements OnInit {
   cacherImage(): void {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
+ 
 
 }

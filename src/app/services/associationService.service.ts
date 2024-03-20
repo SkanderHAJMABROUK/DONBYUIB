@@ -126,7 +126,7 @@ export class AssociationService {
         id_fiscale: associationData.id_fiscale,
         rib: associationData.rib, // Stockage du mot de passe haché
         mdp: hashedPassword,
-        etat: "ajout",
+        etat: "en_attente",
         salt:salt //Stockage du sel
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);

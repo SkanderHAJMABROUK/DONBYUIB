@@ -50,6 +50,8 @@ import { SideBarAdminComponent } from './components/administrateur/side-bar/side
 import { ProfilAdminComponent } from './components/administrateur/profil-admin/profil-admin.component';
 import { CrudUtilisateursComponent } from './components/administrateur/crud-utilisateurs/crud-utilisateurs.component';
 import { CrudAssociationsComponent } from './components/administrateur/crud-associations/crud-associations.component';
+import { AjouterDonateurAdminComponent } from './components/administrateur/ajouter-donateur-admin/ajouter-donateur-admin.component';
+import { AjouterAssociationAdminComponent } from './components/administrateur/ajouter-association-admin/ajouter-association-admin.component';
 
 
 
@@ -97,7 +99,10 @@ const firebaseConfig = {
     SideBarAdminComponent,
     ProfilAdminComponent,
     CrudUtilisateursComponent,
-    CrudAssociationsComponent
+    CrudAssociationsComponent,
+    AjouterDonateurAdminComponent,
+    AjouterAssociationAdminComponent,
+  
     ],
   imports: [
     BrowserModule,
@@ -119,6 +124,13 @@ const firebaseConfig = {
     provideFirestore(() => getFirestore()),
 
     RouterModule.forRoot([
+      {path:'admin',component:ProfilAdminComponent},
+      {path:'admin/ajouterDonateur',component:AjouterDonateurAdminComponent},
+      {path:'admin/ajouterDonateur/profil',component:ProfilAdminComponent},
+
+      {path:'admin/ajouterAssociation',component:AjouterAssociationAdminComponent},
+      {path:'admin/ajouterAssociation/profil',component:ProfilAdminComponent},
+
 
 
 
