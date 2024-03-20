@@ -42,16 +42,16 @@
 
     </div>
 
-    <div class="dropdown_menu" [class.open]="isMenuOpen">
+    <div class="dropdown_menu" [class.open]="this.isMenuOpen" >
         <ul>
-            <li><a [routerLink]="['listeActualites']">Accueil</a></li>
-            <li><a [routerLink]="['listeAssociations']">Associations</a></li>
-            <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
-            <li><a href="">FAQ</a></li>
-            <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur"  >S'inscrire</a></li>
-            <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur"  >Inscrire mon association</a></li>
-            <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur"  >Se connecter</a></li>
-            <li>  <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" > 
+            <li><a [routerLink]="['listeActualites']" (click)="closeMenu()">Accueil</a></li>
+            <li><a [routerLink]="['listeAssociations']" (click)="closeMenu()">Associations</a></li>
+            <li><a [routerLink]="['listeCollectes']" (click)="closeMenu()">Collectes</a></li>
+            <li><a href="" (click)="closeMenu()">FAQ</a></li>
+            <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">S'inscrire</a></li>
+            <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Inscrire mon association</a></li>
+            <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Se connecter</a></li>
+            <li>  <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" (click)="closeMenu()"> 
                 <span>{{ serviceDonateur.nomDonateur }}</span><span>{{ serviceDonateur.prenomDonateur }}</span>
     
                 <div class="connection-indicator"></div>

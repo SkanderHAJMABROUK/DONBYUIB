@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Router} from '@angular/router';
 import { AssociationService } from 'src/app/services/associationService.service';
@@ -6,30 +6,17 @@ import { Association } from 'src/app/interfaces/association';
 import { CookieService } from 'ngx-cookie-service';
 import { DonateurService } from 'src/app/services/donateur.service';
 
+
 @Component({
   selector: 'app-head-bar',
   templateUrl: './head-bar.component.html',
   styleUrls: ['./head-bar.component.css']
 })
 export class HeadBarComponent implements OnInit{
+
   isMenuOpen: boolean = false;
   faB = faBars;
   faX = faXmark;
-
-
-  constructor(private  router: Router,
-     public serviceAssociation:AssociationService,public serviceDonateur:DonateurService) {}
-
-
-     
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    console.log("Menu opened:", this.isMenuOpen);
-   
-  }
-
- 
   association!:Association|undefined;
   connexion=localStorage.getItem('connexion');
   nomAssociation=localStorage.getItem('nomAssociation');
@@ -37,6 +24,18 @@ export class HeadBarComponent implements OnInit{
   connexionDonateur=localStorage.getItem('connexionDonateur');
   nomDonateur=localStorage.getItem('nomDonateur');
   prenomDonateur=localStorage.getItem('prenomDonateur');
+
+  constructor(private  router: Router,
+     public serviceAssociation:AssociationService,public serviceDonateur:DonateurService) {}
+   
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;   
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
 
 ngOnInit()
 {
