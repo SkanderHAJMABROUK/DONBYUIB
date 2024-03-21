@@ -21,11 +21,14 @@ import { AssociationService } from './associationService.service';
 export class AdministrateurService {
 
   compte: boolean = true;
+  associationDetailShowModal:boolean=false;
+  associationModifierShowModal:boolean=false;
+
 
   crudUtilisateurs:boolean = false;
   crudAssociations:boolean = false;
 
-  constructor(private fs:Firestore,public serviceAssociation:AssociationService) { }
+  constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore) { }
 
   addAssociation(associationData: Association) {
 
@@ -50,6 +53,14 @@ export class AdministrateurService {
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
-  
+modifierAssociation(assocation: Association): Promise<void> {
+  const updatedAssociationData = {
+    ...assocation,
+    etat: "modification_acceptée"
+  };
+  let associationRef = this.firestore.collection('Association').doc(assocation.id); 
+  return associationRef.update(updatedAssociationData);
+}
+
 
 }
