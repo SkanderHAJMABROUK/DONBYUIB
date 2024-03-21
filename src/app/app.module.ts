@@ -54,6 +54,7 @@ import { AjouterDonateurAdminComponent } from './components/administrateur/ajout
 import { AjouterAssociationAdminComponent } from './components/administrateur/ajouter-association-admin/ajouter-association-admin.component';
 import { DetailsAssociationAdminComponent } from './components/administrateur/details-association-admin/details-association-admin.component';
 import { ModifierAssociationAdminComponent } from './components/administrateur/modifier-association-admin/modifier-association-admin.component';
+import { CrudCollectesComponent } from './components/administrateur/crud-collectes/crud-collectes.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -104,6 +105,7 @@ const firebaseConfig = {
     AjouterAssociationAdminComponent,
     DetailsAssociationAdminComponent,
     ModifierAssociationAdminComponent,
+    CrudCollectesComponent,
   
     ],
   imports: [
