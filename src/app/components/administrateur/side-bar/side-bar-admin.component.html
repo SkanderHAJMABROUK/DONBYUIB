@@ -7,14 +7,22 @@
   <body>
     <div class="sidebar">
       <div class="logo">
-        <img src="" alt="logo">
+        <img src="../../../../assets/images/admin.jpg" alt="logo">
        
       </div>
       <ul class="links">
         <h4>Compte</h4>
         <li>
           <span class="material-symbols-outlined">person</span>
-          <a>Mon compte</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=true;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -30,11 +38,26 @@
           service.compte=false;
           service.crudAssociations=false;
           service.crudCollectes=false;
+<<<<<<< HEAD
+=======
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+>>>>>>> 5abc8c4555589bb67b429381f563a4e82ec3c70c
           service.crudActualites=false">Gestion des donateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter un utilisateur</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=true;
+          service.crudActualites=false">Ajouter un utilisateur</a>
         </li>
         
         
@@ -46,11 +69,26 @@
           service.compte=false;
           service.crudAssociations=true;
           service.crudCollectes=false;
+<<<<<<< HEAD
+=======
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+>>>>>>> 5abc8c4555589bb67b429381f563a4e82ec3c70c
           service.crudActualites=false">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une association</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=true;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Ajouter une association</a>
         </li>
         
         
@@ -62,11 +100,26 @@
           service.compte=false;
           service.crudAssociations=false;
           service.crudCollectes=true;
+<<<<<<< HEAD
+=======
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+>>>>>>> 5abc8c4555589bb67b429381f563a4e82ec3c70c
           service.crudActualites=false">Gestion des collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une collecte</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=true;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Ajouter une collecte</a>
         </li>
         
         
@@ -78,11 +131,26 @@
           service.compte=false;
           service.crudAssociations=false;
           service.crudCollectes=false;
+<<<<<<< HEAD
+=======
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+>>>>>>> 5abc8c4555589bb67b429381f563a4e82ec3c70c
           service.crudActualites=true">Gestion des actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une actualité</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=true;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Ajouter une actualité</a>
         </li>
         
         

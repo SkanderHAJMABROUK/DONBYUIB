@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Association } from 'src/app/interfaces/association';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import { AdministrateurService } from 'src/app/services/administrateur.service';
 
 @Component({
   selector: 'app-crud-associations',
@@ -30,7 +31,7 @@ export class CrudAssociationsComponent {
   selectedCategorie: string = '';
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
 
-  constructor(private associationService: AssociationService, private router: Router) { }
+  constructor(private associationService: AssociationService, private router: Router, public adminService:AdministrateurService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -96,6 +97,26 @@ export class CrudAssociationsComponent {
   cacherImage(): void {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
+
+  afficherDetails(assocation: Association) {
+    if(assocation.id){
+    this.associationService.getAssociationById(assocation.id).subscribe((response) => {
+      this.selectedAssociation = response!;
+      this.adminService.associationDetailShowModal = true;
+      console.log(response)
+    });
+  }
+}
+
+modifierAssociation(assocation:Association){
+  if(assocation.id){
+    this.associationService.getAssociationById(assocation.id).subscribe((response) => {
+      this.selectedAssociation = response!;
+      this.adminService.associationModifierShowModal = true;
+    });
+  }
+}
+
 
 
 }

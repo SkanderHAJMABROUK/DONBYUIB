@@ -52,6 +52,8 @@ import { CrudUtilisateursComponent } from './components/administrateur/crud-util
 import { CrudAssociationsComponent } from './components/administrateur/crud-associations/crud-associations.component';
 import { AjouterDonateurAdminComponent } from './components/administrateur/ajouter-donateur-admin/ajouter-donateur-admin.component';
 import { AjouterAssociationAdminComponent } from './components/administrateur/ajouter-association-admin/ajouter-association-admin.component';
+import { DetailsAssociationAdminComponent } from './components/administrateur/details-association-admin/details-association-admin.component';
+import { ModifierAssociationAdminComponent } from './components/administrateur/modifier-association-admin/modifier-association-admin.component';
 import { CrudCollectesComponent } from './components/administrateur/crud-collectes/crud-collectes.component';
 import { CrudActualitesComponent } from './components/administrateur/crud-actualites/crud-actualites.component';
 
@@ -102,6 +104,8 @@ const firebaseConfig = {
     CrudAssociationsComponent,
     AjouterDonateurAdminComponent,
     AjouterAssociationAdminComponent,
+    DetailsAssociationAdminComponent,
+    ModifierAssociationAdminComponent,
     CrudCollectesComponent,
     CrudActualitesComponent,
   
@@ -127,11 +131,7 @@ const firebaseConfig = {
 
     RouterModule.forRoot([
       {path:'admin',component:ProfilAdminComponent},
-      {path:'admin/ajouterDonateur',component:AjouterDonateurAdminComponent},
-      {path:'admin/ajouterDonateur/profil',component:ProfilAdminComponent},
 
-      {path:'admin/ajouterAssociation',component:AjouterAssociationAdminComponent},
-      {path:'admin/ajouterAssociation/profil',component:ProfilAdminComponent},
 
 
 

@@ -17,8 +17,6 @@
         </select>
     
   
-    <!-- Bouton Ajouter Utilisateur -->
-    <button class="add-button"[routerLink]="['ajouterAssociation']">Ajouter Association</button>
   
     <!-- Tableau des utilisateurs -->
     <table>
@@ -50,9 +48,9 @@
           <td>
             <div class="crud-buttons">
               <!-- Bouton Consulter -->
-              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(association)"></fa-icon></button>
             <!-- Bouton Modifier -->
-            <button class="action-button edit-button"><fa-icon [icon]="faPenToSquare"></fa-icon></button>
+            <button class="action-button edit-button"><fa-icon [icon]="faPenToSquare" (click)="modifierAssociation(association)"></fa-icon></button>
              
               <!-- Bouton Supprimer -->
               <button class="action-button delete-button"> <fa-icon [icon]="faTrash"></fa-icon>
@@ -62,6 +60,8 @@
         </tr>
       </tbody>
     </table>
+    <app-details-association-admin *ngIf="adminService.associationDetailShowModal" [association]="selectedAssociation"></app-details-association-admin>
+    <app-modifier-association-admin *ngIf="adminService.associationModifierShowModal" [association]="selectedAssociation"></app-modifier-association-admin>
 
     <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
         <div class="lightbox-contenu">
