@@ -8,8 +8,6 @@
           <option value="" selected>Tous</option>
           <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
         </select>
-
-<<<<<<< HEAD
         <!-- Sélecteur d'état -->
         <label  id="etat-label" for="etat-select">Filtrer par état:</label>
         <select id="etat-select" [(ngModel)]="selectedEtat" (change)="chercherCollecte()">
@@ -31,10 +29,7 @@
 
     <!-- Bouton Ajouter Collecte -->
     <button class="add-button" [routerLink]="['ajouterCollecte']">Ajouter Collecte</button>
-=======
-    
-  
->>>>>>> 5abc8c4555589bb67b429381f563a4e82ec3c70c
+
   
     <!-- Tableau des collectes -->
     <table>

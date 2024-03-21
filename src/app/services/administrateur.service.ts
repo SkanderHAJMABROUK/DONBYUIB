@@ -35,11 +35,9 @@ export class AdministrateurService {
   crudUtilisateurs:boolean = false;
   crudAssociations:boolean = false;
   crudCollectes:boolean = false;
-<<<<<<< HEAD
   crudActualites:boolean = false;
-=======
-  crudActualites:boolean=false;
->>>>>>> 5abc8c4555589bb67b429381f563a4e82ec3c70c
+
+
 
   constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore) { }
 
