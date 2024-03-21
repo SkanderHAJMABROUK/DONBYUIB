@@ -49,22 +49,7 @@ h1 {
 }
 
 
-.add-button {
-    padding: 10px;
-    margin: 10px;
-    font-weight: bolder;
-    border-radius: 10px;
-    background-color: rgb(154, 10, 10);
-    border: none;
-    cursor: pointer;
-    
-    color: white;
-}
 
-.add-button:hover {
-    background-color: white;
-    color:  rgb(154, 10, 10);
-}
 
 .donateur-photo {
     width: 80px; /* Taille limitée de l'image */

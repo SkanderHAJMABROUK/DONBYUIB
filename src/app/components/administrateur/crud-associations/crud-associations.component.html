@@ -17,8 +17,6 @@
         </select>
     
   
-    <!-- Bouton Ajouter Utilisateur -->
-    <button class="add-button"[routerLink]="['ajouterAssociation']">Ajouter Association</button>
   
     <!-- Tableau des utilisateurs -->
     <table>
@@ -64,7 +62,6 @@
     </table>
     <app-details-association-admin *ngIf="adminService.associationDetailShowModal" [association]="selectedAssociation"></app-details-association-admin>
     <app-modifier-association-admin *ngIf="adminService.associationModifierShowModal" [association]="selectedAssociation"></app-modifier-association-admin>
-
 
     <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
         <div class="lightbox-contenu">

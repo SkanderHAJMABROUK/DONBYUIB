@@ -23,11 +23,19 @@ export class AdministrateurService {
   compte: boolean = true;
   associationDetailShowModal:boolean=false;
   associationModifierShowModal:boolean=false;
+  ajouterAssociation:boolean=false;
+  ajouterDonateur:boolean=false;
+  ajouterCollecte:boolean=false;
+  ajouterActualite:boolean=false;
+
+
+
 
 
   crudUtilisateurs:boolean = false;
   crudAssociations:boolean = false;
   crudCollectes:boolean = false;
+  crudActualites:boolean=false;
 
   constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore) { }
 

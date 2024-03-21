@@ -14,7 +14,15 @@
         <h4>Compte</h4>
         <li>
           <span class="material-symbols-outlined">person</span>
-          <a>Mon compte</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=true;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -29,11 +37,24 @@
           <a (click)="service.crudUtilisateurs=true;
           service.compte=false;
           service.crudAssociations=false;
-          service.crudCollectes=false">Gestion des donateurs</a>
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Gestion des donateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter un utilisateur</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=true;
+          service.crudActualites=false">Ajouter un utilisateur</a>
         </li>
         
         
@@ -44,11 +65,24 @@
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
           service.crudAssociations=true;
-          service.crudCollectes=false">Gestion des associations</a>
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une association</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=true;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Ajouter une association</a>
         </li>
         
         
@@ -59,11 +93,24 @@
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
           service.crudAssociations=false;
-          service.crudCollectes=true">Gestion des collectes</a>
+          service.crudCollectes=true;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Gestion des collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une collecte</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=true;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Ajouter une collecte</a>
         </li>
         
         
@@ -71,11 +118,27 @@
         <h4>Actualités</h4>
         <li>
           <span class="material-symbols-outlined">list</span>
-          <a>Gestion des actualités</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=true">Gestion des actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
-          <a>Ajouter une actualité</a>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=true;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false">Ajouter une actualité</a>
         </li>
         
         

@@ -138,7 +138,6 @@ export class AjouterAssociationAdminComponent {
       this.spinner.hide();
       this.aFormGroup.reset();
       this.showSuccessMessage = true;
-      this.router.navigate(['/admin/ajouterAssociation/profil'],{ replaceUrl: true });
     } else {
       // Afficher un message d'erreur si l'e-mail existe déjà
       this.showEmailExists = true;

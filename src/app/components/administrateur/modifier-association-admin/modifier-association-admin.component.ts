@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, ValidationErrors, Validators, FormControl } from '@angular/forms';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Association } from 'src/app/interfaces/association';
@@ -21,24 +21,45 @@ export class ModifierAssociationAdminComponent {
   constructor(public adminService:AdministrateurService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,
     private spinner:NgxSpinnerService){}
   
-  ngOnInit(): void {
-    this.associationForm = this.formBuilder.group({
-      logo: [this.association.logo],
-      nom: [this.association.nom],
-      description: [this.association.description],
-      categorie: [this.association.categorie],
-      adresse: [this.association.adresse],
-      email: [this.association.email],
-      telephone: [this.association.telephone,[Validators.minLength(8), Validators.maxLength(8)]],
-      rib: [this.association.rib],
-      mdp: [this.association.mdp],
-     
-
-
-
-
-
+    ngOnInit(): void {
+      this.associationForm = this.formBuilder.group({
+        logo: [this.association.logo, Validators.required],
+        nom: [this.association.nom, Validators.required],
+        description: [this.association.description, Validators.required],
+        categorie: [this.association.categorie, Validators.required],
+        adresse: [this.association.adresse, Validators.required],
+        email: [this.association.email, [Validators.required, Validators.email]],
+        telephone: [this.association.telephone, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+        rib: [this.association.rib, [Validators.required, Validators.minLength(20), Validators.maxLength(20), this.ribValidator]],
       });
+    }
+    ribValidator = (control: FormControl): {[key: string]: any} | null => {
+      const rib: string | null = control.value;
+      if (rib && rib.length === 20) {
+        if (!this.checkRIB(rib)) {
+          return { 'invalidRIB': true };
+        }
+      } else {
+        return { 'invalidRIB': true };
+      }
+      return null;
+    }
+    checkRIB(RIB: string): boolean {
+      if (RIB.length === 20) {
+          const cle: string = RIB.substring(18, 20);
+          const ribf2: string = RIB.substring(0, 18) + "00";
+          const p12: string = ribf2.substring(0, 10);
+          const p22: string = ribf2.substring(10, 20);
+          const r12: number = parseInt(p12) % 97;
+          const tmp2: string = r12.toString().concat(p22);
+          const r22: number = parseInt(tmp2) % 97;
+          const res2: number = 97 - r22;
+          const estOKRib: boolean = parseInt(cle) === res2;
+  
+          return estOKRib;
+      } else {
+          return false;
+      }
   }
   
   async modifierAssociation(): Promise<void> {

@@ -129,11 +129,7 @@ const firebaseConfig = {
 
     RouterModule.forRoot([
       {path:'admin',component:ProfilAdminComponent},
-      {path:'admin/ajouterDonateur',component:AjouterDonateurAdminComponent},
-      {path:'admin/ajouterDonateur/profil',component:ProfilAdminComponent},
 
-      {path:'admin/ajouterAssociation',component:AjouterAssociationAdminComponent},
-      {path:'admin/ajouterAssociation/profil',component:ProfilAdminComponent},
 
 
 
