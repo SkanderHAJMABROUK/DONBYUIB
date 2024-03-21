@@ -1,60 +1,49 @@
 <div class="container">
     <!-- Barre de recherche -->
-    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherCollecte()" placeholder="Rechercher..." class="search-input">
+    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherActualite()" placeholder="Rechercher..." class="search-input">
 
     <!-- Sélecteur d'association -->
         <label  id="etat-label" for="etat-select">Filtrer par association:</label>
-        <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherCollecte()">
+        <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherActualite()">
           <option value="" selected>Tous</option>
           <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
         </select>
 
         <!-- Sélecteur d'état -->
         <label  id="etat-label" for="etat-select">Filtrer par état:</label>
-        <select id="etat-select" [(ngModel)]="selectedEtat" (change)="chercherCollecte()">
+        <select id="etat-select" [(ngModel)]="selectedEtat" (change)="chercherActualite()">
           <option value="" selected>Tous</option>
           <option *ngFor="let etat of etats" [value]="etat">{{ etat }}</option>
         </select>
 
         <!-- Champ de tri -->
       <label id="etat-label" for="tri-select">Trier par :</label>
-      <select id="etat-label" [(ngModel)]="selectedTri" (change)="chercherCollecte()">
+      <select id="etat-label" [(ngModel)]="selectedTri" (change)="chercherActualite()">
         <option value="none" selected>Aucun tri</option>
-        <option value="montantAsc">Montant croissant</option>
-        <option value="montantDesc">Montant décroissant</option>
         <option value="plusRecents">Les plus récents</option>
         <option value="plusAnciens">Les plus anciens</option>
-        <option value="plusLonguesDurees">Les plus longues durées</option>
-        <option value="plusCourtesDurees">Les plus courtes durées</option>
       </select>
-
-    <!-- Bouton Ajouter Collecte -->
-    <button class="add-button" [routerLink]="['ajouterCollecte']">Ajouter Collecte</button>
   
     <!-- Tableau des collectes -->
     <table>
       <thead>
         <tr>
           <th>ID</th>
+          <th>Titre</th>
           <th>Image</th>
-          <th>Nom</th>
-          <th>Montant</th>
-          <th>Date de début</th>
-          <th>Date de fin</th>
-          <th>Lancée par</th>
+          <th>Publiée le</th>
+          <th>Publiée par</th>
           <th>Etat</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let collecte of filteredCollecteList">
-          <td>{{ collecte.id }}</td>
-          <td><img [src]="collecte.image" alt="Logo" class="donateur-photo" (click)="afficherImage(collecte.image)"></td> <!-- Champ image avec la source de la photo -->
-          <td>{{ collecte.nom }}</td>
-          <td>{{ collecte.montant }}</td>
-          <td>{{ collecte.date_debut }}</td>
-          <td>{{ collecte.date_fin }}</td>
-          <td>{{ getAssociationNameById(collecte.id_association) }}</td>
-          <td>{{ collecte.etat }}</td>  
+        <tr *ngFor="let actualite of filteredActualiteList">
+          <td>{{ actualite.id }}</td>
+          <td>{{ actualite.titre }}</td>
+          <td><img [src]="actualite.image" alt="Logo" class="donateur-photo" (click)="afficherImage(actualite.image)"></td> <!-- Champ image avec la source de la photo -->
+          <td>{{ actualite.date_publication }}</td>
+          <td>{{ getAssociationNameById(actualite.id_association) }}</td>
+          <td>{{ actualite.etat }}</td>  
           <!-- Nouvelle colonne pour les actions -->
           <td>
             <div class="crud-buttons">
@@ -88,7 +77,7 @@
   
       <!-- Choix du nombre d'utilisateurs par page -->
       <div class="page-size-selection">
-        <label for="page-size-select">Nombre de collectes par page:</label>
+        <label for="page-size-select">Nombre d'actualités par page:</label>
         <select id="page-size-select" [(ngModel)]="selectedPageSize" (change)="onPageSizeChange()">
             <option value="10" selected>10</option>
             <option value="20">20</option>

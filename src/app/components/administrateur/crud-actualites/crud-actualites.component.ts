@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Collecte } from 'src/app/interfaces/collecte';
-import { CollecteService } from 'src/app/services/collecte.service';
+import { Actualite } from 'src/app/interfaces/actualite';
+import { ActualiteService } from 'src/app/services/actualite.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Observable, map } from 'rxjs';
 
-
 @Component({
-  selector: 'app-crud-collectes',
-  templateUrl: './crud-collectes.component.html',
-  styleUrls: ['./crud-collectes.component.css']
+  selector: 'app-crud-actualites',
+  templateUrl: './crud-actualites.component.html',
+  styleUrls: ['./crud-actualites.component.css']
 })
-export class CrudCollectesComponent implements OnInit{
+export class CrudActualitesComponent implements OnInit{
 
   faList = faList;
   faPenToSquare = faPenToSquare;
@@ -22,11 +21,11 @@ export class CrudCollectesComponent implements OnInit{
 
   selectedEtat: string = ''; // Par défaut, aucun état sélectionné
   etats: string[] = []; // Liste des états possibles
-  collectes: Collecte[] = [];
+  actualites: Actualite[] = [];
   associationsNames: string[] = [];
-  filteredCollecteList: Collecte[] = [];
+  filteredActualiteList: Actualite[] = [];
   searchTerm: string = '';
-  selectedCollecte: Collecte = {} as Collecte;
+  selectedActualite: Actualite = {} as Actualite;
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; // Par défaut, la taille de la page est définie sur 10
@@ -36,25 +35,24 @@ export class CrudCollectesComponent implements OnInit{
 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
 
-
-  constructor(private collecteService: CollecteService, private associationService:AssociationService,private router: Router) { }
+  constructor(private actualiteService: ActualiteService, private associationService:AssociationService,private router: Router) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
-    this.getCollectes();             
+    this.getActualites();             
   }
 
   getEtats(): void {
     // Exclure les valeurs nulles et vides
-    this.etats = Array.from(new Set(this.collectes
-      .map(collecte => collecte.etat)
+    this.etats = Array.from(new Set(this.actualites
+      .map(actualite => actualite.etat)
       .filter(etat => !!etat))); // Filtre les valeurs nulles ou vides
-    }
+  }
 
   getAssociationsIds(): void {
     this.associationsIds = Array.from(new Set(
-      this.collectes
-        .map(collecte => collecte.id_association)
+      this.actualites
+        .map(actualite => actualite.id_association)
         .filter(id_association => id_association !== undefined && id_association !== null)
     )) as string[];
 
@@ -80,7 +78,7 @@ export class CrudCollectesComponent implements OnInit{
       })
     )
   } 
-  
+
   getAssociationNameById(id: string | undefined): string {
     if (!id) {
       return 'Unknown Association';
@@ -92,73 +90,58 @@ export class CrudCollectesComponent implements OnInit{
       return 'Association not found';
     }
   }
-  
-  
-  getCollectes():void {
-    this.collecteService.getCollectes().subscribe(collectes => {
-      this.collectes = collectes;
+
+  getActualites():void {
+    this.actualiteService.getActualites().subscribe(actualites => {
+      this.actualites = actualites;
       this.getEtats(); // Initialise la liste des états
       this.getAssociationsIds(); // Initialise la liste des états
-      this.chercherCollecte();
+      this.chercherActualite();
     });
   }
 
-  chercherCollecte(): void {
+  chercherActualite(): void {
 
     // Pagination
   const startIndex = (this.currentPage - 1) * this.pageSize;
   const endIndex = startIndex + this.pageSize;
-  this.filteredCollecteList = this.filteredCollecteList.slice(startIndex, endIndex);
+  this.filteredActualiteList = this.filteredActualiteList.slice(startIndex, endIndex);
 
-    this.filteredCollecteList = this.collectes.filter((collecte, index) =>
+    this.filteredActualiteList = this.actualites.filter((actualite, index) =>
       index >= startIndex && index < endIndex &&
-      (collecte.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-      (!this.selectedAssociation || this.getAssociationNameById(collecte.id_association) === this.selectedAssociation) &&
-      (!this.selectedEtat || collecte.etat === this.selectedEtat)
+      (actualite.titre.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      (!this.selectedAssociation || this.getAssociationNameById(actualite.id_association) === this.selectedAssociation) &&
+      (!this.selectedEtat || actualite.etat === this.selectedEtat)
     ))
 
     // Tri
-  switch (this.selectedTri) {
-    case 'montantAsc':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => a.montant - b.montant);
-      break;
-    case 'montantDesc':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => b.montant - a.montant);
-      break;
-    case 'plusRecents':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(b.date_debut).getTime() - new Date(a.date_debut).getTime());
-      break;
-    case 'plusAnciens':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(a.date_debut).getTime() - new Date(b.date_debut).getTime());
-      break;
-    case 'plusLonguesDurees':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(b.date_fin).getTime() - new Date(b.date_debut).getTime() - (new Date(a.date_fin).getTime() - new Date(a.date_debut).getTime()));
-      break;
-    case 'plusCourtesDurees':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(a.date_fin).getTime() - new Date(a.date_debut).getTime() - (new Date(b.date_fin).getTime() - new Date(b.date_debut).getTime()));
-      break;
-    default:
-      break;
+    switch (this.selectedTri) {
+      case 'plusRecents':
+        this.filteredActualiteList = this.filteredActualiteList.sort((a, b) => new Date(b.date_publication).getTime() - new Date(a.date_publication).getTime());
+        break;
+      case 'plusAnciens':
+        this.filteredActualiteList = this.filteredActualiteList.sort((a, b) => new Date(a.date_publication).getTime() - new Date(b.date_publication).getTime());
+        break;
+      default:
+        break;
+    }
   }
-  }
-
-
 
   onPageChange(page: number): void {
     this.currentPage = page;
-    this.chercherCollecte();
+    this.chercherActualite();
   }
 
   onPageSizeChange(): void {
     this.pageSize = +this.selectedPageSize; // Convertit la chaîne en nombre
     this.currentPage = 1; // Réinitialise à la première page
-    this.chercherCollecte(); // Réapplique la pagination avec la nouvelle taille de page
+    this.chercherActualite(); // Réapplique la pagination avec la nouvelle taille de page
     this.getTotalPages(); // Recalcule le nombre total de pages
   }
   
 
   getTotalPages(): number {
-    return Math.ceil(this.collectes.length / this.pageSize);
+    return Math.ceil(this.actualites.length / this.pageSize);
   }
 
   afficherImage(url: string): void {
@@ -168,4 +151,7 @@ export class CrudCollectesComponent implements OnInit{
   cacherImage(): void {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
+
+
+
 }
