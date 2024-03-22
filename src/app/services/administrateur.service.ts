@@ -14,13 +14,16 @@ import { HttpClient } from '@angular/common/http';
 import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
 import { AssociationService } from './associationService.service';
+import { Admin } from '../interfaces/admin';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministrateurService {
 
-  compte: boolean = true;
+  compte: boolean = false;
+  connexion:boolean=false;
+  showErrorNotification:boolean=false;
 
   associationDetailShowModal:boolean=false;
   associationModifierShowModal:boolean=false;
@@ -48,7 +51,7 @@ export class AdministrateurService {
 
 
 
-  constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore) { }
+  constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore,private route:Router) { }
 
   addAssociation(associationData: Association) {
 
@@ -73,6 +76,7 @@ export class AdministrateurService {
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
+
 modifierAssociation(assocation: Association): Promise<void> {
   const updatedAssociationData = {
     ...assocation,
@@ -82,5 +86,41 @@ modifierAssociation(assocation: Association): Promise<void> {
   return associationRef.update(updatedAssociationData);
 }
 
+getAdminByLoginAndPassword(login: string, password: string): Observable<Admin | undefined> {
+  return this.firestore.collection<Admin>('Admin', ref => ref.where('login', '==', login).where('mdp', '==', password))
+    .valueChanges({ idField: 'id' })
+    .pipe(
+      map(admins => admins[0]) // Supposant que le login est unique, nous prenons le premier élément trouvé
+    );
+}
+
+
+logOut() {
+  this.compte = false;
+  localStorage.setItem('connexion', 'false');
+  this.route.navigate(['/admin'], { replaceUrl: true });
+}
+
+
+logIn(login: string, password: string): Observable<boolean> {
+  return this.getAdminByLoginAndPassword(login, password).pipe(
+    map(admin => {
+      if (admin) {
+        this.compte = true;
+        localStorage.setItem('connexion', 'true');
+        this.route.navigate(['/admin/profil'], { replaceUrl: true });
+        return true; // Connexion réussie
+      } else {
+        this.showErrorNotification = true;
+        console.error('Aucun administrateur trouvé avec ce login et ce mot de passe.');
+        return false; // Connexion échouée
+      }
+    }),
+    catchError(error => {
+      console.error('Erreur lors de la recherche de l\'administrateur:', error);
+      return of(false); // Retourner false en cas d'erreur
+    })
+  );
+}
 
 }

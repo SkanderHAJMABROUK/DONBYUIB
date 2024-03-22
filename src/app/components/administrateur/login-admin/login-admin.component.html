@@ -1,0 +1,45 @@
+<div class="container">
+    <form [formGroup]="aFormGroup" class="form-container" (ngSubmit)="onSubmit()">
+      <h2>Authentification Admin</h2>
+      <hr>
+     
+      
+  
+    <div>
+      <label for="login">Login</label>
+      <input type="text" id="login" formControlName="login" placeholder="..." required>
+    </div>
+  
+    <div class="pwd">
+      <label for="pwd">Mot de passe</label>
+      <div class="password-input">
+        <input [type]="showPassword ? 'text' : 'password'" id="pwd"  formControlName="mdp" aria-describedby="passwordHelpInline" required>
+        <button type="button" id="togglePassword" (click)="togglePassword()">
+          <fa-icon [icon]="showPassword ? faEye : faEyeSlash"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <a href="">Mot de passe oublié?</a><br>
+  
+    <input type="checkbox" id="remember_me" class="checkbox" required>
+    <label for="remember_me">Se souvenir de moi</label>
+  
+    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
+    
+    <div *ngIf="showErrorNotification" class="error-notification">
+      Recaptcha non validé!
+    </div>
+    <div *ngIf="service.showErrorNotification" class="error-notification">
+      Adresse e-mail ou mot de passe incorrect !
+    </div>
+  
+    <button type="submit" class="btn_login">Connexion</button>
+    
+   
+
+    
+  
+  
+    </form>
+  </div>
+  
