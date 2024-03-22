@@ -21,8 +21,17 @@ import { AssociationService } from './associationService.service';
 export class AdministrateurService {
 
   compte: boolean = true;
+
   associationDetailShowModal:boolean=false;
   associationModifierShowModal:boolean=false;
+  collecteDetailShowModal:boolean=false;
+  collecteModifierShowModal:boolean=false;
+  actualiteDetailShowModal:boolean=false;
+  actualiteModifierShowModal:boolean=false;
+  donateurDetailShowModal:boolean=false;
+  donateurModifierShowModal:boolean=false;
+
+
   ajouterAssociation:boolean=false;
   ajouterDonateur:boolean=false;
   ajouterCollecte:boolean=false;

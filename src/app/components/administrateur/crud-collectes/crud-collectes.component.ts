@@ -5,6 +5,7 @@ import { CollecteService } from 'src/app/services/collecte.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Observable, map } from 'rxjs';
+import { AdministrateurService } from 'src/app/services/administrateur.service';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class CrudCollectesComponent implements OnInit{
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
 
 
-  constructor(private collecteService: CollecteService, private associationService:AssociationService,private router: Router) { }
+  constructor(private collecteService: CollecteService, private associationService:AssociationService,private router: Router,public adminService:AdministrateurService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -168,4 +169,24 @@ export class CrudCollectesComponent implements OnInit{
   cacherImage(): void {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
+
+  afficherDetails(collecte: Collecte) {
+    if(collecte.id){
+    this.collecteService.getCollecteById(collecte.id).subscribe((response) => {
+      this.selectedCollecte = response!;
+      this.adminService.collecteDetailShowModal = true;
+      console.log(response)
+    });
+  }
+}
+
+modifierCollecte(collecte:Collecte){
+  if(collecte.id){
+    this.collecteService.getCollecteById(collecte.id).subscribe((response) => {
+      this.selectedCollecte = response!;
+      this.adminService.collecteModifierShowModal = true;
+    });
+  }
+}
+
 }

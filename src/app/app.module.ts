@@ -55,16 +55,15 @@ import { AjouterAssociationAdminComponent } from './components/administrateur/aj
 import { DetailsAssociationAdminComponent } from './components/administrateur/details-association-admin/details-association-admin.component';
 import { ModifierAssociationAdminComponent } from './components/administrateur/modifier-association-admin/modifier-association-admin.component';
 import { CrudCollectesComponent } from './components/administrateur/crud-collectes/crud-collectes.component';
-import { DetailsDonateurAdminComponent } from './details-donateur-admin/details-donateur-admin.component';
-import { ModifierDonateurAdminComponent } from './modifier-donateur-admin/modifier-donateur-admin.component';
-import { DetailsCollecteAdminComponent } from './details-collecte-admin/details-collecte-admin.component';
-import { ModifierCollecteAdminComponent } from './modifier-collecte-admin/modifier-collecte-admin.component';
-import { DetailsActualiteAdminComponent } from './details-actualite-admin/details-actualite-admin.component';
-import { ModifierActualiteAdminComponent } from './modifier-actualite-admin/modifier-actualite-admin.component';
+import { DetailsDonateurAdminComponent } from './components/administrateur/details-donateur-admin/details-donateur-admin.component';
+import { ModifierDonateurAdminComponent } from './components/administrateur/modifier-donateur-admin/modifier-donateur-admin.component';
+import { DetailsCollecteAdminComponent } from './components/administrateur/details-collecte-admin/details-collecte-admin.component';
+import { ModifierCollecteAdminComponent } from './components/administrateur/modifier-collecte-admin/modifier-collecte-admin.component';
+import { DetailsActualiteAdminComponent } from './components/administrateur/details-actualite-admin/details-actualite-admin.component';
+import { ModifierActualiteAdminComponent } from './components/administrateur/modifier-actualite-admin/modifier-actualite-admin.component';
 import { CrudActualitesComponent } from './components/administrateur/crud-actualites/crud-actualites.component';
-import { AjouterCollecteAdminComponent } from './ajouter-collecte-admin/ajouter-collecte-admin.component';
-import { AjouterActualiteAdminComponent } from './ajouter-actualite-admin/ajouter-actualite-admin.component';
-
+import { AjouterActualiteAdminComponent } from './components/administrateur/ajouter-actualite-admin/ajouter-actualite-admin.component';
+import { AjouterCollecteAdminComponent } from './components/administrateur/ajouter-collecte-admin/ajouter-collecte-admin.component';
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -122,8 +121,8 @@ const firebaseConfig = {
     ModifierCollecteAdminComponent,
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
-    AjouterCollecteAdminComponent,
     AjouterActualiteAdminComponent,
+    AjouterCollecteAdminComponent
   
     ],
   imports: [
