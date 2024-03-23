@@ -13,6 +13,7 @@ import { sha256 } from 'js-sha256';
 import { HttpClient } from '@angular/common/http';
 import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
+import { DemandeAssociation } from '../interfaces/demande-association';
 
 
 @Injectable({
@@ -62,6 +63,104 @@ export class AssociationService {
           rib: association.rib,
           telephone: association.telephone,
           salt: association.salt,
+        }));
+      })
+    );
+  }
+
+  getPendingAssociations(): Observable<Association[]> {
+    let associationCollection = collection(this.fs, 'Association');
+    return collectionData(associationCollection, { idField: 'id' }).pipe(
+      map((associations: any[]) => {
+        return associations
+          .filter(association => association.etat === 'en_attente') // Filter associations with etat 'en_attente'
+          .map(association => ({
+            id: association.id,
+            nom: association.nom,
+            etat: association.etat,
+            categorie: association.categorie,
+            adresse: association.adresse,
+            description: association.description,
+            email: association.email,
+            id_fiscale: association.id_fiscale,
+            logo: association.logo,
+            mdp: association.mdp,
+            rib: association.rib,
+            telephone: association.telephone,
+            salt: association.salt,
+          }));
+      })
+    );
+  }
+
+  getActiveAssociations(): Observable<Association[]> {
+    let associationCollection = collection(this.fs, 'Association');
+    return collectionData(associationCollection, { idField: 'id' }).pipe(
+      map((associations: any[]) => {
+        return associations
+        .filter(association => association.etat === 'actif') // Filter associations with etat 'en_attente'
+          .map(association => ({
+            id: association.id,
+            nom: association.nom,
+            etat: association.etat,
+            categorie: association.categorie,
+            adresse: association.adresse,
+            description: association.description,
+            email: association.email,
+            id_fiscale: association.id_fiscale,
+            logo: association.logo,
+            mdp: association.mdp,
+            rib: association.rib,
+            telephone: association.telephone,
+            salt: association.salt,
+          }));
+      })
+    );
+  }
+
+  getDemandesAssociations(): Observable<DemandeAssociation[]> {
+    let demandeAssociationCollection = collection(this.fs, 'DemandeAssociation');
+    return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
+      map((demandesAssociations: any[]) => {
+        return demandesAssociations.map(demandeAssociation => ({
+          id: demandeAssociation.id,
+          id_association : demandeAssociation.id_association,
+          nom : demandeAssociation.nom,
+          categorie : demandeAssociation.categorie,
+          adresse : demandeAssociation.adresse,
+          description : demandeAssociation.description,
+          email : demandeAssociation.email,
+          id_fiscale : demandeAssociation.id_fiscale,
+          logo : demandeAssociation.logo,
+          rib : demandeAssociation.rib,
+          telephone : demandeAssociation.telephone,
+          etat : demandeAssociation.etat,
+          date : demandeAssociation.date
+        }));
+      })
+    );
+  }
+
+  getPendingDemandesAssociations(): Observable<DemandeAssociation[]> {
+    let demandeAssociationCollection = collection(this.fs, 'DemandeAssociation');
+    return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
+      map((demandesAssociations: any[]) => {
+        return demandesAssociations
+        .filter(demandeAssociation => demandeAssociation.etat === 'en_attente') // Filter associations with etat 'en_attente'
+        .map(demandeAssociation => ({
+          id: demandeAssociation.id,
+          id_association : demandeAssociation.id_association,
+          nom : demandeAssociation.nom,
+          categorie : demandeAssociation.categorie,
+          adresse : demandeAssociation.adresse,
+          description : demandeAssociation.description,
+          email : demandeAssociation.email,
+          id_fiscale : demandeAssociation.id_fiscale,
+          logo : demandeAssociation.logo,
+          rib : demandeAssociation.rib,
+          telephone : demandeAssociation.telephone,
+          etat : demandeAssociation.etat,
+          date : demandeAssociation.date
         }));
       })
     );
@@ -137,8 +236,55 @@ export class AssociationService {
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
-  
 
+async addAssociationAndDemande(associationData: Association) {
+  // Génération du sel
+  const salt: string = this.generateSalt(16);
+  // Hachage du mot de passe avec salage
+  const hashedPassword: string = sha256(associationData.mdp + salt).toString();
+
+  const associationToAdd: Association = {
+      nom: associationData.nom,
+      description: associationData.description,
+      categorie: associationData.categorie,
+      adresse: associationData.adresse,
+      email: associationData.email,
+      telephone: associationData.telephone,
+      logo: associationData.logo,
+      id_fiscale: associationData.id_fiscale,
+      rib: associationData.rib, 
+      mdp: hashedPassword,
+      etat: "en_attente",
+      salt: salt // Stockage du sel
+  };
+
+  // Ajout du document dans la collection Association
+  const associationDocRef = await addDoc(collection(this.fs, 'Association'), associationToAdd);
+
+  // Récupération de l'ID de l'association ajoutée
+  const associationId = associationDocRef.id;
+
+  // Création du document à ajouter dans la collection DemandeAssociation
+  const demandeData: DemandeAssociation = {
+      id_association: associationId,
+      nom: associationData.nom,
+      description: associationData.description,
+      categorie: associationData.categorie,
+      adresse: associationData.adresse,
+      email: associationData.email,
+      telephone: associationData.telephone,
+      logo: associationData.logo,
+      id_fiscale: associationData.id_fiscale,
+      rib: associationData.rib, 
+      etat: "en_attente",
+      date:new Date(),
+  };
+
+  // Ajout du document dans la collection DemandeAssociation
+  return addDoc(collection(this.fs, 'DemandeAssociation'), demandeData);
+}
+
+  
 
 modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): Promise<void> {
   const updatedAssociationData = {
@@ -250,5 +396,9 @@ generateSalt(length: number): string {
   return salt;
 }
 
+deleteAssociationById(id: string): Promise<void> {
+  const associationRef = this.firestore.collection('Association').doc(id);
+  return associationRef.delete();
+}
   
 }

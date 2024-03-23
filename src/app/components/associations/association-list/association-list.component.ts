@@ -42,7 +42,7 @@ export class AssociationListComponent {
   }
   
   ngOnInit():void{
-    this.service.getAssociations().subscribe((res)=>{
+    this.service.getActiveAssociations().subscribe((res)=>{
      this.associations=res;
      
 

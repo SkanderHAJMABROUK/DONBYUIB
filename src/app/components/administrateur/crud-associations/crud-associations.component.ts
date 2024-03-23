@@ -56,7 +56,7 @@ export class CrudAssociationsComponent {
   getAssociations(): void {
     this.associationService.getAssociations().subscribe(associations => {
       this.associations = associations;
-      this.getEtats(); // Initialise la liste des états
+      // this.getEtats(); // Initialise la liste des états
       this.getCategories();
       this.chercherAssociation();
     });

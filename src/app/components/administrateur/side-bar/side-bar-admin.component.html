@@ -22,7 +22,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Mon compte</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -42,7 +43,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Gestion des donateurs</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Gestion des donateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -54,7 +56,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=true;
-          service.crudActualites=false">Ajouter un utilisateur</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Ajouter un utilisateur</a>
         </li>
         
         
@@ -70,7 +73,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Gestion des associations</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -82,7 +86,21 @@
           service.ajouterAssociation=true;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Ajouter une association</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Ajouter une association</a>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">hourglass_bottom</span>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false;
+          service.demandeAssociations=true">Demandes d'habilitation</a>
         </li>
         
         
@@ -98,7 +116,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Gestion des collectes</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Gestion des collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -110,7 +129,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=true;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Ajouter une collecte</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Ajouter une collecte</a>
         </li>
         
         
@@ -126,7 +146,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=true">Gestion des actualités</a>
+          service.crudActualites=true;
+          service.demandeAssociations=false">Gestion des actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -138,7 +159,8 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=false;
-          service.crudActualites=false">Ajouter une actualité</a>
+          service.crudActualites=false;
+          service.demandeAssociations=false">Ajouter une actualité</a>
         </li>
         
         

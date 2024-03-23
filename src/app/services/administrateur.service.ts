@@ -28,7 +28,7 @@ export class AdministrateurService {
   ajouterCollecte:boolean=false;
   ajouterActualite:boolean=false;
 
-
+  demandeAssociations:boolean=false;
 
 
 
@@ -59,7 +59,7 @@ export class AdministrateurService {
         id_fiscale: associationData.id_fiscale,
         rib: associationData.rib, // Stockage du mot de passe haché
         mdp: hashedPassword,
-        etat: "ajout",
+        etat: "actif",
         salt:salt //Stockage du sel
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);

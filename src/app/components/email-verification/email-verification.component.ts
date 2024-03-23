@@ -53,7 +53,7 @@ if (type === "association") {
 
     const associationData = JSON.parse(localStorage.getItem('associationData') || '{}');
 
-    this.aService.addAssociation(associationData)
+    this.aService.addAssociationAndDemande(associationData)
         .then(() => {
             console.log('Données de l\'association ajoutées avec succès dans Firebase Firestore.');
             // Réinitialiser le formulaire après l'ajout des données

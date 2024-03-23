@@ -33,11 +33,6 @@ export class SinscrireComponent implements OnInit{
 
   ngOnInit(): void {
 
-    // this.authService.authState.subscribe((user) => {
-    //   this.user = user;
-    //   this.loggedIn = (user != null);
-    // });
-
     this.aFormGroup = this.formBuilder.group(
       {
         recaptcha: ['', Validators.required],
@@ -98,15 +93,28 @@ export class SinscrireComponent implements OnInit{
       console.log(' file uploaded. Download URL:', photoDownloadUrl);
 
 
-      const userData = {
+      const associationData = {
         ...this.aFormGroup.value,
         photo: photoDownloadUrl
       };
 
-      localStorage.setItem('type' , 'donateur');
-      localStorage.setItem('emailDonateur', userData.email);
+      const demandeAssociationData = {
+        id_association:undefined,
+        nom:this.aFormGroup.value.nom,
+        categorie:this.aFormGroup.value.categorie,
+        adresse:this.aFormGroup.value.adresse,
+        description:this.aFormGroup.value.description,
+        email:this.aFormGroup.value.email,
+        id_fiscale:this.aFormGroup.value.id_fiscale,
+        photo: photoDownloadUrl,
+        rib:this.aFormGroup.value.rib,
+        telephone:this.aFormGroup.value.telephone
+      }
 
-      localStorage.setItem('userData', JSON.stringify(userData));
+      localStorage.setItem('type' , 'donateur');
+      localStorage.setItem('emailDonateur', associationData.email);
+
+      localStorage.setItem('userData', JSON.stringify(associationData));
       this.spinner.hide();
       this.aFormGroup.reset();
       this.showSuccessMessage=true;

@@ -62,6 +62,7 @@ import { ModifierCollecteAdminComponent } from './modifier-collecte-admin/modifi
 import { DetailsActualiteAdminComponent } from './details-actualite-admin/details-actualite-admin.component';
 import { ModifierActualiteAdminComponent } from './modifier-actualite-admin/modifier-actualite-admin.component';
 import { CrudActualitesComponent } from './components/administrateur/crud-actualites/crud-actualites.component';
+import { DemandesAssociationsComponent } from './components/administrateur/demandes-associations/demandes-associations.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -120,6 +121,7 @@ const firebaseConfig = {
     ModifierCollecteAdminComponent,
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
+    DemandesAssociationsComponent,
   
     ],
   imports: [

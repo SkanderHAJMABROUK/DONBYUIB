@@ -24,11 +24,11 @@
           <th>Téléphone</th>
           <th>RIB</th>
           <th>ID Fiscale</th>
-          <th>Etat</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let association of filteredAssociationList">
+        <tr *ngFor="let association of filteredDemandeAssociationList">
           <td>{{ association.id }}</td>
           <td><img [src]="association.logo" alt="Logo" class="donateur-photo" (click)="afficherImage(association.logo)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ association.nom }}</td>
@@ -40,25 +40,26 @@
           <td><a href="{{association.id_fiscale}}" target="_blank"><span class="material-symbols-outlined">
             file_open
             </span></a></td>
-          <td>{{ association.etat }}</td>
+          <td>{{ association.date }}</td>
           <!-- Nouvelle colonne pour les actions -->
           <td>
             <div class="crud-buttons">
-              <!-- Bouton Consulter -->
-              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(association)"></fa-icon></button>
-            <!-- Bouton Modifier -->
-            <button class="action-button edit-button"><fa-icon [icon]="faPenToSquare" (click)="modifierAssociation(association)"></fa-icon></button>
+               
+              <!-- Bouton Modifier -->
+            <button class="action-button add-button" (click)="accepterAssociation(association)"><fa-icon [icon]="faCheck"></fa-icon></button>
              
-              <!-- Bouton Supprimer -->
-              <button class="action-button delete-button"> <fa-icon [icon]="faTrash"></fa-icon>
-              </button>
+            <!-- Bouton Supprimer -->
+            <button class="action-button refuse-button" (click)="refuserAssociation(association)"> <fa-icon [icon]="faXmark"></fa-icon>
+            </button>
+              <!-- Bouton Consulter -->
+              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+
                </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <app-details-association-admin *ngIf="adminService.associationDetailShowModal" [association]="selectedAssociation"></app-details-association-admin>
-    <app-modifier-association-admin *ngIf="adminService.associationModifierShowModal" [association]="selectedAssociation"></app-modifier-association-admin>
+
 
     <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
         <div class="lightbox-contenu">
