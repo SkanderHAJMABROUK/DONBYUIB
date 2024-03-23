@@ -21,8 +21,8 @@ import { Admin } from '../interfaces/admin';
 })
 export class AdministrateurService {
 
-  compte: boolean = false;
-  connexion:boolean=false;
+  compte: boolean = localStorage.getItem('compte') === 'true';
+  connexion: boolean = localStorage.getItem('connexion') === 'true';
   showErrorNotification:boolean=false;
 
   associationDetailShowModal:boolean=false;
@@ -50,7 +50,7 @@ export class AdministrateurService {
   crudActualites:boolean = false;
 
 
-  id!:string|undefined;
+  id!:string|null;
 
 
 
@@ -104,10 +104,12 @@ getAdminById(adminId: string): Observable<Admin | undefined> {
 
 logOut() {
   this.compte = false;
-  localStorage.setItem('connexion', 'false');
+  this.connexion = false;
+  localStorage.removeItem('compte');
+  localStorage.removeItem('connexion');
+  localStorage.removeItem('adminId'); // Supprimez l'ID de l}
   this.route.navigate(['/admin'], { replaceUrl: true });
 }
-
 
 logIn(login: string, password: string): Observable<boolean> {
   return this.getAdminByLoginAndPassword(login, password).pipe(
@@ -115,7 +117,10 @@ logIn(login: string, password: string): Observable<boolean> {
       if (admin) {
         this.compte = true;
         this.connexion=true;
+        localStorage.setItem('compte', 'true');
         localStorage.setItem('connexion', 'true');
+        localStorage.setItem('adminId', 'admin.id');
+        this.id=localStorage.getItem('adminId');
         this.route.navigate(['/admin/profil', admin.id], { replaceUrl: true }); // Rediriger avec l'ID de l'administrateur dans l'URL
         return true; // Connexion réussie
       } else {
