@@ -14,15 +14,27 @@ import { HttpClient } from '@angular/common/http';
 import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
 import { AssociationService } from './associationService.service';
+import { Admin } from '../interfaces/admin';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdministrateurService {
 
-  compte: boolean = true;
+  compte: boolean = localStorage.getItem('compte') === 'true';
+  connexion: boolean = localStorage.getItem('connexion') === 'true';
+  showErrorNotification:boolean=false;
+
   associationDetailShowModal:boolean=false;
   associationModifierShowModal:boolean=false;
+  collecteDetailShowModal:boolean=false;
+  collecteModifierShowModal:boolean=false;
+  actualiteDetailShowModal:boolean=false;
+  actualiteModifierShowModal:boolean=false;
+  donateurDetailShowModal:boolean=false;
+  donateurModifierShowModal:boolean=false;
+
+
   ajouterAssociation:boolean=false;
   ajouterDonateur:boolean=false;
   ajouterCollecte:boolean=false;
@@ -38,8 +50,11 @@ export class AdministrateurService {
   crudActualites:boolean = false;
 
 
+  id!:string|null;
 
-  constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore) { }
+
+
+  constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore,private route:Router) { }
 
   addAssociation(associationData: Association) {
 
@@ -64,6 +79,7 @@ export class AdministrateurService {
     };
     return addDoc(collection(this.fs, 'Association'), dataToAdd);
 }
+
 modifierAssociation(assocation: Association): Promise<void> {
   const updatedAssociationData = {
     ...assocation,
@@ -71,6 +87,53 @@ modifierAssociation(assocation: Association): Promise<void> {
   };
   let associationRef = this.firestore.collection('Association').doc(assocation.id); 
   return associationRef.update(updatedAssociationData);
+}
+
+getAdminByLoginAndPassword(login: string, password: string): Observable<Admin | undefined> {
+  return this.firestore.collection<Admin>('Admin', ref => ref.where('login', '==', login).where('mdp', '==', password))
+    .valueChanges({ idField: 'id' })
+    .pipe(
+      map(admins => admins[0]) // Supposant que le login est unique, nous prenons le premier élément trouvé
+    );
+}
+
+
+getAdminById(adminId: string): Observable<Admin | undefined> {
+  return this.firestore.collection<Admin>('Admin').doc(adminId).valueChanges({ idField: 'id' });
+}
+
+logOut() {
+  this.compte = false;
+  this.connexion = false;
+  localStorage.removeItem('compte');
+  localStorage.removeItem('connexion');
+  localStorage.removeItem('adminId'); // Supprimez l'ID de l}
+  this.route.navigate(['/admin'], { replaceUrl: true });
+}
+
+logIn(login: string, password: string): Observable<boolean> {
+  return this.getAdminByLoginAndPassword(login, password).pipe(
+    map(admin => {
+      if (admin) {
+        this.compte = true;
+        this.connexion=true;
+        localStorage.setItem('compte', 'true');
+        localStorage.setItem('connexion', 'true');
+        localStorage.setItem('adminId', 'admin.id');
+        this.id=localStorage.getItem('adminId');
+        this.route.navigate(['/admin/profil', admin.id], { replaceUrl: true }); // Rediriger avec l'ID de l'administrateur dans l'URL
+        return true; // Connexion réussie
+      } else {
+        this.showErrorNotification = true;
+        console.error('Aucun administrateur trouvé avec ce login et ce mot de passe.');
+        return false; // Connexion échouée
+      }
+    }),
+    catchError(error => {
+      console.error('Erreur lors de la recherche de l\'administrateur:', error);
+      return of(false); // Retourner false en cas d'erreur
+    })
+  );
 }
 
 

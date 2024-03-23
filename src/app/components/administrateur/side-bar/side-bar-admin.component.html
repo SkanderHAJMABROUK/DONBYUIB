@@ -27,7 +27,7 @@
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
-            <a>Se déconnecter</a>
+            <a (click)="logOut()">Se déconnecter</a>
           </li>
         
        
@@ -56,8 +56,9 @@
           service.ajouterAssociation=false;
           service.ajouterCollecte=false;
           service.ajouterDonateur=true;
+
           service.crudActualites=false;
-          service.demandeAssociations=false">Ajouter un utilisateur</a>
+          service.demandeAssociations=false">Ajouter un donateur</a>
         </li>
         
         

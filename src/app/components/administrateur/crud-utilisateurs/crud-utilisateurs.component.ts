@@ -89,6 +89,24 @@ export class CrudUtilisateursComponent implements OnInit {
   cacherImage(): void {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
- 
+  afficherDetails(donateur: Donateur) {
+    if(donateur.id){
+    this.serviceDonateur.getDonateurById(donateur.id).subscribe((response) => {
+      this.selectedDonateur = response!;
+      this.serviceAdmin.donateurDetailShowModal = true;
+      console.log(response)
+    });
+  }
+}
+
+modifierDonateur(donateur:Donateur){
+  if(donateur.id){
+    this.serviceDonateur.getDonateurById(donateur.id).subscribe((response) => {
+      this.selectedDonateur = response!;
+      this.serviceAdmin.donateurModifierShowModal = true;
+    });
+  }
+}
+
 
 }

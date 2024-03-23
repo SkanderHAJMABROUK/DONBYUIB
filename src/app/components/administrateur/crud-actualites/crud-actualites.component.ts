@@ -5,6 +5,7 @@ import { ActualiteService } from 'src/app/services/actualite.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/associationService.service';
 import { Observable, map } from 'rxjs';
+import { AdministrateurService } from 'src/app/services/administrateur.service';
 
 @Component({
   selector: 'app-crud-actualites',
@@ -35,7 +36,7 @@ export class CrudActualitesComponent implements OnInit{
 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
 
-  constructor(private actualiteService: ActualiteService, private associationService:AssociationService,private router: Router) { }
+  constructor(private actualiteService: ActualiteService, private associationService:AssociationService,private router: Router,public adminService:AdministrateurService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -152,6 +153,23 @@ export class CrudActualitesComponent implements OnInit{
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
 
+  afficherDetails(actualite: Actualite) {
+    if(actualite.id){
+    this.actualiteService.getActualiteById(actualite.id).subscribe((response) => {
+      this.selectedActualite = response!;
+      this.adminService.actualiteDetailShowModal = true;
+      console.log(response)
+    });
+  }
+}
 
+modifierActualite(actualite:Actualite){
+  if(actualite.id){
+    this.actualiteService.getActualiteById(actualite.id).subscribe((response) => {
+      this.selectedActualite = response!;
+      this.adminService.actualiteModifierShowModal = true;
+    });
+  }
+}
 
 }

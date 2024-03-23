@@ -1,0 +1,41 @@
+<div class="dialog">
+
+    <div class="header">
+        <h3>Modifier l'actualité</h3>
+        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.actualiteModifierShowModal=false"></fa-icon>
+    </div>
+  <hr>
+  <div class="content">
+    <form [formGroup]="actualiteForm" (ngSubmit)="modifierActualite()">
+  
+      <strong><p>
+        Couverture de l'actualité :
+      </p></strong> 
+      <input type="file" formControlName="image" (change)="onImageSelected($event)"  accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
+      <img *ngIf="actualite.image" [src]="actualite.image" alt="Image actuelle">
+  
+    
+
+      <strong><p>
+        Titre de l'actualité :
+      </p></strong> 
+      <input type="text" formControlName="titre"><br>
+      
+      <strong><p>
+        Description de l'actualité :
+      </p></strong> 
+      <textarea formControlName="description"></textarea><br>
+    
+      
+   
+    
+      <strong><p>
+        Date de publication de l'actualité :
+      </p></strong> 
+      <input type="date" formControlName="date_publication"><br>
+    
+      <button type="submit" class="btn btn-dark" [ngStyle]="{'width':'300px'}">Modifier</button>
+    </form>
+    
+  </div>
+  </div>

@@ -71,7 +71,7 @@ export class ModifierDonateurComponent {
     if (this.aFormGroup.valid) {
       console.log("Formulaire valide");
 
-      this.service.modifierCompte(this.donateurId, { ...this.aFormGroup.value })
+      this.service.modifierCompte( { ...this.aFormGroup.value })
         .then(() => {
           console.log('Données du donateur modifiées avec succès dans Firebase Firestore.');
                     this.showSuccessMessage = true;

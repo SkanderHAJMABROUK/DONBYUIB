@@ -178,12 +178,12 @@ logOut(){
    
  }
 
- modifierCompte(id: string, donateurDataToUpdate: Partial<Donateur>): Promise<void> {
+ modifierCompte(donateur: Donateur): Promise<void> {
   const updatedDonateurData = {
-    ...donateurDataToUpdate,
+    ...donateur,
     etat: "modification"
   };
-  const donateurRef = this.firestore.collection('Donateur').doc(id);
+  const donateurRef = this.firestore.collection('Donateur').doc(donateur.id);
   return donateurRef.update(updatedDonateurData);
 }
 
