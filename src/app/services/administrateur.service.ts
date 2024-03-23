@@ -50,6 +50,9 @@ export class AdministrateurService {
   crudActualites:boolean = false;
 
 
+  id!:string|undefined;
+
+
 
   constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore,private route:Router) { }
 
@@ -95,6 +98,10 @@ getAdminByLoginAndPassword(login: string, password: string): Observable<Admin | 
 }
 
 
+getAdminById(adminId: string): Observable<Admin | undefined> {
+  return this.firestore.collection<Admin>('Admin').doc(adminId).valueChanges({ idField: 'id' });
+}
+
 logOut() {
   this.compte = false;
   localStorage.setItem('connexion', 'false');
@@ -107,8 +114,9 @@ logIn(login: string, password: string): Observable<boolean> {
     map(admin => {
       if (admin) {
         this.compte = true;
+        this.connexion=true;
         localStorage.setItem('connexion', 'true');
-        this.route.navigate(['/admin/profil'], { replaceUrl: true });
+        this.route.navigate(['/admin/profil', admin.id], { replaceUrl: true }); // Rediriger avec l'ID de l'administrateur dans l'URL
         return true; // Connexion réussie
       } else {
         this.showErrorNotification = true;
@@ -122,5 +130,6 @@ logIn(login: string, password: string): Observable<boolean> {
     })
   );
 }
+
 
 }

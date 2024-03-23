@@ -65,6 +65,7 @@ import { CrudActualitesComponent } from './components/administrateur/crud-actual
 import { AjouterActualiteAdminComponent } from './components/administrateur/ajouter-actualite-admin/ajouter-actualite-admin.component';
 import { AjouterCollecteAdminComponent } from './components/administrateur/ajouter-collecte-admin/ajouter-collecte-admin.component';
 import { LoginAdminComponent } from './components/administrateur/login-admin/login-admin.component';
+import { CompteAdminComponent } from './components/administrateur/compte-admin/compte-admin.component';
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -124,7 +125,8 @@ const firebaseConfig = {
     ModifierActualiteAdminComponent,
     AjouterActualiteAdminComponent,
     AjouterCollecteAdminComponent,
-    LoginAdminComponent
+    LoginAdminComponent,
+    CompteAdminComponent
   
     ],
   imports: [
@@ -148,7 +150,7 @@ const firebaseConfig = {
 
     RouterModule.forRoot([
       {path:'admin',component:LoginAdminComponent},
-      {path:'admin/profil',component:ProfilAdminComponent},
+      {path:'admin/profil/:id',component:ProfilAdminComponent},
 
 
 
