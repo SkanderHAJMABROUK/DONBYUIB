@@ -31,6 +31,7 @@ export class ProfilDonateurComponent {
       console.log(this.id);
        this.getDonateurById(this.id); 
      });
+     
   
    
    }

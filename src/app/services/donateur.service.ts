@@ -5,14 +5,15 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { Router } from '@angular/router';
 
-import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { DocumentData, DocumentReference, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Observable, catchError, from, map, of } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import { AssociationService } from './associationService.service';
 import { sha256 } from 'js-sha256';
+import { Commentaire } from '../interfaces/commentaire';
 
 
 
@@ -21,6 +22,8 @@ import { sha256 } from 'js-sha256';
 })
 export class DonateurService {
 
+  
+
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router,
     private aService:AssociationService) { }
 
@@ -28,7 +31,7 @@ connexionDonateur:boolean=false;
 nomDonateur:string='';
 prenomDonateur:string='';
 showErrorNotification: boolean=false;
-id!:string|undefined;
+id:string='';
 modifiercompte:boolean=false;
 
 
@@ -151,7 +154,8 @@ logIn(email: string, password: string): Observable<boolean> {
         console.log(this.nomDonateur ,this.prenomDonateur);
         localStorage.setItem('connexionDonateur', 'true');
         localStorage.setItem('nomDonateur', this.nomDonateur); 
-        localStorage.setItem('prenomDonateur', this.prenomDonateur); 
+        localStorage.setItem('prenomDonateur', this.prenomDonateur);
+ 
 
         this.route.navigate(['/login/profilDonateur', donateur.id]);
         return true; // Return true if the login is successful
@@ -191,6 +195,24 @@ logOut(){
 checkEmailExists(email: string): Observable<boolean> {
   return this.firestore.collection('Donateur', ref => ref.where('email', '==', email)).get().pipe(
     map(snapshot => !snapshot.empty)
+  );
+}
+
+ajouterCommentaire(idDonateur: string, idActualite: string, contenu: string): Observable<Commentaire> {
+  const commentaire: Commentaire = {
+    id_donateur: idDonateur,
+    id_actualite: idActualite,
+    contenu: contenu,
+    date_de_publication: new Date()
+  };
+
+  return from(this.firestore.collection<Commentaire>('Commentaire').add(commentaire)).pipe(
+    map(docRef => {
+      return {
+        id: docRef.id,
+        ...commentaire
+      };
+    })
   );
 }
 

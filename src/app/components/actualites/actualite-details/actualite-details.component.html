@@ -13,16 +13,16 @@
       
     </div>
   
-    <div class="right-content">
-        <div class="details">
-            <h3>Ajouter un commentaire: </h3>
-            <textarea></textarea>
-          </div>
-        
-          
-      
-      
-      
+    <div class="right-content" *ngIf="donateurService.connexionDonateur">
+      <div class="details">
+        <form [formGroup]="commentaireForm">
+          <p>Ajouter un commentaire:</p>
+          <textarea formControlName="contenu"></textarea>
+          <button type="button" (click)="ajouterCommentaire()">Ajouter</button>
+          <div *ngIf="commentaireAjout" class="success-message">Merci pour votre interaction !</div>
+
+        </form>
+      </div>
     </div>
   </div>
   
