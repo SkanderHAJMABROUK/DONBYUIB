@@ -14,6 +14,15 @@
     </div>
   
     <div class="right-content" *ngIf="donateurService.connexionDonateur">
+      <div *ngIf="commentaires.length > 0" class="commentaires-list">
+        <h3>Liste des commentaires</h3>
+        <ul>
+          <li *ngFor="let commentaire of commentaires">
+            <p>{{ commentaire.contenu }}</p>
+            <p>Date de publication : {{ commentaire.date_de_publication | date }}</p>
+          </li>
+        </ul>
+      </div>
       <div class="details">
         <form [formGroup]="commentaireForm">
           <p>Ajouter un commentaire:</p>
@@ -23,6 +32,8 @@
 
         </form>
       </div>
+
+     
     </div>
   </div>
   

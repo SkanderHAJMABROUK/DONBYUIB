@@ -199,6 +199,7 @@ checkEmailExists(email: string): Observable<boolean> {
 }
 
 ajouterCommentaire(idDonateur: string, idActualite: string, contenu: string): Observable<Commentaire> {
+  
   const commentaire: Commentaire = {
     id_donateur: idDonateur,
     id_actualite: idActualite,
@@ -216,5 +217,20 @@ ajouterCommentaire(idDonateur: string, idActualite: string, contenu: string): Ob
   );
 }
 
+
+getComments(): Observable<Commentaire[]> {
+  let commentaireCollection = collection(this.fs, 'Commentaire');
+  return collectionData(commentaireCollection, { idField: 'id' }).pipe(
+    map((commentaires: any[]) => {
+      return commentaires.map(commentaire => ({
+        id: commentaire.id,
+        id_donateur: commentaire.id_donateur,
+        id_actualite: commentaire.id_actualite,
+        contenu: commentaire.contenu,
+        date_de_publication: commentaire.date_de_publication instanceof Timestamp ? commentaire.date_de_publication.toDate() : commentaire.date_de_publication
+      }));
+    })
+  );
+}
 
 }

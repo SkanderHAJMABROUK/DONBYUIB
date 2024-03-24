@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Options } from 'ngx-slider-v2';
 import { Actualite } from 'src/app/interfaces/actualite';
+import { Commentaire } from 'src/app/interfaces/commentaire';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 
@@ -20,7 +21,7 @@ export class ActualiteDetailsComponent {
   id!: string;
   data: Actualite |undefined;
   selectedActualite!: Actualite |undefined; 
-
+  commentaires: Commentaire[] = [];
 
 
 
@@ -34,8 +35,21 @@ export class ActualiteDetailsComponent {
       console.log(this.id)
        this.getActualiteById(this.id); 
      });
+
+     this.getComments();
    }
    
+   getComments(): void {
+    this.donateurService.getComments().subscribe({
+      next: (commentaires: Commentaire[]) => {
+        this.commentaires = commentaires;
+        console.log('Liste des commentaires :', this.commentaires);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des commentaires :', error);
+      }
+    });
+  }
 
    
    getActualiteById(id: string){

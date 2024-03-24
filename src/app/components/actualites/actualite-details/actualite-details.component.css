@@ -110,4 +110,38 @@
     text-align: center;
   }
 
-
+  .commentaires-list {
+    margin-top: 20px;
+  }
+  
+  .commentaires-list h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .commentaires-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .commentaires-list li {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .commentaires-list li p {
+    margin: 0;
+  }
+  
+  .commentaires-list li p:first-child {
+    font-weight: bold;
+  }
+  
+  .commentaires-list li p:nth-child(2) {
+    color: #666;
+    font-size: 12px;
+  }
+  
