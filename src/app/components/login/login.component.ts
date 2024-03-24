@@ -8,6 +8,7 @@ import { Log } from 'src/app/interfaces/log';
 import { LogService } from 'src/app/services/log.service';
 
 import { DonateurService } from 'src/app/services/donateur.service';
+import { Association } from 'src/app/interfaces/association';
 
 
 
@@ -18,13 +19,15 @@ import { DonateurService } from 'src/app/services/donateur.service';
 })
 export class LoginComponent {
 
+  enAttenteDeVerification:boolean = false;
+
 
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required],
       email: ['', Validators.required], 
       password: ['', Validators.required],
-      userType:['',Validators.required],
+      userType:['donateur',Validators.required],
     });
   }
 
@@ -66,29 +69,55 @@ export class LoginComponent {
   logInAssociation() {
     const email = this.aFormGroup.get('email')?.value;
     const password = this.aFormGroup.get('password')?.value;
-
-    // Récupérer le sel de l'association par email
+  
+    // Get the salt of the association by email
     this.serviceAssociation.getAssociationSaltByEmail(email).subscribe(
       (salt: string | undefined) => {
         if (salt) {
-          // Hasher le mot de passe avec le sel
-          console.log(salt)
-          const hashedPassword = sha256(password + salt);        
-
-          // Appeler la méthode de connexion avec l'email et le mot de passe haché
-
-          this.serviceAssociation.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
-            if (loggedIn) {
-              let message: string = `Tentative de connexion réussie de l'association avec l'email ${email}`;
-              this.logSignin(message);
-            } else {
-              let message: string = `Tentative de connexion échouée de l'association avec l'email ${email}`;
-              this.logSignin(message);
+          // Hash the password with the salt
+          const hashedPassword = sha256(password + salt);
+  
+          // Check if the association is active
+          this.serviceAssociation.getAssociationByEmailAndPassword(email, hashedPassword).subscribe(
+            (association: Association | undefined) => {
+              console.log('Retrieved association:', association);
+              if (association) {
+                // Check if the association is active
+                this.serviceAssociation.isAssociationActive(association).then((isActive: boolean) => {
+                  if (isActive) {
+                    console.log('Association is active.');
+                    // Call the login method with the email and hashed password
+                    this.serviceAssociation.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
+                      if (loggedIn) {
+                        let message: string = `Successful login attempt of association with email ${email}`;
+                        this.logSignin(message);
+                        console.log('Login successful');
+                      } else {
+                        let message: string = `Failed login attempt of association with email ${email}`;
+                        this.logSignin(message);
+                        console.log('Login failed');
+                      }
+                    });
+                  } else {
+                    // The association is not active, handle it accordingly
+                    this.enAttenteDeVerification = true;
+                  }
+                }).catch(error => {
+                  console.error('Error checking association status:', error);
+                  // Handle error
+                });
+              } else {
+                // Handle the case where the association is not found
+                console.error('Association not found for email:', email);
+                // Handle the display or other actions
+              }
+            },
+            (error) => {
+              console.error('Error retrieving association by email and password:', error);
             }
-          });
-
+          );
         } else {
-          // Gérer le cas où le sel n'est pas trouvé pour l'email donné
+          // Handle the case where the salt is not found for the given email
           console.error('Salt not found for email:', email);
           this.serviceAssociation.showErrorNotification = true;
         }
@@ -98,7 +127,8 @@ export class LoginComponent {
       }
     );
   }
-
+  
+  
   
   logInDonateur() {
     const email = this.aFormGroup.get('email')?.value;

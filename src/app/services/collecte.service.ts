@@ -116,22 +116,6 @@ supprimerCollecte(collecte: Collecte): Observable<Collecte[]> {
 }
 
 
-
-// supprimerCollecte(collecte: Collecte): Observable<Collecte[]> {
-//   const collecteRef = this.firestore.collection('Collecte').doc(collecte.id);
-
-//   return new Observable<Collecte[]>(observer => {
-//     collecteRef.delete().then(() => {
-      
-//       observer.next([]);
-//       observer.complete();
-//     }).catch(error => {
-//       observer.error(error);
-//     });
-//   });
-// }
-
-
 modifierCollecte(collecte: Collecte): Promise<void> {
   const updatedCollecteData = {
     ...collecte,

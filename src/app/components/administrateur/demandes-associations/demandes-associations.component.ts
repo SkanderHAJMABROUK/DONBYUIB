@@ -12,7 +12,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   templateUrl: './demandes-associations.component.html',
   styleUrls: ['./demandes-associations.component.css']
 })
-export class DemandesAssociationsComponent {
+export class DemandesAssociationsComponent implements OnInit{
 
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;

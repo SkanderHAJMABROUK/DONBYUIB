@@ -66,7 +66,7 @@ export class AjouterActualiteComponent implements OnInit{
       console.log('Cover file uploaded. Download URL:', coverDownloadUrl);
 
      
-      this.service.ajouterActualite({...this.aFormGroup.value,
+      this.service.ajouterActualiteAndDemande({...this.aFormGroup.value,
         image: coverDownloadUrl
        })
         .then(() => {

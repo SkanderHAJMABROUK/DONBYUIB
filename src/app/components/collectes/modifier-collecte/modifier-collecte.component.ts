@@ -39,7 +39,7 @@ export class ModifierCollecteComponent {
         const collecteDataToUpdate: Collecte = {
           id: this.collecte.id,
           nom: this.collecteForm.value.nom,
-          etat:this.collecteForm.value.etat,
+          etat: this.collecteForm.value.etat,
           description: this.collecteForm.value.description,
           montant: this.collecteForm.value.montant,
           date_debut: this.collecteForm.value.date_debut,
@@ -50,7 +50,7 @@ export class ModifierCollecteComponent {
         const coverFile = this.collecteForm.value.image;
   
         // Vérifier si un nouveau fichier a été sélectionné
-        if (coverFile) {
+        if (coverFile instanceof File) {
           const coverDownloadUrl = await this.service.uploadCover(coverFile);
           if (coverDownloadUrl) {
             collecteDataToUpdate.image = coverDownloadUrl;
@@ -59,7 +59,7 @@ export class ModifierCollecteComponent {
   
         await this.service.modifierCollecte(collecteDataToUpdate);
         window.location.reload();
-      } catch (error) {
+            } catch (error) {
         console.error('Erreur lors de la modification de la collecte :', error);
       } finally {
         this.spinner.hide();
@@ -67,11 +67,7 @@ export class ModifierCollecteComponent {
     } else {
       console.error('Formulaire invalide. Veuillez corriger les erreurs.');
     }
-  }
-  
-  
-  
-  
+  }  
   
   
   onImageSelected(event: any) {

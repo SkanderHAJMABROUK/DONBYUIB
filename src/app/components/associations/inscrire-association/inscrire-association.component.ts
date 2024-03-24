@@ -26,6 +26,7 @@ export class InscrireAssociationComponent implements OnInit {
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
   showEmailExists: boolean = false;
+  showNameExists: boolean = false;
   logoFile: File | null = null;
   idFile: File | null = null;
 
@@ -108,12 +109,14 @@ export class InscrireAssociationComponent implements OnInit {
 
   async onSubmit(): Promise<void>{
     if (this.aFormGroup.valid && this.logoFile && this.idFile) {
+
       const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
+      const nameExists = await this.service.checkNameExists(this.aFormGroup.value.nom).toPromise();
 
       if (emailExists) {
+
+        if (!nameExists) {
         
-
-
       this.sendVerificationEmail();
       this.spinner.show();
 
@@ -143,7 +146,13 @@ export class InscrireAssociationComponent implements OnInit {
       this.spinner.hide();
       this.aFormGroup.reset();
       this.showSuccessMessage = true;
+      this.showErrorNotification=false;
+      this.showEmailExists=false;
+      this.showNameExists=false;
       this.router.navigate(['/inscrireAssociation/email'],{ replaceUrl: true });
+    } else { 
+      this.showNameExists = true;
+    }
     } else {
       // Afficher un message d'erreur si l'e-mail existe déjà
       this.showEmailExists = true;

@@ -2,6 +2,8 @@
 <app-side-bar-admin></app-side-bar-admin>
 <div class="content">
 
+  <app-compte-admin *ngIf="service.compte"></app-compte-admin>
+
     <app-crud-utilisateurs *ngIf="service.crudUtilisateurs"></app-crud-utilisateurs>
 
     <app-crud-associations  *ngIf="service.crudAssociations"></app-crud-associations>
@@ -14,7 +16,7 @@
     <app-ajouter-collecte-admin  *ngIf="service.ajouterCollecte"></app-ajouter-collecte-admin>
     <app-ajouter-actualite-admin *ngIf="service.ajouterActualite"></app-ajouter-actualite-admin>
     <app-crud-actualites *ngIf="service.crudActualites"></app-crud-actualites>
-    <app-compte-admin *ngIf="service.compte"></app-compte-admin>
+    <app-demandes-actualites *ngIf="service.demandeActualite"></app-demandes-actualites>
 
   </div>
   </div>

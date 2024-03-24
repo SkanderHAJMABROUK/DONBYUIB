@@ -40,6 +40,9 @@
   <div *ngIf="serviceAssociation.showErrorNotification" class="error-notification">
     Adresse e-mail ou mot de passe incorrect !
   </div>
+  <div *ngIf="enAttenteDeVerification" class="error-notification">
+    Le compte ce l'association n'est pas encore approuvé, merci de votre patience!
+  </div>
 
   <button type="submit" class="btn_login">Connexion</button>
   

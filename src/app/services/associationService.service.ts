@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
-import { Observable, catchError, from, map, of, throwError } from 'rxjs';
+import { Observable, catchError, from, map, of, tap, throwError } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
@@ -180,9 +180,12 @@ export class AssociationService {
 
   getAssociationByEmailAndPassword(email: string, password: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
-      map(associations => associations.find(association => association.email === email && association.mdp === password))
-    );
+      map(associations => {
+        return associations.find(association => association.email === email && association.mdp === password);
+      })
+    );    
   }
+   
 
   getAssociationByEmail(email: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
@@ -295,6 +298,19 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
   return associationRef.update(updatedAssociationData);
 }
 
+async isAssociationActive(association: Association): Promise<boolean> {
+  try {
+    // Check if association is found and its state is 'actif'
+    const isActive = !!association && association.etat === 'actif';
+    console.log('Is association active?', isActive);
+
+    return isActive;
+  } catch (error) {
+    console.error('Error checking association activation status:', error);
+    return false; // Return false in case of error
+  }
+}
+
 
 
 logIn(email: string, password: string): Observable<boolean> {
@@ -382,6 +398,13 @@ async uploadPDF(file: File): Promise<string | null> {
 // Méthode pour vérifier si l'e-mail existe déjà
 checkEmailExists(email: string): Observable<boolean> {
   return this.firestore.collection('Association', ref => ref.where('email', '==', email)).get().pipe(
+    map(snapshot => !snapshot.empty)
+  );
+}
+
+// Méthode pour vérifier si le nom existe déjà
+checkNameExists(nom: string): Observable<boolean> {
+  return this.firestore.collection('Association', ref => ref.where('nom', '==', nom)).get().pipe(
     map(snapshot => !snapshot.empty)
   );
 }

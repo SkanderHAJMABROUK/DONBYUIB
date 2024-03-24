@@ -67,6 +67,8 @@ import { AjouterActualiteAdminComponent } from './components/administrateur/ajou
 import { AjouterCollecteAdminComponent } from './components/administrateur/ajouter-collecte-admin/ajouter-collecte-admin.component';
 import { LoginAdminComponent } from './components/administrateur/login-admin/login-admin.component';
 import { CompteAdminComponent } from './components/administrateur/compte-admin/compte-admin.component';
+import { DemandesActualitesComponent } from './components/administrateur/demandes-actualites/demandes-actualites.component';
+
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -130,7 +132,9 @@ const firebaseConfig = {
     AjouterActualiteAdminComponent,
     AjouterCollecteAdminComponent,
     LoginAdminComponent,
-    CompteAdminComponent
+    CompteAdminComponent,
+    DemandesActualitesComponent,
+    
   
     ],
   imports: [

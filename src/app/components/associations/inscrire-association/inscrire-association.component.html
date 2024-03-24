@@ -132,6 +132,9 @@
     <div *ngIf="showEmailExists" class="error-notification">
       L'adresse e-mail est déjà utilisée. Veuillez saisir une autre adresse e-mail.
     </div>
+    <div *ngIf="showNameExists" class="error-notification">
+      Le nom que vous avez choisi est déjà utilisé par une autre association, veuillez choisir un nom unique!
+    </div>
 
     <button type="submit" class="btn_inscrire" (click)="onSubmit()">Inscrire l'association</button>
   </form>
