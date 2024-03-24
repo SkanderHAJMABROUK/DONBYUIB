@@ -22,6 +22,9 @@ export class ActualiteDetailsComponent {
   data: Actualite |undefined;
   selectedActualite!: Actualite |undefined; 
   commentaires: Commentaire[] = [];
+  showAllComments: boolean = false;
+
+
 
 
 
