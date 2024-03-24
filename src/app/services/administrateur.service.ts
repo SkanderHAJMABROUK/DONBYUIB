@@ -22,9 +22,7 @@ import { Admin } from '../interfaces/admin';
 export class AdministrateurService {
 
   compte: boolean = localStorage.getItem('compte') === 'true';
-  connexion: boolean = localStorage.getItem('connexion') === 'true';
   showErrorNotification:boolean=false;
-
   associationDetailShowModal:boolean=false;
   associationModifierShowModal:boolean=false;
   collecteDetailShowModal:boolean=false;
@@ -104,9 +102,7 @@ getAdminById(adminId: string): Observable<Admin | undefined> {
 
 logOut() {
   this.compte = false;
-  this.connexion = false;
   localStorage.removeItem('compte');
-  localStorage.removeItem('connexion');
   localStorage.removeItem('adminId'); // Supprimez l'ID de l}
   this.route.navigate(['/admin'], { replaceUrl: true });
 }
@@ -116,9 +112,7 @@ logIn(login: string, password: string): Observable<boolean> {
     map(admin => {
       if (admin) {
         this.compte = true;
-        this.connexion=true;
         localStorage.setItem('compte', 'true');
-        localStorage.setItem('connexion', 'true');
         localStorage.setItem('adminId', 'admin.id');
         this.id=localStorage.getItem('adminId');
         this.route.navigate(['/admin/profil', admin.id], { replaceUrl: true }); // Rediriger avec l'ID de l'administrateur dans l'URL

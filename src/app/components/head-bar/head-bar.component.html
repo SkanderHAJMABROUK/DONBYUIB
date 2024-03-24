@@ -56,6 +56,10 @@
     
                 <div class="connection-indicator"></div>
            </a></li>
+           
+       <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"  (click)="logoutDonateur()"> 
+        Se déconnecter
+        </a>
 
         </ul>
     </div>
