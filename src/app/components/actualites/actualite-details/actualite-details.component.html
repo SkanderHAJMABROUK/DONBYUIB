@@ -18,13 +18,16 @@
         <h3>Liste des commentaires</h3>
         <ul>
           <li *ngFor="let commentaire of commentaires; let i = index" [hidden]="!showAllComments && i > 2">
+            <ng-container *ngIf="commentaire.id_donateur">
+              <img [src]="getDonateurPhotoById(commentaire.id_donateur)" alt="Photo de profil">
+            </ng-container>
               <p>{{ commentaire.contenu }}</p>
               <p>Date de publication : {{ commentaire.date_de_publication | date }}</p>
           </li>
       </ul>
-      <button *ngIf="commentaires.length > 3" (click)="showAllComments = !showAllComments">
+      <a *ngIf="commentaires.length > 3" (click)="showAllComments = !showAllComments">
           {{ showAllComments ? 'Voir moins' : 'Voir plus' }}
-      </button>
+      </a>
         
       </div>
       <div class="details">
