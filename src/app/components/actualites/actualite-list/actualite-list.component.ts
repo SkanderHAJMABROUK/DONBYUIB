@@ -45,7 +45,7 @@ export class ActualiteListComponent {
   actualites:Actualite[]=[];
   
   ngOnInit():void{
-    this.service.getActualites().subscribe((res)=>{
+    this.service.getAcceptedActualites().subscribe((res)=>{
      this.actualites=res;
      console.log(this.actualites);
    })

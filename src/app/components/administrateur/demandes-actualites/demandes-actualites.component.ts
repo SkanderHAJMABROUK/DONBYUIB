@@ -148,6 +148,75 @@ export class DemandesActualitesComponent implements OnInit{
       });
     }
 
+    accepterActualite(selectedDemandeActualite: DemandeActualite): void {
+      if (!selectedDemandeActualite || !selectedDemandeActualite.id_actualite) {
+        console.error('La demande de l\'actualité ou l\'ID de l\'actualité est indéfinie.');
+        Swal.fire({
+          title: "Erreur",
+          text: "La demande de l'actualité ou l'ID de l'actualité est indéfinie.",
+          icon: "error"
+        });
+        return;
+      }
+    
+      Swal.fire({
+        title: `Vous voulez accepter la demande de ${selectedDemandeActualite.titre} ?`,
+        text: "La demande sera acceptée définitivement",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui, accepter",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Mettre à jour l'état de la demande à "accepté"
+          if (selectedDemandeActualite.id) {
+            this.updateDemandeEtat(selectedDemandeActualite.id, "accepté").then(() => {
+              // Mettre à jour l'état de l'association à "accepté"
+              if (selectedDemandeActualite.id_actualite) {
+                this.updateActualiteEtat(selectedDemandeActualite.id_actualite, "accepté").then(() => {
+                  Swal.fire({
+                    title: "Accepté!",
+                    text: `La demande de ${selectedDemandeActualite.titre} a été acceptée.`,
+                    icon: "success"
+                  });
+                }).catch(error => {
+                  console.error('Erreur lors de la mise à jour de l\'état de l\'association:', error);
+                  Swal.fire({
+                    title: "Erreur",
+                    text: "Une erreur s'est produite lors de l'acceptation de la demande.",
+                    icon: "error"
+                  });
+                });
+              } else {
+                console.error('ID de l\'association indéfini.');
+                Swal.fire({
+                  title: "Erreur",
+                  text: "ID de l'association indéfini.",
+                  icon: "error"
+                });
+              }
+            }).catch(error => {
+              console.error('Erreur lors de la mise à jour de l\'état de la demande:', error);
+              Swal.fire({
+                title: "Erreur",
+                text: "Une erreur s'est produite lors de l'acceptation de la demande.",
+                icon: "error"
+              });
+            });
+          } else {
+            console.error('ID de la demande indéfini.');
+            Swal.fire({
+              title: "Erreur",
+              text: "ID de la demande indéfini.",
+              icon: "error"
+            });
+          }
+        }
+      });
+    }
+    
+
     updateDemandeEtat(id: string, etat: string): Promise<void> {
       const demandeRef = this.firestore.collection('DemandeActualite').doc(id);
       return demandeRef.update({ etat: etat });

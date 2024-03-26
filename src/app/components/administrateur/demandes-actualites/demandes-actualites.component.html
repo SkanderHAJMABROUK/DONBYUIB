@@ -29,7 +29,7 @@
           <td>
             <div class="crud-buttons">
                
-            <button class="action-button add-button" ><fa-icon [icon]="faCheck"></fa-icon></button>
+            <button class="action-button add-button" (click)="accepterActualite(actualite)"><fa-icon [icon]="faCheck"></fa-icon></button>
              
             <button class="action-button refuse-button" (click)="refuserActualite(actualite)"> <fa-icon [icon]="faXmark"></fa-icon>
             </button>
