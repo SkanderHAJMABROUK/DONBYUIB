@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Options } from 'ngx-slider-v2';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Actualite } from 'src/app/interfaces/actualite';
@@ -16,153 +15,112 @@ import { DonateurService } from 'src/app/services/donateur.service';
   styleUrls: ['./actualite-details.component.css']
 })
 export class ActualiteDetailsComponent {
-  commentaireForm!: FormGroup; 
-  commentaireAjout:boolean=false;
-  constructor(public service:ActualiteService,public donateurService:DonateurService,public route:ActivatedRoute,private formBuilder: FormBuilder){}
-
+  commentaireForm!: FormGroup;
+  commentaireAjout: boolean = false;
+  constructor(public service: ActualiteService, public donateurService: DonateurService, public route: ActivatedRoute, private formBuilder: FormBuilder) { }
 
   id!: string;
-  data: Actualite |undefined;
-  selectedActualite!: Actualite |undefined; 
+  data: Actualite | undefined;
+  selectedActualite!: Actualite | undefined;
   commentaires: Commentaire[] = [];
   showAllComments: boolean = false;
+  donateursPhotos: string[] = [];
+  donateursIds: string[] = [];
 
-
-
-
-
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.commentaireForm = this.formBuilder.group({
-      contenu: ['', Validators.required] 
+      contenu: ['', Validators.required]
     });
 
     this.route.params.subscribe(params => {
-      this.id = params['id']; 
-      console.log(this.id)
-       this.getActualiteById(this.id); 
-     });
+      this.id = params['id'];
+      this.getActualiteById(this.id);
+    });
 
-     this.getComments();
-     
-     
-   }
-   
- 
+    this.getComments();
+  }
+
   getComments(): void {
     this.donateurService.getComments()
-        .pipe(
-            map((commentaires: Commentaire[]) => commentaires.filter(commentaire => commentaire.id_actualite === this.id))
-        )
-        .subscribe({
-            next: (commentaires: Commentaire[]) => {
-                this.commentaires = commentaires;
-              
-                console.log('Liste des commentaires filtrés par ID d\'actualité :', this.commentaires);
-            },
-            error: (error) => {
-                console.error('Erreur lors de la récupération des commentaires :', error);
-            }
-        });
-}
-   
-   getActualiteById(id: string){
+      .pipe(
+        map((commentaires: Commentaire[]) => commentaires.filter(commentaire => commentaire.id_actualite === this.id))
+      )
+      .subscribe({
+        next: (commentaires: Commentaire[]) => {
+          this.commentaires = commentaires;
+          this.getDonateursIds();
+        },
+        error: (error) => {
+          console.error('Error fetching comments:', error);
+        }
+      });
+  }
+
+  getActualiteById(id: string) {
     this.service.getActualiteById(id).subscribe({
       next: (data: Actualite | undefined) => {
         if (data !== undefined) {
-          this.selectedActualite = data; 
-          localStorage.setItem('service.showDetails', 'true');
-          console.log(data);
-          console.log(this.service.showDetails)
+          this.selectedActualite = data;
         } else {
-          console.error('Erreur: Aucune donnée n\'a été renvoyée.');
+          console.error('No data returned for actualite ID:', id);
         }
       },
       error: error => {
-        console.error('Erreur lors de la récupération des données :', error);
+        console.error('Error fetching actualite data:', error);
       }
     });
   }
+
   ajouterCommentaire(): void {
-    const idDonateur = this.donateurService.id; 
-    console.log(idDonateur)
-    const idActualite = this.id ;
-   console.log(idActualite)
-    const contenu = this.commentaireForm.get('contenu')?.value; 
-    console.log(contenu)
-    if(idDonateur){
-    this.donateurService.ajouterCommentaire(idDonateur, idActualite, contenu).subscribe({
-      next: (commentaire) => {
-        this.commentaireAjout=true;
-        console.log('Commentaire ajouté avec succès :', commentaire);
-      },
-      error: (error) => {
-        console.error('Erreur lors de l\'ajout du commentaire :', error);
-      }
-    });
+    const idDonateur = this.donateurService.id;
+    const idActualite = this.id;
+    const contenu = this.commentaireForm.get('contenu')?.value;
+    if (idDonateur) {
+      this.donateurService.ajouterCommentaire(idDonateur, idActualite, contenu).subscribe({
+        next: (commentaire) => {
+          this.commentaireAjout = true;
+          console.log('Commentaire ajouté avec succès :', commentaire);
+          this.getComments();
+        },
+        error: (error) => {
+          console.error('Erreur lors de l\'ajout du commentaire :', error);
+        }
+      });
 
-    this.commentaireForm.reset();
+      this.commentaireForm.reset();
+    }
   }
- }
 
- 
+  getDonateursIds(): void {
+    this.donateursIds = Array.from(new Set(
+      this.commentaires.map(commentaire => commentaire.id_donateur)
+    )) as string[];
 
-
-
-donateursPhotos: string[] = [];
-donateursIds : string[] = []; 
- 
-
-getDonateursIds(): void {
-  this.donateursIds = Array.from(new Set(
-    this.commentaires
-      .map(commentaire => commentaire.id_donateur)
-  )) as string[];
-
-  this.getDonateursPhotosByIds(this.donateursIds);
-}
-
-getDonateursPhotosByIds(ids: string[]) {
-  console.log(this.donateursIds)
-  const observables: Observable<string | undefined>[] = ids.map(id =>
-    this.donateurService.getDonateurPhotoById(id).pipe(
-      map(photo => photo ?? undefined) )
-  );
-
-  observables.forEach((observable, index) =>
-    observable.subscribe(photo => {
-      console.log(`Observable ${index + 1} emitted value:`, photo); // Log emitted values
-      if (photo !== undefined) {
-        this.donateursPhotos.push(photo);
-        console.log('Pushed photo:', photo); 
-        console.log(this.donateursPhotos);
-      }else{
-        console.log('probleme')
-      }
-    })
-  )
-} 
-
-
-
-
-
-
-getDonateurPhotoById(id: string | undefined): string |undefined{
-  if (!id) {
-    
-    return undefined;
+    this.getDonateursPhotosByIds();
   }
-  const index = this.donateursIds.indexOf(id);
-  if (index !== -1) {
-    
-    return this.donateursPhotos[index];
-  } else {
-    console.log('ici' )
-    return undefined;
+
+  getDonateursPhotosByIds(): void {
+    this.donateursPhotos = []; // Clear existing photos
+
+    for (let id of this.donateursIds) {
+      this.donateurService.getDonateurPhotoById(id).subscribe(photo => {
+        this.donateursPhotos.push(photo ?? ''); // Push photo to the array
+      });
+    }
+  }
+
+  getDonateurPhotoById(id: string | undefined): string | undefined {
+    if (!id) {
+      return undefined;
+    }
+
+    const index = this.donateursIds.indexOf(id);
+
+    if (index !== -1) {
+      return this.donateursPhotos[index];
+    } else {
+      console.log('Donateur ID not found:', id);
+      return undefined;
+    }
   }
 }
-
-
-
-
- }
