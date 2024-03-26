@@ -13,18 +13,23 @@
       
     </div>
   
-    <div class="right-content" *ngIf="donateurService.connexionDonateur">
+    <div class="right-content" >
       <div *ngIf="commentaires.length > 0" class="commentaires-list">
         <h3>Liste des commentaires</h3>
         <ul>
           <li *ngFor="let commentaire of commentaires; let i = index" [hidden]="!showAllComments && i > 2">
-            <ng-container *ngIf="commentaire.id_donateur">
+            <div *ngIf="commentaire.id_donateur" class="donateur-info">
               <div class="profile-photo">
-                <img [src]="getDonateurPhotoById(commentaire.id_donateur)" *ngIf="getDonateurPhotoById(commentaire.id_donateur)" alt="Photo de profil">
+                  <img [src]="getDonateurPhotoById(commentaire.id_donateur)" *ngIf="getDonateurPhotoById(commentaire.id_donateur)" alt="Photo de profil">
               </div>
-            </ng-container>
-            <p>{{ commentaire.contenu }}</p>
+              <div class="name-container">
+                  <p  *ngIf="getDonateurNomById(commentaire.id_donateur)">{{getDonateurNomById(commentaire.id_donateur)}}</p>
+                  <p  *ngIf="getDonateurPrenomById(commentaire.id_donateur)" class="prenom">{{getDonateurPrenomById(commentaire.id_donateur)}}</p>
+              </div>
+          </div>          
             <p>Date de publication : {{ commentaire.date_de_publication | date }}</p>
+            <p>{{ commentaire.contenu }}</p>
+
           </li>
         </ul>
       <a *ngIf="commentaires.length > 3" (click)="showAllComments = !showAllComments">
@@ -32,7 +37,8 @@
       </a>
         
       </div>
-      <div class="details">
+      <div *ngIf="!donateurService.connexionDonateur">Connectez-vous pour intéragir avec nous !</div>
+      <div class="details" *ngIf="donateurService.connexionDonateur">
         <form [formGroup]="commentaireForm">
           <p>Ajouter un commentaire:</p>
           <textarea formControlName="contenu"></textarea>

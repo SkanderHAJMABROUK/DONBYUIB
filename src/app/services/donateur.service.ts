@@ -122,6 +122,18 @@ getDonateurPhotoById(id: string): Observable<string | undefined> {
   )
 }
 
+getDonateurNomById(id: string): Observable<string | undefined> {
+  return this.getDonateurById(id).pipe(
+    map(donateur => donateur?.nom)
+  )
+}
+
+getDonateurPrenomById(id: string): Observable<string | undefined> {
+  return this.getDonateurById(id).pipe(
+    map(donateur => donateur?.prenom)
+  )
+}
+
 getDonateurByEmail(email: string): Observable<Donateur | undefined> {
   return this.getDonateurs().pipe(
     map(donateurs => donateurs.find(donateur => donateur.email === email))

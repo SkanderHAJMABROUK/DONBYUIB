@@ -127,20 +127,33 @@
   }
   
   .commentaires-list li {
+   
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
   }
   
   .commentaires-list li p {
     margin: 0;
   }
   
-  .commentaires-list li p:first-child {
+  .donateur-info {
+    display: flex;
+    align-items: center; /* Alignement vertical */
+}
+
+.name-container {
+    margin-left: 10px; /* Espacement entre la photo et le nom/prénom */
+}
+
+  .commentaires-list li p:nth-child(1) {
     font-weight: bold;
   }
   
+  .commentaires-list li p:nth-child(2) {
+    font-weight: bold;
+  }
   .commentaires-list li p:nth-child(2) {
     color: #666;
     font-size: 12px;

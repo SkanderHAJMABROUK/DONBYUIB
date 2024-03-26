@@ -25,6 +25,8 @@ export class ActualiteDetailsComponent {
   commentaires: Commentaire[] = [];
   showAllComments: boolean = false;
   donateursPhotos: string[] = [];
+  donateursNoms: string[] = [];
+  donateursPrenoms: string[] = [];
   donateursIds: string[] = [];
 
   ngOnInit(): void {
@@ -97,6 +99,9 @@ export class ActualiteDetailsComponent {
     )) as string[];
 
     this.getDonateursPhotosByIds();
+    this.getDonateursNomsByIds();
+    this.getDonateursPrenomsByIds();
+    
   }
 
   getDonateursPhotosByIds(): void {
@@ -123,4 +128,58 @@ export class ActualiteDetailsComponent {
       return undefined;
     }
   }
+
+
+  getDonateursNomsByIds(): void {
+    this.donateursNoms = []; // Clear existing photos
+
+    for (let id of this.donateursIds) {
+      this.donateurService.getDonateurNomById(id).subscribe(nom => {
+        this.donateursNoms.push(nom ?? ''); // Push photo to the array
+      });
+    }
+  }
+
+  getDonateurNomById(id: string | undefined): string | undefined {
+    if (!id) {
+      return undefined;
+    }
+
+    const index = this.donateursIds.indexOf(id);
+
+    if (index !== -1) {
+      return this.donateursNoms[index];
+    } else {
+      console.log('Donateur ID not found:', id);
+      return undefined;
+    }
+  }
+
+
+
+  getDonateursPrenomsByIds(): void {
+    this.donateursPrenoms = []; // Clear existing photos
+
+    for (let id of this.donateursIds) {
+      this.donateurService.getDonateurPrenomById(id).subscribe(prenom => {
+        this.donateursPrenoms.push(prenom ?? ''); // Push photo to the array
+      });
+    }
+  }
+
+  getDonateurPrenomById(id: string | undefined): string | undefined {
+    if (!id) {
+      return undefined;
+    }
+
+    const index = this.donateursIds.indexOf(id);
+
+    if (index !== -1) {
+      return this.donateursPrenoms[index];
+    } else {
+      console.log('Donateur ID not found:', id);
+      return undefined;
+    }
+  }
+
 }
