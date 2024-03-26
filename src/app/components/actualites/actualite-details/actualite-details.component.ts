@@ -155,7 +155,20 @@ export class ActualiteDetailsComponent {
     }
   }
 
+ getFullNameDonateurById(id: string | undefined): string | undefined{
+  if (!id) {
+    return undefined;
+  }
 
+  const index = this.donateursIds.indexOf(id);
+
+  if (index !== -1) {
+    return this.getDonateurNomById(id)+' '+this.getDonateurPrenomById(id);
+  } else {
+    console.log('Donateur ID not found:', id);
+    return undefined;
+  }
+ }
 
   getDonateursPrenomsByIds(): void {
     this.donateursPrenoms = []; // Clear existing photos

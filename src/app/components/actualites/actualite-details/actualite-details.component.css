@@ -164,18 +164,28 @@
   }
 
   .commentaires-list li .profile-photo {
-    width: 50px; /* Adjust the size as needed */
-    height: 50px; /* Adjust the size as needed */
-    border-radius: 50%; /* Make it a circle */
-    overflow: hidden; /* Hide overflow content */
-    display: flex; /* Use flexbox to center the image */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    width: 50px;
+    height: 50px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
   }
   
   .commentaires-list li .profile-photo img {
-    width: auto; /* Allow the image to adjust its width */
-    height: 100%; /* Ensure the image fills the container height */
-    border-radius: 3px; /* Maintain circle shape */
+    width: auto; 
+    height: 100%; 
+    border-radius: 3px; 
   }
+  .connexion-message {
+    background-color: #f8d7da; /* Couleur de fond */
+    color: #721c24; /* Couleur du texte */
+    padding: 10px; /* Espacement intérieur */
+    margin-top: 10px; /* Espacement extérieur */
+    border: 1px solid #f5c6cb; /* Bordure */
+    border-radius: 8px; /* Coins arrondis */
+    text-align: center; /* Alignement du texte */
+}
+
   

@@ -23,8 +23,7 @@
                   <img [src]="getDonateurPhotoById(commentaire.id_donateur)" *ngIf="getDonateurPhotoById(commentaire.id_donateur)" alt="Photo de profil">
               </div>
               <div class="name-container">
-                  <p  *ngIf="getDonateurNomById(commentaire.id_donateur)">{{getDonateurNomById(commentaire.id_donateur)}}</p>
-                  <p  *ngIf="getDonateurPrenomById(commentaire.id_donateur)" class="prenom">{{getDonateurPrenomById(commentaire.id_donateur)}}</p>
+                  <p  *ngIf="getFullNameDonateurById(commentaire.id_donateur)">{{getFullNameDonateurById(commentaire.id_donateur)}}</p>
               </div>
           </div>          
             <p>Date de publication : {{ commentaire.date_de_publication | date }}</p>
@@ -37,7 +36,7 @@
       </a>
         
       </div>
-      <div *ngIf="!donateurService.connexionDonateur">Connectez-vous pour intéragir avec nous !</div>
+      <div class="connexion-message" *ngIf="!donateurService.connexionDonateur">Connectez-vous pour intéragir avec nous !</div>
       <div class="details" *ngIf="donateurService.connexionDonateur">
         <form [formGroup]="commentaireForm">
           <p>Ajouter un commentaire:</p>
