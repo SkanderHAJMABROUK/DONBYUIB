@@ -21,7 +21,7 @@ export class CrudCollectesComponent implements OnInit{
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
 
-  selectedEtat: string = ''; // Par défaut, aucun état sélectionné
+  selectedEtat: string = ''; 
   etats: string[] = []; // Liste des états possibles
   collectes: Collecte[] = [];
   associationsNames: string[] = [];
@@ -31,7 +31,7 @@ export class CrudCollectesComponent implements OnInit{
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; // Par défaut, la taille de la page est définie sur 10
-  selectedAssociation: string = ''; // Par défaut, aucun état sélectionné
+  selectedAssociation: string = ''; 
   associationsIds : string[] = []; // Liste des états possibles
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
 

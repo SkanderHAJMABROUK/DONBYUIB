@@ -88,7 +88,7 @@ export class DemandesAssociationsComponent implements OnInit{
   }
 
   cacherImage(): void {
-    this.imageAffichee = ''; // Cacher l'image en vidant l'URL
+    this.imageAffichee = '';
   }
 
   refuserAssociation(selectedDemandeAssociation: DemandeAssociation): void {
@@ -103,10 +103,8 @@ export class DemandesAssociationsComponent implements OnInit{
       confirmButtonText: "Oui, refuser",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Mettre à jour l'état de la demande à "refusé"
         if (selectedDemandeAssociation.id) {
           this.updateDemandeEtat(selectedDemandeAssociation.id, "refusé").then(() => {
-            // Supprimer l'association correspondante
             if (selectedDemandeAssociation.id_association) {
               this.associationService.deleteAssociationById(selectedDemandeAssociation.id_association).then(() => {
                 Swal.fire({

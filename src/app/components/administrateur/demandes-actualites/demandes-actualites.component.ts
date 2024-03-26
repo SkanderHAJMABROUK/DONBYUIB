@@ -7,7 +7,8 @@ import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActualiteService } from 'src/app/services/actualite.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators'; 
 
 @Component({
   selector: 'app-demandes-actualites',
@@ -22,6 +23,10 @@ export class DemandesActualitesComponent implements OnInit{
   faCheck = faCheck;
   faXmark = faXmark;
 
+  associationsNames: string[] = [];
+  selectedAssociation: string = '';
+  associationsIds : string[] = []; 
+
   showConfirmationModal: boolean = false;
 
   demandesActualites: DemandeActualite[] = [];
@@ -30,8 +35,8 @@ export class DemandesActualitesComponent implements OnInit{
   selectedDemandeActualite: DemandeActualite = {} as DemandeActualite;
   pageSize: number = 10;
   currentPage: number = 1;
-  selectedPageSize: string = '10'; // Par défaut, la taille de la page est définie sur 10
-  imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
+  selectedPageSize: string = '10'; 
+  imageAffichee: string = ''; 
 
   constructor(private actualiteService: ActualiteService, private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore, private associationService: AssociationService) { }
@@ -41,9 +46,11 @@ export class DemandesActualitesComponent implements OnInit{
       this.getActualites();
     }
 
+
     getActualites(): void {
       this.actualiteService.getPendingDemandesActualites().subscribe(demandesActualites => {
         this.demandesActualites = demandesActualites;
+        this.getAssociationsIds();
         this.chercherActualite();
       });
     }
@@ -53,7 +60,8 @@ export class DemandesActualitesComponent implements OnInit{
       const endIndex = startIndex + this.pageSize;
       this.filteredDemandeActualiteList = this.demandesActualites.filter((demandeActualite, index) =>
         index >= startIndex && index < endIndex &&
-        (demandeActualite.titre.toLowerCase().includes(this.searchTerm.toLowerCase())
+        (demandeActualite.titre.toLowerCase().includes(this.searchTerm.toLowerCase())&&
+        (!this.selectedAssociation || this.getAssociationNameById(demandeActualite.id_association) === this.selectedAssociation) 
       ))
     }
 
@@ -94,10 +102,9 @@ export class DemandesActualitesComponent implements OnInit{
         confirmButtonText: "Oui, refuser",
       }).then((result) => {
         if (result.isConfirmed) {
-          // Mettre à jour l'état de la demande à "refusé"
           if (selectedDemandeActualite.id) {
             this.updateDemandeEtat(selectedDemandeActualite.id, "refusé").then(() => {
-              // Supprimer l'association correspondante
+              console.log(selectedDemandeActualite.id_actualite);
               if (selectedDemandeActualite.id_actualite) {
                 this.actualiteService.deleteActualiteById(selectedDemandeActualite.id_actualite).then(() => {
                   Swal.fire({
@@ -106,7 +113,7 @@ export class DemandesActualitesComponent implements OnInit{
                     icon: "success"
                   });
                 }).catch(error => {
-                  console.error('Erreur lors de la suppression de l\'association:', error);
+                  console.error('Erreur lors de la suppression de l\'actualité:', error);
                   Swal.fire({
                     title: "Erreur",
                     text: "Une erreur s'est produite lors du refus de la demande.",
@@ -114,10 +121,10 @@ export class DemandesActualitesComponent implements OnInit{
                   });
                 });
               } else {
-                console.error('ID de l\'association indéfini.');
+                console.error('ID de l\'actualité indéfini.');
                 Swal.fire({
                   title: "Erreur",
-                  text: "ID de l'association indéfini.",
+                  text: "ID de l'actualité indéfini.",
                   icon: "error"
                 });
               }
@@ -151,5 +158,44 @@ export class DemandesActualitesComponent implements OnInit{
       return demandeRef.update({ etat: etat });
     }
 
+    getAssociationsIds(): void {
+      this.associationsIds = Array.from(new Set(
+        this.demandesActualites
+          .map(demandeActualite => demandeActualite.id_association)
+          .filter(id_association => id_association !== undefined && id_association !== null)
+      )) as string[];
+  
+      this.getAssociationsNamesByIds(this.associationsIds); // Call function to fetch association names 
+    }
+  
+    getAssociationsNamesByIds(ids: string[]) {
+      const observables: Observable<string | undefined>[] = ids.map(id =>
+        this.associationService.getAssociationNameById(id).pipe(
+          map(name => name ?? undefined) // Convert undefined values to Observable<undefined>
+        )
+      );
+          observables.forEach((observable, index) =>
+        observable.subscribe(name => {
+          console.log(`Observable ${index + 1} emitted value:`, name); // Log emitted values
+          if (name !== undefined) {
+            this.associationsNames.push(name);
+            console.log('Pushed name:', name); // Log pushed name
+            console.log(this.associationsNames);
+          }
+        })
+      )
+    } 
+    
+    getAssociationNameById(id: string | undefined): string {
+      if (!id) {
+        return 'Unknown Association';
+      }
+      const index = this.associationsIds.indexOf(id);
+      if (index !== -1) {
+        return this.associationsNames[index];
+      } else {
+        return 'Association not found';
+      }
+    }    
 
 }

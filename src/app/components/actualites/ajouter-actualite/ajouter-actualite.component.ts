@@ -33,6 +33,8 @@ export class AjouterActualiteComponent implements OnInit{
 
       }
     );
+    this.showSuccessMessage=false;
+    this.showSuccessMessage=false;
   }
 
   onCoverFileSelected(event: any) {

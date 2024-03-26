@@ -1,6 +1,12 @@
 <div class="container">
     <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherActualite()" placeholder="Rechercher..." class="search-input">
 
+    <label  id="etat-label" for="etat-select">Filtrer par association:</label>
+        <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherActualite()">
+          <option value="" selected>Tous</option>
+          <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
+        </select>
+
     <table>
       <thead>
         <tr>
@@ -14,16 +20,17 @@
       <tbody>
         <tr *ngFor="let actualite of filteredDemandeActualiteList">
           <td>{{ actualite.id }}</td>
-          <td>{{ actualite.id_association }}</td>
+          <td><img [src]="actualite.image" alt="Logo" class="donateur-photo" (click)="afficherImage(actualite.image)"></td> <!-- Champ image avec la source de la photo -->
+          <td>{{ getAssociationNameById(actualite.id_association) }}</td>
           <td>{{ actualite.titre }} </td>
-          <td>{{ actualite.date_publication}}</td>
-          
+          <td>{{ actualite.date_publication  }}</td>
+
           <td>
             <div class="crud-buttons">
                
             <button class="action-button add-button" ><fa-icon [icon]="faCheck"></fa-icon></button>
              
-            <button class="action-button refuse-button"> <fa-icon [icon]="faXmark"></fa-icon>
+            <button class="action-button refuse-button" (click)="refuserActualite(actualite)"> <fa-icon [icon]="faXmark"></fa-icon>
             </button>
               <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
 

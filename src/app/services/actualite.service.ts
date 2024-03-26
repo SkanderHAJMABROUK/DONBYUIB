@@ -87,6 +87,7 @@ export class ActualiteService {
         .map(demandeActualite => ({
           id: demandeActualite.id,
           id_association : demandeActualite.id_association,
+          id_actualite : demandeActualite.id_actualite,
           titre : demandeActualite.titre,
           image : demandeActualite.image,
           date_publication:demandeActualite.date_publication,
@@ -106,6 +107,7 @@ export class ActualiteService {
         .map(demandeActualite => ({
           id: demandeActualite.id,
           id_association : demandeActualite.id_association,
+          id_actualite : demandeActualite.id_actualite,
           titre : demandeActualite.titre,
           image : demandeActualite.image,
           date_publication:demandeActualite.date_publication,

@@ -68,6 +68,7 @@ import { AjouterCollecteAdminComponent } from './components/administrateur/ajout
 import { LoginAdminComponent } from './components/administrateur/login-admin/login-admin.component';
 import { CompteAdminComponent } from './components/administrateur/compte-admin/compte-admin.component';
 import { DemandesActualitesComponent } from './components/administrateur/demandes-actualites/demandes-actualites.component';
+import { CommonModule } from '@angular/common';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -138,6 +139,7 @@ const firebaseConfig = {
   
     ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     AngularFirestoreModule,
