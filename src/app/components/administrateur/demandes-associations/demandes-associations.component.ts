@@ -6,6 +6,7 @@ import { faList, faCheck, faXmark, faChevronRight, faChevronLeft} from '@fortawe
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Association } from 'src/app/interfaces/association';
 
 @Component({
   selector: 'app-demandes-associations',
@@ -15,6 +16,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class DemandesAssociationsComponent implements OnInit{
 
   faChevronRight = faChevronRight;
+  Association!:Association;
   faChevronLeft = faChevronLeft;
   faList = faList;
   faCheck = faCheck;
@@ -32,7 +34,7 @@ export class DemandesAssociationsComponent implements OnInit{
   categories: string[] = [];
   selectedCategorie: string = '';
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
-
+  selectedAssociation!:DemandeAssociation;
   constructor(private associationService: AssociationService, private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore) { }
 
@@ -41,6 +43,16 @@ export class DemandesAssociationsComponent implements OnInit{
     this.getAssociations();
   }
 
+
+  afficherDetails(association: DemandeAssociation) {
+    if(association.id){
+    this.associationService.getDemandeAssociationById(association.id).subscribe((response) => {
+      this.selectedAssociation = response!;
+      this.adminService.associationDetailShowModal = true;
+      console.log(response)
+    });
+  }
+}
 
   getCategories(){
     this.categories = Array.from(new Set(this.demandesAssociations
@@ -226,5 +238,7 @@ export class DemandesAssociationsComponent implements OnInit{
     const demandeRef = this.firestore.collection('Association').doc(associationId);
     return demandeRef.update({ etat: etat });
   }
+
+  
 
 }
