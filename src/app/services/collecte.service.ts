@@ -9,6 +9,7 @@ import { Collecte } from '../interfaces/collecte';
 import { Observable, Observer, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AssociationService } from './associationService.service';
+import { DemandeCollecte } from '../interfaces/demande-collecte';
 
 
 
@@ -49,6 +50,72 @@ export class CollecteService {
   );
  }
 
+ getPendingCollectes(): Observable<Collecte[]> {
+  let collecteCollection = collection(this.fs, 'Collecte');
+ return collectionData(collecteCollection, { idField: 'id' }).pipe(
+   map((collectes: any[]) => {
+      return collectes
+      .filter(collecte => collecte.etat = 'en_attente')
+      .map(collecte => ({
+        id: collecte.id,
+        nom: collecte.nom,
+        etat:collecte.etat,
+        description: collecte.description,
+        image: collecte.image,
+        montant: collecte.montant,
+        date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
+        date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
+        id_association:collecte.id_association,
+      }));
+    })
+  );
+ }
+
+ getAcceptedCollectes(): Observable<Collecte[]> {
+  let collecteCollection = collection(this.fs, 'Collecte');
+ return collectionData(collecteCollection, { idField: 'id' }).pipe(
+   map((collectes: any[]) => {
+      return collectes
+      .filter(collecte => collecte.etat = 'accepté')
+      .map(collecte => ({
+        id: collecte.id,
+        nom: collecte.nom,
+        etat:collecte.etat,
+        description: collecte.description,
+        image: collecte.image,
+        montant: collecte.montant,
+        date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
+        date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
+        id_association:collecte.id_association,
+      }));
+    })
+  );
+ }
+
+ getPendingDemandesCollectes(): Observable<DemandeCollecte[]> {
+  let demandeCollecteCollection = collection(this.fs, 'DemandeCollecte');
+  return collectionData(demandeCollecteCollection, { idField: 'id' }).pipe(
+    map((demandesCollectes: any[]) => {
+      return demandesCollectes
+      .filter(demandeCollecte => demandeCollecte.etat === 'en_attente') 
+      .map(demandeCollecte => ({
+        id: demandeCollecte.id,
+        id_association : demandeCollecte.id_association,
+        id_collecte : demandeCollecte.id_collecte,
+        nom : demandeCollecte.nom,
+        description : demandeCollecte.description,
+        image : demandeCollecte.image,
+        etat : demandeCollecte.etat,
+        montant : demandeCollecte.montant,
+        date_debut : demandeCollecte.date_debut,
+        date_fin : demandeCollecte.date_fin,
+        date : demandeCollecte.date,
+
+      }));
+    })
+  );
+}
+
  getCollectesByAssociationId(associationId: string): Observable<Collecte[]> {
   return this.getCollectes().pipe(
     map(collectes => collectes.filter(collecte => collecte.id_association === associationId))
@@ -60,10 +127,6 @@ export class CollecteService {
     map(collectes => collectes.find(collecte => collecte.id === id))
   );
 }
-
-
-
-
 
 async uploadCover(file: File): Promise<string | null> {
   const filePath = `ImagesCollectes/${file.name}`;
@@ -126,16 +189,13 @@ modifierCollecte(collecte: Collecte): Promise<void> {
 }
 
 
-
-
-
 ajouterCollecte(collecteData: Collecte) {
 
   const associationId=this.getAssociationIdFromUrl();
     
   const dataToAdd: Collecte = {
       nom: collecteData.nom,
-      etat: "ajout",
+      etat: "en_attente",
       description: collecteData.description,
       image: collecteData.image,
       montant: collecteData.montant,
@@ -145,6 +205,41 @@ ajouterCollecte(collecteData: Collecte) {
       
   };
   return addDoc(collection(this.fs, 'Collecte'), dataToAdd);
+}
+
+async ajouterCollecteAndDemande(collecteData:Collecte){
+
+  const associationId=this.getAssociationIdFromUrl();
+
+  const collecteToAdd: Collecte = {
+    nom: collecteData.nom,
+    etat: "en_attente",
+    description: collecteData.description,
+    image: collecteData.image,
+    montant: collecteData.montant,
+    date_debut: collecteData.date_debut,
+    date_fin: collecteData.date_fin,
+    id_association:associationId,    
+};
+
+const collecteDocRef = await addDoc(collection(this.fs, 'Collecte'), collecteToAdd);
+const actualiteId = collecteDocRef.id;
+
+const demandeData: DemandeCollecte = {
+  id_collecte: actualiteId,
+  nom:collecteData.nom,
+  etat:collecteToAdd.etat,
+  description:collecteData.description,
+  image: collecteData.image,
+  montant: collecteData.montant,
+  date_debut: collecteData.date_debut,
+  date_fin: collecteData.date_fin,
+  id_association:associationId,
+  date: new Date()
+}
+
+return addDoc(collection(this.fs, 'DemandeCollecte'), demandeData);
+
 }
 
 

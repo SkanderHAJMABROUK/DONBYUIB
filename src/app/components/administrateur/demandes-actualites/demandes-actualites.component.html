@@ -7,6 +7,14 @@
           <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
         </select>
 
+    <!-- Champ de tri -->
+    <label id="etat-label" for="tri-select">Trier par :</label>
+    <select id="etat-label" [(ngModel)]="selectedTri" (change)="chercherActualite()">
+      <option value="none" selected>Aucun tri</option>
+      <option value="plusRecents">Les plus récents</option>
+      <option value="plusAnciens">Les plus anciens</option>
+    </select>
+
     <table>
       <thead>
         <tr>
@@ -24,7 +32,7 @@
           <td><img [src]="actualite.image" alt="Logo" class="donateur-photo" (click)="afficherImage(actualite.image)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ getAssociationNameById(actualite.id_association) }}</td>
           <td>{{ actualite.titre }} </td>
-          <td>{{ actualite.date_publication  }}</td>
+          <td>{{ actualite.date_publication }}</td>
 
           <td>
             <div class="crud-buttons">

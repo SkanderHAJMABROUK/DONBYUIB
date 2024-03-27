@@ -6,5 +6,6 @@ export interface DemandeActualite {
     image:string,
     date_publication:Date,
     date:Date,
-    etat:string
+    etat:string,
+    description:string
 }

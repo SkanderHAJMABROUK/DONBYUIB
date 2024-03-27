@@ -20,8 +20,6 @@ export class CrudActualitesComponent implements OnInit{
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
 
-  selectedEtat: string = ''; // Par défaut, aucun état sélectionné
-  etats: string[] = []; // Liste des états possibles
   actualites: Actualite[] = [];
   associationsNames: string[] = [];
   filteredActualiteList: Actualite[] = [];
@@ -41,13 +39,6 @@ export class CrudActualitesComponent implements OnInit{
   ngOnInit(): void {
     this.selectedPageSize = '10';
     this.getActualites();             
-  }
-
-  getEtats(): void {
-    // Exclure les valeurs nulles et vides
-    this.etats = Array.from(new Set(this.actualites
-      .map(actualite => actualite.etat)
-      .filter(etat => !!etat))); // Filtre les valeurs nulles ou vides
   }
 
   getAssociationsIds(): void {
@@ -93,9 +84,8 @@ export class CrudActualitesComponent implements OnInit{
   }
 
   getActualites():void {
-    this.actualiteService.getActualites().subscribe(actualites => {
+    this.actualiteService.getAcceptedActualites().subscribe(actualites => {
       this.actualites = actualites;
-      this.getEtats(); // Initialise la liste des états
       this.getAssociationsIds(); // Initialise la liste des états
       this.chercherActualite();
     });
@@ -111,8 +101,7 @@ export class CrudActualitesComponent implements OnInit{
     this.filteredActualiteList = this.actualites.filter((actualite, index) =>
       index >= startIndex && index < endIndex &&
       (actualite.titre.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-      (!this.selectedAssociation || this.getAssociationNameById(actualite.id_association) === this.selectedAssociation) &&
-      (!this.selectedEtat || actualite.etat === this.selectedEtat)
+      (!this.selectedAssociation || this.getAssociationNameById(actualite.id_association) === this.selectedAssociation)
     ))
 
     // Tri

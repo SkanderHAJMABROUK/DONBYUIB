@@ -90,9 +90,10 @@ export class ActualiteService {
           id_actualite : demandeActualite.id_actualite,
           titre : demandeActualite.titre,
           image : demandeActualite.image,
-          date_publication:demandeActualite.date_publication,
+          date_publication: demandeActualite.date_publication instanceof Timestamp ? demandeActualite.date_publication.toDate() : demandeActualite.date_publication,
           date : demandeActualite.date,
-          etat : demandeActualite.etat
+          etat : demandeActualite.etat,
+          description : demandeActualite.description
         }));
       })
     );
@@ -110,9 +111,10 @@ export class ActualiteService {
           id_actualite : demandeActualite.id_actualite,
           titre : demandeActualite.titre,
           image : demandeActualite.image,
-          date_publication:demandeActualite.date_publication,
+          date_publication: demandeActualite.date_publication instanceof Timestamp ? demandeActualite.date_publication.toDate() : demandeActualite.date_publication,
           date : demandeActualite.date,
-          etat : demandeActualite.etat
+          etat : demandeActualite.etat,
+          description : demandeActualite.description
         }));
       })
     );
@@ -196,7 +198,8 @@ async ajouterActualiteAndDemande(actualiteData: Actualite) {
     image:actualiteData.image,
     date_publication:new Date(),
     date:new Date(),
-    etat:"en_attente"
+    etat:actualiteToAdd.etat,
+    description:actualiteData.description
 };
 
 return addDoc(collection(this.fs, 'DemandeActualite'), demandeData);
