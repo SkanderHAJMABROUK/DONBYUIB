@@ -37,6 +37,7 @@ export class DemandesActualitesComponent implements OnInit{
   currentPage: number = 1;
   selectedPageSize: string = '10'; 
   imageAffichee: string = ''; 
+  selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
 
   constructor(private actualiteService: ActualiteService, private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore, private associationService: AssociationService) { }
@@ -63,6 +64,18 @@ export class DemandesActualitesComponent implements OnInit{
         (demandeActualite.titre.toLowerCase().includes(this.searchTerm.toLowerCase())&&
         (!this.selectedAssociation || this.getAssociationNameById(demandeActualite.id_association) === this.selectedAssociation) 
       ))
+
+      // Tri
+    switch (this.selectedTri) {
+      case 'plusRecents':
+        this.filteredDemandeActualiteList = this.filteredDemandeActualiteList.sort((a, b) => new Date(b.date_publication).getTime() - new Date(a.date_publication).getTime());
+        break;
+      case 'plusAnciens':
+        this.filteredDemandeActualiteList = this.filteredDemandeActualiteList.sort((a, b) => new Date(a.date_publication).getTime() - new Date(b.date_publication).getTime());
+        break;
+      default:
+        break;
+    }
     }
 
     onPageChange(page: number): void {
@@ -181,7 +194,7 @@ export class DemandesActualitesComponent implements OnInit{
                     icon: "success"
                   });
                 }).catch(error => {
-                  console.error('Erreur lors de la mise à jour de l\'état de l\'association:', error);
+                  console.error('Erreur lors de la mise à jour de l\'état de l\'actualité:', error);
                   Swal.fire({
                     title: "Erreur",
                     text: "Une erreur s'est produite lors de l'acceptation de la demande.",
@@ -189,10 +202,10 @@ export class DemandesActualitesComponent implements OnInit{
                   });
                 });
               } else {
-                console.error('ID de l\'association indéfini.');
+                console.error('ID de l\'actualité indéfini.');
                 Swal.fire({
                   title: "Erreur",
-                  text: "ID de l'association indéfini.",
+                  text: "ID de l'actualité indéfini.",
                   icon: "error"
                 });
               }
@@ -214,8 +227,7 @@ export class DemandesActualitesComponent implements OnInit{
           }
         }
       });
-    }
-    
+    } 
 
     updateDemandeEtat(id: string, etat: string): Promise<void> {
       const demandeRef = this.firestore.collection('DemandeActualite').doc(id);

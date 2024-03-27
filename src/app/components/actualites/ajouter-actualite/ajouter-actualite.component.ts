@@ -72,7 +72,7 @@ export class AjouterActualiteComponent implements OnInit{
         image: coverDownloadUrl
        })
         .then(() => {
-          console.log('Données de lactualité ajoutées avec succès dans Firebase Firestore.');
+          console.log('Données de l\'actualité ajoutées avec succès dans Firebase Firestore.');
           // Réinitialiser le formulaire après l'ajout des données
           this.aFormGroup.reset();
           this.router.navigate(['/liste-actualites-association'],{ replaceUrl: true });

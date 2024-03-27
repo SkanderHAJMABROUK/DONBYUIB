@@ -61,7 +61,7 @@ export class AjouterCollecteComponent implements OnInit{
       }
       console.log('Logo file uploaded. Download URL:', CoverDownloadUrl);
    
-      this.service.ajouterCollecte({...this.aFormGroup.value,
+      this.service.ajouterCollecteAndDemande({...this.aFormGroup.value,
         image: CoverDownloadUrl,
        })
         .then(() => {
