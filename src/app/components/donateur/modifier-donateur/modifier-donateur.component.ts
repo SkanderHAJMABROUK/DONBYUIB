@@ -53,8 +53,12 @@ export class ModifierDonateurComponent {
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
-      this.aFormGroup.patchValue({
-        image: file
+      this.service.uploadPhoto(file).then(downloadUrl => {
+        this.aFormGroup.patchValue({
+          photo: downloadUrl
+        });
+      }).catch(error => {
+        console.error('Une erreur s\'est produite lors du téléchargement de la photo :', error);
       });
     }
   }
