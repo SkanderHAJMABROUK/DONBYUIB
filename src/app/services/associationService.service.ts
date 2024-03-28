@@ -172,6 +172,12 @@ export class AssociationService {
     );
   }
 
+  getDemandeAssociationById(id: string): Observable<DemandeAssociation | undefined> {
+    return this.getDemandesAssociations().pipe(
+      map(associations => associations.find(association => association.id === id))
+    );
+  }
+
   getAssociationNameById(id: string): Observable<string | undefined> {
     return this.getAssociationById(id).pipe(
       map(association => association?.nom)

@@ -41,7 +41,8 @@
              
             <button class="action-button refuse-button" (click)="refuserActualite(actualite)"> <fa-icon [icon]="faXmark"></fa-icon>
             </button>
-              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(actualite)"></fa-icon></button>
+              <app-demande-actualite-details *ngIf="adminService.actualiteDetailShowModal" [actualite]="selectedActualite"></app-demande-actualite-details>
 
                </div>
           </td>

@@ -38,10 +38,23 @@ export class DemandesActualitesComponent implements OnInit{
   selectedPageSize: string = '10'; 
   imageAffichee: string = ''; 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
+ selectedActualite!:DemandeActualite;
 
-  constructor(private actualiteService: ActualiteService, private router: Router, public adminService:AdministrateurService,
-    private firestore: AngularFirestore, private associationService: AssociationService) { }
+ constructor(private actualiteService: ActualiteService, private router: Router, public adminService:AdministrateurService,
+  private firestore: AngularFirestore, private associationService: AssociationService) { }
 
+
+
+  afficherDetails(actualite: DemandeActualite) {
+    if(actualite.id){
+    this.actualiteService.getDemandeActualiteById(actualite.id).subscribe((response) => {
+      this.selectedActualite = response!;
+      this.adminService.actualiteDetailShowModal = true;
+      console.log(response)
+    });
+  }
+}
+ 
   ngOnInit(): void {
       this.selectedPageSize = '10';
       this.getActualites();

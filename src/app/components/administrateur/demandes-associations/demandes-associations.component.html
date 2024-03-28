@@ -52,7 +52,8 @@
             <button class="action-button refuse-button" (click)="refuserAssociation(association)"> <fa-icon [icon]="faXmark"></fa-icon>
             </button>
               <!-- Bouton Consulter -->
-              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+              <button class="action-button view-button"  ><fa-icon [icon]="faList" (click)="afficherDetails(association)"></fa-icon></button>
+              <app-demande-association-details *ngIf="adminService.associationDetailShowModal" [association]="selectedAssociation"></app-demande-association-details>
 
                </div>
           </td>

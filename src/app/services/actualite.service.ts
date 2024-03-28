@@ -212,6 +212,12 @@ getActualiteById(id: string): Observable<Actualite | undefined> {
   );
 }
 
+getDemandeActualiteById(id: string): Observable<DemandeActualite | undefined> {
+  return this.getPendingDemandesActualites().pipe(
+    map(actualites => actualites.find(actualite => actualite.id === id))
+  );
+}
+
 
 modifierActualite(actualite: Actualite): Promise<void> {
   const updatedActualiteData = {

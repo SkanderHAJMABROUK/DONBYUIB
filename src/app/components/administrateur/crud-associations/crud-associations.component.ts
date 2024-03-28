@@ -108,9 +108,9 @@ export class CrudAssociationsComponent {
   }
 }
 
-modifierAssociation(assocation:Association){
-  if(assocation.id){
-    this.associationService.getAssociationById(assocation.id).subscribe((response) => {
+modifierAssociation(association:Association){
+  if(association.id){
+    this.associationService.getAssociationById(association.id).subscribe((response) => {
       this.selectedAssociation = response!;
       this.adminService.associationModifierShowModal = true;
     });
