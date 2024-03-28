@@ -49,22 +49,15 @@ export class ModifierDonateurComponent {
       email: [this.donateur?.email || '', [Validators.required, Validators.email]], 
     });
   }
-
-    
+  
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.aFormGroup.patchValue({
-          photo: reader.result // Définir la valeur du champ 'photo' avec l'URL de données
-        });
-      };
-      reader.readAsDataURL(file); // Convertit le contenu de l'image en URL de données
+      this.aFormGroup.patchValue({
+        image: file
+      });
     }
   }
-  
-  
  
   onSubmit(){
     console.log("Fonction onSubmit() appelée");

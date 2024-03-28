@@ -202,8 +202,7 @@ logOut(){
 
  modifierCompte(donateur: Donateur): Promise<void> {
   const updatedDonateurData = {
-    ...donateur,
-    etat: "modification"
+    ...donateur
   };
   const donateurRef = this.firestore.collection('Donateur').doc(donateur.id);
   return donateurRef.update(updatedDonateurData);
