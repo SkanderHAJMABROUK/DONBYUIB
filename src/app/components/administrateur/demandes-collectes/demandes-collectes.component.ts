@@ -38,7 +38,7 @@ export class DemandesCollectesComponent implements OnInit{
   selectedPageSize: string = '10'; 
   imageAffichee: string = ''; 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
-
+selectedCollecte!:DemandeCollecte;
   constructor(private collecteService: CollecteService, private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore, private associationService: AssociationService) { }
 
@@ -54,6 +54,16 @@ export class DemandesCollectesComponent implements OnInit{
         this.chercherCollecte();
       });
     }
+
+    afficherDetails(collecte: DemandeCollecte) {
+      if(collecte.id){
+      this.collecteService.getDemandeCollecteById(collecte.id).subscribe((response) => {
+        this.selectedCollecte = response!;
+        this.adminService.collecteDetailShowModal = true;
+        console.log(response)
+      });
+    }
+  }
 
     chercherCollecte(): void {
       const startIndex = (this.currentPage - 1) * this.pageSize;

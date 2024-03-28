@@ -45,7 +45,7 @@
              
             <button class="action-button refuse-button" (click)="refuserActualite(collecte)"> <fa-icon [icon]="faXmark"></fa-icon>
             </button>
-              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(collecte)"></fa-icon></button>
 
                </div>
           </td>
@@ -53,6 +53,7 @@
       </tbody>
     </table>
 
+    <app-demande-collecte-details *ngIf="adminService.collecteDetailShowModal" [collecte]="selectedCollecte"></app-demande-collecte-details>
 
     <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
         <div class="lightbox-contenu">

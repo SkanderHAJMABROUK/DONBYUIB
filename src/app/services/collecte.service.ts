@@ -152,6 +152,13 @@ getAcceptedDemandesCollectes(): Observable<DemandeCollecte[]> {
   );
 }
 
+
+getDemandeCollecteById(id: string): Observable<DemandeCollecte | undefined> {
+  return this.getPendingDemandesCollectes().pipe(
+    map(collectes => collectes.find(collecte => collecte.id === id))
+  );
+}
+
 async uploadCover(file: File): Promise<string | null> {
   const filePath = `ImagesCollectes/${file.name}`;
   console.log('in upload' , filePath);
