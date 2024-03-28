@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl,Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Donateur } from 'src/app/interfaces/donateur';
 import { DonateurService } from 'src/app/services/donateur.service';
 
@@ -18,7 +19,8 @@ export class ModifierDonateurComponent {
   showSuccessMessage: boolean = false;
 
 
-  constructor(private formBuilder: FormBuilder, public service: DonateurService, private router: Router, private route:ActivatedRoute) {}
+  constructor(private formBuilder: FormBuilder, public service: DonateurService, private router: Router, private route:ActivatedRoute,
+    private spinner:NgxSpinnerService) {}
 
 
   donateur!:Donateur
@@ -84,11 +86,6 @@ export class ModifierDonateurComponent {
       console.log("Formulaire invalide");
     }
   }
-
- 
-
-  
-  
  
 }
 
