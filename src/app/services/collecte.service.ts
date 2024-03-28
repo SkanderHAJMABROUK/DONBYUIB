@@ -107,9 +107,33 @@ export class CollecteService {
         image : demandeCollecte.image,
         etat : demandeCollecte.etat,
         montant : demandeCollecte.montant,
-        date_debut : demandeCollecte.date_debut,
-        date_fin : demandeCollecte.date_fin,
-        date : demandeCollecte.date,
+        date_debut : demandeCollecte.date_debut instanceof Timestamp ? demandeCollecte.date_debut.toDate() : demandeCollecte.date_debut,
+        date_fin : demandeCollecte.date_fin instanceof Timestamp ? demandeCollecte.date_fin.toDate() : demandeCollecte.date_fin,
+        date : demandeCollecte.date instanceof Timestamp ? demandeCollecte.date.toDate() : demandeCollecte.date ,
+
+      }));
+    })
+  );
+}
+
+getAcceptedDemandesCollectes(): Observable<DemandeCollecte[]> {
+  let demandeCollecteCollection = collection(this.fs, 'DemandeCollecte');
+  return collectionData(demandeCollecteCollection, { idField: 'id' }).pipe(
+    map((demandesCollectes: any[]) => {
+      return demandesCollectes
+      .filter(demandeCollecte => demandeCollecte.etat === 'accepté') 
+      .map(demandeCollecte => ({
+        id: demandeCollecte.id,
+        id_association : demandeCollecte.id_association,
+        id_collecte : demandeCollecte.id_collecte,
+        nom : demandeCollecte.nom,
+        description : demandeCollecte.description,
+        image : demandeCollecte.image,
+        etat : demandeCollecte.etat,
+        montant : demandeCollecte.montant,
+        date_debut : demandeCollecte.date_debut instanceof Timestamp ? demandeCollecte.date_debut.toDate() : demandeCollecte.date_debut,
+        date_fin : demandeCollecte.date_fin instanceof Timestamp ? demandeCollecte.date_fin.toDate() : demandeCollecte.date_fin,
+        date : demandeCollecte.date instanceof Timestamp ? demandeCollecte.date.toDate() : demandeCollecte.date ,
 
       }));
     })
@@ -240,6 +264,11 @@ const demandeData: DemandeCollecte = {
 
 return addDoc(collection(this.fs, 'DemandeCollecte'), demandeData);
 
+}
+
+deleteCollecteById(id: string): Promise<void> {
+  const collecteRef = this.firestore.collection('Collecte').doc(id);
+  return collecteRef.delete();
 }
 
 

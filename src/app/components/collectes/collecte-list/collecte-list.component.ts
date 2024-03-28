@@ -27,7 +27,7 @@ collecteHoverState: Map<string, boolean> = new Map();
 collectes:Collecte[]=[];
 
 ngOnInit():void{
-  this.service.getCollectes().subscribe((res)=>{
+  this.service.getAcceptedCollectes().subscribe((res)=>{
    this.collectes=res;
    console.log(this.collectes);
  })

@@ -24,7 +24,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Mon compte</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -46,7 +47,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Gestion des donateurs</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Gestion des donateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -61,7 +63,8 @@
 
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Ajouter un donateur</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Ajouter un donateur</a>
         </li>
         
         
@@ -79,7 +82,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Gestion des associations</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -93,7 +97,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Ajouter une association</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Ajouter une association</a>
         </li>
         <li>
           <span class="material-symbols-outlined">data_check</span>
@@ -107,7 +112,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=true;
-          service.demandeActualite=false">Demandes d'habilitation</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Demandes d'habilitation</a>
         </li>
         
         
@@ -125,7 +131,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Gestion des collectes</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Gestion des collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -139,7 +146,23 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Ajouter une collecte</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Ajouter une collecte</a>
+        </li>
+        <li>
+          <span class="material-symbols-outlined">data_check</span>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false;
+          service.demandeAssociations=false;
+          service.demandeActualite=false;
+          service.demandeCollecte=true">Demandes de collectes</a>
         </li>
         
         
@@ -157,7 +180,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=true;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Gestion des actualités</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Gestion des actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -171,7 +195,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=false">Ajouter une actualité</a>
+          service.demandeActualite=false;
+          service.demandeCollecte=false">Ajouter une actualité</a>
         </li>
         <li>
           <span class="material-symbols-outlined">data_check</span>
@@ -185,7 +210,8 @@
           service.ajouterDonateur=false;
           service.crudActualites=false;
           service.demandeAssociations=false;
-          service.demandeActualite=true">Demandes d'ajout</a>
+          service.demandeActualite=true;
+          service.demandeCollecte=false">Demandes d'actualités</a>
         </li>
         
         

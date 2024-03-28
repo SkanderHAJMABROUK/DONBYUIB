@@ -40,7 +40,7 @@ export class AdministrateurService {
 
   demandeAssociations:boolean=false;
   demandeActualite:boolean=false;
-
+  demandeCollecte:boolean=false;
 
   crudUtilisateurs:boolean = false;
   crudAssociations:boolean = false;

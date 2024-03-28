@@ -223,8 +223,8 @@ modifierActualite(actualite: Actualite): Promise<void> {
 }
 
 deleteActualiteById(id: string): Promise<void> {
-  const associationRef = this.firestore.collection('Actualite').doc(id);
-  return associationRef.delete();
+  const actualiteRef = this.firestore.collection('Actualite').doc(id);
+  return actualiteRef.delete();
 }
 
 supprimerActualite(actualite: Actualite): Observable<Actualite[]> {
