@@ -148,6 +148,7 @@ const firebaseConfig = {
     DemandeActualiteDetailsComponent,
     DemandeCollecteDetailsComponent,
     DemandeModificationAssociationComponent,
+    ChatDialogComponent
     
   
     ],
