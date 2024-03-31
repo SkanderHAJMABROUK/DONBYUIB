@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 
 @Component({

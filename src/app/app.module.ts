@@ -13,7 +13,7 @@ import { RouterModule , RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { AssociationService} from './services/associationService.service';
+import { AssociationService} from './services/association.service';
 import { AssociationDemandeComponent } from './components/associations/association-demande/association-demande.component';
 import { AssociationListComponent } from './components/associations/association-list/association-list.component';
 import { ProfilAssociationComponent } from './components/associations/profil-association/profil-association.component';
@@ -73,6 +73,7 @@ import { DemandesCollectesComponent } from './components/administrateur/demandes
 import { DemandeAssociationDetailsComponent } from './components/administrateur/demande-association-details/demande-association-details.component';
 import { DemandeActualiteDetailsComponent } from './components/administrateur/demande-actualite-details/demande-actualite-details.component';
 import { DemandeCollecteDetailsComponent } from './components/administrateur/demande-collecte-details/demande-collecte-details.component';
+import { DemandeModificationAssociationComponent } from './components/administrateur/demande-modification-association/demande-modification-association.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -144,6 +145,7 @@ const firebaseConfig = {
     DemandeAssociationDetailsComponent,
     DemandeActualiteDetailsComponent,
     DemandeCollecteDetailsComponent,
+    DemandeModificationAssociationComponent,
     
   
     ],

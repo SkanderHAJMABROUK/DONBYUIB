@@ -8,7 +8,7 @@ import { DocumentData, DocumentSnapshot, Firestore, Timestamp, addDoc, collectio
 import { Collecte } from '../interfaces/collecte';
 import { Observable, Observer, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { AssociationService } from './associationService.service';
+import { AssociationService } from './association.service';
 import { DemandeCollecte } from '../interfaces/demande-collecte';
 
 

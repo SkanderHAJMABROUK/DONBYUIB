@@ -121,12 +121,22 @@ select:focus{
     margin-bottom: 4%;
 }
 
-.error-notification , success-message{
+.error-notification {
     color: #721c24;
     background-color: #f8d7da;
     padding: 10px;
     margin: 10px 0 10px 0;   
     border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .disabled-notification {
+    color: #00008B;
+    background-color: #b0c4de94;
+    padding: 10px;
+    margin: 10px 0 10px 0;   
+    border: 1px solid #2f2fff;
     border-radius: 8px;
     text-align: center;
   }

@@ -6,7 +6,7 @@ import { DonateurService } from '../../../services/donateur.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
 import emailjs from '@emailjs/browser';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-sinscrire',

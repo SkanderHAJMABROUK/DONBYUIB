@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AssociationService } from './associationService.service';
+import { AssociationService } from './association.service';
 describe('AuthentificationService', () => {
   let service: AssociationService;
 

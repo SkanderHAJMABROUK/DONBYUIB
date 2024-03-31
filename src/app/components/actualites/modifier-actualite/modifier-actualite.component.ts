@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Actualite } from 'src/app/interfaces/actualite';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActualiteService } from 'src/app/services/actualite.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 

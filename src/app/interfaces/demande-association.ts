@@ -8,8 +8,8 @@ export interface DemandeAssociation {
     email:string,
     id_fiscale:string,
     logo:string,
-    rib:number,
-    telephone:number,
+    rib:string,
+    telephone:string,
     etat:string,
     date:Date
 }

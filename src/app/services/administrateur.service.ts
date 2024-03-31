@@ -13,7 +13,7 @@ import { sha256 } from 'js-sha256';
 import { HttpClient } from '@angular/common/http';
 import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
-import { AssociationService } from './associationService.service';
+import { AssociationService } from './association.service';
 import { Admin } from '../interfaces/admin';
 
 @Injectable({
@@ -46,6 +46,8 @@ export class AdministrateurService {
   crudAssociations:boolean = false;
   crudCollectes:boolean = false;
   crudActualites:boolean = false;
+
+  demandeModificationAssociation:boolean = false;
 
 
   id!:string|null;

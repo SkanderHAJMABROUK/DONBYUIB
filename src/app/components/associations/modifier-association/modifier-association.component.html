@@ -2,12 +2,28 @@
     <form [formGroup]="aFormGroup" class="form-container">
       <h2>Modifier mon association</h2>
       <hr>
+
+      <div>
+        <label for="nom_association">Nom de l'association</label><br>
+        <input type="text" id="nom_association" formControlName="nom" placeholder="Nom de l'association" class="nom_association" [disabled]="isModificationDemandPending" required>
+        <div class="error-message" *ngIf="aFormGroup.get('nom')?.invalid && (aFormGroup.get('nom')?.dirty || aFormGroup.get('nom')?.touched)">
+          <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">Le nom de l'association est requis.</div>
+        </div>
+      </div>
       
       <div>
         <label for="description_association">Description de l'association</label><br>
         <textarea id="description_association" formControlName="description" placeholder="Description de l'association" class="description_association" required></textarea>
         <div class="error-message" *ngIf="aFormGroup.get('description')?.invalid && (aFormGroup.get('description')?.dirty || aFormGroup.get('description')?.touched)">
           <div *ngIf="aFormGroup.get('description')?.errors?.['required']">La description de l'association est requise.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="adresse_association">Adresse de l'association</label><br>
+        <input type="text" id="adresse_association" formControlName="adresse" placeholder="Adresse de l'association" class="adresse_association" required>
+        <div class="error-message" *ngIf="aFormGroup.get('adresse')?.invalid && (aFormGroup.get('adresse')?.dirty || aFormGroup.get('adresse')?.touched)">
+          <div *ngIf="aFormGroup.get('adresse')?.errors?.['required']">L'adresse de l'association est requise.</div>
         </div>
       </div>
      
@@ -27,6 +43,20 @@
           <div *ngIf="aFormGroup.get('telephone')?.errors?.['minlength'] || aFormGroup.get('telephone')?.errors?.['maxlength']">Le numéro de téléphone doit comporter exactement 8 chiffres.</div>
         </div>
       </div>
+
+      <div>
+        <label for="categorie_association">Catégorie de l'association<span> *</span></label><br>
+      <select id="categorie_association" formControlName="categorie" required>
+        <option value="" disabled selected>Sélectionner une catégorie</option>
+        <option value="humanitaire">Humanitaire</option>
+        <option value="environnement">Environnement</option>
+        <option value="santé">Santé</option>
+        <option value="éducation">Éducation</option>
+        <option value="enfance">Enfance</option>
+        <option value="animaux">Animaux</option>
+        <option value="autres">Autres</option>
+      </select>
+      </div>
         
      
       <div>
@@ -44,11 +74,12 @@
         Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
       </div>
       <div *ngIf="showSuccessMessage" class="success-message">
-        Informations modifiées avec succès ! 
-       
+        Les modifications apportées sont attentes d'approbation. Une notification vous sera envoyée une fois que les modifications sont approuvées.       
+      </div>
+      <div *ngIf="isModificationDemandPending" class="disabled-notification">
+        Les modifications apportées le <strong>{{ modificationDate }}</strong> sont en attente d'approbation. Une notification vous sera envoyée une fois que les modifications sont approuvées.       
       </div>
       
-  
       <button type="submit" class="btn_modifier" (click)="onSubmit()">Modifier</button>
     </form>
   </div>

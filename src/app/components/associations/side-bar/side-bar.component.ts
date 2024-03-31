@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Association } from 'src/app/interfaces/association';
 import { Collecte } from 'src/app/interfaces/collecte';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { CollecteService } from 'src/app/services/collecte.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 

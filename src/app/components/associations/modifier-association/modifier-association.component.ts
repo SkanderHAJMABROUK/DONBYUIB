@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from 'src/app/interfaces/association';
+
 @Component({
   selector: 'app-modifier-association',
   templateUrl: './modifier-association.component.html',
@@ -15,69 +16,90 @@ export class ModifierAssociationComponent {
   showPassword: boolean = false;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-  protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
-
+  isModificationDemandPending: boolean = false; // Flag to indicate if modification demand is pending
 
   constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router, private route:ActivatedRoute) {}
 
+  modificationDate: string | undefined;
 
   association!:Association
   associationId!:string
 
+  protected aFormGroup: FormGroup = this.formBuilder.group({
+    nom: ['', Validators.required],
+    description: ['', Validators.required],
+    adresse: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+    rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
+    categorie: ['', Validators.required]
+  });
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.associationId= params['id']; // Obtenir l'ID de l'association depuis les paramètres de l'URL
+      this.associationId= params['id']; // Obtain association ID from URL parameters
       
+      // Check if modification demand is pending for this association
+      this.service.checkPendingModificationDemand(this.associationId).subscribe(isPending => {
+        this.isModificationDemandPending = isPending;
+        this.initializeForm();
+        this.service.getModificationDateByAssociationId(this.associationId).subscribe(modificationDate => {
+        this.modificationDate = modificationDate;
+        });
+      });
+
       this.service.getAssociationById(this.associationId).subscribe(association => {
         if (association) {
-          this.association = association; // Sauvegarder les données de l'association
-          this.initializeForm(); // Initialiser le formulaire une fois que les données sont chargées
+          this.association = association; // Save association data
+          this.initializeForm(); // Initialize form once data is loaded
         } else {
-          console.error('Aucune association trouvée avec cet ID :', this.associationId);
-          // Gérer le cas où aucune association n'est trouvée avec cet ID
+          console.error('No association found with this ID:', this.associationId);
+          // Handle case where no association is found with this ID
         }
       });
     });
+    
   }
 
   initializeForm(): void {
     this.aFormGroup = this.formBuilder.group({
-      description: [this.association?.description || '', Validators.required], // Remplir la description de l'association
-      email: [this.association?.email || '', [Validators.required, Validators.email]], // Remplir l'email de l'association
-      telephone: [this.association?.telephone || '', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]], // Remplir le téléphone de l'association
-      rib: [this.association?.rib || '', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]] // Remplir le RIB de l'association
+      nom: [{ value: this.association?.nom || '', disabled: this.isModificationDemandPending }, Validators.required],
+      description: [{ value: this.association?.description || '', disabled: this.isModificationDemandPending }, Validators.required],
+      adresse: [{ value: this.association?.adresse || '', disabled: this.isModificationDemandPending }, Validators.required],
+      email: [{ value: this.association?.email || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.email]],
+      telephone: [{ value: this.association?.telephone || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      rib: [{ value: this.association?.rib || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
+      categorie: [{ value: this.association?.categorie || '', disabled: this.isModificationDemandPending }, Validators.required],
     });
   }
-
-  
  
   async onSubmit(): Promise<void>{
-    console.log("Fonction onSubmit() appelée");
+    console.log("onSubmit() function called");
+    
+    // Check if modification demand is pending
+    if (this.isModificationDemandPending) {
+      this.showSuccessMessage = false;
+      console.log("existe");
+      return; // Exit function if modification demand is pending
+    }
+    
     if (this.aFormGroup.valid) {
-      console.log("Formulaire valide");
+      console.log("Form is valid");
 
       await this.service.modifierAssociation(this.associationId, { ...this.aFormGroup.value })
         .then(() => {
-          console.log('Données de l\'association modifiées avec succès dans Firebase Firestore.');
-                    this.showSuccessMessage = true;
-                    window.location.reload();
-
+          console.log('Association data modified successfully in Firebase Firestore.');
+          this.showSuccessMessage = true;
         })
         .catch(error => {
-          console.error('Erreur lors de la modification des données de l\'association dans Firebase Firestore:', error);
+          console.error('Error modifying association data in Firebase Firestore:', error);
         });
     } else {
       this.showErrorNotification = true;
-      console.log("Formulaire invalide");
-      // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
+      console.log("Form is invalid");
+      // Display error message or perform other actions to handle validation errors
     }
   }
-
- 
-
-  
-  
- 
 }

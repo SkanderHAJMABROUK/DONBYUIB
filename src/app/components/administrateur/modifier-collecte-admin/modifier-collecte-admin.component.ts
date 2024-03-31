@@ -4,7 +4,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { CollecteService } from 'src/app/services/collecte.service';
 
 @Component({

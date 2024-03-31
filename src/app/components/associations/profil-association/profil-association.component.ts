@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AssociationService } from '../../../services/associationService.service';
+import { AssociationService } from '../../../services/association.service';
 
 
 @Component({

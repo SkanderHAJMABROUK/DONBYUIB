@@ -5,7 +5,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { sha256 } from 'js-sha256';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-ajouter-association-admin',

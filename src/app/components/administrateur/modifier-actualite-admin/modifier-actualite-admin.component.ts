@@ -4,7 +4,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Actualite } from 'src/app/interfaces/actualite';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-modifier-actualite-admin',

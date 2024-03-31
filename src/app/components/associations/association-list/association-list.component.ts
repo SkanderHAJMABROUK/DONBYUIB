@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Association } from '../../../interfaces/association';
-import { AssociationService } from '../../../services/associationService.service';
+import { AssociationService } from '../../../services/association.service';
 import { faSuitcaseMedical, faEarthAfrica , faGraduationCap , faBaby , faPaw , faHandshakeAngle , faHandHoldingDollar} from '@fortawesome/free-solid-svg-icons';
 
 

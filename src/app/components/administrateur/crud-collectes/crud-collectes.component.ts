@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { CollecteService } from 'src/app/services/collecte.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { Observable, map } from 'rxjs';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 
