@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule , ReactiveFormsModule } from '@angular/forms';
+import { FormsModule  } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeadBarComponent } from './components/head-bar/head-bar.component';
@@ -74,6 +75,7 @@ import { DemandeAssociationDetailsComponent } from './components/administrateur/
 import { DemandeActualiteDetailsComponent } from './components/administrateur/demande-actualite-details/demande-actualite-details.component';
 import { DemandeCollecteDetailsComponent } from './components/administrateur/demande-collecte-details/demande-collecte-details.component';
 import { DemandeModificationAssociationComponent } from './components/administrateur/demande-modification-association/demande-modification-association.component';
+import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -151,7 +153,9 @@ const firebaseConfig = {
     ],
   imports: [
     CommonModule,
+    HttpClientModule,
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     AngularFirestoreModule,
     FontAwesomeModule,
@@ -173,9 +177,7 @@ const firebaseConfig = {
       {path:'admin',component:LoginAdminComponent},
       {path:'admin/profil/:id',component:ProfilAdminComponent},
 
-
-
-
+      {path:'chatbot',component:ChatDialogComponent},
 
 
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
