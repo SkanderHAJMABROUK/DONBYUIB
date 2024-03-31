@@ -49,6 +49,14 @@ ngOnInit(): void {
 askGpt(){
   let url ="https://api.openai.com/v1/chat/completions";
   let httpHeaders=new HttpHeaders().set("Authorization","Bearer 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");
+  
+  // Réinitialiser la liste de messages
+  this.messages = [{
+    role: "system",
+    content: "You are a helpful assistant"
+  }];
+
+  
   this.messages.push({
     role:"user",content:this.queryFormGroup.value.query
   })

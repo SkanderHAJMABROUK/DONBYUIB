@@ -75,7 +75,6 @@ import { DemandeAssociationDetailsComponent } from './components/administrateur/
 import { DemandeActualiteDetailsComponent } from './components/administrateur/demande-actualite-details/demande-actualite-details.component';
 import { DemandeCollecteDetailsComponent } from './components/administrateur/demande-collecte-details/demande-collecte-details.component';
 import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
-
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
   authDomain: "donbyuib.firebaseapp.com",
@@ -133,7 +132,7 @@ const firebaseConfig = {
     ModifierCollecteAdminComponent,
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
- 
+    ChatDialogComponent,
     DemandesAssociationsComponent,
 
     AjouterActualiteAdminComponent,
