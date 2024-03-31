@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actualite } from 'src/app/interfaces/actualite';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { Observable, map } from 'rxjs';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 

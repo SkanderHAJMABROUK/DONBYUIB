@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Router} from '@angular/router';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { Association } from 'src/app/interfaces/association';
 import { CookieService } from 'ngx-cookie-service';
 import { DonateurService } from 'src/app/services/donateur.service';

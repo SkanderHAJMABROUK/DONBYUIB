@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActualiteService } from '../../../services/actualite.service';
 import { Router } from '@angular/router';
-import { AssociationService } from '../../../services/associationService.service';
+import { AssociationService } from '../../../services/association.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({

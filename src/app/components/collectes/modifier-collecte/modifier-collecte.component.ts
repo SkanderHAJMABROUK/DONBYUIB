@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { CollecteService } from 'src/app/services/collecte.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Collecte } from 'src/app/interfaces/collecte';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 

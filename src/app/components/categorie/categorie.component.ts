@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
-import { AssociationService } from '../../services/associationService.service';
+import { AssociationService } from '../../services/association.service';
 import { Association } from '../../interfaces/association';
 import { faBaby, faEarthAfrica, faGraduationCap, faHandshakeAngle, faPaw, faSuitcaseMedical } from '@fortawesome/free-solid-svg-icons';
 

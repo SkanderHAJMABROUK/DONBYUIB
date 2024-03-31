@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/f
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { CollecteService } from 'src/app/services/collecte.service';
 
 @Component({

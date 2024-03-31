@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 import { Router } from '@angular/router';
 import { sha256 } from 'js-sha256';

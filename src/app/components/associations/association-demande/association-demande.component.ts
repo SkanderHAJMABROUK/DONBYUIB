@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from '../../../interfaces/association';
-import { AssociationService } from '../../../services/associationService.service';
+import { AssociationService } from '../../../services/association.service';
 import { faSquarePhone, faAt} from '@fortawesome/free-solid-svg-icons';
 import { Options } from 'ngx-slider-v2';
 import { PaymentService } from 'src/app/services/payment.service';

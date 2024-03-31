@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { Donateur } from 'src/app/interfaces/donateur';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { AssociationService } from 'src/app/services/associationService.service';
+import { AssociationService } from 'src/app/services/association.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 
 @Component({

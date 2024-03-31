@@ -11,7 +11,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { AssociationService } from './associationService.service';
+import { AssociationService } from './association.service';
 import { sha256 } from 'js-sha256';
 import { Commentaire } from '../interfaces/commentaire';
 

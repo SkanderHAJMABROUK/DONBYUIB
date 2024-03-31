@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CollecteService } from '../../../services/collecte.service';
-import { AssociationService } from '../../../services/associationService.service';
+import { AssociationService } from '../../../services/association.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-ajouter-collecte',

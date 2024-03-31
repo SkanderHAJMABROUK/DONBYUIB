@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 
-import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, collectionData } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
 import { Observable, catchError, from, map, of, tap, throwError } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
 import { DemandeAssociation } from '../interfaces/demande-association';
+import { DemandeModificationAssociation } from '../interfaces/demande-modification-association';
 
 
 @Injectable({
@@ -166,6 +167,75 @@ export class AssociationService {
     );
   }
 
+  getDemandesModificationsAssociations(): Observable<DemandeModificationAssociation[]> {
+    let demandeModificationAssociationCollection = collection(this.fs, 'DemandeModificationAssociation');
+    return collectionData(demandeModificationAssociationCollection, { idField: 'id' }).pipe(
+      map((demandeModificationAssociation: any[]) => {
+        return demandeModificationAssociation.map(demandeModificationAssociation => ({
+          id: demandeModificationAssociation.id,
+          id_association : demandeModificationAssociation.id_association,
+          nom : demandeModificationAssociation.nom,
+          description : demandeModificationAssociation.description,
+          email : demandeModificationAssociation.email,
+          telephone : demandeModificationAssociation.telephone,
+          rib : demandeModificationAssociation.rib,
+          adresse : demandeModificationAssociation.adresse,
+          categorie : demandeModificationAssociation.categorie,
+          etat : demandeModificationAssociation.etat,
+          date : demandeModificationAssociation.date instanceof Timestamp ? demandeModificationAssociation.date.toDate() : demandeModificationAssociation.date,
+        }));
+      })
+    );
+  }
+
+
+  getPendingDemandesModificationsAssociations(): Observable<DemandeModificationAssociation[]> {
+    let demandeModificationAssociationCollection = collection(this.fs, 'DemandeModificationAssociation');
+    return collectionData(demandeModificationAssociationCollection, { idField: 'id' }).pipe(
+      map((demandeModificationAssociation: any[]) => {
+        return demandeModificationAssociation
+        .filter(demandeModificationAssociation => demandeModificationAssociation.etat === 'en_attente') 
+        .map(demandeModificationAssociation => ({
+          id: demandeModificationAssociation.id,
+          id_association : demandeModificationAssociation.id_association,
+          nom : demandeModificationAssociation.nom,
+          description : demandeModificationAssociation.description,
+          email : demandeModificationAssociation.email,
+          telephone : demandeModificationAssociation.telephone,
+          rib : demandeModificationAssociation.rib,
+          adresse : demandeModificationAssociation.adresse,
+          categorie : demandeModificationAssociation.categorie,
+          etat : demandeModificationAssociation.etat,
+          date : demandeModificationAssociation.date instanceof Timestamp ? demandeModificationAssociation.date.toDate() : demandeModificationAssociation.date,
+        }));
+      })
+    );
+  }
+
+  getAcceptedDemandesModificationsAssociations(): Observable<DemandeModificationAssociation[]> {
+    let demandeModificationAssociationCollection = collection(this.fs, 'DemandeModificationAssociation');
+    return collectionData(demandeModificationAssociationCollection, { idField: 'id' }).pipe(
+      map((demandeModificationAssociation: any[]) => {
+        return demandeModificationAssociation
+        .filter(demandeModificationAssociation => demandeModificationAssociation.etat === 'accepté') 
+        .map(demandeModificationAssociation => ({
+          id: demandeModificationAssociation.id,
+          id_association : demandeModificationAssociation.id_association,
+          nom : demandeModificationAssociation.nom,
+          description : demandeModificationAssociation.description,
+          email : demandeModificationAssociation.email,
+          telephone : demandeModificationAssociation.telephone,
+          rib : demandeModificationAssociation.rib,
+          adresse : demandeModificationAssociation.adresse,
+          categorie : demandeModificationAssociation.categorie,
+          etat : demandeModificationAssociation.etat,
+          date : demandeModificationAssociation.date instanceof Timestamp ? demandeModificationAssociation.date.toDate() : demandeModificationAssociation.date,
+        }));
+      })
+    );
+  }
+
+
   getAssociationById(id: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map(associations => associations.find(association => association.id === id))
@@ -296,12 +366,29 @@ async addAssociationAndDemande(associationData: Association) {
   
 
 modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): Promise<void> {
-  const updatedAssociationData = {
-    ...associationDataToUpdate,
-    etat: "modification"
+  // Création de l'objet DemandeModificationAssociation
+  const demandeModification: DemandeModificationAssociation = {
+    id_association: id,
+    nom: associationDataToUpdate.nom || '',
+    description: associationDataToUpdate.description || '',
+    email: associationDataToUpdate.email || '',
+    telephone: associationDataToUpdate.telephone || '',
+    rib: associationDataToUpdate.rib || '',
+    adresse: associationDataToUpdate.adresse || '',
+    categorie: associationDataToUpdate.categorie || '',
+    etat:'en_attente',
+    date: new Date()
   };
-  const associationRef = this.firestore.collection('Association').doc(id);
-  return associationRef.update(updatedAssociationData);
+
+  // Ajout de l'objet DemandeModificationAssociation dans la collection 'DemandeModificationAssociation'
+  return this.firestore.collection('DemandeModificationAssociation').add(demandeModification)
+    .then(() => {
+      console.log('Demande de modification ajoutée avec succès.');
+    })
+    .catch(error => {
+      console.error('Erreur lors de l\'ajout de la demande de modification :', error);
+      throw new Error('Erreur lors de l\'ajout de la demande de modification.');
+    });
 }
 
 async isAssociationActive(association: Association): Promise<boolean> {
@@ -430,4 +517,36 @@ deleteAssociationById(id: string): Promise<void> {
   return associationRef.delete();
 }
   
+checkPendingModificationDemand(associationId: string): Observable<boolean> {
+  return this.firestore.collection<DemandeModificationAssociation>('DemandeModificationAssociation', ref =>
+    ref.where('id_association', '==', associationId).where('etat', '==', 'en_attente')
+  ).valueChanges().pipe(
+    map(demands => demands.length > 0) // Si la longueur des demandes en attente est supérieure à 0, retourne true, sinon false
+  );
+}
+
+getModificationDateByAssociationId(associationId: string): Observable<string | undefined> {
+  return this.firestore.collection<DemandeModificationAssociation>('DemandeModificationAssociation', ref =>
+    ref.where('id_association', '==', associationId).where('etat', '==', 'en_attente')
+  ).valueChanges().pipe(
+    map(demands => {
+      if (demands.length > 0) {
+        // Récupérer la date de la première demande en attente
+        const modificationDate = demands[0].date instanceof Timestamp ? demands[0].date.toDate() : demands[0].date;
+
+        // Formater la date au format dd/mm/yyyy
+        const day = modificationDate.getDate().toString().padStart(2, '0');
+        const month = (modificationDate.getMonth() + 1).toString().padStart(2, '0'); // Notez que getMonth() retourne les mois de 0 à 11
+        const year = modificationDate.getFullYear();
+
+        // Concaténer les éléments pour former la date au format dd/mm/yyyy
+        return `${day}/${month}/${year}`;
+      } else {
+        return undefined;
+      }
+    })
+  );
+}
+
+
 }
