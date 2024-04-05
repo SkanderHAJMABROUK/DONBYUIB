@@ -18,7 +18,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Publiée par</th>
           <th>Publiée le</th>
 
@@ -26,25 +25,22 @@
       </thead>
       <tbody>
         <tr *ngFor="let demande of filteredDemandeModificationAssociationList">
-          <td>{{ demande.id }}</td>
+          
           <td>{{ getAssociationNameById(demande.id_association) }}</td>
-          <td>{{ demande.date }}</td>
-
+            <td>{{ demande.date }}</td>               
           <td>
             <div class="crud-buttons">
                
-            <button class="action-button add-button"><fa-icon [icon]="faCheck"></fa-icon></button>
-             
-            <button class="action-button refuse-button"> <fa-icon [icon]="faXmark"></fa-icon>
-            </button>
-              <button class="action-button view-button"><fa-icon [icon]="faList"></fa-icon></button>
+              <button class="action-button view-button" (click)="afficherModifications(demande)">Consulter</button>
+              <app-modification-association-details *ngIf="this.adminService.demandeModificationAssociationDetails" 
+              [demande]="selectedDemandeModificationAssociation">
+              </app-modification-association-details>
 
-               </div>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
-
   
     <div class="pages">
       <div class="pagination">
@@ -63,4 +59,7 @@
           </select>
       </div>
     </div>
+
+
+
   </div>

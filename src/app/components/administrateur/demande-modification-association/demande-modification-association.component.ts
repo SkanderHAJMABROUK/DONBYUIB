@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DemandeModificationAssociation } from 'src/app/interfaces/demande-modification-association';
 import { AssociationService } from 'src/app/services/association.service';
-import { faList, faCheck, faXmark, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import { faEye, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators'; 
+import { Association } from 'src/app/interfaces/association';
 
 @Component({
   selector: 'app-demande-modification-association',
@@ -18,9 +19,7 @@ export class DemandeModificationAssociationComponent {
 
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
-  faList = faList;
-  faCheck = faCheck;
-  faXmark = faXmark;
+  faEye = faEye;
   
   associationsNames: string[] = [];
   selectedAssociation: string = '';
@@ -35,12 +34,16 @@ export class DemandeModificationAssociationComponent {
   selectedPageSize: string = '10'; 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
 
+  modifiedFields: { label: string, oldValue: any, newValue: any }[] = [];
+
+
   constructor(private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore, private associationService: AssociationService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
     this.getDemandes();
+    this.adminService.demandeModificationAssociationDetails=false;
   }
 
   getDemandes(): void {
@@ -71,6 +74,9 @@ export class DemandeModificationAssociationComponent {
     default:
       break;
   }
+
+  this.modifiedFields = [];
+
   }
 
   onPageChange(page: number): void {
@@ -133,6 +139,18 @@ export class DemandeModificationAssociationComponent {
     } else {
       return 'Association not found';
     }
-  }    
+  }  
 
+  afficherModifications(demande: DemandeModificationAssociation) {
+    if(demande.id){
+    this.associationService.getDemandeModificationAssociationById(demande.id).subscribe((response) => {
+      this.selectedDemandeModificationAssociation = response!;
+      this.adminService.demandeModificationAssociationDetails = true;
+      console.log(response);
+    });
+  }
+}
+
+   
+  
 }

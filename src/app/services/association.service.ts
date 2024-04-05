@@ -248,6 +248,12 @@ export class AssociationService {
     );
   }
 
+  getDemandeModificationAssociationById(id: string): Observable<DemandeModificationAssociation | undefined> {
+    return this.getDemandesModificationsAssociations().pipe(
+      map(associations => associations.find(association => association.id === id))
+    );
+  }
+
   getAssociationNameById(id: string): Observable<string | undefined> {
     return this.getAssociationById(id).pipe(
       map(association => association?.nom)
@@ -548,5 +554,11 @@ getModificationDateByAssociationId(associationId: string): Observable<string | u
   );
 }
 
+updateAssociationField(id: string, fieldName: keyof Partial<Association>, newValue: any): Promise<void> {
+  const associationRef = this.firestore.collection('Association').doc(id);
+  const updatedField: Partial<Association> = {};
+  updatedField[fieldName] = newValue;
+  return associationRef.update(updatedField);
+}
 
 }

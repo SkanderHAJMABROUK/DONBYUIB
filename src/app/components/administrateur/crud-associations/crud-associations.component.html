@@ -15,7 +15,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Logo</th>
           <th>Nom</th>
           <th>Catégorie</th>
@@ -29,7 +28,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let association of filteredAssociationList">
-          <td>{{ association.id }}</td>
           <td><img [src]="association.logo" alt="Logo" class="donateur-photo" (click)="afficherImage(association.logo)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ association.nom }}</td>
           <td>{{ association.categorie }}</td>

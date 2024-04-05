@@ -15,7 +15,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Photo de profil</th>
           <th>Nom</th>
           <th>Prénom</th>
@@ -27,7 +26,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let donateur of filteredDonateurList">
-          <td>{{ donateur.id }}</td>
           <td><img [src]="donateur.photo" alt="Photo du donateur" class="donateur-photo" (click)="afficherImage(donateur.photo)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ donateur.nom }}</td>
           <td>{{ donateur.prenom }}</td>

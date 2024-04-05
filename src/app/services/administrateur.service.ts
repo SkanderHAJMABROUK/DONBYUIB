@@ -15,6 +15,7 @@ import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
 import { AssociationService } from './association.service';
 import { Admin } from '../interfaces/admin';
+import { DemandeModificationAssociation } from '../interfaces/demande-modification-association';
 
 @Injectable({
   providedIn: 'root'
@@ -48,18 +49,19 @@ export class AdministrateurService {
   crudActualites:boolean = false;
 
   demandeModificationAssociation:boolean = false;
+  demandeModificationAssociationDetails:boolean = false;
 
 
   id!:string|null;
 
 
 
-  constructor(private fs:Firestore,public serviceAssociation:AssociationService,private firestore:AngularFirestore,private route:Router) { }
+  constructor(private fs:Firestore,public associationService:AssociationService,private firestore:AngularFirestore,private route:Router) { }
 
   addAssociation(associationData: Association) {
 
     // Génération du sel
-    const salt: string = this.serviceAssociation.generateSalt(16);
+    const salt: string = this.associationService.generateSalt(16);
     // Hachage du mot de passe avec salage
     const hashedPassword: string = sha256(associationData.mdp+salt).toString();
 
@@ -131,6 +133,5 @@ logIn(login: string, password: string): Observable<boolean> {
     })
   );
 }
-
 
 }

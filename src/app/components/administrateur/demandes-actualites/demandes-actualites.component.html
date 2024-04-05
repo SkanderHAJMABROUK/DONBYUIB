@@ -18,7 +18,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Image</th>
           <th>Publiée par</th>
           <th>Titre</th>
@@ -28,7 +27,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let actualite of filteredDemandeActualiteList">
-          <td>{{ actualite.id }}</td>
           <td><img [src]="actualite.image" alt="Logo" class="donateur-photo" (click)="afficherImage(actualite.image)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ getAssociationNameById(actualite.id_association) }}</td>
           <td>{{ actualite.titre }} </td>

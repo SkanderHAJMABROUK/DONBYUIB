@@ -76,6 +76,7 @@ import { DemandeActualiteDetailsComponent } from './components/administrateur/de
 import { DemandeCollecteDetailsComponent } from './components/administrateur/demande-collecte-details/demande-collecte-details.component';
 import { DemandeModificationAssociationComponent } from './components/administrateur/demande-modification-association/demande-modification-association.component';
 import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
+import { ModificationAssociationDetailsComponent } from './components/administrateur/modification-association-details/modification-association-details.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -134,7 +135,7 @@ const firebaseConfig = {
     ModifierCollecteAdminComponent,
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
- 
+    ModificationAssociationDetailsComponent ,
     DemandesAssociationsComponent,
 
     AjouterActualiteAdminComponent,
@@ -148,8 +149,7 @@ const firebaseConfig = {
     DemandeActualiteDetailsComponent,
     DemandeCollecteDetailsComponent,
     DemandeModificationAssociationComponent,
-    ChatDialogComponent
-    
+    ChatDialogComponent,
   
     ],
   imports: [

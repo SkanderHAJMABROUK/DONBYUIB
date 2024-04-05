@@ -47,16 +47,6 @@ h1 {
     margin: 15px 15px 15px 0; /* Ajustez la marge droite pour aligner correctement avec les autres éléments */
     vertical-align: middle; /* Ajustez l'alignement vertical */
 }
-
-
-
-.donateur-photo {
-    width: 80px; /* Taille limitée de l'image */
-    height: 80px;
-    border-radius: 10%; /* Bordure arrondie pour l'image */
-    object-fit: cover; /* Remplir l'espace en gardant les proportions */
-    cursor: pointer;
-  }
   
 
 table {
@@ -95,14 +85,6 @@ table td {
 .action-button  {
     font-size: 16px;
     color: #000;
-}
-
-.refuse-button  {
-    color: #FF2D00 ;
-}
-
-.add-button  {
-    color: #1E8449;
 }
 
 .view-button  {

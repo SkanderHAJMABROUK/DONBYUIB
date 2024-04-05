@@ -18,7 +18,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Image</th>
           <th>Publiée par</th>
           <th>Nom</th>
@@ -30,7 +29,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let collecte of filteredDemandeCollecteList">
-          <td>{{ collecte.id }}</td>
           <td><img [src]="collecte.image" alt="Logo" class="donateur-photo" (click)="afficherImage(collecte.image)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ getAssociationNameById(collecte.id_association) }}</td>
           <td>{{ collecte.nom }} </td>

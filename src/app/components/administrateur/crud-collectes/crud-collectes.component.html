@@ -33,7 +33,6 @@
     <table>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Image</th>
           <th>Nom</th>
           <th>Montant</th>
@@ -45,7 +44,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let collecte of filteredCollecteList">
-          <td>{{ collecte.id }}</td>
           <td><img [src]="collecte.image" alt="Logo" class="donateur-photo" (click)="afficherImage(collecte.image)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ collecte.nom }}</td>
           <td>{{ collecte.montant }}</td>
