@@ -136,8 +136,8 @@ const firebaseConfig = {
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
     ModificationAssociationDetailsComponent ,
+    ChatDialogComponent,
     DemandesAssociationsComponent,
-
     AjouterActualiteAdminComponent,
     AjouterCollecteAdminComponent,
     LoginAdminComponent,
