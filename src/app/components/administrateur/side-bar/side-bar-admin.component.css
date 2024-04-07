@@ -1,5 +1,5 @@
 
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 * {
     margin: 0;
@@ -13,8 +13,7 @@ body {
     background-position: center;
     background-size: cover;
 }
-
-
+  
 
 .sidebar {
     position: relative;
@@ -80,7 +79,7 @@ body {
 
 .links li:hover {
     cursor: pointer;
-    background: #fff;
+    background: #00000006;    
 }
 
 .links h4 {
@@ -103,9 +102,14 @@ body {
     border-color: transparent;
 }
 
-.links li span {
+/* .links li span {
     padding: 12px 10px;
+} */
+
+.links li {
+    padding: 8px 8px;
 }
+
 
 .links li a {
     padding: 10px;
@@ -123,3 +127,5 @@ body {
 .links .logout-link {
     margin-top: 20px;
 }
+
+  

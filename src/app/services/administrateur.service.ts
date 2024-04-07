@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 
-import { DocumentData, DocumentSnapshot, Firestore, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
-import { Observable, catchError, from, map, of, throwError } from 'rxjs';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Observable, catchError, map, of } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
 import { HttpClient } from '@angular/common/http';
@@ -15,7 +13,6 @@ import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
 import { AssociationService } from './association.service';
 import { Admin } from '../interfaces/admin';
-import { DemandeModificationAssociation } from '../interfaces/demande-modification-association';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +48,9 @@ export class AdministrateurService {
   demandeModificationAssociation:boolean = false;
   demandeModificationAssociationDetails:boolean = false;
 
+  demandeCollectesCount: number = 0;
+  demandeAssociationsCount: number = 0;
+  demandeActualitesCount: number = 0;
 
   id!:string|null;
 
@@ -133,5 +133,54 @@ logIn(login: string, password: string): Observable<boolean> {
     })
   );
 }
+
+async getPendingDemandeCollectesCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeCollecte', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+    
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error fetching pending demande collectes count:', error);
+    return 0;
+  }
+}
+
+async getPendingDemandeActualitesCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeActualite', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error fetching pending demande collectes count:', error);
+    return 0;
+  }
+}
+
+async getPendingDemandeAssociationsCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeAssociation', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+    
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error fetching pending demande collectes count:', error);
+    return 0;
+  }
+}
+
 
 }

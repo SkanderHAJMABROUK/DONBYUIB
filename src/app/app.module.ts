@@ -77,6 +77,8 @@ import { DemandeCollecteDetailsComponent } from './components/administrateur/dem
 import { DemandeModificationAssociationComponent } from './components/administrateur/demande-modification-association/demande-modification-association.component';
 import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
 import { ModificationAssociationDetailsComponent } from './components/administrateur/modification-association-details/modification-association-details.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -167,6 +169,8 @@ const firebaseConfig = {
     NgxSliderModule,
     NgxSpinnerModule,
     CarouselModule,
+    MatBadgeModule,
+    MatIconModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
@@ -208,10 +212,6 @@ const firebaseConfig = {
     
 
       {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
-
-      
-
-
 
     ])
   ],

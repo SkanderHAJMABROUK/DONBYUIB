@@ -79,8 +79,11 @@
       <div *ngIf="isModificationDemandPending" class="disabled-notification">
         Les modifications apportées le <strong>{{ modificationDate }}</strong> sont en attente d'approbation. Une notification vous sera envoyée une fois que les modifications sont approuvées.       
       </div>
+      <div *ngIf="aucunChangement" class="disabled-notification">
+        Aucun changement n'a été effectué! Veuillez vérifier avant de soumettre.
+      </div>
       
-      <button type="submit" class="btn_modifier" (click)="onSubmit()">Modifier</button>
+      <button type="submit" class="btn_modifier" [ngClass]="{ 'disabled': aFormGroup.pristine }" (click)="aFormGroup.pristine || onSubmit()">Modifier</button>
     </form>
   </div>
   

@@ -98,7 +98,7 @@ select:focus{
         text-decoration: none;
         display: block;
         margin: 0 auto;
-        margin-left: 80%;
+        margin-left: 87%;
         margin-top: 5%;
         cursor: pointer;
         border-radius: 10px;
@@ -177,4 +177,9 @@ select:focus{
     cursor: pointer;
     padding-top: 2.5%;
 }
+.disabled {
+    pointer-events: none;
+    background-color: #65676a89;
+  }
+  
 

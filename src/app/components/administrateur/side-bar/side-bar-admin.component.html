@@ -1,7 +1,6 @@
 <link
   rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-/>
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 
 
   <body>
@@ -111,7 +110,14 @@
           service.demandeModificationAssociationDetails=false">Ajouter une association</a>
         </li>
         <li>
-          <span class="material-symbols-outlined">data_check</span>
+          <mat-icon class="material-symbols-outlined"
+          [matBadge]="service.demandeAssociationsCount"
+          matBadgeColor="warn" 
+          aria-hidden="false" 
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeAssociationsCount == 0">
+            data_check
+          </mat-icon>
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
           service.crudAssociations=false;
@@ -125,7 +131,9 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Demandes d'habilitation</a>
+          service.demandeModificationAssociationDetails=false">Demandes d'habilitation    
+          
+        </a>          
         </li>
         <li>
           <span class="material-symbols-outlined">
@@ -184,7 +192,14 @@
           service.demandeModificationAssociationDetails=false">Ajouter une collecte</a>
         </li>
         <li>
-          <span class="material-symbols-outlined">data_check</span>
+          <mat-icon class="material-symbols-outlined"
+          [matBadge]="service.demandeCollectesCount"
+          matBadgeColor="warn" 
+          aria-hidden="false" 
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeCollectesCount == 0">
+            data_check
+          </mat-icon>
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
           service.crudAssociations=false;
@@ -200,7 +215,6 @@
           service.demandeModificationAssociation=false;
           service.demandeModificationAssociationDetails=false">Demandes de collectes</a>
         </li>
-        
         
         <hr>
         <h4>Actualités</h4>
@@ -239,7 +253,14 @@
           service.demandeModificationAssociationDetails=false">Ajouter une actualité</a>
         </li>
         <li>
-          <span class="material-symbols-outlined">data_check</span>
+          <mat-icon class="material-symbols-outlined"
+          [matBadge]="service.demandeActualitesCount"
+          matBadgeColor="warn" 
+          aria-hidden="false" 
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeActualitesCount == 0">
+            data_check
+          </mat-icon>
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
           service.crudAssociations=false;

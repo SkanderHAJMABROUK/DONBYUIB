@@ -98,12 +98,12 @@
 }
 
 .accept-button {
-    background-color: #239b57bc; /* Couleur de fond verte */
+    background-color: #0e4626; /* Couleur de fond verte */
     color: white; /* Couleur du texte blanc */
 }
 
 .reject-button {
-    background-color: #ff1414bb; /* Couleur de fond rouge */
+    background-color: #9f0000; /* Couleur de fond rouge */
     color: white; /* Couleur du texte blanc */
 }
 

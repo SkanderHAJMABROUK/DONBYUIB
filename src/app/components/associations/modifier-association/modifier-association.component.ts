@@ -18,7 +18,7 @@ export class ModifierAssociationComponent {
   faEyeSlash = faEyeSlash;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
-  isModificationDemandPending: boolean = false; // Flag to indicate if modification demand is pending
+  isModificationDemandPending: boolean = false;
 
   constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router, private route:ActivatedRoute) {}
 
@@ -26,6 +26,9 @@ export class ModifierAssociationComponent {
 
   association!:Association
   associationId!:string
+  isFormModified: boolean = false;
+  aucunChangement: boolean = false;
+  initialValues: any; 
 
   protected aFormGroup: FormGroup = this.formBuilder.group({
     nom: ['', Validators.required],
@@ -36,6 +39,7 @@ export class ModifierAssociationComponent {
     rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
     categorie: ['', Validators.required]
   });
+
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -60,6 +64,10 @@ export class ModifierAssociationComponent {
         }
       });
     });
+
+    this.aFormGroup.valueChanges.subscribe(() => {
+      this.isFormModified = !this.aFormGroup.pristine; // Set flag based on form state
+    });
     
   }
 
@@ -73,16 +81,23 @@ export class ModifierAssociationComponent {
       rib: [{ value: this.association?.rib || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
       categorie: [{ value: this.association?.categorie || '', disabled: this.isModificationDemandPending }, Validators.required],
     });
+    this.initialValues = { ...this.aFormGroup.getRawValue() };
   }
  
   async onSubmit(): Promise<void>{
     console.log("onSubmit() function called");
     
-    // Check if modification demand is pending
+    
     if (this.isModificationDemandPending) {
       this.showSuccessMessage = false;
       console.log("existe");
-      return; // Exit function if modification demand is pending
+      return; 
+    }
+
+     if (JSON.stringify(this.initialValues) === JSON.stringify(this.aFormGroup.getRawValue())) {
+      this.showSuccessMessage = false;
+      this.aucunChangement = true;
+      return;
     }
     
     if (this.aFormGroup.valid) {
@@ -102,4 +117,6 @@ export class ModifierAssociationComponent {
       // Display error message or perform other actions to handle validation errors
     }
   }
-}
+
+  }
+
