@@ -136,8 +136,14 @@
         </a>          
         </li>
         <li>
-          <span class="material-symbols-outlined">
-            settings_account_box</span>
+          <mat-icon class="material-symbols-outlined"
+          [matBadge]="service.demandeModificationAssociationsCount"
+          matBadgeColor="warn" 
+          aria-hidden="false" 
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeModificationAssociationsCount == 0">
+            settings_account_box
+          </mat-icon>
           <a (click)="service.crudUtilisateurs=false;
           service.compte=false;
           service.crudAssociations=false;

@@ -113,7 +113,7 @@ export class InscrireAssociationComponent implements OnInit {
       const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
       const nameExists = await this.service.checkNameExists(this.aFormGroup.value.nom).toPromise();
 
-      if (emailExists) {
+      if (!emailExists) {
 
         if (!nameExists) {
         

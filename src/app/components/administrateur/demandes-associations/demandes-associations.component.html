@@ -40,7 +40,7 @@
           <td><a href="{{association.id_fiscale}}" target="_blank"><span class="material-symbols-outlined">
             file_open
             </span></a></td>
-          <td>{{ association.date }}</td>
+          <td>{{ association.date | date: 'dd/MM/yyyy'}}</td>
           <!-- Nouvelle colonne pour les actions -->
           <td>
             <div class="crud-buttons">

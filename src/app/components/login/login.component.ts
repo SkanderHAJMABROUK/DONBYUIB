@@ -20,6 +20,7 @@ import { Association } from 'src/app/interfaces/association';
 export class LoginComponent {
 
   enAttenteDeVerification:boolean = false;
+  pendingDemandDate: Date | undefined;
 
 
   ngOnInit(): void {
@@ -69,47 +70,39 @@ export class LoginComponent {
   logInAssociation() {
     const email = this.aFormGroup.get('email')?.value;
     const password = this.aFormGroup.get('password')?.value;
-  
-    // Get the salt of the association by email
+
     this.serviceAssociation.getAssociationSaltByEmail(email).subscribe(
       (salt: string | undefined) => {
         if (salt) {
-          // Hash the password with the salt
           const hashedPassword = sha256(password + salt);
-  
-          // Check if the association is active
+
           this.serviceAssociation.getAssociationByEmailAndPassword(email, hashedPassword).subscribe(
             (association: Association | undefined) => {
-              console.log('Retrieved association:', association);
               if (association) {
-                // Check if the association is active
                 this.serviceAssociation.isAssociationActive(association).then((isActive: boolean) => {
                   if (isActive) {
-                    console.log('Association is active.');
-                    // Call the login method with the email and hashed password
                     this.serviceAssociation.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
                       if (loggedIn) {
-                        let message: string = `Successful login attempt of association with email ${email}`;
-                        this.logSignin(message);
-                        console.log('Login successful');
+                        console.log(`Successful login attempt of association with email ${email}`);
                       } else {
-                        let message: string = `Failed login attempt of association with email ${email}`;
-                        this.logSignin(message);
-                        console.log('Login failed');
+                        console.log(`Failed login attempt of association with email ${email}`);
                       }
                     });
                   } else {
-                    // The association is not active, handle it accordingly
-                    this.enAttenteDeVerification = true;
+                    // Check if there is a pending demand for association
+                    this.serviceAssociation.getDemandDateByIdAssociation(association.id || '').subscribe((date: Date | undefined) => {
+                      if (date) {
+                        // There is a pending demand, set the flag and store the date
+                        this.enAttenteDeVerification = true;
+                        this.pendingDemandDate = date;
+                      }
+                    });
                   }
                 }).catch(error => {
                   console.error('Error checking association status:', error);
-                  // Handle error
                 });
               } else {
-                // Handle the case where the association is not found
                 console.error('Association not found for email:', email);
-                // Handle the display or other actions
               }
             },
             (error) => {
@@ -117,7 +110,6 @@ export class LoginComponent {
             }
           );
         } else {
-          // Handle the case where the salt is not found for the given email
           console.error('Salt not found for email:', email);
           this.serviceAssociation.showErrorNotification = true;
         }
@@ -127,7 +119,6 @@ export class LoginComponent {
       }
     );
   }
-  
   
   
   logInDonateur() {

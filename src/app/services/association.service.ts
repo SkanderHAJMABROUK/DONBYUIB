@@ -136,7 +136,7 @@ export class AssociationService {
           rib : demandeAssociation.rib,
           telephone : demandeAssociation.telephone,
           etat : demandeAssociation.etat,
-          date : demandeAssociation.date
+          date : demandeAssociation.date instanceof Timestamp ? demandeAssociation.date.toDate() : demandeAssociation.date
         }));
       })
     );
@@ -161,7 +161,7 @@ export class AssociationService {
           rib : demandeAssociation.rib,
           telephone : demandeAssociation.telephone,
           etat : demandeAssociation.etat,
-          date : demandeAssociation.date
+          date : demandeAssociation.date instanceof Timestamp ? demandeAssociation.date.toDate() : demandeAssociation.date
         }));
       })
     );
@@ -559,6 +559,20 @@ updateAssociationField(id: string, fieldName: keyof Partial<Association>, newVal
   const updatedField: Partial<Association> = {};
   updatedField[fieldName] = newValue;
   return associationRef.update(updatedField);
+}
+
+getDemandDateByIdAssociation(id_association: string): Observable<Date | undefined> {
+  return this.firestore.collection<DemandeAssociation>('DemandeAssociation', ref =>
+    ref.where('id_association', '==', id_association)
+  ).valueChanges().pipe(
+    map(demands => {
+      if (demands.length > 0) {
+        return demands[0].date instanceof Timestamp ? demands[0].date.toDate() : demands[0].date;
+      } else {
+        return undefined; 
+      }
+    })
+  );
 }
 
 }

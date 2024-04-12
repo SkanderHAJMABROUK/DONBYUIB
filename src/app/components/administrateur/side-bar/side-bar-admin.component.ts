@@ -33,6 +33,12 @@ export class SideBarAdminComponent implements OnInit{
       console.error('Error fetching demande associations count:', error);
     });
 
+    this.service.getPendingDemandeModificationAssociationsCount().then(count => {
+      this.service.demandeModificationAssociationsCount = count;
+    }).catch(error => {
+      console.error('Error fetching demande associations count:', error);
+    });
+
    }
 
    logOut() {

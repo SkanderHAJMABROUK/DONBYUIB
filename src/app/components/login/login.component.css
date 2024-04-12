@@ -106,7 +106,6 @@ input:focus {
     padding-top: 2.5%;
 }
 
-
 .error-notification , success-message{
     padding: 10px;
     margin: 10px 0 10px 0;
@@ -116,7 +115,18 @@ input:focus {
     border-radius: 8px;
     text-align: center;
   }
-  select {
+
+  .wait-notification {
+    padding: 10px;
+    margin: 10px 0 10px 0;
+    color: #000000;
+    background-color: #b4b6b8a4;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+select {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;

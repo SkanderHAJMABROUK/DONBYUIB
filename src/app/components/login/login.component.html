@@ -40,8 +40,12 @@
   <div *ngIf="serviceAssociation.showErrorNotification" class="error-notification">
     Adresse e-mail ou mot de passe incorrect !
   </div>
-  <div *ngIf="enAttenteDeVerification" class="error-notification">
-    Le compte ce l'association n'est pas encore approuvé, merci de votre patience!
+  <div class="wait-notification" *ngIf="enAttenteDeVerification">
+    <p>
+      Le compte de l'association n'est pas encore approuvé, merci de votre patience!
+      <br>
+      La demande a été effectuée le <strong>{{ pendingDemandDate | date: 'dd/MM/yyyy' }}</strong>.
+    </p>
   </div>
 
   <button type="submit" class="btn_login">Connexion</button>
