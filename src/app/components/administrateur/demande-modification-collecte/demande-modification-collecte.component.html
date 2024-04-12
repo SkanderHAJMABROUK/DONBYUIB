@@ -1,4 +1,5 @@
 <div class="container">
+
     <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherDemande()" placeholder="Rechercher..." class="search-input">
 
     <label  id="etat-label" for="etat-select">Filtrer par association:</label>
@@ -24,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let demande of filteredDemandeModificationAssociationList">
+        <tr *ngFor="let demande of filteredDemandeModificationCollecteList">
           
           <td>{{ getAssociationNameById(demande.id_association) }}</td>
             <td>{{ demande.date }}</td>               
@@ -32,9 +33,9 @@
             <div class="crud-buttons">
                
               <button class="action-button view-button" (click)="afficherModifications(demande)">Consulter</button>
-              <app-modification-association-details *ngIf="this.adminService.demandeModificationAssociationDetails" 
-              [demande]="selectedDemandeModificationAssociation">
-              </app-modification-association-details>
+              <app-modification-collecte-details *ngIf="this.adminService.demandeModificationCollecteDetails"
+              [demande]="selectedDemandeModificationCollecte">
+              </app-modification-collecte-details>
 
             </div>
           </td>

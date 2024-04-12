@@ -6,6 +6,7 @@ import { Collecte } from 'src/app/interfaces/collecte';
 import { AssociationService } from 'src/app/services/association.service';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DemandeModificationCollecte } from 'src/app/interfaces/demande-modification-collecte';
 
 @Component({
   selector: 'app-modifier-collecte',
@@ -13,38 +14,81 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./modifier-collecte.component.css']
 })
 export class ModifierCollecteComponent {
+
   @Input() collecte!:Collecte;
   collecteForm!: FormGroup;
   faXmark=faXmark;
+  isModificationDemandPending: boolean = false;
+  modificationDate: string | undefined;
+  initialValues: any; 
+  isFormModified: boolean = false;
+  aucunChangement: boolean = false;
+
 
   constructor(public service:CollecteService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,
     private spinner:NgxSpinnerService){}
   
-  ngOnInit(): void {
-    this.collecteForm = this.formBuilder.group({
-      nom: [this.collecte.nom],
-      description: [this.collecte.description],
-      image: [this.collecte.image],
-      montant: [this.collecte.montant],
-      date_debut: [this.collecte.date_debut instanceof Date ? this.collecte.date_debut.toISOString().split('T')[0] : this.collecte.date_debut],
-      date_fin: [this.collecte.date_fin instanceof Date ? this.collecte.date_fin.toISOString().split('T')[0] : this.collecte.date_fin]
-    }, { validator: this.dateFinSupDateDebutValidator });
+    ngOnInit(): void {
+      if (this.collecte.id) {
+          this.service.checkPendingModificationDemand(this.collecte.id).subscribe(isPending => {
+              this.isModificationDemandPending = isPending;
+              this.initializeForm();
+              if (this.collecte.id) {
+                  this.service.getModificationDateByCollecteId(this.collecte.id).subscribe(modificationDate => {
+                      this.modificationDate = modificationDate;
+                  });
+              }
+          });
+  
+          this.collecteForm.valueChanges.subscribe(() => {
+              this.isFormModified = !this.collecteForm.pristine; // Set flag based on form state
+          });
+      } else {
+          console.error('Collecte ID is undefined.');
+      }
   }
   
-  async modifierCollecte(): Promise<void> {
+
+  initializeForm(): void {
+    this.collecteForm = this.formBuilder.group({
+        nom: [{ value: this.collecte?.nom || '', disabled: this.isModificationDemandPending }, Validators.required],
+        description: [{ value: this.collecte?.description || '', disabled: this.isModificationDemandPending }, Validators.required],
+        image: [{ value: this.collecte?.image || '', disabled: this.isModificationDemandPending }, Validators.required],
+        montant: [{ value: this.collecte?.montant || '', disabled: true }, Validators.required],
+        date_debut: [{ 
+            value: this.collecte?.date_debut instanceof Date ? this.collecte.date_debut.toISOString().split('T')[0] : this.collecte.date_debut, 
+            disabled: this.isModificationDemandPending 
+        }, Validators.required],
+        date_fin: [{ 
+            value: this.collecte?.date_fin instanceof Date ? this.collecte.date_fin.toISOString().split('T')[0] : this.collecte.date_fin, 
+            disabled: this.isModificationDemandPending 
+        }, Validators.required],
+    }, { validator: this.dateFinSupDateDebutValidator });
+
+    this.initialValues = { ...this.collecteForm.getRawValue() };
+}
+
+  async onSubmit(): Promise<void> {
+
+    if (JSON.stringify(this.initialValues) === JSON.stringify(this.collecteForm.getRawValue())) {
+      this.aucunChangement = true;
+      return;
+    }
+
     if (this.collecteForm.valid) {
       this.spinner.show();
   
       try {
-        const collecteDataToUpdate: Collecte = {
+        const collecteDataToUpdate: DemandeModificationCollecte = {
           id: this.collecte.id,
           nom: this.collecteForm.value.nom,
-          etat: this.collecteForm.value.etat,
           description: this.collecteForm.value.description,
-          montant: this.collecteForm.value.montant,
           date_debut: this.collecteForm.value.date_debut,
           date_fin: this.collecteForm.value.date_fin,
-          image: this.collecte.image // Assurez-vous de transmettre l'URL de l'image existante
+          image: this.collecte.image,
+          id_association:this.collecte.id_association,
+          etat: 'en_attente',
+          date: new Date(),
         };
   
         const coverFile = this.collecteForm.value.image;
@@ -58,10 +102,12 @@ export class ModifierCollecteComponent {
         }
   
         await this.service.modifierCollecte(collecteDataToUpdate);
-        window.location.reload();
-            } catch (error) {
+        this.service.collecteModifierShowModal=false
+
+      } catch (error) {
         console.error('Erreur lors de la modification de la collecte :', error);
       } finally {
+        this.service.collecteModifierShowModal=false
         this.spinner.hide();
       }
     } else {

@@ -1,19 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { DemandeModificationAssociation } from 'src/app/interfaces/demande-modification-association';
+import { DemandeModificationCollecte } from 'src/app/interfaces/demande-modification-collecte';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-import { Association } from 'src/app/interfaces/association';
-import { AssociationService } from 'src/app/services/association.service';
+import { Collecte } from 'src/app/interfaces/collecte';
+import { CollecteService } from 'src/app/services/collecte.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-modification-association-details',
-  templateUrl: './modification-association-details.component.html',
-  styleUrls: ['./modification-association-details.component.css']
+  selector: 'app-modification-collecte-details',
+  templateUrl: './modification-collecte-details.component.html',
+  styleUrls: ['./modification-collecte-details.component.css']
 })
-export class ModificationAssociationDetailsComponent implements OnInit {
-  @Input() demande!: DemandeModificationAssociation;
+export class ModificationCollecteDetailsComponent implements OnInit{
+
+  @Input() demande!: DemandeModificationCollecte;
 
   faXmark = faXmark;
   modifiedFields: { label: string, oldValue: any, newValue: any }[] = [];
@@ -23,50 +24,51 @@ export class ModificationAssociationDetailsComponent implements OnInit {
   nbrChampsConcernes:number=0;
   rapportRefus : string = '';
 
-  constructor(public adminService: AdministrateurService, private associationService: AssociationService,
+  constructor(public adminService: AdministrateurService, private collecteService: CollecteService,
     private firestore: AngularFirestore) { }
-
 
   ngOnInit(): void {
     this.compareFields();
   }
 
   compareFields(): void {
-    if (this.demande.id_association) {
-      this.associationService.getAssociationById(this.demande.id_association).subscribe(existingAssociation => {
-        if (existingAssociation) {
-          const commonFields: (keyof Association & keyof DemandeModificationAssociation)[] = [
-            'nom', 'categorie', 'adresse', 'description', 'email', 'rib', 'telephone'
+    if (this.demande.id_collecte) {
+      this.collecteService.getCollecteById(this.demande.id_collecte).subscribe(existingCollecte => {
+        if (existingCollecte) {
+          const commonFields: (keyof Collecte & keyof DemandeModificationCollecte)[] = [
+            'nom', 'image', 'description','date_debut', 'date_fin'
           ];
   
           commonFields.forEach(field => {
-            if (existingAssociation[field] !== this.demande[field]) {
+            if (existingCollecte[field] !== this.demande[field]) {
               const modifiedFieldIndex = this.modifiedFields.findIndex(item => item.label === field);
               if (modifiedFieldIndex === -1) {
                 this.modifiedFields.push({
                   label: field,
-                  oldValue: existingAssociation[field],
+                  oldValue: existingCollecte[field],
                   newValue: this.demande[field]
                 });
                 this.nbrChampsConcernes = this.modifiedFields.length;
+                console.log(this.modifiedFields)
               }
             } else {
               const commonFieldIndex = this.commonFields.findIndex(item => item.label === field);
               if (commonFieldIndex === -1) {
                 this.commonFields.push({
                   label: field,
-                  oldValue: existingAssociation[field],
+                  oldValue: existingCollecte[field],
                   newValue: this.demande[field]
                 });
+                console.log(this.commonFields)
               }
             }
           });
-          console.log('modifiedFields',this.modifiedFields);
-          console.log('commonFields',this.commonFields);
+        } else {
+          console.log('Pas de collecte trouvé!')
         }
       });
     }  
-  }  
+  }
 
   acceptModification(label: string): void {
     Swal.fire({
@@ -79,7 +81,7 @@ export class ModificationAssociationDetailsComponent implements OnInit {
         confirmButtonText: "Accepter"
     }).then((result) => {
         if (result.isConfirmed) {
-            if (this.demande.id_association) {
+            if (this.demande.id_collecte) {
 
                 const modifiedField = this.modifiedFields.find(field => field.label === label);
 
@@ -94,7 +96,7 @@ export class ModificationAssociationDetailsComponent implements OnInit {
                             });
                     }
 
-                    this.associationService.updateAssociationField(this.demande.id_association, label as keyof Partial<Association>, modifiedField.newValue)
+                    this.collecteService.updateCollecteField(this.demande.id_collecte, label as keyof Partial<Collecte>, modifiedField.newValue)
                         .then(() => {
                             console.log('Demandes acceptés', this.acceptedFields);
                             Swal.fire({
@@ -104,10 +106,10 @@ export class ModificationAssociationDetailsComponent implements OnInit {
                             });
                         })
                         .catch(error => {
-                            console.error('Erreur lors de la mise à jour du champ de l\'association:', error);
+                            console.error('Erreur lors de la mise à jour du champ de la collecte:', error);
                             Swal.fire({
                                 title: "Erreur!",
-                                text: `Une erreur s'est produite lors de la mise à jour du champ de l'association.`,
+                                text: `Une erreur s'est produite lors de la mise à jour du champ de la collecte.`,
                                 icon: "error"
                             });
                         });
@@ -120,17 +122,16 @@ export class ModificationAssociationDetailsComponent implements OnInit {
                     });
                 }
             } else {
-                console.error('ID de l\'association non défini.');
+                console.error('ID de la collecte non défini.');
                 Swal.fire({
                     title: "Erreur!",
-                    text: `ID d'association non défini.`,
+                    text: `ID de la collecte non défini.`,
                     icon: "error"
                 });
             }
         }
     });
 }
-
 
 rejectModification(label: string): void {
   Swal.fire({
@@ -141,8 +142,8 @@ rejectModification(label: string): void {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Refuser',
-    input: 'textarea', // Use input type textarea
-    inputPlaceholder: 'Raison du refus', // Placeholder for the textarea
+    input: 'textarea', 
+    inputPlaceholder: 'Raison du refus', 
     inputAttributes: {
       autocapitalize: 'off'
     }
@@ -150,7 +151,7 @@ rejectModification(label: string): void {
     if (result.isConfirmed) {
       this.rapportRefus += this.capitalizeFirstLetter(label) + ` : ` + result.value + `\n`;
       console.log(this.rapportRefus);
-      if (this.demande.id_association) {
+      if (this.demande.id_collecte) {
 
         const modifiedField = this.modifiedFields.find(field => field.label === label);
 
@@ -188,10 +189,10 @@ rejectModification(label: string): void {
             });
         }
     } else {
-        console.error('ID de l\'association non défini.');
+        console.error('ID de la collecte non défini.');
         Swal.fire({
             title: "Erreur!",
-            text: `ID d'association non défini.`,
+            text: `ID de la collecte non défini.`,
             icon: "error"
         });
     }
@@ -199,12 +200,11 @@ rejectModification(label: string): void {
   });
 }
 
-
 envoyerRapport(): void {
   if (this.acceptedFields.length + this.refusedFields.length === this.nbrChampsConcernes
     && this.refusedFields.length > 0
   ) {
-    const demandeRef = this.firestore.collection('DemandeModificationAssociation').doc(this.demande.id);
+    const demandeRef = this.firestore.collection('DemandeModificationCollecte').doc(this.demande.id);
     demandeRef.update({ rapport: this.rapportRefus })
       .then(() => {
         console.log('Rapport envoyé avec succès.');
@@ -217,12 +217,13 @@ envoyerRapport(): void {
 
 
   updateDemandeEtat(id: string, etat: string): Promise<void> {
-    const demandeRef = this.firestore.collection('DemandeModificationAssociation').doc(id);
+    const demandeRef = this.firestore.collection('DemandeModificationCollecte').doc(id);
     return demandeRef.update({ etat: etat });
   } 
 
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
 
 }

@@ -11,7 +11,7 @@
   </div>
 <hr>
 <div class="content">
-  <form [formGroup]="collecteForm" (ngSubmit)="modifierCollecte()">
+  <form [formGroup]="collecteForm" (ngSubmit)="onSubmit()">
 
     <strong><p>
       Image de la collecte :
@@ -47,6 +47,12 @@
        
         <div *ngIf="collecteForm.errors?.['dateFinSupDateDebut']" class="error-message">
           La date de fin doit être postérieure à la date de début.
+        </div>
+        <div *ngIf="isModificationDemandPending" class="disabled-notification">
+          Les modifications apportées le <strong>{{ modificationDate }}</strong> sont en attente d'approbation. Une notification vous sera envoyée une fois que les modifications sont approuvées.       
+        </div>
+        <div *ngIf="aucunChangement" class="disabled-notification">
+          Aucun changement n'a été effectué! Veuillez vérifier avant de soumettre.
         </div>
 
     <button type="submit" class="btn btn-dark" [ngStyle]="{'width':'300px'}">Modifier</button>

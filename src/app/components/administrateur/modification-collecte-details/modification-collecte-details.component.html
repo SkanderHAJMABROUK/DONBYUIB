@@ -1,0 +1,39 @@
+<div class="dialog">
+    <div *ngIf="adminService.demandeModificationCollecteDetails" class="modal">
+        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.demandeModificationCollecteDetails=false"></fa-icon>
+        <div class="modal-content">
+            <h3>{{ demande.nom }}</h3>
+            <hr>
+            <div *ngIf="modifiedFields.length > 0">
+                <h3>Champs modifiés:</h3>
+                <form>
+                    <div *ngFor="let field of modifiedFields" class="form-group">
+                        <label class="label">{{ field.label }}</label>
+                        <div class="field">
+                            <span class="old-value">{{ field.oldValue }}</span>
+                            <span class="arrow">➜</span>
+                            <span class="new-value">{{ field.newValue }}</span>
+                        </div>
+                        <div class="button-group">
+                            <button (click)="acceptModification(field.label)" class="accept-button">Accepter la modification sur le champ '{{ field.label }}'</button>
+                            <button (click)="rejectModification(field.label)" class="reject-button">Refuser la modification sur le champ '{{ field.label }}'</button>
+                        </div>
+                    </div>                   
+                </form>
+                <hr>
+            </div>
+            
+            <div *ngIf="commonFields.length > 0">
+                <h3>Les autres champs:</h3>
+                <form>
+                    <div *ngFor="let field of commonFields" class="form-group">
+                        <label class="label">{{ capitalizeFirstLetter(field.label) }}</label>
+                        <div class="field">
+                            <span class="value">{{ field.newValue }}</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -47,11 +47,18 @@ export class AdministrateurService {
 
   demandeModificationAssociation:boolean = false;
   demandeModificationAssociationDetails:boolean = false;
+  demandeModificationCollecte:boolean = false;
+  demandeModificationCollecteDetails:boolean = false;
+  demandeModificationActualite:boolean = false;
+  demandeModificationActualiteDetails:boolean = false;
 
   demandeCollectesCount: number = 0;
   demandeAssociationsCount: number = 0;
   demandeActualitesCount: number = 0;
   demandeModificationAssociationsCount: number = 0;
+  demandeModificationCollectesCount: number = 0;
+  demandeModificationActualitesCount: number = 0;
+
 
   id!:string|null;
 
@@ -183,6 +190,21 @@ async getPendingDemandeAssociationsCount(): Promise<number> {
 async getPendingDemandeModificationAssociationsCount(): Promise<number> {
   try {
     const querySnapshot = await this.firestore.collection('DemandeModificationAssociation', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+    
+    return querySnapshot.size;
+  } catch (error) {
+    return 0;
+  }
+}
+
+async getPendingDemandeModificationCollectesCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeModificationCollecte', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
     
     if (!querySnapshot) {
       console.error('Query snapshot is undefined');

@@ -79,6 +79,8 @@ import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.compon
 import { ModificationAssociationDetailsComponent } from './components/administrateur/modification-association-details/modification-association-details.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { DemandeModificationCollecteComponent } from './components/administrateur/demande-modification-collecte/demande-modification-collecte.component';
+import { ModificationCollecteDetailsComponent } from './components/administrateur/modification-collecte-details/modification-collecte-details.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -152,6 +154,8 @@ const firebaseConfig = {
     DemandeCollecteDetailsComponent,
     DemandeModificationAssociationComponent,
     ChatDialogComponent,
+    DemandeModificationCollecteComponent,
+    ModificationCollecteDetailsComponent,
   
     ],
   imports: [

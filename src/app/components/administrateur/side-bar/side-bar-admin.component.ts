@@ -18,28 +18,34 @@ export class SideBarAdminComponent implements OnInit{
     this.service.getPendingDemandeCollectesCount().then(count => {
       this.service.demandeCollectesCount = count;
     }).catch(error => {
-      console.error('Error fetching demande collectes count:', error);
+      console.error(error);
     });
 
     this.service.getPendingDemandeActualitesCount().then(count => {
       this.service.demandeActualitesCount = count;
     }).catch(error => {
-      console.error('Error fetching demande actualites count:', error);
+      console.error(error);
     });
 
     this.service.getPendingDemandeAssociationsCount().then(count => {
       this.service.demandeAssociationsCount = count;
     }).catch(error => {
-      console.error('Error fetching demande associations count:', error);
+      console.error(error);
     });
 
     this.service.getPendingDemandeModificationAssociationsCount().then(count => {
       this.service.demandeModificationAssociationsCount = count;
     }).catch(error => {
-      console.error('Error fetching demande associations count:', error);
+      console.error(error);
     });
 
-   }
+    this.service.getPendingDemandeModificationCollectesCount().then(count => {
+      this.service.demandeModificationCollectesCount = count;
+    }).catch(error => {
+      console.error(error);
+    });
+
+}
 
    logOut() {
     this.service.logOut();

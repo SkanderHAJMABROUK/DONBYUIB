@@ -26,7 +26,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Mon compte</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Mon compte</a>
         </li>
         <li class="logout-link">
             <span class="material-symbols-outlined">logout</span>
@@ -51,7 +52,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Gestion des donateurs</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Gestion des donateurs</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -69,7 +71,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Ajouter un donateur</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Ajouter un donateur</a>
         </li>
         
         
@@ -90,7 +93,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Gestion des associations</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Gestion des associations</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -107,7 +111,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Ajouter une association</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Ajouter une association</a>
         </li>
         <li>
           <mat-icon class="material-symbols-outlined"
@@ -131,7 +136,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Demandes d'habilitation    
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Demandes d'habilitation    
           
         </a>          
         </li>
@@ -157,7 +163,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=true;
-          service.demandeModificationAssociationDetails=false">Demandes de modifications</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Demandes de modifications</a>
         </li>
         
         
@@ -178,7 +185,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Gestion des collectes</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Gestion des collectes</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -195,7 +203,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Ajouter une collecte</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Ajouter une collecte</a>
         </li>
         <li>
           <mat-icon class="material-symbols-outlined"
@@ -219,7 +228,33 @@
           service.demandeActualite=false;
           service.demandeCollecte=true;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Demandes de collectes</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Demandes de collectes</a>
+        </li>
+        <li>
+          <mat-icon class="material-symbols-outlined"
+          [matBadge]="service.demandeModificationCollectesCount"
+          matBadgeColor="warn" 
+          aria-hidden="false" 
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeModificationCollectesCount == 0">
+            settings_account_box
+          </mat-icon>
+          <a (click)="service.crudUtilisateurs=false;
+          service.compte=false;
+          service.crudAssociations=false;
+          service.crudCollectes=false;
+          service.ajouterActualite=false;
+          service.ajouterAssociation=false;
+          service.ajouterCollecte=false;
+          service.ajouterDonateur=false;
+          service.crudActualites=false;
+          service.demandeAssociations=false;
+          service.demandeActualite=false;
+          service.demandeCollecte=false;
+          service.demandeModificationAssociation=false;
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=true">Demandes de modifications</a>
         </li>
         
         <hr>
@@ -239,7 +274,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Gestion des actualités</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Gestion des actualités</a>
         </li>
         <li>
           <span class="material-symbols-outlined">add</span>
@@ -256,7 +292,8 @@
           service.demandeActualite=false;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Ajouter une actualité</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Ajouter une actualité</a>
         </li>
         <li>
           <mat-icon class="material-symbols-outlined"
@@ -280,7 +317,8 @@
           service.demandeActualite=true;
           service.demandeCollecte=false;
           service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false">Demandes d'actualités</a>
+          service.demandeModificationAssociationDetails=false;
+          service.demandeModificationCollecte=false">Demandes d'actualités</a>
         </li>
         
         

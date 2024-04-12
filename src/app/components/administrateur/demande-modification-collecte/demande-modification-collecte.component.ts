@@ -6,14 +6,16 @@ import { faEye, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators'; 
+import { map } from 'rxjs/operators';
+import { DemandeModificationCollecte } from 'src/app/interfaces/demande-modification-collecte';
+import { CollecteService } from 'src/app/services/collecte.service';
 
 @Component({
-  selector: 'app-demande-modification-association',
-  templateUrl: './demande-modification-association.component.html',
-  styleUrls: ['./demande-modification-association.component.css']
+  selector: 'app-demande-modification-collecte',
+  templateUrl: './demande-modification-collecte.component.html',
+  styleUrls: ['./demande-modification-collecte.component.css']
 })
-export class DemandeModificationAssociationComponent implements OnInit{
+export class DemandeModificationCollecteComponent implements OnInit{
 
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
@@ -23,10 +25,10 @@ export class DemandeModificationAssociationComponent implements OnInit{
   selectedAssociation: string = '';
   associationsIds : string[] = []; 
 
-  demandesModificationsAssociations: DemandeModificationAssociation[] = [];
-  filteredDemandeModificationAssociationList: DemandeModificationAssociation[] = [];
+  demandesModificationsCollectes: DemandeModificationCollecte[] = [];
+  filteredDemandeModificationCollecteList: DemandeModificationCollecte[] = [];
   searchTerm: string = '';
-  selectedDemandeModificationAssociation: DemandeModificationAssociation = {} as DemandeModificationAssociation;
+  selectedDemandeModificationCollecte: DemandeModificationCollecte = {} as DemandeModificationCollecte;
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; 
@@ -34,19 +36,19 @@ export class DemandeModificationAssociationComponent implements OnInit{
 
   modifiedFields: { label: string, oldValue: any, newValue: any }[] = [];
 
-
   constructor(private router: Router, public adminService:AdministrateurService,
-    private firestore: AngularFirestore, private associationService: AssociationService) { }
+    private firestore: AngularFirestore, private associationService: AssociationService,
+  private collecteService : CollecteService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
     this.getDemandes();
-    this.adminService.demandeModificationAssociationDetails=false;
+    this.adminService.demandeModificationCollecteDetails=false;
   }
 
   getDemandes(): void {
-    this.associationService.getPendingDemandesModificationsAssociations().subscribe(demandesModificationsAssociations => {
-      this.demandesModificationsAssociations = demandesModificationsAssociations;
+    this.collecteService.getPendingDemandesModificationsCollectes().subscribe(demandesModificationsCollectes => {
+      this.demandesModificationsCollectes = demandesModificationsCollectes;
       this.getAssociationsIds();
       this.chercherDemande();
     });
@@ -55,19 +57,19 @@ export class DemandeModificationAssociationComponent implements OnInit{
   chercherDemande(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.filteredDemandeModificationAssociationList = this.demandesModificationsAssociations.filter((demandeModificationAssociation, index) =>
+    this.filteredDemandeModificationCollecteList = this.demandesModificationsCollectes.filter((demandeModificationCollecte, index) =>
       index >= startIndex && index < endIndex &&
-      (demandeModificationAssociation.nom.toLowerCase().includes(this.searchTerm.toLowerCase())&&
-      (!this.selectedAssociation || this.getAssociationNameById(demandeModificationAssociation.id_association) === this.selectedAssociation) 
+      (demandeModificationCollecte.nom.toLowerCase().includes(this.searchTerm.toLowerCase())&&
+      (!this.selectedAssociation || this.getAssociationNameById(demandeModificationCollecte.id_association) === this.selectedAssociation) 
     ))
 
     // Tri
   switch (this.selectedTri) {
     case 'plusRecents':
-      this.filteredDemandeModificationAssociationList = this.filteredDemandeModificationAssociationList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.filteredDemandeModificationCollecteList = this.filteredDemandeModificationCollecteList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       break;
     case 'plusAnciens':
-      this.filteredDemandeModificationAssociationList = this.filteredDemandeModificationAssociationList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      this.filteredDemandeModificationCollecteList = this.filteredDemandeModificationCollecteList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       break;
     default:
       break;
@@ -91,16 +93,16 @@ export class DemandeModificationAssociationComponent implements OnInit{
   
 
   getTotalPages(): number {
-    return Math.ceil(this.demandesModificationsAssociations.length / this.pageSize);
+    return Math.ceil(this.demandesModificationsCollectes.length / this.pageSize);
   }
 
   getAssociationsIds(): void {
     this.associationsIds = Array.from(new Set(
-      this.demandesModificationsAssociations
-        .map(demandeModificationAssociation => demandeModificationAssociation.id_association)
+      this.demandesModificationsCollectes
+        .map(demandeModificationCollecte => demandeModificationCollecte.id_association)
         .filter(id_association => id_association !== undefined && id_association !== null)
     )) as string[];
-
+    
     this.getAssociationsNamesByIds(this.associationsIds); // Call function to fetch association names 
   }
 
@@ -132,18 +134,18 @@ export class DemandeModificationAssociationComponent implements OnInit{
     } else {
       return 'Association not found';
     }
-  }  
+  }
 
-  afficherModifications(demande: DemandeModificationAssociation) {
+  afficherModifications(demande: DemandeModificationCollecte) {
     if(demande.id){
-    this.associationService.getDemandeModificationAssociationById(demande.id).subscribe((response) => {
-      this.selectedDemandeModificationAssociation = response!;
-      this.adminService.demandeModificationAssociationDetails = true;
+    this.collecteService.getDemandeModificationCollecteById(demande.id).subscribe((response) => {
+      this.selectedDemandeModificationCollecte = response!;
+      this.adminService.demandeModificationCollecteDetails = true;
       console.log(response);
     });
   }
 }
 
-   
-  
+ 
+
 }

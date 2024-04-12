@@ -29,7 +29,6 @@ collectes:Collecte[]=[];
 ngOnInit():void{
   this.service.getAcceptedCollectes().subscribe((res)=>{
    this.collectes=res;
-   console.log(this.collectes);
  })
  }
 

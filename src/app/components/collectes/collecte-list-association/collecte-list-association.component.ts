@@ -36,9 +36,7 @@ export class CollecteListAssociationComponent implements OnInit{
     })
   }
   ngOnInit(): void {
-    this.getCollectesByAssociationId();
-
-    
+    this.getCollectesByAssociationId(); 
   }
 
   // supprimerCollecte(collecte: Collecte) {

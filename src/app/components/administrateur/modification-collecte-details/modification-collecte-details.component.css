@@ -1,0 +1,110 @@
+.dialog {
+    height: auto; /* Change height to auto for dynamic content */
+    max-height: 80%; /* Adjust max-height for better responsiveness */
+    width: 80%; /* Adjust width for better responsiveness */
+    max-width: 600px; /* Set maximum width */
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+}
+
+.dialog h3 {
+    color: #850707;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.dialog hr {
+    border: none;
+    height: 1px; /* Reduce height for a thinner line */
+    background-color: #ccc; /* Change color for a softer look */
+    width: 100%;
+    margin: 10px 0; /* Adjust margin for better spacing */
+}
+
+.close-icon {
+    cursor: pointer;
+    color: #850707;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close-icon:hover {
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 20px; /* Add margin between form groups */
+}
+
+.label {
+    font-weight: bold;
+    text-align: center; /* Center labels */
+    margin-bottom: 2%;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center values and arrows */
+    white-space: pre-wrap;
+}
+
+.value{
+    flex: 1;
+    text-align: center; /* Center values */
+    white-space: pre-wrap;
+}
+
+.arrow {
+    margin: 0 10px;
+    font-size: 24px; /* Ajustement de la taille de la flèche */
+    color: #850707; /* Couleur de la flèche */
+}
+
+.modified .arrow {
+    color: red; /* Mise en évidence de la flèche pour les champs modifiés */
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column; /* Les boutons seront empilés verticalement */
+    align-items: center; /* Les boutons seront centrés horizontalement */
+    margin-top: 10px; /* Marge au-dessus des boutons */
+}
+
+.button-group button {
+    margin: 5px; /* Marge entre les boutons */
+    padding: 5px 10px; /* Rembourrage pour les boutons */
+    border: none; /* Supprimez la bordure */
+    border-radius: 5px; /* Bordure arrondie */
+    cursor: pointer; /* Curseur pointeur */
+    font-size: 12px; /* Taille de la police */
+    transition: background-color 0.3s; /* Transition pour l'effet hover */
+}
+
+.button-group button:hover {
+    background-color: #ddd; /* Couleur de fond au survol */
+}
+
+.accept-button {
+    background-color: #0e4626; /* Couleur de fond verte */
+    color: white; /* Couleur du texte blanc */
+}
+
+.reject-button {
+    background-color: #9f0000; /* Couleur de fond rouge */
+    color: white; /* Couleur du texte blanc */
+}
+
+
