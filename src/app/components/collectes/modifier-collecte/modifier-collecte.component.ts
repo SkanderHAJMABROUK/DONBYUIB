@@ -85,7 +85,7 @@ export class ModifierCollecteComponent {
           description: this.collecteForm.value.description,
           date_debut: this.collecteForm.value.date_debut,
           date_fin: this.collecteForm.value.date_fin,
-          image: this.collecte.image,
+          image: this.collecteForm.value.image,
           id_association:this.collecte.id_association,
           etat: 'en_attente',
           date: new Date(),

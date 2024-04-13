@@ -9,6 +9,7 @@ import { Observable, from, map } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Actualite } from '../interfaces/actualite';
 import { DemandeActualite } from '../interfaces/demande-actualite';
+import { DemandeModificationActualite } from '../interfaces/demande-modification-actualite';
 
 
 @Injectable({
@@ -120,6 +121,70 @@ export class ActualiteService {
     );
   }
 
+  getDemandesModificationsActualites(): Observable<DemandeModificationActualite[]> {
+    let demandeModificationActualitesCollection = collection(this.fs, 'DemandeModificationActualite');
+    return collectionData(demandeModificationActualitesCollection, { idField: 'id' }).pipe(
+      map((demandeModificationActualite: any[]) => {
+        return demandeModificationActualite
+        .map(demandeModificationActualite => ({
+          id: demandeModificationActualite.id,
+          id_association : demandeModificationActualite.id_association,
+          id_actualite : demandeModificationActualite.id_actualite,
+          titre : demandeModificationActualite.titre,
+          description : demandeModificationActualite.description,
+          image : demandeModificationActualite.image,
+          etat : demandeModificationActualite.etat,
+          date : demandeModificationActualite.date instanceof Timestamp ? demandeModificationActualite.date.toDate() : demandeModificationActualite.date,
+        }));
+      })
+    );
+  }
+
+  getPendingDemandesModificationsActualites(): Observable<DemandeModificationActualite[]> {
+    let demandeModificationActualitesCollection = collection(this.fs, 'DemandeModificationActualite');
+    return collectionData(demandeModificationActualitesCollection, { idField: 'id' }).pipe(
+      map((demandeModificationActualite: any[]) => {
+        return demandeModificationActualite
+        .filter(demandeModificationActualite => demandeModificationActualite.etat === 'en_attente') 
+        .map(demandeModificationActualite => ({
+          id: demandeModificationActualite.id,
+          id_association : demandeModificationActualite.id_association,
+          id_actualite : demandeModificationActualite.id_actualite,
+          titre : demandeModificationActualite.titre,
+          description : demandeModificationActualite.description,
+          image : demandeModificationActualite.image,
+          etat : demandeModificationActualite.etat,
+          date : demandeModificationActualite.date instanceof Timestamp ? demandeModificationActualite.date.toDate() : demandeModificationActualite.date,
+        }));
+      })
+    );
+  }
+
+  getAcceptedDemandesModificationsActualites(): Observable<DemandeModificationActualite[]> {
+    let demandeModificationActualitesCollection = collection(this.fs, 'DemandeModificationActualite');
+    return collectionData(demandeModificationActualitesCollection, { idField: 'id' }).pipe(
+      map((demandeModificationActualite: any[]) => {
+        return demandeModificationActualite
+        .filter(demandeModificationActualite => demandeModificationActualite.etat === 'accepté') 
+        .map(demandeModificationActualite => ({
+          id: demandeModificationActualite.id,
+          id_association : demandeModificationActualite.id_association,
+          id_actualite : demandeModificationActualite.id_actualite,
+          titre : demandeModificationActualite.titre,
+          description : demandeModificationActualite.description,
+          image : demandeModificationActualite.image,
+          etat : demandeModificationActualite.etat,
+          date : demandeModificationActualite.date instanceof Timestamp ? demandeModificationActualite.date.toDate() : demandeModificationActualite.date,
+        }));
+      })
+    );
+  }
+
+  getDemandeModificationActualiteById(id: string): Observable<DemandeModificationActualite | undefined> {
+    return this.getDemandesModificationsActualites().pipe(
+      map(actualites => actualites.find(actualite => actualite.id === id))
+    );
+  }
 
    getActualitesByAssociationId(associationId: string): Observable<Actualite[]> {
     return this.getActualites().pipe(
@@ -219,15 +284,6 @@ getDemandeActualiteById(id: string): Observable<DemandeActualite | undefined> {
 }
 
 
-modifierActualite(actualite: Actualite): Promise<void> {
-  const updatedActualiteData = {
-    ...actualite,
-    etat: "modification"
-  };
-  const actualiteRef = this.firestore.collection('Actualite').doc(actualite.id); 
-  return actualiteRef.update(updatedActualiteData);
-}
-
 deleteActualiteById(id: string): Promise<void> {
   const actualiteRef = this.firestore.collection('Actualite').doc(id);
   return actualiteRef.delete();
@@ -250,5 +306,60 @@ supprimerActualite(actualite: Actualite): Observable<Actualite[]> {
   });
 }
 
+checkPendingModificationDemand(actualiteId: string): Observable<boolean> {
+  return this.firestore.collection<DemandeModificationActualite>('DemandeModificationActualite', ref =>
+    ref.where('id_actualite', '==', actualiteId).where('etat', '==', 'en_attente')
+  ).valueChanges().pipe(
+    map(demands => demands.length > 0)
+  );
+}
+
+getModificationDateByActualiteId(actualiteId: string): Observable<string | undefined> {
+  return this.firestore.collection<DemandeModificationActualite>('DemandeModificationActualite', ref =>
+    ref.where('id_actualite', '==', actualiteId).where('etat', '==', 'en_attente')
+  ).valueChanges().pipe(
+    map(demands => {
+      if (demands.length > 0) {
+        const modificationDate = demands[0].date instanceof Timestamp ? demands[0].date.toDate() : demands[0].date;
+        const day = modificationDate.getDate().toString().padStart(2, '0');
+        const month = (modificationDate.getMonth() + 1).toString().padStart(2, '0'); // Notez que getMonth() retourne les mois de 0 à 11
+        const year = modificationDate.getFullYear();
+
+        return `${day}/${month}/${year}`;
+      } else {
+        return undefined;
+      }
+    })
+  );
+}
+
+modifierActualite(actualiteDataToUpdate: Partial<Actualite>): Promise<void> {
+
+  const demandeModification: DemandeModificationActualite = {
+    id_actualite: actualiteDataToUpdate.id,
+    id_association: actualiteDataToUpdate.id_association,
+    titre: actualiteDataToUpdate.titre || '',
+    description: actualiteDataToUpdate.description || '',
+    image: actualiteDataToUpdate.image || '',
+    etat:'en_attente',
+    date: new Date()
+  };
+
+  return this.firestore.collection('DemandeModificationActualite').add(demandeModification)
+    .then(() => {
+      console.log('Demande de modification ajoutée avec succès.');
+    })
+    .catch(error => {
+      console.error('Erreur lors de l\'ajout de la demande de modification :', error);
+      throw new Error('Erreur lors de l\'ajout de la demande de modification.');
+    });
+}
+
+updateActualiteField(id: string, fieldName: keyof Partial<Actualite>, newValue: any): Promise<void> {
+  const actualiteRef = this.firestore.collection('Actualite').doc(id);
+  const updatedField: Partial<Actualite> = {};
+  updatedField[fieldName] = newValue;
+  return actualiteRef.update(updatedField);
+}
 
 }

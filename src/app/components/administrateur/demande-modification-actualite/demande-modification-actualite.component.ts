@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AssociationService } from 'src/app/services/association.service';
+import { ActualiteService } from 'src/app/services/actualite.service';
 import { faEye, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DemandeModificationCollecte } from 'src/app/interfaces/demande-modification-collecte';
-import { CollecteService } from 'src/app/services/collecte.service';
+import { DemandeModificationActualite } from 'src/app/interfaces/demande-modification-actualite';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
-  selector: 'app-demande-modification-collecte',
-  templateUrl: './demande-modification-collecte.component.html',
-  styleUrls: ['./demande-modification-collecte.component.css']
+  selector: 'app-demande-modification-actualite',
+  templateUrl: './demande-modification-actualite.component.html',
+  styleUrls: ['./demande-modification-actualite.component.css']
 })
-export class DemandeModificationCollecteComponent implements OnInit{
+export class DemandeModificationActualiteComponent {
 
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
@@ -24,10 +24,10 @@ export class DemandeModificationCollecteComponent implements OnInit{
   selectedAssociation: string = '';
   associationsIds : string[] = []; 
 
-  demandesModificationsCollectes: DemandeModificationCollecte[] = [];
-  filteredDemandeModificationCollecteList: DemandeModificationCollecte[] = [];
+  demandesModificationsActualites: DemandeModificationActualite[] = [];
+  filteredDemandeModificationActualiteList: DemandeModificationActualite[] = [];
   searchTerm: string = '';
-  selectedDemandeModificationCollecte: DemandeModificationCollecte = {} as DemandeModificationCollecte;
+  selectedDemandeModificationActualite: DemandeModificationActualite = {} as DemandeModificationActualite;
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; 
@@ -35,17 +35,17 @@ export class DemandeModificationCollecteComponent implements OnInit{
 
   constructor(private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore, private associationService: AssociationService,
-  private collecteService : CollecteService) { }
+  private actualiteService : ActualiteService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
     this.getDemandes();
-    this.adminService.demandeModificationCollecteDetails=false;
+    this.adminService.demandeModificationActualiteDetails=false;
   }
 
   getDemandes(): void {
-    this.collecteService.getPendingDemandesModificationsCollectes().subscribe(demandesModificationsCollectes => {
-      this.demandesModificationsCollectes = demandesModificationsCollectes;
+    this.actualiteService.getPendingDemandesModificationsActualites().subscribe(demandesModificationsActualites => {
+      this.demandesModificationsActualites = demandesModificationsActualites;
       this.getAssociationsIds();
       this.chercherDemande();
     });
@@ -54,19 +54,19 @@ export class DemandeModificationCollecteComponent implements OnInit{
   chercherDemande(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.filteredDemandeModificationCollecteList = this.demandesModificationsCollectes.filter((demandeModificationCollecte, index) =>
+    this.filteredDemandeModificationActualiteList = this.demandesModificationsActualites.filter((demandeModificationActualite, index) =>
       index >= startIndex && index < endIndex &&
-      (demandeModificationCollecte.nom.toLowerCase().includes(this.searchTerm.toLowerCase())&&
-      (!this.selectedAssociation || this.getAssociationNameById(demandeModificationCollecte.id_association) === this.selectedAssociation) 
+      (demandeModificationActualite.titre.toLowerCase().includes(this.searchTerm.toLowerCase())&&
+      (!this.selectedAssociation || this.getAssociationNameById(demandeModificationActualite.id_association) === this.selectedAssociation) 
     ))
 
     // Tri
   switch (this.selectedTri) {
     case 'plusRecents':
-      this.filteredDemandeModificationCollecteList = this.filteredDemandeModificationCollecteList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      this.filteredDemandeModificationActualiteList = this.filteredDemandeModificationActualiteList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       break;
     case 'plusAnciens':
-      this.filteredDemandeModificationCollecteList = this.filteredDemandeModificationCollecteList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      this.filteredDemandeModificationActualiteList = this.filteredDemandeModificationActualiteList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       break;
     default:
       break;
@@ -88,13 +88,13 @@ export class DemandeModificationCollecteComponent implements OnInit{
   
 
   getTotalPages(): number {
-    return Math.ceil(this.demandesModificationsCollectes.length / this.pageSize);
+    return Math.ceil(this.demandesModificationsActualites.length / this.pageSize);
   }
 
   getAssociationsIds(): void {
     this.associationsIds = Array.from(new Set(
-      this.demandesModificationsCollectes
-        .map(demandeModificationCollecte => demandeModificationCollecte.id_association)
+      this.demandesModificationsActualites
+        .map(demandeModificationActualite => demandeModificationActualite.id_association)
         .filter(id_association => id_association !== undefined && id_association !== null)
     )) as string[];
     
@@ -131,16 +131,15 @@ export class DemandeModificationCollecteComponent implements OnInit{
     }
   }
 
-  afficherModifications(demande: DemandeModificationCollecte) {
+  afficherModifications(demande: DemandeModificationActualite) {
     if(demande.id){
-    this.collecteService.getDemandeModificationCollecteById(demande.id).subscribe((response) => {
-      this.selectedDemandeModificationCollecte = response!;
-      this.adminService.demandeModificationCollecteDetails = true;
+    this.actualiteService.getDemandeModificationActualiteById(demande.id).subscribe((response) => {
+      this.selectedDemandeModificationActualite = response!;
+      this.adminService.demandeModificationActualiteDetails = true;
       console.log(response);
+      console.log(this.adminService.demandeModificationActualiteDetails)
     });
   }
 }
-
- 
 
 }

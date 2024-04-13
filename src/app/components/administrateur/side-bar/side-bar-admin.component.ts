@@ -45,6 +45,12 @@ export class SideBarAdminComponent implements OnInit{
       console.error(error);
     });
 
+    this.service.getPendingDemandeModificationActualitesCount().then(count => {
+      this.service.demandeModificationActualitesCount = count;
+    }).catch(error => {
+      console.error(error);
+    });
+
 }
 
    logOut() {

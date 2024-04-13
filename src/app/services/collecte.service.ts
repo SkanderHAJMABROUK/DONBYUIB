@@ -149,6 +149,7 @@ getDemandesModificationsCollectes(): Observable<DemandeModificationCollecte[]> {
       .map(demandeModificationCollecte => ({
         id: demandeModificationCollecte.id,
         id_association : demandeModificationCollecte.id_association,
+        id_collecte : demandeModificationCollecte.id_collecte,
         nom : demandeModificationCollecte.nom,
         description : demandeModificationCollecte.description,
         image : demandeModificationCollecte.image,
@@ -171,6 +172,7 @@ getPendingDemandesModificationsCollectes(): Observable<DemandeModificationCollec
       .map(demandeModificationCollecte => ({
         id: demandeModificationCollecte.id,
         id_association : demandeModificationCollecte.id_association,
+        id_collecte : demandeModificationCollecte.id_collecte,
         nom : demandeModificationCollecte.nom,
         description : demandeModificationCollecte.description,
         image : demandeModificationCollecte.image,
@@ -192,6 +194,7 @@ getAcceptedDemandesModificationsCollectes(): Observable<DemandeModificationColle
       .map(demandeModificationCollecte => ({
         id: demandeModificationCollecte.id,
         id_association : demandeModificationCollecte.id_association,
+        id_collecte : demandeModificationCollecte.id_collecte,
         nom : demandeModificationCollecte.nom,
         description : demandeModificationCollecte.description,
         image : demandeModificationCollecte.image,
@@ -363,9 +366,9 @@ deleteCollecteById(id: string): Promise<void> {
   return collecteRef.delete();
 }
 
-checkPendingModificationDemand(associationId: string): Observable<boolean> {
+checkPendingModificationDemand(collecteId: string): Observable<boolean> {
   return this.firestore.collection<DemandeModificationCollecte>('DemandeModificationCollecte', ref =>
-    ref.where('id_collecte', '==', associationId).where('etat', '==', 'en_attente')
+    ref.where('id_collecte', '==', collecteId).where('etat', '==', 'en_attente')
   ).valueChanges().pipe(
     map(demands => demands.length > 0) // Si la longueur des demandes en attente est supérieure à 0, retourne true, sinon false
   );

@@ -1,8 +1,8 @@
 <div class="dialog">
-    <div *ngIf="adminService.demandeModificationCollecteDetails" class="modal">
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.demandeModificationCollecteDetails=false"></fa-icon>
+    <div *ngIf="adminService.demandeModificationActualiteDetails" class="modal">
+        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.demandeModificationActualiteDetails=false"></fa-icon>
         <div class="modal-content">
-            <h3>{{ demande.nom }}</h3>
+            <h3>{{ demande.titre }}</h3>
             <hr>
             <div *ngIf="modifiedFields.length > 0">
 

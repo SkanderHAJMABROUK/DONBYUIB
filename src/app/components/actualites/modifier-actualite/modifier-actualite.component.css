@@ -86,6 +86,16 @@
     background-color: #a51e1e;
 }
 .error-message {
-    color: red;
-    font-size: 0.8em; /* Taille de la police plus petite */
-  }
+color: red;
+font-size: 0.8em; /* Taille de la police plus petite */
+}
+    
+.disabled-notification {
+color: #00008B;
+background-color: #b0c4de94;
+padding: 10px;
+margin: 10px 0 10px 0;   
+border: 1px solid #2f2fff;
+border-radius: 8px;
+text-align: center;
+}

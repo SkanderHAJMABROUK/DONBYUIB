@@ -217,5 +217,19 @@ async getPendingDemandeModificationCollectesCount(): Promise<number> {
   }
 }
 
+async getPendingDemandeModificationActualitesCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeModificationActualite', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+    
+    return querySnapshot.size;
+  } catch (error) {
+    return 0;
+  }
+}
 
 }
