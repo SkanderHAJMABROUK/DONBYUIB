@@ -30,6 +30,7 @@ export class SinscrireComponent implements OnInit{
   constructor(private formBuilder: FormBuilder, public service: DonateurService, 
     private router: Router,private spinner:NgxSpinnerService, private aService:AssociationService) {}
 
+    
 
   ngOnInit(): void {
 
@@ -39,6 +40,8 @@ export class SinscrireComponent implements OnInit{
 
         nom: ['', Validators.required],
         telephone: ['', Validators.required] ,
+        adresse: ['', Validators.required] ,
+        gouvernerat: ['', Validators.required] ,
         prenom: ['', Validators.required],
         date_de_naissance: ['', [Validators.required, this.service.dateOfBirthValidator()]],
         email: ['', [Validators.required, Validators.email]],
@@ -51,8 +54,16 @@ export class SinscrireComponent implements OnInit{
         validators: this.passwordMatchValidator()
       }
     );
+    this.getGouvernerats();
   }
   
+  gouvernerats: string[] = [];
+
+  getGouvernerats() {
+    this.service.getGouvernerats().subscribe(gouvernerats => {
+      this.gouvernerats = gouvernerats;
+    });
+  }
   
 
   onPhotoFileSelected(event: any) {

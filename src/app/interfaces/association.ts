@@ -4,6 +4,7 @@ export interface Association {
     etat:string,
     categorie:string,
     adresse:string,
+    gouvernerat:string,
     description:string,
     email:string,
     id_fiscale:string,

@@ -73,6 +73,7 @@ export class ModifierAssociationAdminComponent {
           description: this.associationForm.value.description,
           categorie: this.associationForm.value.categorie,
           adresse: this.associationForm.value.adresse,
+          gouvernerat: this.associationForm.value.gouvernerat,
           email: this.associationForm.value.email,
           telephone: this.associationForm.value.email,
           rib: this.associationForm.value.rib,

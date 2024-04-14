@@ -42,6 +42,7 @@ export class InscrireAssociationComponent implements OnInit {
         categorie: ['', Validators.required],
         description: ['', Validators.required],
         adresse: ['', Validators.required],
+        gouvernerat: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
         logo: ['', Validators.required],
@@ -55,8 +56,27 @@ export class InscrireAssociationComponent implements OnInit {
         validators: this.passwordMatchValidator()
       }
     );
+    this.getCategories();
+    this.getGouvernerats();
+
   }
 
+  categories: string[] = [];
+
+  getCategories() {
+    this.service.getCategories().subscribe(categories => {
+      this.categories = categories;
+    });
+  }
+  
+  gouvernerats: string[] = [];
+
+  getGouvernerats() {
+    this.service.getGouvernerats().subscribe(gouvernerats => {
+      this.gouvernerats = gouvernerats;
+    });
+  }
+  
 
   ribValidator = (control: FormControl): {[key: string]: any} | null => {
     const rib: string | null = control.value; // Assurez-vous que rib peut être null

@@ -60,6 +60,8 @@ dateOfBirthValidator(): ValidatorFn {
         etat: "ajout",
         photo: donateur.photo,
         telephone:donateur.telephone,
+        adresse:donateur.adresse,
+        gouvernerat:donateur.gouvernerat,
         date_de_naissance:donateur.date_de_naissance,
         email: donateur.email,
         mdp: hashedPassword,
@@ -100,6 +102,8 @@ getDonateurs(): Observable<Donateur[]> {
         prenom: donateur.prenom,
         etat: donateur.etat,
         telephone:donateur.telephone,
+        adresse:donateur.adresse,
+        gouvernerat:donateur.gouvernerat,
         date_de_naissance: donateur.date_de_naissance,
         photo: donateur.photo,
         email: donateur.email,
@@ -246,6 +250,15 @@ getComments(): Observable<Commentaire[]> {
         contenu: commentaire.contenu,
         date_de_publication: commentaire.date_de_publication instanceof Timestamp ? commentaire.date_de_publication.toDate() : commentaire.date_de_publication
       }));
+    })
+  );
+}
+
+getGouvernerats(): Observable<string[]> {
+  let gouverneratCollection = collection(this.fs, 'Gouvernerat');
+  return collectionData(gouverneratCollection, { idField: 'id' }).pipe(
+    map((gouvernerats: any[]) => {
+      return gouvernerats.map(gouvernerat => gouvernerat.nom);
     })
   );
 }

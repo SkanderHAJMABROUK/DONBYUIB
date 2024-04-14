@@ -48,6 +48,20 @@ p{
     color: red;
     font-style: italic;
 }
+select{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #d1d5da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+select:focus{
+    outline: none;
+    border-color: black;
+    box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.594);
+}
 
 .error-message {
     font-size: 0.9rem; 

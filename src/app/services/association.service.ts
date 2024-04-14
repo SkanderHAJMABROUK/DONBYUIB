@@ -56,6 +56,7 @@ export class AssociationService {
           etat: association.etat,
           categorie: association.categorie,
           adresse:association.adresse,
+          gouvernerat: association.gouvernerat,
           description: association.description,
           email: association.email,
           id_fiscale: association.id_fiscale,
@@ -81,6 +82,7 @@ export class AssociationService {
             etat: association.etat,
             categorie: association.categorie,
             adresse: association.adresse,
+            gouvernerat: association.gouvernerat,
             description: association.description,
             email: association.email,
             id_fiscale: association.id_fiscale,
@@ -106,6 +108,7 @@ export class AssociationService {
             etat: association.etat,
             categorie: association.categorie,
             adresse: association.adresse,
+            gouvernerat: association.gouvernerat,
             description: association.description,
             email: association.email,
             id_fiscale: association.id_fiscale,
@@ -310,6 +313,7 @@ export class AssociationService {
         description: associationData.description,
         categorie: associationData.categorie,
         adresse: associationData.adresse,
+        gouvernerat: associationData.gouvernerat,
         email: associationData.email,
         telephone: associationData.telephone,
         logo: associationData.logo,
@@ -333,6 +337,7 @@ async addAssociationAndDemande(associationData: Association) {
       description: associationData.description,
       categorie: associationData.categorie,
       adresse: associationData.adresse,
+      gouvernerat: associationData.gouvernerat,
       email: associationData.email,
       telephone: associationData.telephone,
       logo: associationData.logo,
@@ -571,6 +576,24 @@ getDemandDateByIdAssociation(id_association: string): Observable<Date | undefine
       } else {
         return undefined; 
       }
+    })
+  );
+}
+
+getCategories(): Observable<string[]> {
+  let categorieCollection = collection(this.fs, 'Categorie');
+  return collectionData(categorieCollection, { idField: 'id' }).pipe(
+    map((categories: any[]) => {
+      return categories.map(category => category.nom);
+    })
+  );
+}
+
+getGouvernerats(): Observable<string[]> {
+  let gouverneratCollection = collection(this.fs, 'Gouvernerat');
+  return collectionData(gouverneratCollection, { idField: 'id' }).pipe(
+    map((gouvernerats: any[]) => {
+      return gouvernerats.map(gouvernerat => gouvernerat.nom);
     })
   );
 }
