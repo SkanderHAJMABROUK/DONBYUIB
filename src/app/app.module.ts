@@ -83,6 +83,10 @@ import { DemandeModificationCollecteComponent } from './components/administrateu
 import { ModificationCollecteDetailsComponent } from './components/administrateur/modification-collecte-details/modification-collecte-details.component';
 import { DemandeModificationActualiteComponent } from './components/administrateur/demande-modification-actualite/demande-modification-actualite.component';
 import { ModificationActualiteDetailsComponent } from './components/administrateur/modification-actualite-details/modification-actualite-details.component';
+import { DemandeSuppressionCollecteComponent } from './components/administrateur/demande-suppression-collecte/demande-suppression-collecte.component';
+import { DemandeSuppressionActualiteComponent } from './components/administrateur/demande-suppression-actualite/demande-suppression-actualite.component';
+import { SuppressionCollecteDetailsComponent } from './components/administrateur/suppression-collecte-details/suppression-collecte-details.component';
+import { SuppressionActualiteDetailsComponent } from './components/administrateur/suppression-actualite-details/suppression-actualite-details.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -160,6 +164,10 @@ const firebaseConfig = {
     ModificationCollecteDetailsComponent,
     DemandeModificationActualiteComponent,
     ModificationActualiteDetailsComponent,
+    DemandeSuppressionCollecteComponent,
+    DemandeSuppressionActualiteComponent,
+    SuppressionCollecteDetailsComponent,
+    SuppressionActualiteDetailsComponent,
   
     ],
   imports: [

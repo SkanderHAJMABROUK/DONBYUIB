@@ -28,6 +28,8 @@ export class ModificationCollecteDetailsComponent implements OnInit{
     private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
+    this.modifiedFields = [];
+    this.commonFields = [];
     this.compareFields();
   }
 
@@ -49,7 +51,6 @@ export class ModificationCollecteDetailsComponent implements OnInit{
                   newValue: this.demande[field]
                 });
                 this.nbrChampsConcernes = this.modifiedFields.length;
-                console.log(this.modifiedFields)
               }
             } else {
               const commonFieldIndex = this.commonFields.findIndex(item => item.label === field);

@@ -28,6 +28,8 @@ export class ModificationActualiteDetailsComponent {
     private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
+    this.modifiedFields = [];
+    this.commonFields = [];
     this.compareFields();
   }
 

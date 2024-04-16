@@ -13,15 +13,21 @@
      {{ actualite.titre }}
      <div class="icons-container">
        <div class="icon-wrapper">
-        <i><fa-icon  [icon]="faList" class="on-icon" (click)="afficherDetails(actualite)">
+        <i><fa-icon  [icon]="faList" class="on-icon" (click)="afficherDetails(actualite)" *ngIf="actualite.etat!='en_attente_de_suppression'">
         </fa-icon>
       </i> 
        </div>
        <div class="icon-wrapper">
-        <i><fa-icon  [icon]="faPenToSquare" class="on-icon" (click)="modifierActualite(actualite)"></fa-icon></i> 
+        <i><fa-icon  [icon]="faPenToSquare" class="on-icon" (click)="modifierActualite(actualite)" *ngIf="actualite.etat!='en_attente_de_suppression'"></fa-icon></i> 
        </div>
        <div class="icon-wrapper">
-        <i><fa-icon  [icon]="faTrash" class="on-icon" (click)="supprimerActualite(actualite)"></fa-icon></i> 
+        <i><fa-icon  [icon]="faTrash" class="on-icon" (click)="supprimerActualite(actualite)" *ngIf="actualite.etat!='en_attente_de_suppression'"></fa-icon></i> 
+    </div>
+    <div class="icon-wrapper">
+      <div class="deleted-icon" *ngIf="actualite.etat=='en_attente_de_suppression'">
+        <i><fa-icon [icon]="faCircleExclamation" class="on-icon"></fa-icon></i>
+        <span>  Demande de suppression en attente! </span>
+      </div>
     </div>
       </div>
    </div>

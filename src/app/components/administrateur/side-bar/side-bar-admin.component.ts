@@ -51,6 +51,18 @@ export class SideBarAdminComponent implements OnInit{
       console.error(error);
     });
 
+    this.service.getPendingDemandeSuppressionActualitesCount().then(count => {
+      this.service.demandeSuppressionActualitesCount = count;
+    }).catch(error => {
+      console.error(error);
+    });
+
+    this.service.getPendingDemandeSuppressionCollectesCount().then(count => {
+      this.service.demandeSuppressionCollectesCount = count;
+    }).catch(error => {
+      console.error(error);
+    });
+
 }
 
    logOut() {

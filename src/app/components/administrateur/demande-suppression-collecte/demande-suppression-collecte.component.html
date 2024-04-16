@@ -1,0 +1,75 @@
+<div class="container">
+    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherCollecte()" placeholder="Rechercher..." class="search-input">
+
+    <label  id="etat-label" for="etat-select">Filtrer par association:</label>
+        <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherCollecte()">
+          <option value="" selected>Tous</option>
+          <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
+        </select>
+
+    <label id="etat-label" for="tri-select">Trier par :</label>
+    <select id="etat-label" [(ngModel)]="selectedTri" (change)="chercherCollecte()">
+      <option value="none" selected>Aucun tri</option>
+      <option value="plusRecents">Les plus récents</option>
+      <option value="plusAnciens">Les plus anciens</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+        <th>Nom de la collecte</th>
+        <th>Association</th>
+        <th>Date</th>
+          
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let collecte of filteredDemandeSuppressionCollecteList">
+
+            <td>{{ getCollecteNameById(collecte.id_collecte) }}</td>          
+            <td>{{ getAssociationNameById(collecte.id_association) }}</td>
+            <td>{{ collecte.date | date}}</td>
+          <td>
+            <div class="crud-buttons">
+               
+            <button class="action-button add-button" (click)="accepterSuppressionCollecte(collecte)"><fa-icon [icon]="faCheck"></fa-icon></button>
+             
+            <button class="action-button refuse-button" (click)="refuserSuppressionCollecte(collecte)"> <fa-icon [icon]="faXmark"></fa-icon>
+            </button>
+              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(collecte)"></fa-icon></button>
+
+               </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <app-suppression-collecte-details *ngIf="adminService.demandeSuppressionCollecteDetails"
+    [collecte]="selectedCollecte">
+    </app-suppression-collecte-details>
+
+    <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
+        <div class="lightbox-contenu">
+          <img [src]="imageAffichee" alt="Photo agrandie">
+        </div>
+    </div>
+  
+    <div class="pages">
+      <div class="pagination">
+        <button class="prev-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1"><fa-icon [icon]="faChevronLeft"></fa-icon></button>
+        <span class="page-info"> Page {{ currentPage }} sur {{ getTotalPages() }} </span>
+        <button class="next-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()"><fa-icon [icon]="faChevronRight"></fa-icon></button>
+      </div>
+  
+      <div class="page-size-selection">
+        <label for="page-size-select">Nombre de demandes par page:</label>
+        <select id="page-size-select" [(ngModel)]="selectedPageSize" (change)="onPageSizeChange()">
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+      </div>
+    </div>
+  </div>

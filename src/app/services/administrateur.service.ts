@@ -20,6 +20,7 @@ import { Admin } from '../interfaces/admin';
 export class AdministrateurService {
 
   compte: boolean = localStorage.getItem('compte') === 'true';
+
   showErrorNotification:boolean=false;
   associationDetailShowModal:boolean=false;
   associationModifierShowModal:boolean=false;
@@ -29,7 +30,6 @@ export class AdministrateurService {
   actualiteModifierShowModal:boolean=false;
   donateurDetailShowModal:boolean=false;
   donateurModifierShowModal:boolean=false;
-
 
   ajouterAssociation:boolean=false;
   ajouterDonateur:boolean=false;
@@ -52,17 +52,22 @@ export class AdministrateurService {
   demandeModificationActualite:boolean = false;
   demandeModificationActualiteDetails:boolean = false;
 
+  demandeSuppressionActualite:boolean = false;
+  demandeSuppressionActualiteDetails:boolean = false;
+  demandeSuppressionCollecte:boolean = false;
+  demandeSuppressionCollecteDetails:boolean = false;
+
   demandeCollectesCount: number = 0;
   demandeAssociationsCount: number = 0;
   demandeActualitesCount: number = 0;
   demandeModificationAssociationsCount: number = 0;
   demandeModificationCollectesCount: number = 0;
   demandeModificationActualitesCount: number = 0;
+  demandeSuppressionActualitesCount: number = 0;
+  demandeSuppressionCollectesCount: number = 0;
 
 
   id!:string|null;
-
-
 
   constructor(private fs:Firestore,public associationService:AssociationService,private firestore:AngularFirestore,private route:Router) { }
 
@@ -220,6 +225,36 @@ async getPendingDemandeModificationCollectesCount(): Promise<number> {
 async getPendingDemandeModificationActualitesCount(): Promise<number> {
   try {
     const querySnapshot = await this.firestore.collection('DemandeModificationActualite', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+    
+    return querySnapshot.size;
+  } catch (error) {
+    return 0;
+  }
+}
+
+async getPendingDemandeSuppressionActualitesCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeSuppressionActualite', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
+    
+    if (!querySnapshot) {
+      console.error('Query snapshot is undefined');
+      return 0;
+    }
+    
+    return querySnapshot.size;
+  } catch (error) {
+    return 0;
+  }
+}
+
+async getPendingDemandeSuppressionCollectesCount(): Promise<number> {
+  try {
+    const querySnapshot = await this.firestore.collection('DemandeSuppressionCollecte', ref => ref.where('etat', '==', 'en_attente')).get().toPromise();
     
     if (!querySnapshot) {
       console.error('Query snapshot is undefined');

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { faList, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleExclamation, faList, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Actualite } from '../../../interfaces/actualite';
 import { ActualiteService } from '../../../services/actualite.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-actualite-list-association',
@@ -14,12 +16,13 @@ export class ActualiteListAssociationComponent {
   faTrash = faTrash;
   faList = faList;
   faPenToSquare = faPenToSquare;
+  faCircleExclamation=faCircleExclamation;
 
   filteredActualiteList: Actualite[] = [];
   searchTerm: string = '';
   selectedActualite: Actualite = {} as Actualite;
 
-  constructor(public service: ActualiteService, private router: Router) {
+  constructor(public service: ActualiteService, private router: Router, private firestore: AngularFirestore) {
    
   }
 
@@ -41,9 +44,36 @@ export class ActualiteListAssociationComponent {
   }
 
   supprimerActualite(actualite: Actualite) {
-   this.service.supprimerActualite(actualite).subscribe((response) => {
-      this.actualites = response;
-      this.filteredActualiteList = this.actualites; 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (actualite.id) { // Vérifie si l'identifiant de la collecte est défini
+          this.updateCollecteEtat(actualite.id, 'en_attente_de_suppression') // Met à jour l'état de la collecte
+            .then(() => {
+              this.service.supprimerActualite(actualite).subscribe(() => {
+                this.getActualitesByAssociationId(); // Rafraîchit la liste après la suppression
+                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+              }, (error) => {
+                console.error('Error while deleting collecte:', error);
+                Swal.fire('Error!', 'An error occurred while deleting the collecte.', 'error');
+              });
+            })
+            .catch((error) => {
+              console.error('Error updating collecte state:', error);
+              Swal.fire('Error!', 'An error occurred while updating the collecte state.', 'error');
+            });
+        } else {
+          console.error('Collecte ID is undefined.');
+          Swal.fire('Error!', 'The collecte ID is undefined.', 'error');
+        }
+      }
     });
   }
 
@@ -73,5 +103,11 @@ export class ActualiteListAssociationComponent {
     actualite.titre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 }
+
+updateCollecteEtat(id: string, etat: string): Promise<void> {
+  const demandeRef = this.firestore.collection('Actualite').doc(id);
+  return demandeRef.update({ etat: etat });
+}
+
 }
 

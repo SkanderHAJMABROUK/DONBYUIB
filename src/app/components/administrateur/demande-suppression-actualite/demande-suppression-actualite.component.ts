@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DemandeCollecte } from 'src/app/interfaces/demande-collecte';
+import { DemandeSuppressionActualite } from 'src/app/interfaces/demande-suppression-actualite';
 import { AssociationService } from 'src/app/services/association.service';
 import { faList, faCheck, faXmark, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { CollecteService } from 'src/app/services/collecte.service';
+import { ActualiteService } from 'src/app/services/actualite.service';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators'; 
+import { Actualite } from 'src/app/interfaces/actualite';
 
 @Component({
-  selector: 'app-demandes-collectes',
-  templateUrl: './demandes-collectes.component.html',
-  styleUrls: ['./demandes-collectes.component.css']
+  selector: 'app-demande-suppression-actualite',
+  templateUrl: './demande-suppression-actualite.component.html',
+  styleUrls: ['./demande-suppression-actualite.component.css']
 })
-export class DemandesCollectesComponent implements OnInit{
+export class DemandeSuppressionActualiteComponent {
 
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
@@ -23,86 +24,95 @@ export class DemandesCollectesComponent implements OnInit{
   faCheck = faCheck;
   faXmark = faXmark;
 
+  rapportRefus : string = '';
+
   associationsNames: string[] = [];
   selectedAssociation: string = '';
   associationsIds : string[] = []; 
 
+  actualitesNames: string[] = [];
+  actualitesIds : string[] = [];
+
   showConfirmationModal: boolean = false;
 
-  demandesCollectes: DemandeCollecte[] = [];
-  filteredDemandeCollecteList: DemandeCollecte[] = [];
+  demandesSuppressionActualites: DemandeSuppressionActualite[] = [];
+  filteredDemandeSuppressionActualiteList: DemandeSuppressionActualite[] = [];
   searchTerm: string = '';
-  selectedDemandeCollecte: DemandeCollecte = {} as DemandeCollecte;
+  selectedDemandeSuppressionActualite: DemandeSuppressionActualite = {} as DemandeSuppressionActualite;
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; 
   imageAffichee: string = ''; 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
-  selectedCollecte!:DemandeCollecte;
+  @Input() selectedActualite!: Actualite; 
 
-  constructor(private collecteService: CollecteService, private router: Router, public adminService:AdministrateurService,
+  constructor(public actualiteService: ActualiteService, private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore, private associationService: AssociationService) { }
 
     ngOnInit(): void {
       this.selectedPageSize = '10';
-      this.getCollectes();
+      this.getDemandesSuppressionActualites();
     }
 
-    getCollectes(): void {
-      this.collecteService.getPendingDemandesCollectes().subscribe(demandesCollectes => {
-        this.demandesCollectes = demandesCollectes;
+    getDemandesSuppressionActualites(): void {
+      this.actualiteService.getPendingDemandesSuppressionActualites().subscribe(demandesSuppressionActualites => {
+        this.demandesSuppressionActualites = demandesSuppressionActualites;
         this.getAssociationsIds();
-        this.chercherCollecte();
+        this.getActualitesIds();
+        this.chercherActualite();
       });
+    } 
+    
+    afficherDetails(actualite: DemandeSuppressionActualite) {
+      if (actualite.id_actualite) {
+        this.actualiteService.getActualiteById(actualite.id_actualite).subscribe((response) => {
+          this.selectedActualite = response!;
+          this.adminService.demandeSuppressionActualiteDetails = true;
+          console.log(response);
+        });
+      } else {
+        console.error('ID de l\'actualite associé non défini.');
+      }
     }
 
-    afficherDetails(collecte: DemandeCollecte) {
-      if(collecte.id){
-      this.collecteService.getDemandeCollecteById(collecte.id).subscribe((response) => {
-        this.selectedCollecte = response!;
-        this.adminService.collecteDetailShowModal = true;
-        console.log(response)
-      });
-    }
-  }
-
-    chercherCollecte(): void {
+    chercherActualite(): void {
       const startIndex = (this.currentPage - 1) * this.pageSize;
       const endIndex = startIndex + this.pageSize;
-      this.filteredDemandeCollecteList = this.demandesCollectes.filter((demandeCollecte, index) =>
+  
+      this.filteredDemandeSuppressionActualiteList = this.demandesSuppressionActualites.filter((demandeActualite, index) =>
         index >= startIndex && index < endIndex &&
-        (demandeCollecte.nom.toLowerCase().includes(this.searchTerm.toLowerCase())&&
-        (!this.selectedAssociation || this.getAssociationNameById(demandeCollecte.id_association) === this.selectedAssociation) 
+        (
+        (!this.searchTerm || this.getActualiteNameById(demandeActualite.id_actualite)?.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
+        (!this.selectedAssociation || this.getAssociationNameById(demandeActualite.id_association) === this.selectedAssociation) 
       ))
-
-      // Tri
-    switch (this.selectedTri) {
-      case 'plusRecents':
-        this.filteredDemandeCollecteList = this.filteredDemandeCollecteList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        break;
-      case 'plusAnciens':
-        this.filteredDemandeCollecteList = this.filteredDemandeCollecteList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        break;
-      default:
-        break;
-    }
+        
+      switch (this.selectedTri) {
+        case 'plusRecents':
+          this.filteredDemandeSuppressionActualiteList = this.filteredDemandeSuppressionActualiteList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          break;
+        case 'plusAnciens':
+          this.filteredDemandeSuppressionActualiteList = this.filteredDemandeSuppressionActualiteList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+          break;
+        default:
+          break;
+      }
     }
 
     onPageChange(page: number): void {
       this.currentPage = page;
-      this.chercherCollecte();
+      this.chercherActualite();
     }
   
     onPageSizeChange(): void {
       this.pageSize = +this.selectedPageSize; // Convertit la chaîne en nombre
       this.currentPage = 1; // Réinitialise à la première page
-      this.chercherCollecte(); // Réapplique la pagination avec la nouvelle taille de page
+      this.chercherActualite(); // Réapplique la pagination avec la nouvelle taille de page
       this.getTotalPages(); // Recalcule le nombre total de pages
     }
     
   
     getTotalPages(): number {
-      return Math.ceil(this.demandesCollectes.length / this.pageSize);
+      return Math.ceil(this.demandesSuppressionActualites.length / this.pageSize);
     }
   
     afficherImage(url: string): void {
@@ -112,21 +122,21 @@ export class DemandesCollectesComponent implements OnInit{
     cacherImage(): void {
       this.imageAffichee = ''; // Cacher l'image en vidant l'URL
     }
-
+  
     updateDemandeEtat(id: string, etat: string): Promise<void> {
-      const demandeRef = this.firestore.collection('DemandeCollecte').doc(id);
+      const demandeRef = this.firestore.collection('DemandeSuppressionActualite').doc(id);
       return demandeRef.update({ etat: etat });
     }
   
     updateActualiteEtat(actualiteId: string, etat: string): Promise<void> {
-      const demandeRef = this.firestore.collection('Collecte').doc(actualiteId);
+      const demandeRef = this.firestore.collection('Actualite').doc(actualiteId);
       return demandeRef.update({ etat: etat });
     }
-
+  
     getAssociationsIds(): void {
       this.associationsIds = Array.from(new Set(
-        this.demandesCollectes
-          .map(demandeCollecte => demandeCollecte.id_association)
+        this.demandesSuppressionActualites
+          .map(demandeActualite => demandeActualite.id_association)
           .filter(id_association => id_association !== undefined && id_association !== null)
       )) as string[];
   
@@ -161,28 +171,75 @@ export class DemandesCollectesComponent implements OnInit{
       } else {
         return 'Association not found';
       }
-    }  
+    }
+  
+    getActualitesIds(): void {
+      this.actualitesIds = Array.from(new Set(
+        this.demandesSuppressionActualites
+          .map(demandeActualite => demandeActualite.id_actualite)
+          .filter(id_actualite => id_actualite !== undefined && id_actualite !== null)
+      )) as string[];
+  
+      this.getActualitesNamesByIds(this.actualitesIds); // Call function to fetch association names 
+    }
+  
+    getActualitesNamesByIds(ids: string[]) {
+      const observables: Observable<string | undefined>[] = ids.map(id =>
+        this.actualiteService.getActualiteTitleById(id).pipe(
+          map(name => name ?? undefined) // Convert undefined values to Observable<undefined>
+        )
+      );
+          observables.forEach((observable, index) =>
+        observable.subscribe(name => {
+          console.log(`Observable ${index + 1} emitted value:`, name); // Log emitted values
+          if (name !== undefined) {
+            this.actualitesNames.push(name);
+            console.log('Pushed name:', name); // Log pushed name
+            console.log(this.actualitesNames);
+          }
+        })
+      )
+    } 
     
-    refuserActualite(selectedDemandeCollecte: DemandeCollecte): void {
+    getActualiteNameById(id: string | undefined): string {
+      if (!id) {
+        return 'Unknown Actualite';
+      }
+      const index = this.actualitesIds.indexOf(id);
+      if (index !== -1) {
+        return this.actualitesNames[index];
+      } else {
+        return 'Actualite not found';
+      }
+    }
+
+    refuserSuppressionActualite(selectedDemandeActualite: DemandeSuppressionActualite): void {
 
       Swal.fire({
-        title: `Vous voulez refuser la demande d'ajout de la collecte : ${selectedDemandeCollecte.nom} ?`,
+        title: `Vous voulez refuser la demande de suppression de cette actualité ?`,
         text: "La demande sera refusée définitivement",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Oui, refuser",
+        input: 'textarea', 
+    inputPlaceholder: 'Raison du refus', 
+    inputAttributes: {
+      autocapitalize: 'off'
+    }
       }).then((result) => {
-        if (result.isConfirmed) {
-          if (selectedDemandeCollecte.id) {
-            this.updateDemandeEtat(selectedDemandeCollecte.id, "refusé").then(() => {
-              console.log(selectedDemandeCollecte.id_collecte);
-              if (selectedDemandeCollecte.id_collecte) {
-                this.collecteService.deleteCollecteById(selectedDemandeCollecte.id_collecte).then(() => {
+        if (result.isConfirmed && selectedDemandeActualite.id) {
+          this.rapportRefus += result.value + ` \n`;
+          this.envoyerRapport(selectedDemandeActualite.id);
+          if (selectedDemandeActualite.id) {
+            this.updateDemandeEtat(selectedDemandeActualite.id, "refusé").then(() => {
+              console.log(selectedDemandeActualite.id_actualite);
+              if (selectedDemandeActualite.id_actualite) {
+                this.updateActualiteEtat(selectedDemandeActualite.id_actualite,"accepté").then(() => {
                   Swal.fire({
                     title: "Refusé!",
-                    text: `La demande de ${selectedDemandeCollecte.nom} a été refusée.`,
+                    text: `La demande de suppression a été refusée.`,
                     icon: "success"
                   });
                 }).catch(error => {
@@ -220,9 +277,9 @@ export class DemandesCollectesComponent implements OnInit{
         }
       });
     }
-
-    accepterActualite(selectedDemandeCollecte: DemandeCollecte): void {
-      if (!selectedDemandeCollecte || !selectedDemandeCollecte.id_collecte) {
+  
+    accepterSuppressionActualite(selectedDemandeActualite: DemandeSuppressionActualite): void {
+      if (!selectedDemandeActualite || !selectedDemandeActualite.id_actualite) {
         console.error('La demande de l\'actualité ou l\'ID de l\'actualité est indéfinie.');
         Swal.fire({
           title: "Erreur",
@@ -233,7 +290,7 @@ export class DemandesCollectesComponent implements OnInit{
       }
     
       Swal.fire({
-        title: `Vous voulez accepter la demande de ${selectedDemandeCollecte.nom} ?`,
+        title: `Vous voulez accepter la demande de suppression ?`,
         text: "La demande sera acceptée définitivement",
         icon: "warning",
         showCancelButton: true,
@@ -243,14 +300,14 @@ export class DemandesCollectesComponent implements OnInit{
       }).then((result) => {
         if (result.isConfirmed) {
           // Mettre à jour l'état de la demande à "accepté"
-          if (selectedDemandeCollecte.id) {
-            this.updateDemandeEtat(selectedDemandeCollecte.id, "accepté").then(() => {
+          if (selectedDemandeActualite.id) {
+            this.updateDemandeEtat(selectedDemandeActualite.id, "accepté").then(() => {
               // Mettre à jour l'état de l'association à "accepté"
-              if (selectedDemandeCollecte.id_collecte) {
-                this.updateActualiteEtat(selectedDemandeCollecte.id_collecte, "accepté").then(() => {
+              if (selectedDemandeActualite.id_actualite) {
+                this.updateActualiteEtat(selectedDemandeActualite.id_actualite, "supprimé").then(() => {
                   Swal.fire({
                     title: "Accepté!",
-                    text: `La demande de ${selectedDemandeCollecte.nom} a été acceptée.`,
+                    text: `La demande de suppression a été acceptée.`,
                     icon: "success"
                   });
                 }).catch(error => {
@@ -265,7 +322,7 @@ export class DemandesCollectesComponent implements OnInit{
                 console.error('ID de l\'actualité indéfini.');
                 Swal.fire({
                   title: "Erreur",
-                  text: "ID de l'actualité indéfini.",
+                  text: "ID de l'\actualité indéfini.",
                   icon: "error"
                 });
               }
@@ -287,7 +344,18 @@ export class DemandesCollectesComponent implements OnInit{
           }
         }
       });
-    } 
+    }
+     
+    envoyerRapport(id:string): void {
+        const demandeRef = this.firestore.collection('DemandeSuppressionActualite').doc(id);
+        demandeRef.update({ rapport: this.rapportRefus })
+          .then(() => {
+            console.log('Rapport envoyé avec succès.');
+          })
+          .catch(error => {
+            console.error('Erreur lors de l\'envoi du rapport :', error);
+          });      
+    }
 
-
+  
 }

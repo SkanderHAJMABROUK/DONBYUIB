@@ -11,6 +11,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AssociationService } from './association.service';
 import { DemandeCollecte } from '../interfaces/demande-collecte';
 import { DemandeModificationCollecte } from '../interfaces/demande-modification-collecte';
+import { DemandeSuppressionCollecte } from '../interfaces/demande-suppression-collecte';
 
 
 
@@ -207,6 +208,56 @@ getAcceptedDemandesModificationsCollectes(): Observable<DemandeModificationColle
   );
 }
 
+getDemandesSuppressionCollectes(): Observable<DemandeSuppressionCollecte[]> {
+  let demandeSuppressionCollectesCollection = collection(this.fs, 'DemandeSuppressionCollecte');
+  return collectionData(demandeSuppressionCollectesCollection, { idField: 'id' }).pipe(
+    map((demandeSuppressionCollecte: any[]) => {
+      return demandeSuppressionCollecte
+      .map(demandeSuppressionCollecte => ({
+        id: demandeSuppressionCollecte.id,
+        id_association : demandeSuppressionCollecte.id_association,
+        id_collecte : demandeSuppressionCollecte.id_collecte,     
+        etat : demandeSuppressionCollecte.etat,
+        date : demandeSuppressionCollecte.date instanceof Timestamp ? demandeSuppressionCollecte.date.toDate() : demandeSuppressionCollecte.date,
+      }));
+    })
+  );
+}
+
+getPendingDemandesSuppressionCollectes(): Observable<DemandeSuppressionCollecte[]> {
+  let demandeSuppressionCollectesCollection = collection(this.fs, 'DemandeSuppressionCollecte');
+  return collectionData(demandeSuppressionCollectesCollection, { idField: 'id' }).pipe(
+    map((demandeSuppressionCollecte: any[]) => {
+      return demandeSuppressionCollecte
+      .filter(demandeSuppressionCollecte => demandeSuppressionCollecte.etat === 'en_attente') 
+      .map(demandeSuppressionCollecte => ({
+        id: demandeSuppressionCollecte.id,
+        id_association : demandeSuppressionCollecte.id_association,
+        id_collecte : demandeSuppressionCollecte.id_collecte,     
+        etat : demandeSuppressionCollecte.etat,
+        date : demandeSuppressionCollecte.date instanceof Timestamp ? demandeSuppressionCollecte.date.toDate() : demandeSuppressionCollecte.date,
+      }));
+    })
+  );
+}
+
+getAcceptedDemandesSuppressionCollectes(): Observable<DemandeSuppressionCollecte[]> {
+  let demandeSuppressionCollectesCollection = collection(this.fs, 'DemandeSuppressionCollecte');
+  return collectionData(demandeSuppressionCollectesCollection, { idField: 'id' }).pipe(
+    map((demandeSuppressionCollecte: any[]) => {
+      return demandeSuppressionCollecte
+      .filter(demandeSuppressionCollecte => demandeSuppressionCollecte.etat === 'accepté') 
+      .map(demandeSuppressionCollecte => ({
+        id: demandeSuppressionCollecte.id,
+        id_association : demandeSuppressionCollecte.id_association,
+        id_collecte : demandeSuppressionCollecte.id_collecte,     
+        etat : demandeSuppressionCollecte.etat,
+        date : demandeSuppressionCollecte.date instanceof Timestamp ? demandeSuppressionCollecte.date.toDate() : demandeSuppressionCollecte.date,
+      }));
+    })
+  );
+}
+
 getDemandeModificationCollecteById(id: string): Observable<DemandeModificationCollecte | undefined> {
   return this.getDemandesModificationsCollectes().pipe(
     map(collectes => collectes.find(collecte => collecte.id === id))
@@ -263,22 +314,23 @@ getAssociationIdFromUrl():string{
 }
 
 
-
-
-supprimerCollecte(collecte: Collecte): Observable<Collecte[]> {
-  const collecteRef = this.firestore.collection('Collecte').doc(collecte.id);
-  const updatedCollecteData = {
-    ...collecte,
-    etat: "suppression"
+supprimerCollecte(collecte: Collecte): Observable<void> {
+  const demandeSuppression: DemandeSuppressionCollecte = {
+    id_collecte: collecte.id,
+    id_association: collecte.id_association,
+    etat: 'en_attente',
+    date: new Date()
   };
 
-  return new Observable<Collecte[]>(observer => {
-    collecteRef.update(updatedCollecteData).then(() => {
-      observer.next([]);
-      observer.complete();
-    }).catch(error => {
-      observer.error(error);
-    });
+  return new Observable<void>(observer => {
+    this.firestore.collection('DemandeSuppressionCollecte').add(demandeSuppression)
+      .then(() => {
+        observer.next();
+        observer.complete();
+      })
+      .catch(error => {
+        observer.error(error);
+      });
   });
 }
 
@@ -374,6 +426,14 @@ checkPendingModificationDemand(collecteId: string): Observable<boolean> {
   );
 }
 
+checkPendingDeleteDemand(collecteId: string): Observable<boolean> {
+  return this.firestore.collection<DemandeSuppressionCollecte>('DemandeSuppressionCollecte', ref =>
+    ref.where('id_collecte', '==', collecteId).where('etat', '==', 'en_attente')
+  ).valueChanges().pipe(
+    map(demands => demands.length > 0) // Si la longueur des demandes en attente est supérieure à 0, retourne true, sinon false
+  );
+}
+
 getModificationDateByCollecteId(collecteId: string): Observable<string | undefined> {
   return this.firestore.collection<DemandeModificationCollecte>('DemandeModificationCollecte', ref =>
     ref.where('id_collecte', '==', collecteId).where('etat', '==', 'en_attente')
@@ -402,6 +462,12 @@ updateCollecteField(id: string, fieldName: keyof Partial<Collecte>, newValue: an
   const updatedField: Partial<Collecte> = {};
   updatedField[fieldName] = newValue;
   return collecteRef.update(updatedField);
+}
+
+getCollecteNameById(id: string): Observable<string | undefined> {
+  return this.getCollecteById(id).pipe(
+    map(collecte => collecte?.nom)
+  )
 }
 
 

@@ -28,6 +28,8 @@ export class ModificationAssociationDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.modifiedFields = [];
+    this.commonFields = [];
     this.compareFields();
   }
 
@@ -61,8 +63,7 @@ export class ModificationAssociationDetailsComponent implements OnInit {
               }
             }
           });
-          console.log('modifiedFields',this.modifiedFields);
-          console.log('commonFields',this.commonFields);
+          
         }
       });
     }  
