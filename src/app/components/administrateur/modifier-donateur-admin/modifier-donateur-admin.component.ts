@@ -48,6 +48,8 @@ export class ModifierDonateurAdminComponent {
           salt:this.donateur.salt,
           email: this.donateurForm.value.email,
           telephone: this.donateurForm.value.telephone,
+          adresse: this.donateurForm.value.adresse,
+          gouvernerat: this.donateurForm.value.gouvernerat,
           date_de_naissance: this.donateurForm.value.date_de_naissance,
           photo: this.donateur.photo // Assurez-vous de transmettre l'URL de l'image existante
         };

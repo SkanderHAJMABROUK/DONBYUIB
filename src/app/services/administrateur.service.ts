@@ -83,6 +83,7 @@ export class AdministrateurService {
         description: associationData.description,
         categorie: associationData.categorie,
         adresse: associationData.adresse,
+        gouvernerat: associationData.gouvernerat,
         email: associationData.email,
         telephone: associationData.telephone,
         logo: associationData.logo,

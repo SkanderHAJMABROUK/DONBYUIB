@@ -21,22 +21,20 @@
         <div *ngIf="aFormGroup.get('description')?.errors?.['required']">La description de l'association est requise.</div>
       </div>
     </div>
+    
+
     <div>
       <label for="categorie_association">Catégorie de l'association<span> *</span></label><br>
       <select id="categorie_association" formControlName="categorie" required>
         <option value="" disabled selected>Sélectionner une catégorie</option>
-        <option value="humanitaire">Humanitaire</option>
-        <option value="environnement">Environnement</option>
-        <option value="santé">Santé</option>
-        <option value="éducation">Éducation</option>
-        <option value="enfance">Enfance</option>
-        <option value="animaux">Animaux</option>
-        <option value="autres">Autres</option>
+        <option *ngFor="let categorie of categories" [value]="categorie">{{ categorie }}</option>
       </select>
       <div class="error-message" *ngIf="aFormGroup.get('categorie')?.invalid && (aFormGroup.get('categorie')?.dirty || aFormGroup.get('categorie')?.touched)">
         <div *ngIf="aFormGroup.get('categorie')?.errors?.['required']">La catégorie de l'association est requise.</div>
       </div>
     </div>
+
+    
     <div>
       <label for="email_association">Adresse email de l'association<span> *</span></label>
       <input type="email" id="email_association" formControlName="email" placeholder="adresse@email.com" required>
@@ -45,6 +43,7 @@
         <div *ngIf="aFormGroup.get('email')?.errors?.['email']">L'adresse email n'est pas valide.</div>
       </div>
     </div>
+
     <div>
       <label for="adresse">Adresse de l'association<span> *</span></label>
       <input type="text" id="adresse" formControlName="adresse" placeholder="Adresse complète de l'association" required>
@@ -52,6 +51,19 @@
         <div *ngIf="aFormGroup.get('adresse')?.errors?.['required']">L'adresse' de l'association est requise.</div>
       </div>
     </div>
+
+    <div>
+      <label for="gouvernerat">Gouvernerat<span> *</span></label><br>
+      <select id="gouvernerat" formControlName="gouvernerat" required>
+        <option value="" disabled selected>Sélectionner un gouvernerat</option>
+        <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
+      </select>
+      <div class="error-message" *ngIf="aFormGroup.get('gouvernerat')?.invalid && (aFormGroup.get('gouvernerat')?.dirty || aFormGroup.get('gouvernerat')?.touched)">
+        <div *ngIf="aFormGroup.get('gouvernerat')?.errors?.['required']">Le gouvernerat de l'association est requis.</div>
+      </div>
+    </div>
+
+
     <div>
       <label for="num_association">Numéro téléphone de l'association<span> *</span></label>
       <input type="tel" id="num_association" formControlName="telephone" placeholder="N° Téléphone" required>

@@ -6,6 +6,8 @@ export interface Donateur {
     etat:string,
     date_de_naissance:Date,
     telephone:string,
+    adresse:string,
+    gouvernerat:string,
     email: string,
     mdp:string,
     salt:string,
