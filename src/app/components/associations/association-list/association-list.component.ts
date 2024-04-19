@@ -30,7 +30,7 @@ export class AssociationListComponent {
   filterByCategory(cat: string): void {
     this.categorySelected = cat;
     console.log(this.categorySelected);
-    this.service.getAssociations().subscribe((res: Association[]) => {
+    this.service.getActiveAssociations().subscribe((res: Association[]) => {
       this.associations = res.filter((association: Association) => {
         return association.categorie === cat;
       });
@@ -43,9 +43,7 @@ export class AssociationListComponent {
   
   ngOnInit():void{
     this.service.getActiveAssociations().subscribe((res)=>{
-     this.associations=res;
-     
-
+     this.associations=res;    
    })
    }
 
@@ -53,7 +51,5 @@ export class AssociationListComponent {
     this.service.showDetails = true;
     localStorage.setItem('service.showDetails', 'true');
   }
-
-
 
 }

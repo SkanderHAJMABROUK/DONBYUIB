@@ -224,8 +224,15 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Oui, refuser",
+      input: 'textarea', 
+    inputPlaceholder: 'Raison du refus', 
+    inputAttributes: {
+      autocapitalize: 'off'
+    }
     }).then((result) => {
-      if (result.isConfirmed) {
+      if (result.isConfirmed && selectedDemandeCollecte.id) {
+        this.rapportRefus += result.value + ` \n`;
+        this.envoyerRapport(selectedDemandeCollecte.id);
         if (selectedDemandeCollecte.id) {
           this.updateDemandeEtat(selectedDemandeCollecte.id, "refusé").then(() => {
             console.log(selectedDemandeCollecte.id_collecte);
@@ -291,16 +298,8 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Oui, accepter",
-      input: 'textarea', 
-    inputPlaceholder: 'Raison du refus', 
-    inputAttributes: {
-      autocapitalize: 'off'
-    }
     }).then((result) => {
       if (result.isConfirmed && selectedDemandeCollecte.id) {
-
-        this.rapportRefus += result.value + ` \n`;
-        this.envoyerRapport(selectedDemandeCollecte.id);
 
         if (selectedDemandeCollecte.id) {
           this.updateDemandeEtat(selectedDemandeCollecte.id, "accepté").then(() => {
