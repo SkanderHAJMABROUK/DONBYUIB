@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/association.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from 'src/app/interfaces/association';
@@ -56,7 +55,6 @@ export class ModifierAssociationComponent {
           this.initializeForm(); // Initialize form once data is loaded
         } else {
           console.error('No association found with this ID:', this.associationId);
-          // Handle case where no association is found with this ID
         }
       });
     });

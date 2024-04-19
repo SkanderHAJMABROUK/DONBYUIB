@@ -30,11 +30,16 @@ export class AssociationListComponent {
   filterByCategory(cat: string): void {
     this.categorySelected = cat;
     console.log(this.categorySelected);
-    this.service.getActiveAssociations().subscribe((res: Association[]) => {
-      this.associations = res.filter((association: Association) => {
-        return association.categorie === cat;
+    if(this.categorySelected){
+      this.service.getActiveAssociations().subscribe((res: Association[]) => {
+        this.associations = res.filter((association: Association) => {
+          return association.categorie === cat;
+        });
       });
-    });
+    } else {this.service.getActiveAssociations().subscribe((res)=>{
+      this.associations=res;    
+    })
+    }   
   }
 
   toggleIconState(associationId: string, state: boolean): void {

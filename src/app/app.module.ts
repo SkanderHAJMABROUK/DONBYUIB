@@ -87,6 +87,7 @@ import { DemandeSuppressionCollecteComponent } from './components/administrateur
 import { DemandeSuppressionActualiteComponent } from './components/administrateur/demande-suppression-actualite/demande-suppression-actualite.component';
 import { SuppressionCollecteDetailsComponent } from './components/administrateur/suppression-collecte-details/suppression-collecte-details.component';
 import { SuppressionActualiteDetailsComponent } from './components/administrateur/suppression-actualite-details/suppression-actualite-details.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -168,6 +169,7 @@ const firebaseConfig = {
     DemandeSuppressionActualiteComponent,
     SuppressionCollecteDetailsComponent,
     SuppressionActualiteDetailsComponent,
+    ResetPasswordComponent,
   
     ],
   imports: [

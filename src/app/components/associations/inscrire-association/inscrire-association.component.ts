@@ -15,7 +15,7 @@ import { sha256 } from 'js-sha256';
 })
 export class InscrireAssociationComponent implements OnInit {
 
-  siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; // Site Key
+  siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv";
   password: string = '';
   passwordConfirmation: string = '';
   showPassword: boolean = false;

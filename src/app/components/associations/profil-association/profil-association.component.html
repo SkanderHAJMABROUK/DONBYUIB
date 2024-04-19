@@ -3,7 +3,7 @@
 <div class="content">
 <app-compte-association *ngIf="service.compte"></app-compte-association>
 <app-modifier-association *ngIf="service.modifierAss" ></app-modifier-association>
-
+<app-reset-password *ngIf="service.modifierMdpAss"></app-reset-password>
 
 <app-ajouter-collecte *ngIf="service.ajouterCollecte"></app-ajouter-collecte>
 <app-collecte-list-association *ngIf="service.afficherCollecte"></app-collecte-list-association>

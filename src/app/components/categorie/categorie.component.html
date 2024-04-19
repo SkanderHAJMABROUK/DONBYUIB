@@ -2,28 +2,28 @@
   <body>
 
     <div class="category-icons">
-      <div class="category-icon" (click)="selectCategory('humanitaire')">
-        <fa-icon [icon]="faHandshakeAngle"></fa-icon><br>
+      <div class="category-icon" [class.selected]="selectedCategory === 'Humanitaire'" (click)="selectedIconIndex !== 0 ? selectCategory('Humanitaire', 0) : unselectCategory()">
+        <fa-icon [icon]="faHandshakeAngle" [ngClass]="{ 'icon-selected': selectedIconIndex === 0 }"></fa-icon><br>
         <span>Humanitaire</span>
       </div>
-      <div class="category-icon" (click)="selectCategory('santé')">
-        <fa-icon [icon]="faSuitcaseMedical"></fa-icon><br>
+      <div class="category-icon" [class.selected]="selectedCategory === 'Santé'" (click)="selectedIconIndex !== 1 ? selectCategory('Santé', 1) : unselectCategory()">
+        <fa-icon [icon]="faSuitcaseMedical" [ngClass]="{ 'icon-selected': selectedIconIndex === 1 }"></fa-icon><br>
         <span>Santé</span>
       </div>
-      <div class="category-icon" (click)="selectCategory('environnement')">
-        <fa-icon [icon]="faEarthAfrica"></fa-icon><br>
+      <div class="category-icon" [class.selected]="selectedCategory === 'Environnement'" (click)="selectCategory('Environnement',2)">
+        <fa-icon [icon]="faEarthAfrica" [ngClass]="{ 'icon-selected': selectedIconIndex === 2 }"></fa-icon><br>
         <span>Environnement</span>
       </div>
-      <div class="category-icon" (click)="selectCategory('enfance')">
-        <fa-icon [icon]="faBaby"></fa-icon><br>
+      <div class="category-icon" [class.selected]="selectedCategory === 'Enfance'" (click)="selectCategory('Enfance',3)">
+        <fa-icon [icon]="faBaby" [ngClass]="{ 'icon-selected': selectedIconIndex === 3 }"></fa-icon><br>
         <span>Enfants</span>
       </div>
-      <div class="category-icon" (click)="selectCategory('animaux')">
-        <fa-icon [icon]="faPaw"></fa-icon><br>
+      <div class="category-icon" [class.selected]="selectedCategory === 'Animaux'" (click)="selectCategory('Animaux',4)">
+        <fa-icon [icon]="faPaw" [ngClass]="{ 'icon-selected': selectedIconIndex === 4 }"></fa-icon><br>
         <span>Animaux</span>
       </div>
-      <div class="category-icon" (click)="selectCategory('éducation')">
-        <fa-icon [icon]="faGraduationCap"></fa-icon><br>
+      <div class="category-icon" [class.selected]="selectedCategory === 'Education'" (click)="selectCategory('Education',5)">
+        <fa-icon [icon]="faGraduationCap" [ngClass]="{ 'icon-selected': selectedIconIndex === 5 }"></fa-icon><br>
         <span>Éducation</span>
       </div>
     </div>

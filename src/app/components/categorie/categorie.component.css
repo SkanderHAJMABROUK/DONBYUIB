@@ -23,4 +23,9 @@
     font-size: 0.8rem;
     margin-top: 5px;
   }
+
+  .category-icon fa-icon.icon-selected {
+    font-size: 2.5rem; /* Adjust the size as needed */
+  }
+
   

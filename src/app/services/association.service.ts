@@ -32,6 +32,7 @@ export class AssociationService {
   afficherActualite:boolean=false;
 
   modifierAss:boolean=false;
+  modifierMdpAss:boolean=false;
   id!:string|undefined;
 
 

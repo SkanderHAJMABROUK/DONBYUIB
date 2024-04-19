@@ -20,7 +20,6 @@ export class CompteAssociationComponent {
   selectedAssociation!: Association |undefined; 
   
   
-  
    ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id']; 

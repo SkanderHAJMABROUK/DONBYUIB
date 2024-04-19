@@ -14,7 +14,9 @@
     <strong><p>Email : </p></strong>
     <p>{{ selectedAssociation.email }}</p>
     <strong><p>Téléphone : </p></strong>
-    <p> {{ selectedAssociation.telephone }}</p> 
-    <button (click)="service.modifierAss=true;service.compte=false">Modifier</button> 
-   
-  </div>
+    <p> {{ selectedAssociation.telephone }}</p>
+    <div class="buttons">
+      <button (click)="service.modifierAss=true;service.compte=false">Modifier</button>
+      <button (click)="service.modifierMdpAss=true;service.compte=false">Modifier le mot de passe</button> 
+    </div>      
+</div>

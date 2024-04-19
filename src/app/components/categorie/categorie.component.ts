@@ -9,7 +9,6 @@ import { faBaby, faEarthAfrica, faGraduationCap, faHandshakeAngle, faPaw, faSuit
   styleUrls: ['./categorie.component.css']
 })
 export class CategorieComponent {
-
   constructor(private service:AssociationService){}
 
   faSuitcaseMedical = faSuitcaseMedical; 
@@ -18,14 +17,27 @@ export class CategorieComponent {
   faBaby=faBaby;
   faPaw=faPaw;
   faHandshakeAngle=faHandshakeAngle;
- 
+
   @Output() categorySelected = new EventEmitter<string>();
 
-  selectCategory(cat: string): void {
-    console.log('Fct select appelé')
-    this.categorySelected.emit(cat);
-    if(!cat){console.log('no cat')} else{
-    console.log(cat);
-  }}
+  selectedCategory: string | null = null;
+  selectedIconIndex: number | null = null;
 
+  selectCategory(cat: string, index: number): void {
+    console.log('Function selectCategory called')
+    if (this.selectedCategory === cat) {
+      this.unselectCategory();
+    } else {
+      this.selectedCategory = cat;
+      this.selectedIconIndex = index;
+      this.categorySelected.emit(cat);
+    }
+  }
+
+  unselectCategory(): void {
+    console.log('Function unselectCategory called')
+    this.categorySelected.emit(undefined);
+    this.selectedCategory = null;
+    this.selectedIconIndex = null;
+  }
 }
