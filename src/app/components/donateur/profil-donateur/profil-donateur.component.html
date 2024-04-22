@@ -1,5 +1,5 @@
 <div class="container">
-<div class="donateur-details" *ngIf="selectedDonateur">
+<div class="donateur-details" *ngIf="selectedDonateur && service.compteDonateur">
     <h2>Mon Compte</h2>
     <hr>
     <strong><p>Photo de profil : </p></strong>
@@ -12,8 +12,13 @@
     <p>{{ selectedDonateur.date_de_naissance |date }}</p>
     <strong><p>Email : </p></strong>
     <p>{{ selectedDonateur.email }}</p>
-    
-    <button type="submit" (click)="setModifierCompte()" [routerLink]="['modifier']">Modifier</button> 
-   
+
+    <div class="buttons">
+      <button type="submit" (click)="setModifierCompte()" [routerLink]="['modifier']">Modifier</button>
+      <button (click)="service.modifierMdp=true;service.compteDonateur=false">Modifier le mot de passe</button> 
+    </div>
+        
   </div>
+  <app-reset-password *ngIf="service.modifierMdp"></app-reset-password>
 </div>
+

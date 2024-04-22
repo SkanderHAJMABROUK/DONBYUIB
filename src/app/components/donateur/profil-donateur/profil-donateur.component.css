@@ -2,13 +2,13 @@
     width: 600px;
     padding: 20px;
     background-color: white;
-    text-align: center;
-   
+    margin: 2%;
+    display: flex;
+    flex-direction: column;
 }
 .container {
     display: flex;
     justify-content: center; 
-    align-items: center; 
     height: 100vh; 
 }
 
@@ -60,4 +60,31 @@ hr {
     width: 50%; 
     margin: 0 auto; 
     margin-bottom: 4%;
+}
+.buttons {
+    margin-left: auto; /* Pushes the buttons to the right */
+}
+
+.buttons button {
+    background-color: #850707;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.2s;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.buttons button:last-child {
+    margin-right: 0;
+}
+
+.buttons button:hover {
+    background-color: #ffffff;
+    color: #850707;
 }

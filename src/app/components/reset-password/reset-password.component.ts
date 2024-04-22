@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/association.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { Association } from 'src/app/interfaces/association';
 import { Donateur } from 'src/app/interfaces/donateur';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,6 +19,7 @@ export class ResetPasswordComponent {
 
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+  faXmark=faXmark;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
   association!:Association;
@@ -37,7 +39,8 @@ export class ResetPasswordComponent {
     public donateurService : DonateurService,
     private router: Router, 
     private route:ActivatedRoute, 
-    private spinner:NgxSpinnerService) {}
+    private spinner:NgxSpinnerService,
+    private firestore: AngularFirestore) {}
 
 
     ngOnInit():void{
@@ -114,18 +117,54 @@ export class ResetPasswordComponent {
       this.showPasswordConfirmation = !this.showPasswordConfirmation;
     }
 
-    onSubmit(){
-      if(this.aFormGroup.valid){
-        if(this.association){
-          const hashedPassword: string = sha256(this.association.mdp+this.association.salt).toString();
-          if(this.aFormGroup.value.mdp === hashedPassword){
-            console.log('Password valide')
+    onSubmit() {
+      if (this.aFormGroup.valid) {
+        this.spinner.show();
+    
+        if (this.association) {
+          const hashedPassword: string = sha256(this.aFormGroup.value.old_password + this.association.salt).toString();
+          if (this.association.mdp == hashedPassword && this.association.id) {
+            const hashedNewPassword: string = sha256(this.aFormGroup.value.new_password + this.association.salt);
+            this.updatePassword(this.association.id, hashedNewPassword, 'Association').then(() => {
+              this.spinner.hide();
+              this.aFormGroup.reset();
+              this.showSuccessMessage=true;
+            }).catch(error => {
+              console.error('Erreur lors de la mise à jour du mot de passe :', error);
+              this.spinner.hide();
+            });
+          } else {
+            console.log('Erreur');
           }
+        } else if (this.donateur) {
+
+          const hashedPassword: string = sha256(this.aFormGroup.value.old_password + this.donateur.salt).toString();
+          if (this.donateur.mdp == hashedPassword && this.donateur.id) {
+            const hashedNewPassword: string = sha256(this.aFormGroup.value.new_password + this.donateur.salt);
+            this.updatePassword(this.donateur.id, hashedNewPassword, 'Donateur').then(() => {
+              this.spinner.hide();
+              this.aFormGroup.reset();
+              this.showSuccessMessage=true;
+            }).catch(error => {
+              console.error('Erreur lors de la mise à jour du mot de passe :', error);
+              this.spinner.hide();
+            });
+          } else {
+            console.log('Erreur');
+          }
+
         }
       } else {
-      this.showErrorNotification = true;
-      console.log("Form is invalid");
+        this.showErrorNotification = true;
+        console.log("Form is invalid");
+      }
     }
+    
+
+    updatePassword(id: string, password: string, collection:string): Promise<void> {
+      const documentRef = this.firestore.collection(collection).doc(id);
+      return documentRef.update({ mdp: password });
     }
+    
 
 }

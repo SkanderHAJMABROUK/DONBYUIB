@@ -24,14 +24,21 @@
              <div class="connection-indicator"></div>
         </a>
 
-        <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" > 
+        <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" 
+        class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"
+        (click)="serviceDonateur.compteDonateur=true;
+        serviceDonateur.modifierMdp=false;
+        serviceDonateur.modifiercompte=false" > 
             <span>{{ serviceDonateur.nomDonateur }}</span><span>{{ serviceDonateur.prenomDonateur }}</span>
 
             <div class="connection-indicator"></div>
        </a>
 
 
-       <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"  (click)="logoutDonateur()"> 
+       <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"  (click)="logoutDonateur();
+       serviceDonateur.compteDonateur=true;
+       serviceDonateur.modifierMdp=false;
+       serviceDonateur.modifiercompte=false"> 
         Se déconnecter
         </a>
 

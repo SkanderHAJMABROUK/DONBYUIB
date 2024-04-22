@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 
 import { Firestore, Timestamp, addDoc, collection, collectionData } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
-import { Observable, catchError, from, map, of, tap, throwError } from 'rxjs';
+import { Observable, Subscription, catchError, from, fromEvent, interval, map, of, tap, throwError } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
@@ -35,14 +35,23 @@ export class AssociationService {
   modifierMdpAss:boolean=false;
   id!:string|undefined;
 
+  private timeoutId: any;
+  private activitySubscription: Subscription;
+
 
 
   showErrorNotification: boolean=false;
   connexion: boolean = localStorage.getItem('connexion') === 'true';
   nomAssociation: string = localStorage.getItem('nomAssociation') || '';
 
-  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router
-    , public cookie:CookieService, public fireAuth:AngularFireAuth, private http:HttpClient){}
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router, 
+  public cookie:CookieService, public fireAuth:AngularFireAuth, private http:HttpClient){
+
+    this.startTimer();
+    this.monitorActivity();
+    this.activitySubscription = new Subscription();
+    
+    }
 
   showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
  
@@ -416,39 +425,82 @@ async isAssociationActive(association: Association): Promise<boolean> {
   }
 }
 
-
-
 logIn(email: string, password: string): Observable<boolean> {
   return this.getAssociationByEmailAndPassword(email, password).pipe(
     map(association => {
       if (association) {
         this.connexion = true;
         this.nomAssociation = association.nom;
-        localStorage.setItem('connexion', 'true');
-        localStorage.setItem('nomAssociation', this.nomAssociation); // Set the association name in localStorage
+        sessionStorage.setItem('connexion', 'true');
+        sessionStorage.setItem('nomAssociation', this.nomAssociation);
         this.route.navigate(['/login/profilAssociation', association.id], { replaceUrl: true });
         this.cookie.set("Details utilisateurs", "Email : " + email + " Password : " + password, 7);
-        return true; // Login succeeded
+        this.resetTimer();
+        return true;
       } else {
         this.showErrorNotification = true;
         console.error('Aucune association trouvée avec cet e-mail et ce mot de passe.');
-        return false; // Login failed
+        return false;
       }
     }),
     catchError(error => {
       console.error('Erreur lors de la recherche de l\'association:', error);
-      return of(false); // Return false in case of error
+      return of(false);
     })
   );
 }
 
-
 logOut(){
-   this.connexion=false;
-   localStorage.setItem('connexion','false');
-   localStorage.removeItem('nomAssociation');
-   this.route.navigate(['/login'],{replaceUrl:true});
- }
+  this.connexion = false;
+  sessionStorage.setItem('connexion', 'false');
+  sessionStorage.removeItem('nomAssociation');
+  this.route.navigate(['/login'], { replaceUrl: true });
+  // Ajoutez cette ligne pour arrêter l'abonnement lors de la déconnexion
+  this.activitySubscription.unsubscribe();
+}
+
+private startTimer() {
+  const timer = interval(30000); // Timer set to check every 30 seconds
+  this.activitySubscription = timer.subscribe(() => {
+    const lastActivity = sessionStorage.getItem('lastActivity');
+    const now = new Date().getTime();
+    if (this.connexion && lastActivity) {
+      const diff = now - parseInt(lastActivity);
+      const diffInMinutes = diff / (1000 * 60);
+      if (diffInMinutes >=0.1) { // Log out after 15 minutes of inactivity
+        this.logOut(); // Log out user if inactive for 15 minutes
+        alert("Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.");
+      }
+    }
+  });
+}
+
+monitorActivity() {
+  // Update the last activity timestamp when any activity happens
+  window.addEventListener('mousemove', this.updateLastActivity.bind(this));
+  window.addEventListener('scroll', this.updateLastActivity.bind(this));
+  window.addEventListener('keydown', this.updateLastActivity.bind(this));
+}
+
+updateLastActivity() {
+  sessionStorage.setItem('lastActivity', new Date().getTime().toString());
+}
+
+private resetTimer() {
+  clearTimeout(this.timeoutId);
+  this.startTimer();
+}
+
+private stopTimer() {
+  clearTimeout(this.timeoutId);
+}
+
+ngOnDestroy() {
+  this.stopTimer();
+  this.activitySubscription.unsubscribe();
+}
+
+
 
  async uploadLogo(file: File): Promise<string | null> {
   if (!file) {

@@ -33,6 +33,8 @@ prenomDonateur:string='';
 showErrorNotification: boolean=false;
 id:string='';
 modifiercompte:boolean=false;
+modifierMdp:boolean=false;
+compteDonateur:boolean=true;
 
 
 dateOfBirthValidator(): ValidatorFn {
