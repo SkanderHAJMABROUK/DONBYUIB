@@ -1,20 +1,14 @@
 import { Donateur } from '../interfaces/donateur';
 import { Injectable } from '@angular/core';
-
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-
 import { Router } from '@angular/router';
-
 import { DocumentData, DocumentReference, DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, doc, getDoc } from '@angular/fire/firestore';
-import { Observable, catchError, from, map, of } from 'rxjs';
+import { Observable, Subscription, catchError, from, interval, map, of } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
-
 import { AssociationService } from './association.service';
 import { sha256 } from 'js-sha256';
 import { Commentaire } from '../interfaces/commentaire';
-
 
 
 @Injectable({
@@ -25,7 +19,11 @@ export class DonateurService {
   
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router,
-    private aService:AssociationService) { }
+    private aService:AssociationService) { 
+      this.startTimer();
+      this.monitorActivity();
+      this.activitySubscription = new Subscription();
+    }
 
 connexionDonateur:boolean=false;
 nomDonateur:string='';
@@ -35,6 +33,9 @@ id:string='';
 modifiercompte:boolean=false;
 modifierMdp:boolean=false;
 compteDonateur:boolean=true;
+
+private timeoutId: any;
+  private activitySubscription: Subscription;
 
 
 dateOfBirthValidator(): ValidatorFn {
@@ -176,10 +177,11 @@ logIn(email: string, password: string): Observable<boolean> {
         this.nomDonateur = donateur.nom;
         this.prenomDonateur = donateur.prenom;
         console.log(this.nomDonateur ,this.prenomDonateur);
-        localStorage.setItem('connexionDonateur', 'true');
-        localStorage.setItem('nomDonateur', this.nomDonateur); 
-        localStorage.setItem('prenomDonateur', this.prenomDonateur);
- 
+        sessionStorage.setItem('connexionDonateur', 'true');
+        sessionStorage.setItem('nomDonateur', this.nomDonateur); 
+        sessionStorage.setItem('prenomDonateur', this.prenomDonateur);
+        this.resetTimer();
+        this.showErrorNotification = false;
 
         this.route.navigate(['/login/profilDonateur', donateur.id]);
         return true; // Return true if the login is successful
@@ -189,6 +191,7 @@ logIn(email: string, password: string): Observable<boolean> {
         return false; // Return false if no donateur is found
       }
     }),catchError(error => {
+      this.showErrorNotification = true;
       console.error('Erreur lors de la recherche du compte:', error);
       return of(false); // Return false in case of error
     })
@@ -197,16 +200,55 @@ logIn(email: string, password: string): Observable<boolean> {
 
 logOut(){
   this.connexionDonateur=false;
-   localStorage.setItem('connexionDonateur','false');
-   localStorage.removeItem('nomDonateur');
-   localStorage.removeItem('prenomDonateur');
+  sessionStorage.setItem('connexionDonateur','false');
+  sessionStorage.removeItem('nomDonateur');
+  sessionStorage.removeItem('prenomDonateur');
    this.route.navigate(['/login']);
+   this.activitySubscription.unsubscribe();
+}
 
-   
-   
- }
+private startTimer() {
+  const timer = interval(30000); // Timer set to check every 30 seconds
+  this.activitySubscription = timer.subscribe(() => {
+    const lastActivity = sessionStorage.getItem('lastActivity');
+    const now = new Date().getTime();
+    if (this.connexionDonateur && lastActivity) {
+      const diff = now - parseInt(lastActivity);
+      const diffInMinutes = diff / (1000 * 60);
+      if (diffInMinutes >=1) { // Log out after 15 minutes of inactivity
+        this.logOut(); // Log out user if inactive for 15 minutes
+        alert("Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.");
+      }
+    }
+  });
+}
 
- modifierCompte(donateur: Donateur): Promise<void> {
+monitorActivity() {
+  // Update the last activity timestamp when any activity happens
+  window.addEventListener('mousemove', this.updateLastActivity.bind(this));
+  window.addEventListener('scroll', this.updateLastActivity.bind(this));
+  window.addEventListener('keydown', this.updateLastActivity.bind(this));
+}
+
+updateLastActivity() {
+  sessionStorage.setItem('lastActivity', new Date().getTime().toString());
+}
+
+private resetTimer() {
+  clearTimeout(this.timeoutId);
+  this.startTimer();
+}
+
+private stopTimer() {
+  clearTimeout(this.timeoutId);
+}
+
+ngOnDestroy() {
+  this.stopTimer();
+  this.activitySubscription.unsubscribe();
+}
+
+modifierCompte(donateur: Donateur): Promise<void> {
   const updatedDonateurData = {
     ...donateur
   };

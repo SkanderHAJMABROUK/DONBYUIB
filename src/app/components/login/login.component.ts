@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { sha256 } from 'js-sha256';
 import { Log } from 'src/app/interfaces/log';
 import { LogService } from 'src/app/services/log.service';
-
 import { DonateurService } from 'src/app/services/donateur.service';
 import { Association } from 'src/app/interfaces/association';
 

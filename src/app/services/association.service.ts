@@ -42,7 +42,7 @@ export class AssociationService {
 
   showErrorNotification: boolean=false;
   connexion: boolean = localStorage.getItem('connexion') === 'true';
-  nomAssociation: string = localStorage.getItem('nomAssociation') || '';
+  nomAssociation: string | undefined= localStorage.getItem('nomAssociation') || '';
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router, 
   public cookie:CookieService, public fireAuth:AngularFireAuth, private http:HttpClient){
@@ -296,7 +296,7 @@ export class AssociationService {
           // Retourne le sel de l'association
           return association.salt;
         } else {
-          // Si aucune association n'a été trouvée, retourne undefined
+          this.showErrorNotification=true;
           return undefined;
         }
       })
@@ -414,7 +414,7 @@ modifierAssociation(id: string, associationDataToUpdate: Partial<Association>): 
 
 async isAssociationActive(association: Association): Promise<boolean> {
   try {
-    // Check if association is found and its state is 'actif'
+
     const isActive = !!association && association.etat === 'actif';
     console.log('Is association active?', isActive);
 
@@ -432,10 +432,11 @@ logIn(email: string, password: string): Observable<boolean> {
         this.connexion = true;
         this.nomAssociation = association.nom;
         sessionStorage.setItem('connexion', 'true');
-        sessionStorage.setItem('nomAssociation', this.nomAssociation);
+        sessionStorage.setItem('nomAssociation', association.nom);
         this.route.navigate(['/login/profilAssociation', association.id], { replaceUrl: true });
         this.cookie.set("Details utilisateurs", "Email : " + email + " Password : " + password, 7);
         this.resetTimer();
+        this.showErrorNotification = false;
         return true;
       } else {
         this.showErrorNotification = true;
@@ -444,6 +445,7 @@ logIn(email: string, password: string): Observable<boolean> {
       }
     }),
     catchError(error => {
+      this.showErrorNotification = true;
       console.error('Erreur lors de la recherche de l\'association:', error);
       return of(false);
     })
@@ -451,11 +453,10 @@ logIn(email: string, password: string): Observable<boolean> {
 }
 
 logOut(){
-  this.connexion = false;
+  this.connexion=false;
   sessionStorage.setItem('connexion', 'false');
   sessionStorage.removeItem('nomAssociation');
   this.route.navigate(['/login'], { replaceUrl: true });
-  // Ajoutez cette ligne pour arrêter l'abonnement lors de la déconnexion
   this.activitySubscription.unsubscribe();
 }
 
@@ -467,7 +468,7 @@ private startTimer() {
     if (this.connexion && lastActivity) {
       const diff = now - parseInt(lastActivity);
       const diffInMinutes = diff / (1000 * 60);
-      if (diffInMinutes >=0.1) { // Log out after 15 minutes of inactivity
+      if (diffInMinutes >=0.2) { // Log out after 15 minutes of inactivity
         this.logOut(); // Log out user if inactive for 15 minutes
         alert("Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.");
       }

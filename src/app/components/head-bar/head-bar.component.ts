@@ -37,28 +37,26 @@ export class HeadBarComponent implements OnInit{
     this.isMenuOpen = false;
   }
 
-ngOnInit()
-{
-
-  if(this.connexion && this.nomAssociation){
-  this.serviceAssociation.connexion=this.connexion==='true';
-  console.log(this.serviceAssociation.connexion);
-  this.serviceAssociation.nomAssociation=this.nomAssociation;
-}
-if(this.connexionDonateur && this.nomDonateur && this.prenomDonateur){
-  this.serviceDonateur.connexionDonateur=this.connexionDonateur==='true';
-  console.log(this.serviceDonateur.connexionDonateur);
-  this.serviceDonateur.nomDonateur=this.nomDonateur;
-  this.serviceDonateur.prenomDonateur=this.prenomDonateur;
-
-}
-
-
-}
+  ngOnInit() {
+    if (this.connexion === 'true' && this.nomAssociation) {
+      this.serviceAssociation.connexion = true;
+      this.serviceAssociation.nomAssociation = this.nomAssociation;
+    } else {
+      // Si la connexion est fausse, effacez le nom de l'association
+      this.serviceAssociation.connexion = false;
+      this.serviceAssociation.nomAssociation = undefined;
+    }
+  
+    if (this.connexionDonateur === 'true' && this.nomDonateur && this.prenomDonateur) {
+      this.serviceDonateur.connexionDonateur = true;
+      this.serviceDonateur.nomDonateur = this.nomDonateur;
+      this.serviceDonateur.prenomDonateur = this.prenomDonateur;
+    }
+  }
+  
 
 logoutDonateur(){
   this.serviceDonateur.logOut();
-  
 }
 
 }

@@ -27,7 +27,7 @@
       </button>
     </div>
   </div>
-  <a href="">Mot de passe oublié?</a><br>
+  <a [routerLink]="['forgot-password', { userType: aFormGroup.get('userType')?.value }]">Mot de passe oublié?</a><br>
 
   <input type="checkbox" id="remember_me" class="checkbox" required>
   <label for="remember_me">Se souvenir de moi</label>
@@ -37,7 +37,7 @@
   <div *ngIf="showErrorNotification" class="error-notification">
     Recaptcha non validé!
   </div>
-  <div *ngIf="serviceAssociation.showErrorNotification" class="error-notification">
+  <div *ngIf="serviceAssociation.showErrorNotification || serviceDonateur.showErrorNotification" class="error-notification">
     Adresse e-mail ou mot de passe incorrect !
   </div>
   <div class="wait-notification" *ngIf="enAttenteDeVerification">
@@ -70,7 +70,8 @@
       </button>
     </div>
   </div>
-  <a href="">Mot de passe oublié?</a><br>
+
+  <a [routerLink]="['forgot-password', { userType: aFormGroup.get('userType')?.value }]">Mot de passe oublié?</a><br>
 
   <input type="checkbox" id="remember_me" class="checkbox" required>
   <label for="remember_me">Se souvenir de moi</label>
@@ -87,8 +88,5 @@
   <button type="submit" class="btn_login">Connexion</button>
   
   </div>
-  
-
-
   </form>
 </div>

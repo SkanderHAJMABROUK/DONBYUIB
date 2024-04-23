@@ -88,6 +88,9 @@ import { DemandeSuppressionActualiteComponent } from './components/administrateu
 import { SuppressionCollecteDetailsComponent } from './components/administrateur/suppression-collecte-details/suppression-collecte-details.component';
 import { SuppressionActualiteDetailsComponent } from './components/administrateur/suppression-actualite-details/suppression-actualite-details.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { AuthGuard } from './services/auth.guard';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -170,7 +173,7 @@ const firebaseConfig = {
     SuppressionCollecteDetailsComponent,
     SuppressionActualiteDetailsComponent,
     ResetPasswordComponent,
-  
+    ForgotPasswordComponent  
     ],
   imports: [
     CommonModule,
@@ -197,8 +200,8 @@ const firebaseConfig = {
     provideFirestore(() => getFirestore()),
 
     RouterModule.forRoot([
-      {path:'admin',component:LoginAdminComponent},
-      {path:'admin/profil/:id',component:ProfilAdminComponent},
+      {path:'admin',component:LoginAdminComponent,canActivate: [AuthGuard]},
+      {path:'admin/profil/:id',component:ProfilAdminComponent,canActivate: [AuthGuard]},
 
       {path:'chatbot',component:ChatDialogComponent},
 
@@ -222,18 +225,18 @@ const firebaseConfig = {
 
 
       {path:'login',component:LoginComponent},
-      {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent},
-      {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent},
-      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent},
+      {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent,canActivate: [AuthGuard]},
+      {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent,canActivate: [AuthGuard]},
+      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent,canActivate: [AuthGuard]},
 
 
-    
+      {path:'login/forgot-password',component:ForgotPasswordComponent},
 
-      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent},
+      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent,canActivate: [AuthGuard]},
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule],
+  providers: [AssociationService,AngularFirestore,AngularFireModule,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
