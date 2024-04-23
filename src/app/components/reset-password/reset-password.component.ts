@@ -161,10 +161,15 @@ export class ResetPasswordComponent {
     }
     
 
-    updatePassword(id: string, password: string, collection:string): Promise<void> {
+    updatePassword(id: string, password: string, collection: string): Promise<void> {
       const documentRef = this.firestore.collection(collection).doc(id);
-      return documentRef.update({ mdp: password });
+      return documentRef.update({ mdp: password }).then(() => {
+        console.log('Password updated successfully.');
+      }).catch(error => {
+        console.error('Error updating password:', error);
+      });
     }
+    
     
 
 }

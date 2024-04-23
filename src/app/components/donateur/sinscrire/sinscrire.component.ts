@@ -87,7 +87,7 @@ export class SinscrireComponent implements OnInit{
     if (this.aFormGroup.valid) {
 
       const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
-      if (emailExists) {
+      if (!emailExists) {
       console.log("Formulaire valide, reCAPTCHA validé !");
 
       this.spinner.show(); // Afficher le spinner

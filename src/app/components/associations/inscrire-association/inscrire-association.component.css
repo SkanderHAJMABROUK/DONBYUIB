@@ -126,7 +126,8 @@ select:focus{
     margin-bottom: 4%;
 }
 
-.error-notification , success-message{
+.error-notification
+{
     color: #721c24;
     background-color: #f8d7da;
     padding: 10px;

@@ -90,6 +90,7 @@ import { SuppressionActualiteDetailsComponent } from './components/administrateu
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { AuthGuard } from './services/auth.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetForgottenPasswordComponent } from './components/forgot-password/reset-forgotten-password/reset-forgotten-password.component';
 
 
 const firebaseConfig = {
@@ -173,7 +174,8 @@ const firebaseConfig = {
     SuppressionCollecteDetailsComponent,
     SuppressionActualiteDetailsComponent,
     ResetPasswordComponent,
-    ForgotPasswordComponent  
+    ForgotPasswordComponent,
+    ResetForgottenPasswordComponent  
     ],
   imports: [
     CommonModule,
@@ -231,6 +233,7 @@ const firebaseConfig = {
 
 
       {path:'login/forgot-password',component:ForgotPasswordComponent},
+      {path:'reset-password/:id/:userType/:token', component: ResetForgottenPasswordComponent },
 
       {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent,canActivate: [AuthGuard]},
 
