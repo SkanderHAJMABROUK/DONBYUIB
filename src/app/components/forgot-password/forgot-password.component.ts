@@ -20,6 +20,10 @@ export class ForgotPasswordComponent {
   showErrorNotification: boolean = false;
   showSuccessNotification: boolean = false;
   userType: string = '';
+  isButtonDisabled: boolean = false;
+  resendCountdown: string = '';
+  resendInterval: any;
+  resendDelayInSeconds: number = 120; // 2 minutes
 
   constructor(private formBuilder : FormBuilder , private route: ActivatedRoute, public serviceAssociation:AssociationService, public serviceDonateur:DonateurService,
   private logService:LogService){}
@@ -47,6 +51,8 @@ export class ForgotPasswordComponent {
               this.sendVerificationEmail(association.nom,association.id);
               this.showErrorNotification = false;
               this.showSuccessNotification=true;
+              this.isButtonDisabled = true;
+      this.startResendCountdown();
             } else {
               console.log('Email does not exist for association:', email);
             }
@@ -63,6 +69,8 @@ export class ForgotPasswordComponent {
               this.sendVerificationEmail(donateur.nom+''+donateur.prenom,donateur.id);
               this.showErrorNotification = false;
               this.showSuccessNotification=true;
+              this.isButtonDisabled = true;
+      this.startResendCountdown();
             } else {
               console.log('Email does not exist for donor:', email);
             }
@@ -102,6 +110,27 @@ export class ForgotPasswordComponent {
       token += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return token;
+  }
+
+  startResendCountdown() {
+    let count = this.resendDelayInSeconds;
+    this.resendInterval = setInterval(() => {
+      const minutes = Math.floor(count / 60);
+      const seconds = count % 60;
+      this.resendCountdown = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+      if (count <= 0) {
+        clearInterval(this.resendInterval);
+        this.isButtonDisabled = false;
+        this.resendCountdown = '';
+      } else {
+        count--;
+      }
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.resendInterval);
   }
 
 }

@@ -153,6 +153,8 @@ export class ResetForgottenPasswordComponent {
       console.error('Error updating password:', error);
     });
   }
+
+  
   
 
 }
