@@ -35,8 +35,7 @@
       <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> <!-- Updated ngx-slider with change event -->
       <label for="montant">Saisir un montant</label>
       <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
-      <!-- <button class="donate-button" (click)="donate()">Faire un don</button> -->
-      <a  class="validerDon" (click)="donate()">Valider le don de {{donationAmount}} vers "{{selectedAssociation.nom}}".</a>
+      <a class="validerDon" href="https://test.clictopay.com/payment/rest/register.do?userName=1218446019&password=Uzb92Gn5&orderNumber=999999999999999999&amount=1000&currency=788&returnUrl=example.html&pageView=DESKTOP" (click)="donate()">Valider le don de {{donationAmount}} vers "{{selectedAssociation.nom}}".</a>
     </div>
     
   </div>

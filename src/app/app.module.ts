@@ -217,7 +217,7 @@ const firebaseConfig = {
       {path:'sinscrire/email',component:EmailVerificationComponent},
 
       {path:'listeAssociations',component:AssociationListComponent},
-      { path: 'listeAssociations/details/:id', component: AssociationDemandeComponent },
+      { path:'listeAssociations/details/:id', component: AssociationDemandeComponent },
 
       {path:'listeCollectes',component:CollecteListComponent},
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
