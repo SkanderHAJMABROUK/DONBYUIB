@@ -45,7 +45,6 @@ export class AssociationDemandeComponent implements OnInit{
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId);
    }
-   
 
    
    getAssociationById(id: string){
