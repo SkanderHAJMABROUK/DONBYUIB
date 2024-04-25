@@ -5,6 +5,7 @@ import { AssociationService } from '../../../services/association.service';
 import { faSquarePhone, faAt} from '@fortawesome/free-solid-svg-icons';
 import { Options } from 'ngx-slider-v2';
 import { PaymentService } from 'src/app/services/payment.service';
+import { DonateurService } from 'src/app/services/donateur.service';
 
 
 @Component({
@@ -13,13 +14,18 @@ import { PaymentService } from 'src/app/services/payment.service';
   styleUrls: ['./association-demande.component.css']
 })
 export class AssociationDemandeComponent implements OnInit{
-  constructor(public service:AssociationService,public route:ActivatedRoute,private paymentService: PaymentService,public router:Router){}
+  constructor(public service:AssociationService,
+    public route:ActivatedRoute,
+    private paymentService: PaymentService,
+    public router:Router, 
+    private donateurService:DonateurService){}
 
   value=0;
   options:Options={
     floor: 0,
     ceil: 2000
   }
+  donateurId!: string;
   id!: string;
   data: Association |undefined;
   selectedAssociation!: Association |undefined; 
@@ -35,6 +41,9 @@ export class AssociationDemandeComponent implements OnInit{
       console.log(this.id)
        this.getAssociationById(this.id); 
      });
+
+     this.donateurId=this.donateurService.id;
+     console.log('donateur',this.donateurId);
    }
    
 
@@ -73,8 +82,6 @@ updateDonationAmountFromSlider(event: any) {
 
 donate() {
 
-
-  // Appel de la méthode pour initier le paiement
   this.paymentService.initiatePayment(
     this.selectedAssociation?.id || '', // Remplacez par la référence de l'association
     this.selectedAssociation?.nom || '', // Remplacez par l'affiliation de l'association

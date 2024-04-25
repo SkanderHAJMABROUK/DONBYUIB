@@ -82,10 +82,8 @@ async uploadPhoto(file: File): Promise<string | null> {
   const task = this.fireStorage.upload(filePath, file);
 
   try {
-    // Wait for the upload to complete
     await task;
 
-    // Get the download URL
     const downloadUrl = await fileRef.getDownloadURL().toPromise();
 
     return downloadUrl;
@@ -171,7 +169,7 @@ getDonateurByEmailAndPassword(email: string, password: string): Observable<Donat
 logIn(email: string, password: string): Observable<boolean> {
   return this.getDonateurByEmailAndPassword(email, password).pipe(
     map((donateur) => {
-      if (donateur) {
+      if (donateur && donateur.id) {
         this.connexionDonateur = true;
         console.log(this.connexionDonateur);
         this.nomDonateur = donateur.nom;
