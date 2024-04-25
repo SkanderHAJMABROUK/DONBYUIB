@@ -6,7 +6,6 @@ import { faSquarePhone, faAt} from '@fortawesome/free-solid-svg-icons';
 import { Options } from 'ngx-slider-v2';
 import { PaymentService } from 'src/app/services/payment.service';
 import { DonateurService } from 'src/app/services/donateur.service';
-import Swal from 'sweetalert2';
 
 
 @Component({
@@ -15,7 +14,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./association-demande.component.css']
 })
 export class AssociationDemandeComponent implements OnInit{
-
   constructor(public service:AssociationService,
     public route:ActivatedRoute,
     private paymentService: PaymentService,
@@ -32,7 +30,7 @@ export class AssociationDemandeComponent implements OnInit{
   data: Association |undefined;
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
-  donTransmis:boolean = false;
+
   
   faSquarePhone = faSquarePhone; 
   faAt = faAt;
@@ -46,7 +44,6 @@ export class AssociationDemandeComponent implements OnInit{
 
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId);
-
    }
    
 
@@ -84,13 +81,14 @@ updateDonationAmountFromSlider(event: any) {
 }
 
 initiatePayment(): void {
-  const returnUrl = `http://localhost:4200/listeAssociations/details/${this.id}`;
-
   // Step 1: Authorization
-  this.paymentService.authorizePayment('100L8651', this.donationAmount, returnUrl)
+  this.paymentService.authorizePayment('100O7651', this.donationAmount, 'https://example.com/return')
     .subscribe(response => {
-      // Handle authorization response, redirect user to formUrl in the same tab
-      window.location.href = response.formUrl;
+      // Handle authorization response, typically you'll redirect user to formUrl
+      console.log(response.formUrl);
+      window.open(response.formUrl,'_blank');
+      // Now, you can proceed to step 2: Confirmation
+      this.confirmPayment(response.orderId, this.donationAmount);
     }, error => {
       // Handle error
       console.error('Authorization failed:', error);
@@ -101,21 +99,7 @@ confirmPayment(orderId: string, amount: number): void {
   // Step 2: Confirmation
   this.paymentService.confirmPayment(orderId, amount)
     .subscribe(response => {
-      if (this.selectedAssociation && this.selectedAssociation.id) {
-        // Add the donation to the 'DonAssociation' collection
-        const date = new Date();
-        this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, this.donateurId)
-          .then(() => {
-            console.log('Don ajouté avec succès à la collection DonAssociation');
-            window.close();
-          })
-          .catch(error => {
-            console.error('Erreur lors de l\'ajout du don à la collection DonAssociation :', error);
-            localStorage.setItem('donation','false');
-          });
-      } else {
-        console.error('Erreur: Aucune association sélectionnée.');
-      }
+
       console.log('Payment confirmed:', response);
     }, error => {
       // Handle error
@@ -123,20 +107,7 @@ confirmPayment(orderId: string, amount: number): void {
     });
 }
 
-  showSuccessMessage() {
-    if (this.selectedAssociation) {
-      const nomAssociation = this.selectedAssociation.nom;
-      const imageAssociation = this.selectedAssociation.logo;
-  
-      Swal.fire({
-        title: "Félicitations!",
-        text: `Votre don à ${nomAssociation} a été transmis avec succès`,
-        imageUrl: imageAssociation,
-        imageWidth: 200,
-        imageHeight: 200,
-        imageAlt: "Oops!"
-      });
-    }
-  }
+
+
 
 }
