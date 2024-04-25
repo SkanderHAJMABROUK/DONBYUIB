@@ -32,7 +32,7 @@ export class AssociationDemandeComponent implements OnInit{
   data: Association |undefined;
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
-  donTransmis:boolean = false;
+  paymentSuccessful: boolean = false;
   
   faSquarePhone = faSquarePhone; 
   faAt = faAt;
@@ -42,10 +42,17 @@ export class AssociationDemandeComponent implements OnInit{
       this.id = params['id']; 
       console.log(this.id)
        this.getAssociationById(this.id); 
+       this.showSuccessMessage();
      });
 
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId);
+
+     this.paymentSuccessful = this.getPaymentStatus(); // Retrieve payment status from localStorage
+      if (this.paymentSuccessful) {
+      this.showSuccessMessage();
+      this.setPaymentStatus(false); // Reset payment status after showing the message
+    }
 
    }
 
@@ -83,13 +90,16 @@ updateDonationAmountFromSlider(event: any) {
 }
 
 initiatePayment(): void {
+
   const returnUrl = `http://localhost:4200/listeAssociations/details/${this.id}`;
 
   // Step 1: Authorization
-  this.paymentService.authorizePayment('100L8651', this.donationAmount, returnUrl)
-    .subscribe(response => {
+this.paymentService.authorizePayment('761U326A1', this.donationAmount, returnUrl)
+    .subscribe(response => {     
       // Handle authorization response, redirect user to formUrl in the same tab
       window.location.href = response.formUrl;
+
+
     }, error => {
       // Handle error
       console.error('Authorization failed:', error);
@@ -107,11 +117,9 @@ confirmPayment(orderId: string, amount: number): void {
           .then(() => {
             console.log('Don ajouté avec succès à la collection DonAssociation');
             window.close();
-
           })
           .catch(error => {
             console.error('Erreur lors de l\'ajout du don à la collection DonAssociation :', error);
-            localStorage.setItem('donation','false');
           });
       } else {
         console.error('Erreur: Aucune association sélectionnée.');
@@ -137,6 +145,18 @@ confirmPayment(orderId: string, amount: number): void {
         imageAlt: "Oops!"
       });
     }
+  }
+
+  setPaymentStatus(status: boolean): void {
+    localStorage.setItem('paymentStatus', status.toString());
+    
+  }
+
+  getPaymentStatus(): boolean {
+    const status = localStorage.getItem('paymentStatus');
+    console.log(status)
+    return status ? status === 'true' : false;
+    
   }
 
 }

@@ -219,6 +219,7 @@ const firebaseConfig = {
       {path:'listeAssociations',component:AssociationListComponent},
       { path:'listeAssociations/details/:id', component: AssociationDemandeComponent },
 
+
       {path:'listeCollectes',component:CollecteListComponent},
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
 
