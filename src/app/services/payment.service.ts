@@ -1,62 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
 
+  private baseUrl = 'https://test.clictopay.com/payment/rest';
+  private userName = '1218446019';
+  private password = 'Uzb92Gn5';
+
   constructor(private http: HttpClient) { }
 
-  // Méthode pour initier un paiement
-  initiatePayment(reference: string, affiliation: string, devise: string, montant: number, login: string, password: string, urlStatus: string): void {
-    
-    
-    // Génération d'un SID (Session ID) unique
-    const sid = Math.round(Date.now()) + Math.floor(Math.random() * 1000);
-    // Données de paiement regroupées dans un objet
-    const payload = {
-      reference,
-      affiliation,
-      devise,
-      montant,
-      login,
-      password,
-      sid,
-      urlStatus
+  // Etape 1: Authorization
+  authorizePayment(orderNumber: string, amount: number, returnUrl: string): Observable<any> {
+    const url = `${this.baseUrl}/register.do`;
+    const params = {
+      userName: this.userName,
+      password: this.password,
+      orderNumber: orderNumber,
+      amount: (amount * 1000).toString(),
+      currency: '788',
+      returnUrl: returnUrl
     };
-    // Envoi d'une requête POST vers l'URL de paiement avec les données de paiement
-    this.http.post<any>('https://ipay.clictopay.com/payment/rest/register.do', payload).subscribe(
-      (response) => {
-        // En cas de succès, récupérer l'URL de paiement depuis la réponse et rediriger vers cette URL
-        const paymentUrl = response.formUrl;
-        window.location.href = paymentUrl;
-      },
-      (error) => {
-        console.error('Erreur lors de l\'initiation du paiement : ', error);
-      }
-    );
+    return this.http.get<any>(url, { params });
   }
 
-  // Méthode pour vérifier le statut d'une commande
-  checkOrderStatus(orderId: string): void {
-    // Données de la commande regroupées dans un objet
-    const payload = {
-      userName: '1218426011',
-      password: 'wtE5E9sH2',
-      orderId
+  // Etape 2: Confirmation
+  confirmPayment(orderId: string, amount: number): Observable<any> {
+    const url = `${this.baseUrl}/deposit.do`;
+    const params = {
+      userName: this.userName,
+      password: this.password,
+      orderId: orderId,
+      amount: amount.toString(),
+      currency: '788',
+      language: 'en'
     };
-    // Envoi d'une requête POST vers l'URL de vérification du statut de commande avec les données de la commande
-    this.http.post<any>('https://ipay.clictopay.com/payment/rest/getOrderStatus.do', payload).subscribe(
-      (response) => {
-        // En cas de succès, récupérer le statut de la commande depuis la réponse et traiter en conséquence
-        const orderStatus = response.OrderStatus;
-        console.log('Statut de la commande : ', orderStatus);
-        // Traiter le statut de la commande ici
-      },
-      (error) => {
-        console.error('Erreur lors de la vérification du statut de la commande : ', error);
-      }
-    );
+    return this.http.get<any>(url, { params });
   }
 }

@@ -80,16 +80,31 @@ updateDonationAmountFromSlider(event: any) {
   this.donationAmount = event.value;
 }
 
-donate() {
+initiatePayment(): void {
+  // Step 1: Authorization
+  this.paymentService.authorizePayment('100a7651', this.donationAmount, 'https://example.com/return')
+    .subscribe(response => {
+      // Handle authorization response, typically you'll redirect user to formUrl
+      console.log(response.formUrl);
+      window.open(response.formUrl,'_blank');
+      // Now, you can proceed to step 2: Confirmation
+      this.confirmPayment(response.orderId, this.donationAmount);
+    }, error => {
+      // Handle error
+      console.error('Authorization failed:', error);
+    });
+}
 
-  this.paymentService.initiatePayment(
-    this.selectedAssociation?.id || '', // Remplacez par la référence de l'association
-    this.selectedAssociation?.nom || '', // Remplacez par l'affiliation de l'association
-    'TND', // Remplacez par la devise appropriée
-    this.donationAmount, // Utilisez le montant de don actuel
-    this.selectedAssociation?.mdp || '', // Utilisation du mot de passe de l'association
-    this.selectedAssociation?.email || '',
-    this.router.url  );
+confirmPayment(orderId: string, amount: number): void {
+  // Step 2: Confirmation
+  this.paymentService.confirmPayment(orderId, amount)
+    .subscribe(response => {
+
+      console.log('Payment confirmed:', response);
+    }, error => {
+      // Handle error
+      console.error('Confirmation failed:', error);
+    });
 }
 
 

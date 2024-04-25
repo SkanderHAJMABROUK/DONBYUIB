@@ -12,7 +12,6 @@ export class ActualiteDetailsAssociationsComponent {
   @Input() actualite!:Actualite
   faXmark=faXmark;
 
-  // On a injecté le TodoService
   constructor(public service:ActualiteService){}
 
  
