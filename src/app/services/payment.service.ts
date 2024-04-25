@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class PaymentService {
   private userName = '1218446019';
   private password = 'Uzb92Gn5';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private firestore: AngularFirestore) { }
 
   // Etape 1: Authorization
   authorizePayment(orderNumber: string, amount: number, returnUrl: string): Observable<any> {
@@ -40,4 +41,14 @@ export class PaymentService {
     };
     return this.http.get<any>(url, { params });
   }
+
+  addDonAssociation(idAssociation: string, montant: number, date: Date, idDonateur?: string) {
+    return this.firestore.collection('DonAssociation').add({
+      id_association: idAssociation,
+      montant: montant,
+      date: date,
+      id_donateur: idDonateur
+    });
+  }
+
 }
