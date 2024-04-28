@@ -22,7 +22,7 @@
           </div>
           <h3>Progression : </h3>
           <div class="progress-bar">
-            <div class="progress" [style.width]="getProgressWidth(selectedCollecte)"></div>
+            <div class="progress" [style.width]=""></div>
           </div>
           <h3>Temps restant : <br>{{ getTimeRemaining(selectedCollecte.date_fin) }}</h3>
       
@@ -37,7 +37,7 @@
         <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> 
         <label for="montant">Saisir un montant</label>
         <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
-        <a href="#fakeLink" class="validerDon" (click)="donate()">Valider le don de {{donationAmount}} vers "{{selectedCollecte.nom}}".</a>
+        <a class="validerDon" (click)="validateDonationAmount()">Valider le don de {{donationAmount}} vers "{{selectedCollecte.nom}}".</a>
       </div>
       
     </div>

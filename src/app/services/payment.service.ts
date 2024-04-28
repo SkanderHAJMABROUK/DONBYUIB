@@ -39,13 +39,32 @@ export class PaymentService {
       currency: '788',
       language: 'en'
     };
-    localStorage.setItem('paymentStatus','true')
+    return this.http.get<any>(url, { params });
+  }
+
+  getOrderStatus(orderId: string): Observable<any> {
+    const url = `${this.baseUrl}/getOrderStatus.do`;
+    const params = {
+      userName: this.userName,
+      password: this.password,
+      orderId: orderId,
+      language: 'fr'
+    };
     return this.http.get<any>(url, { params });
   }
 
   addDonAssociation(idAssociation: string, montant: number, date: Date, idDonateur?: string) {
     return this.firestore.collection('DonAssociation').add({
       id_association: idAssociation,
+      montant: montant,
+      date: date,
+      id_donateur: idDonateur
+    });
+  }
+
+  addDonCollecte(idCollecte: string, montant: number, date: Date, idDonateur?: string) {
+    return this.firestore.collection('DonCollecte').add({
+      id_collecte: idCollecte,
       montant: montant,
       date: date,
       id_donateur: idDonateur
