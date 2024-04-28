@@ -89,12 +89,10 @@ export class CollecteDetailsComponent {
   }
 
 
-// Method to update donation amount from button click
 updateDonationAmountFromButton(amount: number) {
   this.donationAmount = amount;
 }
 
-// Method to update donation amount from slider
 updateDonationAmountFromSlider(event: any) {
   this.donationAmount = event.value;
 }
