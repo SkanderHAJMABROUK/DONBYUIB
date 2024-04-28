@@ -126,7 +126,7 @@ confirmPayment(orderId: string, amount: number): void {
         this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection');
-            window.close();
+            // window.close();
           })
           .catch(error => {
             console.error('Erreur lors de l\'ajout du don à la collection :', error);
