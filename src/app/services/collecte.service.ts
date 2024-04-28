@@ -44,6 +44,7 @@ export class CollecteService {
         description: collecte.description,
         image: collecte.image,
         montant: collecte.montant,
+        cumul:collecte.cumul,
         date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
         date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
         id_association:collecte.id_association,
@@ -65,6 +66,7 @@ export class CollecteService {
         description: collecte.description,
         image: collecte.image,
         montant: collecte.montant,
+        cumul:collecte.cumul,
         date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
         date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
         id_association:collecte.id_association,
@@ -86,6 +88,7 @@ export class CollecteService {
         description: collecte.description,
         image: collecte.image,
         montant: collecte.montant,
+        cumul:collecte.cumul,
         date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
         date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
         id_association:collecte.id_association,
@@ -370,6 +373,7 @@ ajouterCollecte(collecteData: Collecte) {
       description: collecteData.description,
       image: collecteData.image,
       montant: collecteData.montant,
+      cumul:0,
       date_debut: collecteData.date_debut,
       date_fin: collecteData.date_fin,
       id_association:associationId,
@@ -388,6 +392,7 @@ async ajouterCollecteAndDemande(collecteData:Collecte){
     description: collecteData.description,
     image: collecteData.image,
     montant: collecteData.montant,
+    cumul:0,
     date_debut: collecteData.date_debut,
     date_fin: collecteData.date_fin,
     id_association:associationId,    
@@ -468,6 +473,12 @@ getCollecteNameById(id: string): Observable<string | undefined> {
   return this.getCollecteById(id).pipe(
     map(collecte => collecte?.nom)
   )
+}
+
+updateCumulativeDonationAmount(collecteId: string, newCumulativeAmount: number): Promise<void> {
+  return this.firestore.collection('Collecte').doc(collecteId).update({
+    cumul: newCumulativeAmount
+  });
 }
 
 

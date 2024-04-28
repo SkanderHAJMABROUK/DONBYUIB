@@ -43,6 +43,7 @@ export class ModifierCollecteAdminComponent {
           etat:this.collecteForm.value.etat,
           description: this.collecteForm.value.description,
           montant: this.collecteForm.value.montant,
+          cumul: this.collecte.cumul,
           date_debut: this.collecteForm.value.date_debut,
           date_fin: this.collecteForm.value.date_fin,
           image: this.collecte.image // Assurez-vous de transmettre l'URL de l'image existante

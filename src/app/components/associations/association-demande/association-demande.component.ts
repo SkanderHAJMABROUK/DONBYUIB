@@ -33,6 +33,8 @@ export class AssociationDemandeComponent implements OnInit{
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
   paymentSuccessful!: string|null;
+  orderId: string = ''; 
+  orderStatus: number = 0; 
   
   faSquarePhone = faSquarePhone; 
   faAt = faAt;
@@ -42,14 +44,15 @@ export class AssociationDemandeComponent implements OnInit{
       this.id = params['id']; 
       console.log(this.id)
        this.getAssociationById(this.id); 
-       
-     });
+           });
 
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId);
 
      this.paymentSuccessful = localStorage.getItem('PaymentStatus')// Retrieve payment status from localStorage
      console.log('oninit'+this.paymentSuccessful)
+     this.orderId = localStorage.getItem('orderId') || '';
+     console.log('order id',this.orderId);
 
    }
 
@@ -61,7 +64,11 @@ export class AssociationDemandeComponent implements OnInit{
           this.selectedAssociation = data; 
           localStorage.setItem('service.showDetails', 'true');
           console.log(data);
-          console.log(this.service.showDetails)
+          console.log(this.service.showDetails);
+          // Call getOrderStatus here since selectedAssociation is now populated
+          if (this.orderId) {
+            this.getOrderStatus(this.orderId);
+          }
         } else {
           console.error('Erreur: Aucune donnée n\'a été renvoyée.');
         }
@@ -72,10 +79,6 @@ export class AssociationDemandeComponent implements OnInit{
     });
   }
   
-
-
-
-
 // Method to update donation amount from button click
 updateDonationAmountFromButton(amount: number) {
   this.donationAmount = amount;
@@ -86,19 +89,23 @@ updateDonationAmountFromSlider(event: any) {
   this.donationAmount = event.value;
 }
 
+
 initiatePayment(): void {
 
   const returnUrl = `http://localhost:4200/listeAssociations/details/${this.id}`;
+  const randomIdentifier = Math.random().toString(36).substring(2, 10);
 
   // Step 1: Authorization
 this.paymentService.authorizePayment('11561U326A1', this.donationAmount, returnUrl)
+  this.paymentService.authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
     .subscribe(response => {     
-      // Handle authorization response, redirect user to formUrl in the same tab
       window.location.href = response.formUrl;
+      localStorage.setItem('orderId', response.orderId);
+      this.orderId = response.orderId;
 
+      this.confirmPayment(response.orderId, this.donationAmount);
 
     }, error => {
-      // Handle error
       console.error('Authorization failed:', error);
     });
 }
@@ -108,21 +115,22 @@ confirmPayment(orderId: string, amount: number): void {
   this.paymentService.confirmPayment(orderId, amount)
     .subscribe(response => {
       if (this.selectedAssociation && this.selectedAssociation.id) {
-        // Add the donation to the 'DonAssociation' collection
+        console.log('Selected Association:', this.selectedAssociation);
+        // Pas besoin d'ajouter le don ici
         const date = new Date();
         this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection DonAssociation');
             this.paymentSuccessful = localStorage.getItem('PaymentStatus')// Retrieve payment status from localStorage
             console.log('confimed '+this.paymentSuccessful)
+            console.log('Don ajouté avec succès à la collection');
             window.close();
 
           })
           .catch(error => {
-            console.error('Erreur lors de l\'ajout du don à la collection DonAssociation :', error);
-          });
-      } else {
-        console.error('Erreur: Aucune association sélectionnée.');
+            console.error('Erreur lors de l\'ajout du don à la collection :', error);
+          });      } else {
+        console.error('Erreur: Aucune association sélectionnée ou ID non défini.');
       }
       console.log('Payment confirmed:', response);
     }, error => {
@@ -131,23 +139,54 @@ confirmPayment(orderId: string, amount: number): void {
     });
 }
 
-  showSuccessMessage() {
-    if (this.selectedAssociation) {
-      const nomAssociation = this.selectedAssociation.nom;
-      const imageAssociation = this.selectedAssociation.logo;
-  
-      Swal.fire({
-        title: "Félicitations!",
-        text: `Votre don à ${nomAssociation} a été transmis avec succès`,
-        imageUrl: imageAssociation,
-        imageWidth: 200,
-        imageHeight: 200,
-        imageAlt: "Oops!"
-      });
-    }
-  }
+getOrderStatus(orderId: string): void {
+  this.paymentService.getOrderStatus(orderId)
+    .subscribe(response => {
+      // Extract order status
+      console.log(response);
+      this.orderStatus = response.OrderStatus as number;
+      console.log('order status in function', this.orderStatus);
 
-  
-  
+      if (this.orderStatus == 2) {
+        this.showSuccessMessage();
+      } 
+    }, error => {
+      console.error('Error fetching order status:', error);
+    });
+}
+
+
+showSuccessMessage() {
+  if (this.selectedAssociation) {
+    const nomAssociation = this.selectedAssociation.nom;
+    const imageAssociation = this.selectedAssociation.logo;
+
+    Swal.fire({
+      title: "Félicitations!",
+      text: `Votre don à ${nomAssociation} a été transmis avec succès`,
+      imageUrl: imageAssociation,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: "Oops!"
+    });
+  } else {
+    console.log('selectedAssociation is null or undefined');
+  };
+  localStorage.removeItem('orderId');
+}
+
+validateDonationAmount() {
+  if (this.donationAmount === 0) {
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: "Le montant du don ne peut pas être zéro!",
+      showConfirmButton: false,
+      timer: 1500
+    });
+    } else {
+    this.initiatePayment();
+  }
+}
 
 }

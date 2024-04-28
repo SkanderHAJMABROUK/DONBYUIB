@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
@@ -44,6 +44,17 @@ export class PaymentService {
     return this.http.get<any>(url, { params });
   }
 
+  getOrderStatus(orderId: string): Observable<any> {
+    const url = `${this.baseUrl}/getOrderStatus.do`;
+    const params = {
+      userName: this.userName,
+      password: this.password,
+      orderId: orderId,
+      language: 'fr'
+    };
+    return this.http.get<any>(url, { params });
+  }
+
   addDonAssociation(idAssociation: string, montant: number, date: Date, idDonateur?: string) {
     return this.firestore.collection('DonAssociation').add({
       id_association: idAssociation,
@@ -51,6 +62,25 @@ export class PaymentService {
       date: date,
       id_donateur: idDonateur
     });
+  }
+
+  addDonCollecte(idCollecte: string, montant: number, date: Date, idDonateur?: string) {
+    return this.firestore.collection('DonCollecte').add({
+      id_collecte: idCollecte,
+      montant: montant,
+      date: date,
+      id_donateur: idDonateur
+    });
+  }
+
+  getTotalDonationAmountForCollecte(idCollecte: string): Observable<number> {
+    return this.firestore.collection<any>('DonCollecte', ref => ref.where('id_collecte', '==', idCollecte))
+      .valueChanges()
+      .pipe(
+        map(donations => {
+          return donations.reduce((total: number, donation: any) => total + donation.montant, 0);
+        })
+      );
   }
 
 }
