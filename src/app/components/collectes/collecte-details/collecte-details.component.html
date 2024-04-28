@@ -22,7 +22,7 @@
           </div>
           <h3>Progression : </h3>
           <div class="progress-bar">
-            <div class="progress" [style.width]=""></div>
+            <div class="progress" [style.width]="getProgressPercentage()"></div>
           </div>
           <h3>Temps restant : <br>{{ getTimeRemaining(selectedCollecte.date_fin) }}</h3>
       

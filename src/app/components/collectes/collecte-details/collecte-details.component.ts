@@ -204,4 +204,18 @@ fetchTotalDonationAmount(): void {
     });
 }
 
+getProgressPercentage(): number {
+  if (this.selectedCollecte && this.selectedCollecte.montant && this.selectedCollecte.cumul !== undefined) {
+    const montant = this.selectedCollecte.montant;
+    const cumul = this.selectedCollecte.cumul;
+    if (montant > 0) {
+      return (cumul / montant) * 100;
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
 }
