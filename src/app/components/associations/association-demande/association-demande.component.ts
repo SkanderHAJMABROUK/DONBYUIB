@@ -32,7 +32,7 @@ export class AssociationDemandeComponent implements OnInit{
   data: Association |undefined;
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
-  paymentSuccessful: boolean = false;
+  paymentSuccessful!: string|null;
   
   faSquarePhone = faSquarePhone; 
   faAt = faAt;
@@ -42,17 +42,14 @@ export class AssociationDemandeComponent implements OnInit{
       this.id = params['id']; 
       console.log(this.id)
        this.getAssociationById(this.id); 
-       this.showSuccessMessage();
+       
      });
 
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId);
 
-     this.paymentSuccessful = this.getPaymentStatus(); // Retrieve payment status from localStorage
-      if (this.paymentSuccessful) {
-      this.showSuccessMessage();
-      this.setPaymentStatus(false); // Reset payment status after showing the message
-    }
+     this.paymentSuccessful = localStorage.getItem('PaymentStatus')// Retrieve payment status from localStorage
+     console.log('oninit'+this.paymentSuccessful)
 
    }
 
@@ -94,7 +91,7 @@ initiatePayment(): void {
   const returnUrl = `http://localhost:4200/listeAssociations/details/${this.id}`;
 
   // Step 1: Authorization
-this.paymentService.authorizePayment('761U326A1', this.donationAmount, returnUrl)
+this.paymentService.authorizePayment('11561U326A1', this.donationAmount, returnUrl)
     .subscribe(response => {     
       // Handle authorization response, redirect user to formUrl in the same tab
       window.location.href = response.formUrl;
@@ -116,7 +113,10 @@ confirmPayment(orderId: string, amount: number): void {
         this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection DonAssociation');
+            this.paymentSuccessful = localStorage.getItem('PaymentStatus')// Retrieve payment status from localStorage
+            console.log('confimed '+this.paymentSuccessful)
             window.close();
+
           })
           .catch(error => {
             console.error('Erreur lors de l\'ajout du don à la collection DonAssociation :', error);
@@ -147,16 +147,7 @@ confirmPayment(orderId: string, amount: number): void {
     }
   }
 
-  setPaymentStatus(status: boolean): void {
-    localStorage.setItem('paymentStatus', status.toString());
-    
-  }
-
-  getPaymentStatus(): boolean {
-    const status = localStorage.getItem('paymentStatus');
-    console.log(status)
-    return status ? status === 'true' : false;
-    
-  }
+  
+  
 
 }

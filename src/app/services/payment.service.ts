@@ -25,6 +25,8 @@ export class PaymentService {
       currency: '788',
       returnUrl: returnUrl
     };
+    localStorage.setItem('paymentStatus','true')
+
     return this.http.get<any>(url, { params });
   }
 
@@ -39,7 +41,6 @@ export class PaymentService {
       currency: '788',
       language: 'en'
     };
-    localStorage.setItem('paymentStatus','true')
     return this.http.get<any>(url, { params });
   }
 
