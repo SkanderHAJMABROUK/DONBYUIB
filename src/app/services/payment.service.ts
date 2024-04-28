@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
@@ -69,6 +69,16 @@ export class PaymentService {
       date: date,
       id_donateur: idDonateur
     });
+  }
+
+  getTotalDonationAmountForCollecte(idCollecte: string): Observable<number> {
+    return this.firestore.collection<any>('DonCollecte', ref => ref.where('id_collecte', '==', idCollecte))
+      .valueChanges()
+      .pipe(
+        map(donations => {
+          return donations.reduce((total: number, donation: any) => total + donation.montant, 0);
+        })
+      );
   }
 
 }

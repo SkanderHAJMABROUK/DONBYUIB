@@ -5,6 +5,7 @@ export interface Collecte {
     image:string,
     etat:string,
     montant:number;
+    cumul:number;
     date_debut:Date,
     date_fin: Date,
     id_association?:string,

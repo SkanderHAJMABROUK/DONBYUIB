@@ -33,6 +33,7 @@ export class CollecteDetailsComponent {
   orderId: string = ''; 
   orderStatus: number = 0;
   donateurId!: string;
+  totalDonationAmount: number = 0;
 
 
    ngOnInit(): void {
@@ -42,8 +43,10 @@ export class CollecteDetailsComponent {
        this.getCollecteById(this.id); 
      });
 
+     this.fetchTotalDonationAmount();
+
      this.donateurId=this.donateurService.id;
-     console.log('donateur',this.donateurId);
+     console.log('donateur',this.donateurId,'.');
 
      this.orderId = localStorage.getItem('order-Id') || '';
      console.log('order id',this.orderId);
@@ -119,7 +122,6 @@ confirmPayment(orderId: string, amount: number): void {
   this.paymentService.confirmPayment(orderId, amount)
     .subscribe(response => {
       if (this.selectedCollecte && this.selectedCollecte.id) {
-        console.log('Selected Collecte:', this.selectedCollecte);
         const date = new Date();
         this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
           .then(() => {
@@ -129,6 +131,8 @@ confirmPayment(orderId: string, amount: number): void {
           .catch(error => {
             console.error('Erreur lors de l\'ajout du don à la collection :', error);
           });
+
+        this.service.updateCumulativeDonationAmount(this.selectedCollecte.id, this.totalDonationAmount+amount);
       } else {
         console.error('Erreur: Aucune collecte sélectionnée ou ID non défini.');
       }
@@ -188,6 +192,16 @@ validateDonationAmount() {
     } else {
     this.initiatePayment();
   }
+}
+
+fetchTotalDonationAmount(): void {
+  this.paymentService.getTotalDonationAmountForCollecte(this.id)
+    .subscribe(totalAmount => {
+      this.totalDonationAmount = totalAmount;
+      console.log('Total donation amount:', totalAmount);
+    }, error => {
+      console.error('Error fetching total donation amount:', error);
+    });
 }
 
 }
