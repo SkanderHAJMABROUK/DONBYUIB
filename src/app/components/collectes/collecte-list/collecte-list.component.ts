@@ -32,8 +32,6 @@ ngOnInit():void{
  })
  }
 
-
-
  toggleIconState(collecteId: string, state: boolean): void {
   this.collecteHoverState.set(collecteId, state);
 }
@@ -43,9 +41,18 @@ ngOnInit():void{
   localStorage.setItem('service.showDetails', 'true');
 }
 
-getProgressWidth(collecte: any): string {
-  const progressPercentage = (collecte.montant / collecte.objectif) * 100;
-  return progressPercentage + '%';
+getProgressPercentage(collecte: any): number {
+  if (collecte && collecte.montant && collecte.cumul !== undefined) {
+    const montant = collecte.montant;
+    const cumul = collecte.cumul;
+    if (montant > 0) {
+      return Math.floor((cumul / montant) * 100);
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
 }
 
 getTimeRemaining(endDate: Date): string {

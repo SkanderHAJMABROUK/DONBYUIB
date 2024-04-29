@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="progress-bar">
-        <div class="progress" [style.width]="getProgressWidth(collecte)"></div>
+        <div class="progress" [style.width]="getProgressPercentage(collecte)+'%'"></div>
       </div>
       <p>Temps restant : {{ getTimeRemaining(collecte.date_fin) }}</p>
       <a class="btn" [routerLink]="['details', collecte.id]"

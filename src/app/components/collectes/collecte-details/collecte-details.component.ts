@@ -34,6 +34,7 @@ export class CollecteDetailsComponent {
   orderStatus: number = 0;
   donateurId!: string;
   totalDonationAmount: number = 0;
+  amountLeft: number= 0;
 
 
    ngOnInit(): void {
@@ -63,8 +64,9 @@ export class CollecteDetailsComponent {
           localStorage.setItem('service.showDetails', 'true');
           console.log(data);
           console.log(this.service.showDetails);
+          
           if (this.orderId) {
-            this.getOrderStatus(this.orderId);
+            this.getOrderStatus(this.orderId);           
           }
         } else {
           console.error('Erreur: Aucune donnée n\'a été renvoyée.');
@@ -182,7 +184,6 @@ showSuccessMessage() {
 }
 
 validateDonationAmount() {
-  console.log('montant don',this.donationAmount)
   if (this.donationAmount === 0) {
     Swal.fire({
       position: "center",
@@ -191,16 +192,29 @@ validateDonationAmount() {
       showConfirmButton: false,
       timer: 1500
     });
-    } else {
+  } else if(this.amountLeft < this.donationAmount){
+    Swal.fire({
+      position: "center",
+      icon: "warning",
+      title: `Il ne reste que ${this.amountLeft}DT vers l'objectif de cette collecte, merci de votre générosité!`,
+      showConfirmButton: false,
+      timer: 2500
+    });
+  }else {
     this.initiatePayment();
   }
 }
+
 
 fetchTotalDonationAmount(): void {
   this.paymentService.getTotalDonationAmountForCollecte(this.id)
     .subscribe(totalAmount => {
       this.totalDonationAmount = totalAmount;
       console.log('Total donation amount:', totalAmount);
+      this.amountLeft = this.getAmountLeft();
+      console.log('amount left', this.amountLeft);
+      
+
     }, error => {
       console.error('Error fetching total donation amount:', error);
     });
@@ -211,13 +225,22 @@ getProgressPercentage(): number {
     const montant = this.selectedCollecte.montant;
     const cumul = this.selectedCollecte.cumul;
     if (montant > 0) {
-      return (cumul / montant) * 100;
+      return Math.floor((cumul / montant) * 100);
     } else {
       return 0;
     }
   } else {
     return 0;
   }
+}
+
+getAmountLeft(): number {
+  if (this.selectedCollecte) {
+    return (this.selectedCollecte.montant - this.selectedCollecte.cumul);
+  } else { 
+    console.log('Erreur');
+  }
+  return 0;
 }
 
 }

@@ -476,6 +476,7 @@ getCollecteNameById(id: string): Observable<string | undefined> {
 }
 
 updateCumulativeDonationAmount(collecteId: string, newCumulativeAmount: number): Promise<void> {
+  console.log('update cumul called')
   return this.firestore.collection('Collecte').doc(collecteId).update({
     cumul: newCumulativeAmount
   });
