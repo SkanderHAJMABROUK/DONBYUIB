@@ -34,6 +34,7 @@
     "@popperjs/core": "^2.11.8",
     "@sweetalert2/theme-bulma": "^5.0.16",
     "angularfire2": "^5.4.2",
+    "chart.js": "^4.4.2",
     "date-format": "^4.0.14",
     "debug": "^4.3.4",
     "env": "^0.0.2",
