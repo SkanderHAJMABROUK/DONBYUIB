@@ -78,7 +78,6 @@ export class CollecteDetailsComponent {
     });
   }
   
-  
   getTimeRemaining(endDate: Date): string {
     const now = new Date();
     const endTime = new Date(endDate);
