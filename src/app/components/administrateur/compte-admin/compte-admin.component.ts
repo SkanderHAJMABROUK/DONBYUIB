@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Admin } from 'src/app/interfaces/admin';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
+import { Chart, registerables} from 'node_modules/chart.js'
+Chart.register(...registerables)
 
 @Component({
   selector: 'app-compte-admin',

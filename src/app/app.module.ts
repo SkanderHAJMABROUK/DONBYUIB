@@ -202,8 +202,8 @@ const firebaseConfig = {
     provideFirestore(() => getFirestore()),
 
     RouterModule.forRoot([
-      {path:'admin',component:LoginAdminComponent,canActivate: [AuthGuard]},
-      {path:'admin/profil/:id',component:ProfilAdminComponent,canActivate: [AuthGuard]},
+      {path:'admin',component:LoginAdminComponent},
+      {path:'admin/profil/:id',component:ProfilAdminComponent},
 
       {path:'chatbot',component:ChatDialogComponent},
 
