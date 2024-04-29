@@ -44,6 +44,7 @@ export class CollecteDetailsComponent {
      });
 
      this.fetchTotalDonationAmount();
+     this.getProgressPercentage();
 
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId,'.');
@@ -133,6 +134,7 @@ confirmPayment(orderId: string, amount: number): void {
           });
 
         this.service.updateCumulativeDonationAmount(this.selectedCollecte.id, this.totalDonationAmount+amount);
+        
       } else {
         console.error('Erreur: Aucune collecte sélectionnée ou ID non défini.');
       }

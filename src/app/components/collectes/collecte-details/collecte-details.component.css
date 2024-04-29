@@ -157,14 +157,22 @@
 .dates, .amount {
     width: auto; /* Adjust based on your design */
   }
+
+.progress-title{
+    display: flex;
+    justify-content: space-between;
+}
+
   .progress-bar {
     border-radius: 5px;
     height: 15px;
     margin: 10px 0;
+    border: solid 2px black;
+
   }
   
   .progress {
-    background-color: #606060c2;
+    background-color: #7bff00c2;
     border-radius: 5px;
     height: 100%;
   }
