@@ -39,7 +39,8 @@ export class CompteAdminComponent implements OnInit{
   lineChart: any;
   donationsSubscription: Subscription | undefined;
   barChart: any;
-  
+  doughnutChart: any;
+
   
    ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -51,6 +52,7 @@ export class CompteAdminComponent implements OnInit{
      this.getAssociationsByCategory();
      this.fetchDonationsData();
      this.renderBarChart();
+     this.renderDoughnutChart();
    
    }
 
@@ -176,6 +178,39 @@ export class CompteAdminComponent implements OnInit{
     console.log('Aggregated Data:', Object.values(aggregatedData));
     return Object.values(aggregatedData);
   }
+
+  aggregateDonationsPerAssociation(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): { [key: string]: number } {
+    const aggregatedData: { [key: string]: number } = {};
+
+    donAssociations.forEach((donation: DonAssociation) => {
+      const associationId = donation.id_association;
+      if (aggregatedData.hasOwnProperty(associationId)) {
+        aggregatedData[associationId] += donation.montant;
+      } else {
+        aggregatedData[associationId] = donation.montant;
+      }
+    });
+
+    donCollectes.forEach((donation: DonCollecte) => {
+      const collecteId = donation.id_collecte;
+      this.service.getAssociationIdFromCollecte(collecteId).subscribe((associationId: string | undefined) => {
+        console.log('association id' , associationId);
+        if (associationId) {
+          if (aggregatedData.hasOwnProperty(associationId)) {
+            aggregatedData[associationId] += donation.montant;
+          } else {
+            aggregatedData[associationId] = donation.montant;
+          }
+        }
+      });
+    });
+
+    console.log('aggregateddata',aggregatedData);
+
+    return aggregatedData;
+  }
+
+
   
   
   
@@ -328,7 +363,45 @@ export class CompteAdminComponent implements OnInit{
       });
     });
   }
-  
+
+  renderDoughnutChart(): void {
+    this.service.getAllDonAssociation().subscribe((donAssociations: DonAssociation[]) => {
+      this.service.getAllDonCollecte().subscribe((donCollectes: DonCollecte[]) => {
+
+        console.log('don associations',donAssociations);
+        console.log('don collectes',donCollectes);
+        const aggregatedData = this.aggregateDonationsPerAssociation(donAssociations, donCollectes);
+
+        // Prepare data for Chart.js
+        const data = {
+          labels: Object.keys(aggregatedData),
+          datasets: [{
+            label: 'Donations per Association',
+            data: Object.values(aggregatedData),
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.5)',
+              'rgba(54, 162, 235, 0.5)',
+              'rgba(255, 206, 86, 0.5)',
+              // Add more colors as needed
+            ],
+            borderWidth: 1
+          }]
+        };
+
+        // Create doughnut chart
+        const canvas: any = document.getElementById('doughnutChart');
+        const ctx = canvas.getContext('2d');
+
+        this.doughnutChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: data,
+          options: {
+            responsive: true
+          }
+        });
+      });
+    });
+  }
     
 }
 

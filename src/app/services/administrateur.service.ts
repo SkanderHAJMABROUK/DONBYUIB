@@ -4,7 +4,7 @@ import { AngularFirestore, DocumentData } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { sha256 } from 'js-sha256';
 import { HttpClient } from '@angular/common/http';
@@ -14,6 +14,7 @@ import { AssociationService } from './association.service';
 import { Admin } from '../interfaces/admin';
 import { DonAssociation } from '../interfaces/don-association';
 import { DonCollecte } from '../interfaces/don-collecte';
+import { Collecte } from '../interfaces/collecte';
 
 @Injectable({
   providedIn: 'root'
@@ -289,6 +290,19 @@ getAllDonAssociation(): Observable<DonAssociation[]> {
 
 getAllDonCollecte(): Observable<DonCollecte[]> {
   return this.firestore.collection<DonCollecte>('DonCollecte').valueChanges();
+}
+
+getAssociationIdFromCollecte(collecteId: string): Observable<string | undefined> {
+  return this.firestore.doc<DonCollecte>(`DonCollecte/${collecteId}`).valueChanges()
+    .pipe(
+      switchMap((donCollecte: DonCollecte | undefined) => {
+        if (!donCollecte) {
+          return [];
+        }
+        return this.firestore.doc<Collecte>(`Collecte/${donCollecte.id_collecte}`).valueChanges();
+      }),
+      map((collecte: Collecte | undefined) => collecte?.id_association)
+    );
 }
 
 }
