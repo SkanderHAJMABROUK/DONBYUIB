@@ -292,7 +292,7 @@ export class CompteAdminComponent implements OnInit{
         datasets: [
           {
             label: 'Accepted',
-            backgroundColor: 'green',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
             data: [
               associationsAccepted.length,
               collecteAccepted.length,
@@ -301,7 +301,7 @@ export class CompteAdminComponent implements OnInit{
           },
           {
             label: 'Refused',
-            backgroundColor: 'red',
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
             data: [
               associationsRefused.length,
               collecteRefused.length,
