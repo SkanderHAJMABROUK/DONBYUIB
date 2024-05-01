@@ -145,6 +145,30 @@ getAcceptedDemandesCollectes(): Observable<DemandeCollecte[]> {
   );
 }
 
+getRefusedDemandesCollectes(): Observable<DemandeCollecte[]> {
+  let demandeCollecteCollection = collection(this.fs, 'DemandeCollecte');
+  return collectionData(demandeCollecteCollection, { idField: 'id' }).pipe(
+    map((demandesCollectes: any[]) => {
+      return demandesCollectes
+      .filter(demandeCollecte => demandeCollecte.etat === 'refusé') 
+      .map(demandeCollecte => ({
+        id: demandeCollecte.id,
+        id_association : demandeCollecte.id_association,
+        id_collecte : demandeCollecte.id_collecte,
+        nom : demandeCollecte.nom,
+        description : demandeCollecte.description,
+        image : demandeCollecte.image,
+        etat : demandeCollecte.etat,
+        montant : demandeCollecte.montant,
+        date_debut : demandeCollecte.date_debut instanceof Timestamp ? demandeCollecte.date_debut.toDate() : demandeCollecte.date_debut,
+        date_fin : demandeCollecte.date_fin instanceof Timestamp ? demandeCollecte.date_fin.toDate() : demandeCollecte.date_fin,
+        date : demandeCollecte.date instanceof Timestamp ? demandeCollecte.date.toDate() : demandeCollecte.date ,
+
+      }));
+    })
+  );
+}
+
 getDemandesModificationsCollectes(): Observable<DemandeModificationCollecte[]> {
   let demandeModificationCollectesCollection = collection(this.fs, 'DemandeModificationCollecte');
   return collectionData(demandeModificationCollectesCollection, { idField: 'id' }).pipe(

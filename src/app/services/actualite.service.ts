@@ -122,6 +122,27 @@ export class ActualiteService {
     );
   }
 
+  getRefusedDemandesActualites(): Observable<DemandeActualite[]> {
+    let demandeActualiteCollection = collection(this.fs, 'DemandeActualite');
+    return collectionData(demandeActualiteCollection, { idField: 'id' }).pipe(
+      map((demandesActualites: any[]) => {
+        return demandesActualites
+        .filter(demandeActualite => demandeActualite.etat === 'refusé')
+        .map(demandeActualite => ({
+          id: demandeActualite.id,
+          id_association : demandeActualite.id_association,
+          id_actualite : demandeActualite.id_actualite,
+          titre : demandeActualite.titre,
+          image : demandeActualite.image,
+          date_publication: demandeActualite.date_publication instanceof Timestamp ? demandeActualite.date_publication.toDate() : demandeActualite.date_publication,
+          date : demandeActualite.date,
+          etat : demandeActualite.etat,
+          description : demandeActualite.description
+        }));
+      })
+    );
+  }
+
   getDemandesModificationsActualites(): Observable<DemandeModificationActualite[]> {
     let demandeModificationActualitesCollection = collection(this.fs, 'DemandeModificationActualite');
     return collectionData(demandeModificationActualitesCollection, { idField: 'id' }).pipe(

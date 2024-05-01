@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, DocumentData } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-
-import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
 import { Observable, catchError, map, of } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
@@ -13,6 +12,8 @@ import { Log } from '../interfaces/log';
 import { LogService } from './log.service';
 import { AssociationService } from './association.service';
 import { Admin } from '../interfaces/admin';
+import { DonAssociation } from '../interfaces/don-association';
+import { DonCollecte } from '../interfaces/don-collecte';
 
 @Injectable({
   providedIn: 'root'
@@ -266,6 +267,28 @@ async getPendingDemandeSuppressionCollectesCount(): Promise<number> {
   } catch (error) {
     return 0;
   }
+}
+
+async getAssociationsByCategory(): Promise<Association[]> {
+  try {
+    const associationDocs = await getDocs(collection(this.fs, 'Association'));
+    const associations: Association[] = [];
+    associationDocs.forEach(doc => {
+      associations.push({id: doc.id, ...doc.data()} as Association);
+    });
+    return associations;
+  } catch (error) {
+    console.error('Error getting associations by category:', error);
+    return [];
+  }
+}
+
+getAllDonAssociation(): Observable<DonAssociation[]> {
+  return this.firestore.collection<DonAssociation>('DonAssociation').valueChanges();
+}
+
+getAllDonCollecte(): Observable<DonCollecte[]> {
+  return this.firestore.collection<DonCollecte>('DonCollecte').valueChanges();
 }
 
 }

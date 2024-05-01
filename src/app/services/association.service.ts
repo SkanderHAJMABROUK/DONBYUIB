@@ -180,6 +180,56 @@ export class AssociationService {
     );
   }
 
+  getAcceptedDemandesAssociations(): Observable<DemandeAssociation[]> {
+    let demandeAssociationCollection = collection(this.fs, 'DemandeAssociation');
+    return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
+      map((demandesAssociations: any[]) => {
+        return demandesAssociations
+        .filter(demandeAssociation => demandeAssociation.etat === 'accepté') // Filter associations with etat 'en_attente'
+        .map(demandeAssociation => ({
+          id: demandeAssociation.id,
+          id_association : demandeAssociation.id_association,
+          nom : demandeAssociation.nom,
+          categorie : demandeAssociation.categorie,
+          adresse : demandeAssociation.adresse,
+          description : demandeAssociation.description,
+          email : demandeAssociation.email,
+          id_fiscale : demandeAssociation.id_fiscale,
+          logo : demandeAssociation.logo,
+          rib : demandeAssociation.rib,
+          telephone : demandeAssociation.telephone,
+          etat : demandeAssociation.etat,
+          date : demandeAssociation.date instanceof Timestamp ? demandeAssociation.date.toDate() : demandeAssociation.date
+        }));
+      })
+    );
+  }
+
+  getRefusedDemandesAssociations(): Observable<DemandeAssociation[]> {
+    let demandeAssociationCollection = collection(this.fs, 'DemandeAssociation');
+    return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
+      map((demandesAssociations: any[]) => {
+        return demandesAssociations
+        .filter(demandeAssociation => demandeAssociation.etat === 'refusé') // Filter associations with etat 'en_attente'
+        .map(demandeAssociation => ({
+          id: demandeAssociation.id,
+          id_association : demandeAssociation.id_association,
+          nom : demandeAssociation.nom,
+          categorie : demandeAssociation.categorie,
+          adresse : demandeAssociation.adresse,
+          description : demandeAssociation.description,
+          email : demandeAssociation.email,
+          id_fiscale : demandeAssociation.id_fiscale,
+          logo : demandeAssociation.logo,
+          rib : demandeAssociation.rib,
+          telephone : demandeAssociation.telephone,
+          etat : demandeAssociation.etat,
+          date : demandeAssociation.date instanceof Timestamp ? demandeAssociation.date.toDate() : demandeAssociation.date
+        }));
+      })
+    );
+  }
+
   getDemandesModificationsAssociations(): Observable<DemandeModificationAssociation[]> {
     let demandeModificationAssociationCollection = collection(this.fs, 'DemandeModificationAssociation');
     return collectionData(demandeModificationAssociationCollection, { idField: 'id' }).pipe(
