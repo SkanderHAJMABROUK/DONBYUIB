@@ -90,6 +90,7 @@ export class AdministrateurService {
         telephone: associationData.telephone,
         logo: associationData.logo,
         id_fiscale: associationData.id_fiscale,
+        matricule_fiscale: associationData.matricule_fiscale,
         rib: associationData.rib, // Stockage du mot de passe haché
         mdp: hashedPassword,
         etat: "actif",

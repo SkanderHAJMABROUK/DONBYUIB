@@ -39,12 +39,18 @@
           <td>{{ association.rib }}</td>
           <td><a href="{{association.id_fiscale}}" target="_blank"><span class="material-symbols-outlined">
             file_open
-            </span></a></td>
+            </span></a>
+            
+          </td>
           <td>{{ association.date | date: 'dd/MM/yyyy'}}</td>
           <!-- Nouvelle colonne pour les actions -->
           <td>
+            
             <div class="crud-buttons">
-               
+              <button class="action-button search-button" (click)="verifOCR(association.id)"><fa-icon [icon]="faMagnifyingGlass"></fa-icon></button>
+              
+              
+              
               <!-- Bouton Modifier -->
             <button class="action-button add-button" (click)="accepterAssociation(association)"><fa-icon [icon]="faCheck"></fa-icon></button>
              
@@ -55,12 +61,24 @@
               <button class="action-button view-button"  ><fa-icon [icon]="faList" (click)="afficherDetails(association)"></fa-icon></button>
               <app-demande-association-details *ngIf="adminService.associationDetailShowModal" [association]="selectedAssociation"></app-demande-association-details>
 
-               </div>
+               </div><br/>
+               <div *ngIf="VerifOCR">
+                <div *ngIf="hasMatriculeFiscal">
+                  
+                    <p style="color: green;">Matricule fiscal : {{ matricule }}</p>
+                </div>
+                <div *ngIf="hasMatriculeFiscal==false">
+                  <p style="color: red;">OCR n'a pas pu capturer le matricule fiscal</p>
+                </div>
+              </div>
+
           </td>
         </tr>
       </tbody>
     </table>
 
+    
+    
 
     <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
         <div class="lightbox-contenu">

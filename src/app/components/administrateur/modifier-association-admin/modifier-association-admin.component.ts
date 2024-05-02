@@ -80,7 +80,9 @@ export class ModifierAssociationAdminComponent {
           etat:this.association.etat,
           mdp:this.associationForm.value.mdp,
           logo:this.association.logo,
-          id_fiscale:this.association.id_fiscale
+          id_fiscale:this.association.id_fiscale,
+          matricule_fiscale: this.association.matricule_fiscale,
+
 
         };
   

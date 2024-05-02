@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DemandeAssociation } from 'src/app/interfaces/demande-association';
 import { AssociationService } from 'src/app/services/association.service';
-import { faList, faCheck, faXmark, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import { faList, faCheck, faXmark, faChevronRight, faChevronLeft, faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Association } from 'src/app/interfaces/association';
+import { OcrService } from 'src/app/services/ocr.service';
 
 @Component({
   selector: 'app-demandes-associations',
@@ -15,12 +16,19 @@ import { Association } from 'src/app/interfaces/association';
 })
 export class DemandesAssociationsComponent implements OnInit{
 
+  results!: any[];
+  VerifOCR:boolean=false;
+  hasMatriculeFiscal: boolean=false;
+  matricule: string='';
+ 
+
   faChevronRight = faChevronRight;
   Association!:Association;
   faChevronLeft = faChevronLeft;
   faList = faList;
   faCheck = faCheck;
   faXmark = faXmark;
+  faMagnifyingGlass = faMagnifyingGlass;
 
   showConfirmationModal: boolean = false;
 
@@ -36,7 +44,7 @@ export class DemandesAssociationsComponent implements OnInit{
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
   selectedAssociation!:DemandeAssociation;
   constructor(private associationService: AssociationService, private router: Router, public adminService:AdministrateurService,
-    private firestore: AngularFirestore) { }
+    private firestore: AngularFirestore,private ocr:OcrService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -238,7 +246,33 @@ export class DemandesAssociationsComponent implements OnInit{
     const demandeRef = this.firestore.collection('Association').doc(associationId);
     return demandeRef.update({ etat: etat });
   }
-
+  verifOCR(associationId:string|undefined){
+    this.VerifOCR=true;
+    console.log(this.VerifOCR)
+    console.log(associationId)
+    if(associationId)
+    this.ocr.processImage(associationId).subscribe((data)=>{
+      this.results=data;
+      console.log(data);
+      this.checkMatriculeFiscal(this.results);   
+        
+    
+    },(error)=>{
+        console.error('Erreur lors de la récupération des résultats : ', error);
+    });
+  }
+  checkMatriculeFiscal(results: any[]) {
+    this.hasMatriculeFiscal = false; 
   
+    for (const result of results) {
+      if (result.matricule_fiscal !== null) {
+        this.hasMatriculeFiscal = true; 
+        this.matricule = result.matricule_fiscal; 
+        console.log("Matricule fiscal trouvé :", this.matricule);
+        break;  }
+    }
+  
+    console.log("hasMatriculeFiscal :", this.hasMatriculeFiscal);
+  }
 
 }
