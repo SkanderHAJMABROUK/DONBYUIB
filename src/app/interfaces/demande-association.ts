@@ -7,6 +7,7 @@ export interface DemandeAssociation {
     description:string,
     email:string,
     id_fiscale:string,
+    matricule_fiscale:string,
     logo:string,
     rib:string,
     telephone:string,

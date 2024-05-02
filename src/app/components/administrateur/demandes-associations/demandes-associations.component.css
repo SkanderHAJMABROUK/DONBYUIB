@@ -104,7 +104,9 @@ table td {
 .add-button  {
     color: #1E8449;
 }
-
+.search-button  {
+    color: rgb(32, 92, 165);
+}
 .view-button  {
     color: #F1C40F;
 }

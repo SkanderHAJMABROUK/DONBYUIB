@@ -47,6 +47,7 @@ export class InscrireAssociationComponent implements OnInit {
         telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
         logo: ['', Validators.required],
         id_fiscale: ['', Validators.required],
+        matricule_fiscale: ['', Validators.required],
         rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20), this.ribValidator]],
         mdp: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
         mdp_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
@@ -133,7 +134,7 @@ export class InscrireAssociationComponent implements OnInit {
       const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
       const nameExists = await this.service.checkNameExists(this.aFormGroup.value.nom).toPromise();
 
-      if (!emailExists) {
+      if (emailExists) {
 
         if (!nameExists) {
         

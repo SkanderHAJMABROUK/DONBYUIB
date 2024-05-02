@@ -8,6 +8,7 @@ export interface Association {
     description:string,
     email:string,
     id_fiscale:string,
+    matricule_fiscale:string,
     logo:string,
     mdp:string,
     rib:string,

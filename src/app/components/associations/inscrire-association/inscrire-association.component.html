@@ -81,11 +81,19 @@
     </div>       
     <div>
       <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
-      <input type="file" id="idfiscale_association" formControlName="id_fiscale" (change)="onIdFileSelected($event)" accept="application/pdf" required>
+      <input type="file" id="idfiscale_association" formControlName="id_fiscale" (change)="onIdFileSelected($event)" accept="image/png, image/jpeg, image/svg+xml" required>
       <div class="error-message" *ngIf="aFormGroup.get('id_fiscale')?.invalid && (aFormGroup.get('id_fiscale')?.dirty || aFormGroup.get('id_fiscale')?.touched)">
         <div *ngIf="aFormGroup.get('id_fiscale')?.errors?.['required']">La carte d'identité fiscale est requise.</div>
       </div>
     </div>
+
+    <div>
+      <label for="matricule_fiscal_association">Matricule fiscal de l'association<span> *</span></label>
+      <input type="text" id="matricule_fiscal_association" formControlName="matricule_fiscale" placeholder="Matricule fiscal" required>
+      <div class="error-message" *ngIf="aFormGroup.get('matricule_fiscale')?.invalid && (aFormGroup.get('matricule_fiscale')?.dirty || aFormGroup.get('matricule_fiscale')?.touched)">
+        <div *ngIf="aFormGroup.get('matricule_fiscale')?.errors?.['required']">Le matricule fiscal de l'association est requis.</div>
+      </div>
+   </div>
     
     <div>
       <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association<span> *</span></label>
