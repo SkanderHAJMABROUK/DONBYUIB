@@ -293,17 +293,34 @@ getAllDonCollecte(): Observable<DonCollecte[]> {
   return this.firestore.collection<DonCollecte>('DonCollecte').valueChanges();
 }
 
-getAssociationIdFromCollecte(collecteId: string): Observable<string | undefined> {
-  return this.firestore.doc<DonCollecte>(`DonCollecte/${collecteId}`).valueChanges()
-    .pipe(
-      switchMap((donCollecte: DonCollecte | undefined) => {
-        if (!donCollecte) {
-          return [];
+getAllDonCollecteCollecteIds(): Observable<{ [key: string]: string }> {
+  return this.firestore.collection<DonCollecte>('DonCollecte').valueChanges().pipe(
+    map(dons_collectes => {
+      const collectesIds: { [key: string]: string } = {};
+      dons_collectes.forEach(don_collecte => {
+        if (don_collecte.id && don_collecte.id_collecte) {
+          collectesIds[don_collecte.id] = don_collecte.id_collecte;
         }
-        return this.firestore.doc<Collecte>(`Collecte/${donCollecte.id_collecte}`).valueChanges();
-      }),
-      map((collecte: Collecte | undefined) => collecte?.id_association)
-    );
+      });
+      return collectesIds;
+    })
+  );
 }
+
+getAssociationIdsByCollecteIds(collecteIds: string[]): Observable<{ [key: string]: string }> {
+  return this.firestore.collection<Collecte>('Collecte', ref => ref.where('id', 'in', collecteIds)).valueChanges().pipe(
+    map(collectes => {
+      const associationIds: { [key: string]: string } = {};
+      collectes.forEach(collecte => {
+        if (collecte.id && collecte.id_association) {
+          associationIds[collecte.id] = collecte.id_association;
+        }
+      });
+      console.log('associations ids in service',associationIds);
+      return associationIds;
+    })
+  );
+}
+
 
 }
