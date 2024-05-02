@@ -246,8 +246,9 @@ export class DemandesAssociationsComponent implements OnInit{
     const demandeRef = this.firestore.collection('Association').doc(associationId);
     return demandeRef.update({ etat: etat });
   }
+
+
   verifOCR(associationId:string|undefined){
-    this.VerifOCR=true;
     console.log(this.VerifOCR)
     console.log(associationId)
     if(associationId)
@@ -255,11 +256,13 @@ export class DemandesAssociationsComponent implements OnInit{
       this.results=data;
       console.log(data);
       this.checkMatriculeFiscal(this.results);   
+      
         
     
     },(error)=>{
         console.error('Erreur lors de la récupération des résultats : ', error);
     });
+    
   }
   checkMatriculeFiscal(results: any[]) {
     this.hasMatriculeFiscal = false; 
