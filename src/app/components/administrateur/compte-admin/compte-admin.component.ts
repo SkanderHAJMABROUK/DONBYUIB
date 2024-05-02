@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Admin } from 'src/app/interfaces/admin';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { Chart, registerables} from 'node_modules/chart.js'
-import { Subscription, combineLatest, forkJoin } from 'rxjs';
+import { Observable, Subscription, combineLatest, forkJoin } from 'rxjs';
 import { DonAssociation } from 'src/app/interfaces/don-association';
 import { DonCollecte } from 'src/app/interfaces/don-collecte';
 Chart.register(...registerables);
@@ -49,10 +49,11 @@ export class CompteAdminComponent implements OnInit{
       console.log(this.id);
        this.getAdminById(this.id); 
      });
+
      this.getAssociationsByCategory();
      this.fetchDonationsData();
      this.renderBarChart();
-     this.renderDoughnutChart();
+     this.renderDoughnutChart();    
    
    }
 
@@ -60,6 +61,7 @@ export class CompteAdminComponent implements OnInit{
     this.renderPieChart();
     this.renderLineChart();
     this.renderBarChart();
+    this.renderDoughnutChart();
     if (this.donationsSubscription) {
       this.donationsSubscription.unsubscribe();
     }
@@ -181,40 +183,55 @@ export class CompteAdminComponent implements OnInit{
 
   aggregateDonationsPerAssociation(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): { [key: string]: number } {
     const aggregatedData: { [key: string]: number } = {};
-
-    donAssociations.forEach((donation: DonAssociation) => {
-      const associationId = donation.id_association;
-      if (aggregatedData.hasOwnProperty(associationId)) {
-        aggregatedData[associationId] += donation.montant;
-      } else {
-        aggregatedData[associationId] = donation.montant;
-      }
-    });
-
-    donCollectes.forEach((donation: DonCollecte) => {
+  
+    // Array to store Observables from getAssociationIdFromCollecte
+    const observables = donCollectes.map((donation: DonCollecte) => {
       const collecteId = donation.id_collecte;
-      this.service.getAssociationIdFromCollecte(collecteId).subscribe((associationId: string | undefined) => {
-        console.log('association id' , associationId);
+      return this.getAssociationIdFromCollecte(collecteId);
+    });
+  
+    // Use forkJoin to wait for all Observables to complete
+    forkJoin(observables).subscribe((associationIds: (string | undefined)[]) => {
+      donAssociations.forEach((donation: DonAssociation) => {
+        const associationId = donation.id_association;
+        aggregatedData[associationId] = (aggregatedData[associationId] || 0) + donation.montant;
+      });
+  
+      associationIds.forEach((associationId, index) => {
         if (associationId) {
-          if (aggregatedData.hasOwnProperty(associationId)) {
-            aggregatedData[associationId] += donation.montant;
-          } else {
-            aggregatedData[associationId] = donation.montant;
-          }
+          const donation = donCollectes[index];
+          aggregatedData[associationId] = (aggregatedData[associationId] || 0) + donation.montant;
+        } else {
+          const donation = donCollectes[index];
+          console.log('Error: Association ID not found for DonCollecte:', donation);
         }
       });
-    });
-
-    console.log('aggregateddata',aggregatedData);
+      });
+    console.log('Aggregated data:', aggregatedData);
 
     return aggregatedData;
   }
-
-
   
+  getAssociationIdFromCollecte(collecteId: string): Observable<string | undefined> {
+    return new Observable<string | undefined>((observer) => {
+      this.collecteService.getCollecteById(collecteId).subscribe(
+        (collecte) => {
+          if (collecte) {
+            observer.next(collecte.id_association);
+          } else {
+            observer.next(undefined);
+            console.log('Collecte not found for ID:', collecteId);
+          }
+          observer.complete();
+        },
+        (error) => {
+          console.error('Error fetching collecte:', error);
+          observer.error(error);
+        }
+      );
+    });
+  }
   
-  
-
   renderPieChart() {
     if (this.pieChart) {
       this.pieChart.destroy();
@@ -367,12 +384,8 @@ export class CompteAdminComponent implements OnInit{
   renderDoughnutChart(): void {
     this.service.getAllDonAssociation().subscribe((donAssociations: DonAssociation[]) => {
       this.service.getAllDonCollecte().subscribe((donCollectes: DonCollecte[]) => {
-
-        console.log('don associations',donAssociations);
-        console.log('don collectes',donCollectes);
         const aggregatedData = this.aggregateDonationsPerAssociation(donAssociations, donCollectes);
-
-        // Prepare data for Chart.js
+        console.log('aggregated data in render',aggregatedData)
         const data = {
           labels: Object.keys(aggregatedData),
           datasets: [{
@@ -382,26 +395,45 @@ export class CompteAdminComponent implements OnInit{
               'rgba(255, 99, 132, 0.5)',
               'rgba(54, 162, 235, 0.5)',
               'rgba(255, 206, 86, 0.5)',
-              // Add more colors as needed
             ],
             borderWidth: 1
           }]
         };
-
-        // Create doughnut chart
+  
+        // Get the canvas element
         const canvas: any = document.getElementById('doughnutChart');
+        if (!canvas) {
+          console.error('Chart container not found');
+          return;
+        }
+  
+        // Get the canvas context
         const ctx = canvas.getContext('2d');
-
-        this.doughnutChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: data,
-          options: {
-            responsive: true
-          }
-        });
+        if (!ctx) {
+          console.error('Canvas context not found');
+          return;
+        }
+  
+        // Destroy previous chart instance if it exists
+        if (this.doughnutChart) {
+          this.doughnutChart.destroy();
+        }
+  
+        // Create new doughnut chart
+        try {
+          this.doughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+              responsive: true
+            }
+          });
+        } catch (error) {
+          console.error('Error creating doughnut chart:', error);
+        }
       });
     });
   }
+  
     
 }
-
