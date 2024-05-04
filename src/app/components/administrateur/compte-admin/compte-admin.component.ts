@@ -362,6 +362,10 @@ export class CompteAdminComponent implements OnInit{
           }
         ]
       };
+
+      if (this.barChart) {
+        this.barChart.destroy();
+      }
   
       // Create the chart
       const canvas: any = document.getElementById('barChart');
@@ -400,26 +404,22 @@ export class CompteAdminComponent implements OnInit{
           }]
         };
   
-        // Get the canvas element
         const canvas: any = document.getElementById('doughnutChart');
         if (!canvas) {
           console.error('Chart container not found');
           return;
         }
   
-        // Get the canvas context
         const ctx = canvas.getContext('2d');
         if (!ctx) {
           console.error('Canvas context not found');
           return;
         }
   
-        // Destroy previous chart instance if it exists
         if (this.doughnutChart) {
           this.doughnutChart.destroy();
         }
   
-        // Create new doughnut chart
         try {
           this.doughnutChart = new Chart(ctx, {
             type: 'doughnut',
