@@ -549,51 +549,48 @@ fetchTopDonations() {
   }
  
   fetchTopDonators() {
-  console.log('Fetching top donators with names...');
-  this.service.getAllDonAssociation().subscribe(
-    (donAssociations: DonAssociation[]) => {
-      this.service.getAllDonCollecte().subscribe(
-        (donCollectes: DonCollecte[]) => {
-          this.aggregateDonationsPerDonator(donAssociations, donCollectes).subscribe(aggregatedData => {
-            console.log('top donateurs aggregated data',aggregatedData);
-            const sortedDonators = Object.entries(aggregatedData)
-              .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
-              .sort((a, b) => b.totalDonation - a.totalDonation);
-    
-            const namesObservables = sortedDonators.map(({ donatorId }) => {
-              return this.getDonatorNameById(donatorId).pipe(
-                switchMap(name => of(name)) // Convert each observable to a promise
-              );
-            });
-
-            console.log('Names Observables:', namesObservables);
-    
-            forkJoin(namesObservables).subscribe({
-              next: names => {
+    console.log('Fetching top donators with names...');
+    this.service.getAllDonAssociation().subscribe(
+      (donAssociations: DonAssociation[]) => {
+        this.service.getAllDonCollecte().subscribe(
+          (donCollectes: DonCollecte[]) => {
+            this.aggregateDonationsPerDonator(donAssociations, donCollectes).subscribe(aggregatedData => {
+              console.log('Top donators aggregated data', aggregatedData);
+              const sortedDonators = Object.entries(aggregatedData)
+                .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
+                .sort((a, b) => b.totalDonation - a.totalDonation);
+        
+              const namesObservables = sortedDonators.map(({ donatorId }) => {
+                return this.getDonatorNameById(donatorId);
+              });
+  
+              console.log('Names Observables:', namesObservables);
+  
+              forkJoin(namesObservables).subscribe(names => {
                 console.log('Names:', names);
                 this.topDonators = sortedDonators.map((donator, index) => ({
-                  ...donator,
-                  name: names[index]
+                  donatorId: donator.donatorId,
+                  totalDonation: donator.totalDonation,
+                  name: names[index] || 'Unknown' // Provide a default value if name is undefined
                 }));
                 console.log('Top Donators:', this.topDonators);
-              },
-              error: err => {
-                console.error('Error fetching donator names:', err);
-              }
+              }, error => {
+                console.error('Error fetching donator names:', error);
+              });
             });
-          });
-        },
-        (error) => {
-          console.error('Error fetching donations to collecte:', error);
-        }
-      );
-    },
-    (error) => {
-      console.error('Error fetching donations to associations:', error);
-    }
-  );
-}
-
+          },
+          (error) => {
+            console.error('Error fetching donations to collecte:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching donations to associations:', error);
+      }
+    );
+  }
+  
+    
   
   aggregateDonationsPerDonator(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): Observable<{ [key: string]: number }> {
     const aggregatedData: { [key: string]: number } = {};
@@ -631,6 +628,7 @@ fetchTopDonations() {
       })
     );
   }
+  
   
    
 }
