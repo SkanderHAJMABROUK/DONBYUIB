@@ -11,6 +11,8 @@ import firebase from 'firebase/compat/app';
 import { AssociationService } from 'src/app/services/association.service';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { CollecteService } from 'src/app/services/collecte.service';
+import { AnalyseSentimentsService } from 'src/app/services/analyse-sentiments.service';
+import { AnalyseSentiment } from 'src/app/interfaces/analyse-sentiment';
 
 
 @Component({
@@ -19,12 +21,14 @@ import { CollecteService } from 'src/app/services/collecte.service';
   styleUrls: ['./compte-admin.component.css']
 })
 export class CompteAdminComponent implements OnInit{
-
+  satisfactionRate!: number;
+  positiveWordcloudData:any;
 
   constructor(public service:AdministrateurService ,private route:ActivatedRoute, private router:Router,
     private associationService:AssociationService,
     private actualiteService: ActualiteService,
-    private collecteService: CollecteService
+    private collecteService: CollecteService,
+    private analyse:AnalyseSentimentsService
   ){}
 
 
@@ -53,11 +57,15 @@ export class CompteAdminComponent implements OnInit{
      this.getAssociationsByCategory();
      this.fetchDonationsData();
      this.renderBarChart();
-     this.renderDoughnutChart();    
+     this.renderDoughnutChart();  
+     this.getDashboardData();  
+    
    
    }
 
    ngAfterViewInit(): void {
+    this.getDashboardData(); 
+  
     this.renderPieChart();
     this.renderLineChart();
     this.renderBarChart();
@@ -435,6 +443,22 @@ export class CompteAdminComponent implements OnInit{
       });
     });
   }
+  
+  getDashboardData(): void {
+    this.analyse.getSatisfactionRate().subscribe(
+      (data: AnalyseSentiment) => {
+        this.satisfactionRate = Math.floor(data.satisfaction_rate);
+        console.log('Taux de satisfaction:', this.satisfactionRate);
+      },
+      error => {
+        console.log('Erreur lors de la récupération du taux de satisfaction :', error);
+      }
+    );
+  }
+
+ 
+  
+
   
     
 }
