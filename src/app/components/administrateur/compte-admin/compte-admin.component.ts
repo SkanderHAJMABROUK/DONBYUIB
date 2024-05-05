@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Admin } from 'src/app/interfaces/admin';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { Chart, registerables} from 'node_modules/chart.js'
-import { Observable, Subscription, combineLatest, forkJoin, map } from 'rxjs';
+import { Observable, Subscription, combineLatest, filter, forkJoin, map, of, switchMap } from 'rxjs';
 import { DonAssociation } from 'src/app/interfaces/don-association';
 import { DonCollecte } from 'src/app/interfaces/don-collecte';
 Chart.register(...registerables);
@@ -13,6 +13,7 @@ import { ActualiteService } from 'src/app/services/actualite.service';
 import { CollecteService } from 'src/app/services/collecte.service';
 import { AnalyseSentimentsService } from 'src/app/services/analyse-sentiments.service';
 import { AnalyseSentiment } from 'src/app/interfaces/analyse-sentiment';
+import { DonateurService } from 'src/app/services/donateur.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class CompteAdminComponent implements OnInit{
     private associationService:AssociationService,
     private actualiteService: ActualiteService,
     private collecteService: CollecteService,
+    private donateurService: DonateurService,
     private analyse:AnalyseSentimentsService
   ){}
 
@@ -46,6 +48,9 @@ export class CompteAdminComponent implements OnInit{
 
   barChart: any;
   doughnutChart: any;
+  allDonations: { associationName: string, totalDonation: number }[] = [];
+  topDonators: { donatorId: string, totalDonation: number, name: string }[] = [];
+
 
   
    ngOnInit(): void {
@@ -61,7 +66,8 @@ export class CompteAdminComponent implements OnInit{
      this.renderBarChart();
      this.renderDoughnutChart();  
      this.getDashboardData();  
-    
+    this.fetchTopDonations();
+    this.fetchTopDonators();
    
    }
 
@@ -471,8 +477,46 @@ export class CompteAdminComponent implements OnInit{
   );
 }
 
-  
-   
+
+fetchTopDonations() {
+  console.log('Fetching all donations...');
+  this.service.getAllDonAssociation().subscribe(
+    (donAssociations: DonAssociation[]) => {
+      this.service.getAllDonCollecte().subscribe(
+        (donCollectes: DonCollecte[]) => {
+          this.aggregateDonationsPerAssociation(donAssociations, donCollectes).subscribe(aggregatedData => {
+            // Sort aggregated data to get all donations
+            const sortedDonations = Object.entries(aggregatedData)
+              .map(([associationId, totalDonation]) => ({ associationId, totalDonation }))
+              .sort((a, b) => b.totalDonation - a.totalDonation);
+
+            // Fetch association names for each ID
+            const labelsPromises = sortedDonations.map(({ associationId }) => this.getAssociationNameById(associationId));
+
+            Promise.all(labelsPromises).then(labels => {
+              console.log('All Donations:', sortedDonations);
+              console.log('Association Names:', labels);
+
+              // Store all donations with association names
+              this.allDonations = sortedDonations.map(({ totalDonation }, index) => ({
+                associationName: labels[index],
+                totalDonation
+              }));
+            }).catch(error => {
+              console.error('Error fetching association names:', error);
+            });
+          });
+        },
+        (error) => {
+          console.error('Error fetching donations to collecte:', error);
+        }
+      );
+    },
+    (error) => {
+      console.error('Error fetching donations to associations:', error);
+    }
+  );
+}
   
   getDashboardData(): void {
     this.analyse.getSatisfactionRate().subscribe(
@@ -502,6 +546,90 @@ export class CompteAdminComponent implements OnInit{
         }
       );
     });
+  }
+ 
+  fetchTopDonators() {
+  console.log('Fetching top donators with names...');
+  this.service.getAllDonAssociation().subscribe(
+    (donAssociations: DonAssociation[]) => {
+      this.service.getAllDonCollecte().subscribe(
+        (donCollectes: DonCollecte[]) => {
+          this.aggregateDonationsPerDonator(donAssociations, donCollectes).subscribe(aggregatedData => {
+            console.log('top donateurs aggregated data',aggregatedData);
+            const sortedDonators = Object.entries(aggregatedData)
+              .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
+              .sort((a, b) => b.totalDonation - a.totalDonation);
+    
+            const namesObservables = sortedDonators.map(({ donatorId }) => {
+              return this.getDonatorNameById(donatorId).pipe(
+                switchMap(name => of(name)) // Convert each observable to a promise
+              );
+            });
+
+            console.log('Names Observables:', namesObservables);
+    
+            forkJoin(namesObservables).subscribe({
+              next: names => {
+                console.log('Names:', names);
+                this.topDonators = sortedDonators.map((donator, index) => ({
+                  ...donator,
+                  name: names[index]
+                }));
+                console.log('Top Donators:', this.topDonators);
+              },
+              error: err => {
+                console.error('Error fetching donator names:', err);
+              }
+            });
+          });
+        },
+        (error) => {
+          console.error('Error fetching donations to collecte:', error);
+        }
+      );
+    },
+    (error) => {
+      console.error('Error fetching donations to associations:', error);
+    }
+  );
+}
+
+  
+  aggregateDonationsPerDonator(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): Observable<{ [key: string]: number }> {
+    const aggregatedData: { [key: string]: number } = {};
+  
+    donAssociations.forEach((donation: DonAssociation) => {
+      const donatorId = donation.id_donateur;
+      if (donatorId) {
+        aggregatedData[donatorId] = (aggregatedData[donatorId] || 0) + donation.montant;
+      }
+    });
+  
+    donCollectes.forEach((donation: DonCollecte) => {
+      const donatorId = donation.id_donateur;
+      if (donatorId) {
+        aggregatedData[donatorId] = (aggregatedData[donatorId] || 0) + donation.montant;
+      }
+    });
+  
+    return of(aggregatedData);
+  }
+
+  getDonatorNameById(donatorId: string): Observable<string> {
+    console.log('Fetching name for donator:', donatorId);
+    return this.donateurService.getDonateurNomById(donatorId).pipe(
+      switchMap((nom: string | undefined) => {
+        console.log('Nom:', nom);
+        return this.donateurService.getDonateurPrenomById(donatorId).pipe(
+          switchMap((prenom: string | undefined) => {
+            console.log('Prenom:', prenom);
+            const formattedNom = nom || '';
+            const formattedPrenom = prenom || '';
+            return of(`${formattedPrenom} ${formattedNom}`);
+          })
+        );
+      })
+    );
   }
   
    

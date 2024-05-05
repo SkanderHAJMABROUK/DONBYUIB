@@ -15,6 +15,22 @@
         <h2>Chart</h2>
         <canvas id="doughnutChart" class="doughnutChart"></canvas>
     </div>
+    <div *ngIf="allDonations.length > 0">
+        <h3>All Donations</h3>
+        <ul>
+          <li *ngFor="let donation of allDonations">
+            <span>{{ donation.associationName }}</span>
+          </li>
+        </ul>
+    </div>
+    <div *ngIf="topDonators.length >= 0">
+        <h3>Top Donators</h3>
+        <ul>
+          <li *ngFor="let donator of topDonators">
+            <span>Name: {{ donator.name }}</span>, <span>ID: {{ donator.donatorId }}</span>: <span>Total Donation: {{ donator.totalDonation }}</span>
+          </li>
+        </ul>
+      </div>
     <h2>Taux de satisfaction : {{ satisfactionRate }}%</h2>
 
 </div>
