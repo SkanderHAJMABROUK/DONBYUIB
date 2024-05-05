@@ -399,14 +399,22 @@ export class CompteAdminComponent implements OnInit{
   }
 
   renderDoughnutChart(): void {
-    this.service.getAllDonAssociation().subscribe(
-      (donAssociations: DonAssociation[]) => {
-        this.service.getAllDonCollecte().subscribe(
-          (donCollectes: DonCollecte[]) => {
-            this.aggregateDonationsPerAssociation(donAssociations, donCollectes).subscribe(aggregatedData => {
-              console.log('Aggregated data doughnut:', aggregatedData);
-  
-              const labels = Object.getOwnPropertyNames(aggregatedData);
+  this.service.getAllDonAssociation().subscribe(
+    (donAssociations: DonAssociation[]) => {
+      this.service.getAllDonCollecte().subscribe(
+        (donCollectes: DonCollecte[]) => {
+          this.aggregateDonationsPerAssociation(donAssociations, donCollectes).subscribe(aggregatedData => {
+            console.log('Aggregated data doughnut:', aggregatedData);
+
+            const associationIds = Object.getOwnPropertyNames(aggregatedData);
+            console.log('Association IDs:', associationIds);
+
+            // Fetch association names for each ID and replace them in labels
+            const labelsPromises = associationIds.map(id => this.getAssociationNameById(id));
+            
+            Promise.all(labelsPromises).then(labels => {
+              console.log('Labels:', labels);
+
               const datasets = [{
                 data: Object.values(aggregatedData),
                 backgroundColor: [
@@ -416,26 +424,23 @@ export class CompteAdminComponent implements OnInit{
                 ],
                 borderWidth: 1
               }];
-  
-              console.log('labels', labels);
-              console.log('datasets', datasets);
-  
+
               const canvas: any = document.getElementById('doughnutChart');
               if (!canvas) {
                 console.error('Chart container not found');
                 return;
               }
-  
+
               const ctx = canvas.getContext('2d');
               if (!ctx) {
                 console.error('Canvas context not found');
                 return;
               }
-  
+
               if (this.doughnutChart) {
                 this.doughnutChart.destroy();
               }
-  
+
               try {
                 this.doughnutChart = new Chart(ctx, {
                   type: 'doughnut',
@@ -450,18 +455,23 @@ export class CompteAdminComponent implements OnInit{
               } catch (error) {
                 console.error('Error creating doughnut chart:', error);
               }
+            }).catch(error => {
+              console.error('Error fetching association names:', error);
             });
-          },
-          (error) => {
-            console.error('Error fetching donations to collecte:', error);
-          }
-        );
-      },
-      (error) => {
-        console.error('Error fetching donations to associations:', error);
-      }
-    );
-  }
+          });
+        },
+        (error) => {
+          console.error('Error fetching donations to collecte:', error);
+        }
+      );
+    },
+    (error) => {
+      console.error('Error fetching donations to associations:', error);
+    }
+  );
+}
+
+  
    
   
   getDashboardData(): void {
@@ -476,9 +486,23 @@ export class CompteAdminComponent implements OnInit{
     );
   }
 
- 
+  getAssociationNameById(associationId: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      // Assuming there's an asynchronous operation here, like an HTTP request
+      this.associationService.getAssociationNameById(associationId).subscribe(
+        (name: string | undefined) => { // Explicitly specify the parameter type
+          if (name !== undefined) {
+            resolve(name);
+          } else {
+            reject('Association name not found');
+          }
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
   
-
-  
-    
+   
 }
