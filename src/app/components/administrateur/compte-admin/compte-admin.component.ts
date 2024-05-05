@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Admin } from 'src/app/interfaces/admin';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { Chart, registerables} from 'node_modules/chart.js'
-import { Observable, Subscription, combineLatest, forkJoin } from 'rxjs';
+import { Observable, Subscription, combineLatest, forkJoin, map } from 'rxjs';
 import { DonAssociation } from 'src/app/interfaces/don-association';
 import { DonCollecte } from 'src/app/interfaces/don-collecte';
 Chart.register(...registerables);
@@ -38,6 +38,8 @@ export class CompteAdminComponent implements OnInit{
   colDonData: DonCollecte[] = [];
   lineChart: any;
   donationsSubscription: Subscription | undefined;
+  doughnutChartSubscription: Subscription | undefined;
+
   barChart: any;
   doughnutChart: any;
 
@@ -61,12 +63,16 @@ export class CompteAdminComponent implements OnInit{
     this.renderPieChart();
     this.renderLineChart();
     this.renderBarChart();
-    this.renderDoughnutChart();
     if (this.donationsSubscription) {
       this.donationsSubscription.unsubscribe();
     }
   }
 
+  ngOnDestroy(): void {
+    if (this.doughnutChartSubscription) {
+      this.doughnutChartSubscription.unsubscribe();
+    }
+  }
 
    getAdminById(id: string){
     this.service.getAdminById(id).subscribe(
@@ -99,8 +105,6 @@ export class CompteAdminComponent implements OnInit{
         category: category,
         count: categoryCounts[category]
       }));
-
-      // Render pie chart after getting data
       this.renderPieChart();
     } catch (error) {
       console.error('Error retrieving associations by category:', error);
@@ -181,35 +185,36 @@ export class CompteAdminComponent implements OnInit{
     return Object.values(aggregatedData);
   }
 
-  aggregateDonationsPerAssociation(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): { [key: string]: number } {
+  aggregateDonationsPerAssociation(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): Observable<{ [key: string]: number }> {
     const aggregatedData: { [key: string]: number } = {};
   
-    // Array to store Observables from getAssociationIdFromCollecte
-    const observables = donCollectes.map((donation: DonCollecte) => {
-      const collecteId = donation.id_collecte;
-      return this.getAssociationIdFromCollecte(collecteId);
+    const observables: Observable<string | undefined>[] = [];
+  
+    donCollectes.forEach((donCollecte: DonCollecte) => {
+      const collecteId = donCollecte.id_collecte;
+      observables.push(this.getAssociationIdFromCollecte(collecteId));
     });
   
-    // Use forkJoin to wait for all Observables to complete
-    forkJoin(observables).subscribe((associationIds: (string | undefined)[]) => {
-      donAssociations.forEach((donation: DonAssociation) => {
-        const associationId = donation.id_association;
-        aggregatedData[associationId] = (aggregatedData[associationId] || 0) + donation.montant;
-      });
-  
-      associationIds.forEach((associationId, index) => {
-        if (associationId) {
-          const donation = donCollectes[index];
-          aggregatedData[associationId] = (aggregatedData[associationId] || 0) + donation.montant;
-        } else {
-          const donation = donCollectes[index];
-          console.log('Error: Association ID not found for DonCollecte:', donation);
-        }
-      });
-      });
-    console.log('Aggregated data:', aggregatedData);
+    return forkJoin(observables).pipe(
+      map((associationIds: (string | undefined)[]) => {
 
-    return aggregatedData;
+        donAssociations.forEach((donAssociation: DonAssociation) => {
+          const associationId = donAssociation.id_association;
+          aggregatedData[associationId] = (aggregatedData[associationId] || 0) + donAssociation.montant;
+        });
+  
+        donCollectes.forEach((donCollecte: DonCollecte, index: number) => {
+          const associationId = associationIds[index];
+          if (associationId) {
+            aggregatedData[associationId] = (aggregatedData[associationId] || 0) + donCollecte.montant;
+          } else {
+            console.log('Error: Association ID not found for DonCollecte:', donCollecte);
+          }
+        });
+  
+        return aggregatedData;
+      })
+    );
   }
   
   getAssociationIdFromCollecte(collecteId: string): Observable<string | undefined> {
@@ -386,55 +391,70 @@ export class CompteAdminComponent implements OnInit{
   }
 
   renderDoughnutChart(): void {
-    this.service.getAllDonAssociation().subscribe((donAssociations: DonAssociation[]) => {
-      this.service.getAllDonCollecte().subscribe((donCollectes: DonCollecte[]) => {
-        const aggregatedData = this.aggregateDonationsPerAssociation(donAssociations, donCollectes);
-        console.log('aggregated data in render',aggregatedData)
-        const data = {
-          labels: Object.keys(aggregatedData),
-          datasets: [{
-            label: 'Donations per Association',
-            data: Object.values(aggregatedData),
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.5)',
-              'rgba(54, 162, 235, 0.5)',
-              'rgba(255, 206, 86, 0.5)',
-              // Add more colors as needed
-            ],
-            borderWidth: 1
-          }]
-        };
+    this.service.getAllDonAssociation().subscribe(
+      (donAssociations: DonAssociation[]) => {
+        this.service.getAllDonCollecte().subscribe(
+          (donCollectes: DonCollecte[]) => {
+            this.aggregateDonationsPerAssociation(donAssociations, donCollectes).subscribe(aggregatedData => {
+              console.log('Aggregated data doughnut:', aggregatedData);
   
-        const canvas: any = document.getElementById('doughnutChart');
-        if (!canvas) {
-          console.error('Chart container not found');
-          return;
-        }
+              const labels = Object.getOwnPropertyNames(aggregatedData);
+              const datasets = [{
+                data: Object.values(aggregatedData),
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.5)',
+                  'rgba(54, 162, 235, 0.5)',
+                  'rgba(255, 206, 86, 0.5)',
+                ],
+                borderWidth: 1
+              }];
   
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-          console.error('Canvas context not found');
-          return;
-        }
+              console.log('labels', labels);
+              console.log('datasets', datasets);
   
-        if (this.doughnutChart) {
-          this.doughnutChart.destroy();
-        }
+              const canvas: any = document.getElementById('doughnutChart');
+              if (!canvas) {
+                console.error('Chart container not found');
+                return;
+              }
   
-        try {
-          this.doughnutChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: data,
-            options: {
-              responsive: true
-            }
-          });
-        } catch (error) {
-          console.error('Error creating doughnut chart:', error);
-        }
-      });
-    });
+              const ctx = canvas.getContext('2d');
+              if (!ctx) {
+                console.error('Canvas context not found');
+                return;
+              }
+  
+              if (this.doughnutChart) {
+                this.doughnutChart.destroy();
+              }
+  
+              try {
+                this.doughnutChart = new Chart(ctx, {
+                  type: 'doughnut',
+                  data: {
+                    labels: labels,
+                    datasets: datasets
+                  },
+                  options: {
+                    responsive: true
+                  }
+                });
+              } catch (error) {
+                console.error('Error creating doughnut chart:', error);
+              }
+            });
+          },
+          (error) => {
+            console.error('Error fetching donations to collecte:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching donations to associations:', error);
+      }
+    );
   }
+   
   
     
 }
