@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Admin } from 'src/app/interfaces/admin';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { Chart, registerables} from 'node_modules/chart.js'
-import { Observable, Subscription, combineLatest, filter, forkJoin, map, of, switchMap } from 'rxjs';
+import { Observable, Subscription, catchError, combineLatest, filter, forkJoin, map, of, switchMap, take } from 'rxjs';
 import { DonAssociation } from 'src/app/interfaces/don-association';
 import { DonCollecte } from 'src/app/interfaces/don-collecte';
 Chart.register(...registerables);
@@ -14,6 +14,8 @@ import { CollecteService } from 'src/app/services/collecte.service';
 import { AnalyseSentimentsService } from 'src/app/services/analyse-sentiments.service';
 import { AnalyseSentiment } from 'src/app/interfaces/analyse-sentiment';
 import { DonateurService } from 'src/app/services/donateur.service';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Donateur } from 'src/app/interfaces/donateur';
 
 
 @Component({
@@ -30,7 +32,8 @@ export class CompteAdminComponent implements OnInit{
     private actualiteService: ActualiteService,
     private collecteService: CollecteService,
     private donateurService: DonateurService,
-    private analyse:AnalyseSentimentsService
+    private analyse:AnalyseSentimentsService,
+    private firestore: AngularFirestore
   ){}
 
 
@@ -549,50 +552,63 @@ fetchTopDonations() {
   }
  
   fetchTopDonators() {
-  console.log('Fetching top donators with names...');
-  this.service.getAllDonAssociation().subscribe(
-    (donAssociations: DonAssociation[]) => {
-      this.service.getAllDonCollecte().subscribe(
-        (donCollectes: DonCollecte[]) => {
-          this.aggregateDonationsPerDonator(donAssociations, donCollectes).subscribe(aggregatedData => {
-            console.log('top donateurs aggregated data',aggregatedData);
-            const sortedDonators = Object.entries(aggregatedData)
-              .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
-              .sort((a, b) => b.totalDonation - a.totalDonation);
-    
-            const namesObservables = sortedDonators.map(({ donatorId }) => {
-              return this.getDonatorNameById(donatorId).pipe(
-                switchMap(name => of(name)) // Convert each observable to a promise
-              );
+    console.log('Fetching top donators with names...');
+    this.service.getAllDonAssociation().subscribe(
+      (donAssociations: DonAssociation[]) => {
+        this.service.getAllDonCollecte().subscribe(
+          (donCollectes: DonCollecte[]) => {
+            this.aggregateDonationsPerDonator(donAssociations, donCollectes).subscribe(aggregatedData => {
+              console.log('top donateurs aggregated data', aggregatedData);
+              const sortedDonators = Object.entries(aggregatedData)
+                .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
+                .sort((a, b) => b.totalDonation - a.totalDonation);
+  
+              const namesObservables = sortedDonators.map(({ donatorId }) => {
+                return this.getDonatorNameById(donatorId);
+              });
+  
+              console.log('Names Observables:', namesObservables);
+  
+              namesObservables.forEach((observable, index) => {
+                observable.subscribe({
+                  next: name => {
+                    console.log(`Value emitted by Observable ${index}:`, name);
+                  },
+                  error: err => {
+                    console.error(`Error in Observable ${index}:`, err);
+                  },
+                  complete: () => {
+                    console.log(`Observable ${index} completed.`);
+                  }
+                });
+              });
+  
+              forkJoin(namesObservables).subscribe({
+                next: names => {
+                  console.log('Names:', names);
+                  this.topDonators = sortedDonators.map((donator, index) => ({
+                    ...donator,
+                    name: names[index]
+                  }));
+                  console.log('Top Donators:', this.topDonators);
+                },
+                error: err => {
+                  console.error('Error fetching donator names:', err);
+                }
+              });
             });
-
-            console.log('Names Observables:', namesObservables);
-    
-            forkJoin(namesObservables).subscribe({
-              next: names => {
-                console.log('Names:', names);
-                this.topDonators = sortedDonators.map((donator, index) => ({
-                  ...donator,
-                  name: names[index]
-                }));
-                console.log('Top Donators:', this.topDonators);
-              },
-              error: err => {
-                console.error('Error fetching donator names:', err);
-              }
-            });
-          });
-        },
-        (error) => {
-          console.error('Error fetching donations to collecte:', error);
-        }
-      );
-    },
-    (error) => {
-      console.error('Error fetching donations to associations:', error);
-    }
-  );
-}
+          },
+          (error) => {
+            console.error('Error fetching donations to collecte:', error);
+          }
+        );
+      },
+      (error) => {
+        console.error('Error fetching donations to associations:', error);
+      }
+    );
+  }
+  
 
   
   aggregateDonationsPerDonator(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): Observable<{ [key: string]: number }> {
@@ -616,21 +632,17 @@ fetchTopDonations() {
   }
 
   getDonatorNameById(donatorId: string): Observable<string> {
-    console.log('Fetching name for donator:', donatorId);
-    return this.donateurService.getDonateurNomById(donatorId).pipe(
-      switchMap((nom: string | undefined) => {
-        console.log('Nom:', nom);
-        return this.donateurService.getDonateurPrenomById(donatorId).pipe(
-          switchMap((prenom: string | undefined) => {
-            console.log('Prenom:', prenom);
-            const formattedNom = nom || '';
-            const formattedPrenom = prenom || '';
-            return of(`${formattedPrenom} ${formattedNom}`);
-          })
-        );
-      })
+    return this.firestore.collection('Donateur').doc(donatorId).get().pipe(
+      map(doc => {
+        if (doc.exists) {
+          const data = doc.data() as Donateur;
+          return `${data.nom} ${data.prenom}`;
+        } else {
+          throw new Error(`No user found with id ${donatorId}`);
+        }
+      }),
+      take(1) // Ensure the Observable completes after emitting a value
     );
   }
-  
    
 }

@@ -23,11 +23,11 @@
           </li>
         </ul>
     </div>
-    <div *ngIf="topDonators.length >= 0">
+    <div *ngIf="topDonators.length > 0">
         <h3>Top Donators</h3>
         <ul>
           <li *ngFor="let donator of topDonators">
-            <span>Name: {{ donator.name }}</span>, <span>ID: {{ donator.donatorId }}</span>: <span>Total Donation: {{ donator.totalDonation }}</span>
+            <span>{{ donator.name }}</span>: <span>{{ donator.totalDonation }}</span>
           </li>
         </ul>
       </div>
