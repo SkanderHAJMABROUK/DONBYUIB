@@ -118,28 +118,32 @@ export class CompteAdminComponent implements OnInit{
 
   mapChart(): void {
     const tunisiaRegionalData = [
-      { region: 'Tunis', value: 100 },
-      { region: 'Ariana', value: 100 },
-      { region: 'Ben Arous', value: 100 },
-      { region: 'Manouba', value: 100 },
-      { region: 'Nabeul', value: 100 },
-      { region: 'Bizerte', value: 100 },
-      { region: 'Beja', value: 100 },
-      { region: 'Jendouba', value: 100 },
-      { region: 'Kef', value: 100 },
-      { region: 'Siliana', value: 100 },
-      { region: 'Sousse', value: 10100 },
-      { region: 'Mahdia', value: 100 },
-      { region: 'Sfax', value: 100 },
-      { region: 'Kairouan', value: 100 },
-      { region: 'Kasserine', value: 100 },
-      { region: 'Sidi Bouzid', value: 100 },
-      { region: 'Gabes', value: 100 },
-      { region: 'Medenine', value: 100 },
-      { region: 'Tataouine', value: 100 },
-      { region: 'Tozeur', value: 100 },
-      { region: 'Gafsa', value: 100 },
+      { id: 'TN-11', value: 100 },
+      { id: 'TN-12', value: 80 },
+      { id: 'TN-13', value: 60 },
+      { id: 'TN-14', value: 70 },
+      { id: 'TN-21', value: 90 },
+      { id: 'TN-23', value: 85 },
+      { id: 'TN-31', value: 75 },
+      { id: 'TN-32', value: 65 },
+      { id: 'TN-33', value: 60 },
+      { id: 'TN-34', value: 70 },
+      { id: 'TN-51', value: 95 },
+      { id: 'TN-52', value: 85 },
+      { id: 'TN-53', value: 90 },
+      { id: 'TN-61', value: 80 },
+      { id: 'TN-41', value: 75 },
+      { id: 'TN-42', value: 70 },
+      { id: 'TN-43', value: 85 },
+      { id: 'TN-81', value: 90 },
+      { id: 'TN-82', value: 80 },
+      { id: 'TN-83', value: 75 },
+      { id: 'TN-72', value: 70 },
+      { id: 'TN-71', value: 85 },
+      { id: 'TN-73', value: 90 },
+      { id: 'TN-22', value: 80 }
     ];
+    
 
     this.chart = am4core.create('chartdiv', am4maps.MapChart);
     this.chart.geodata = am4geodata_tunisiaLow; // Use Tunisia map data
@@ -148,20 +152,19 @@ export class CompteAdminComponent implements OnInit{
     let polygonSeries = this.chart.series.push(new am4maps.MapPolygonSeries());
     polygonSeries.useGeodata = true;
   
-    // Configure the series to display the data
     polygonSeries.data = tunisiaRegionalData;
     polygonSeries.dataFields.value = 'value';
+    console.log('values',polygonSeries.dataFields.value);
     console.log('value',tunisiaRegionalData.values)
     polygonSeries.dataFields.id = 'region';
-  
-    // Configure the map polygon appearance
+
     let polygonTemplate = polygonSeries.mapPolygons.template;
     polygonTemplate.tooltipText = '{name}: {value}';
     polygonTemplate.fillOpacity = 0.6;
   
     // Add a legend to the chart
     this.chart.legend = new am4maps.Legend();
-    this.chart.legend.position = 'bottom';
+    this.chart.legend.position = 'right';
   }
   
   
