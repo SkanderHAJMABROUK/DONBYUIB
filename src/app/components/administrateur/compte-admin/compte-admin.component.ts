@@ -31,6 +31,8 @@ am4core.useTheme(am4themes_animated);
 export class CompteAdminComponent implements OnInit{
   satisfactionRate!: number;
   positiveWordcloudData:any;
+  positiveWordcloudUrl!: string;
+  sentimentAnalysisUrl!: string;
 
   constructor(public service:AdministrateurService ,private route:ActivatedRoute, private router:Router,
     private associationService:AssociationService,
@@ -75,6 +77,8 @@ export class CompteAdminComponent implements OnInit{
      this.renderBarChart();
      this.renderDoughnutChart();  
      this.getDashboardData();  
+     this.getPositiveWordcloud();
+     this.getSentimentAnalysisChart();
     this.fetchTopDonations();
     this.fetchTopDonators();
     this.mapChart();
@@ -84,7 +88,8 @@ export class CompteAdminComponent implements OnInit{
 
    ngAfterViewInit(): void {
     this.getDashboardData(); 
-  
+    this.getPositiveWordcloud();
+    this.getSentimentAnalysisChart();
     this.renderPieChart();
     this.renderLineChart();
     this.renderBarChart();
@@ -597,6 +602,18 @@ fetchTopDonations() {
         console.log('Erreur lors de la récupération du taux de satisfaction :', error);
       }
     );
+  }
+  
+  getPositiveWordcloud(): void {
+    this.analyse.getPositiveWordcloud().subscribe(blob => {
+      this.positiveWordcloudUrl = URL.createObjectURL(blob);
+    });
+  }
+ 
+  getSentimentAnalysisChart(): void {
+    this.analyse.getSentimentAnalysisChart().subscribe(blob => {
+      this.sentimentAnalysisUrl = URL.createObjectURL(blob);
+    });
   }
 
   getAssociationNameById(associationId: string): Promise<string> {

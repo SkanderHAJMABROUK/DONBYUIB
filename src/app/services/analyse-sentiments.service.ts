@@ -9,6 +9,10 @@ import { AnalyseSentiment } from '../interfaces/analyse-sentiment';
 })
 export class AnalyseSentimentsService {
   private apiUrl = 'http://localhost:5000'; 
+  private positiveWordcloudUrl = 'http://127.0.0.1:5000/positive-wordcloud';
+  private sentimentAnalysisUrl = 'http://127.0.0.1:5000/sentiment-analysis';
+
+
 
   constructor(private http: HttpClient) { }
   
@@ -16,14 +20,12 @@ export class AnalyseSentimentsService {
     return this.http.get<AnalyseSentiment>(`${this.apiUrl}/satisfaction-rate`);
   }
   
-  analyseSentiment(commentaires: string[]): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/analyze-sentiment`, { commentaires });
+  getPositiveWordcloud(): Observable<Blob> {
+    return this.http.get(this.positiveWordcloudUrl, { responseType: 'blob' });
   }
-
-  generateWordCloud(): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/wordcloud`, { responseType: 'blob' });
+  getSentimentAnalysisChart(): Observable<Blob> {
+    return this.http.get(this.sentimentAnalysisUrl, { responseType: 'blob' });
   }
-  
 
 
 

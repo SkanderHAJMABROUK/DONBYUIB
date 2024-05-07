@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Association } from 'src/app/interfaces/association';
 import { OcrService } from 'src/app/services/ocr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-demandes-associations',
@@ -44,7 +45,8 @@ export class DemandesAssociationsComponent implements OnInit{
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
   selectedAssociation!:DemandeAssociation;
   constructor(private associationService: AssociationService, private router: Router, public adminService:AdministrateurService,
-    private firestore: AngularFirestore,private ocr:OcrService) { }
+    private firestore: AngularFirestore,private ocr:OcrService,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -249,6 +251,8 @@ export class DemandesAssociationsComponent implements OnInit{
 
 
   verifOCR(associationId:string|undefined){
+    this.spinner.show();
+
     console.log(this.VerifOCR)
     console.log(associationId)
     if(associationId)
@@ -264,7 +268,10 @@ export class DemandesAssociationsComponent implements OnInit{
     });
     
   }
+
   checkMatriculeFiscal(results: any[]) {
+    // Show spinner while processing
+  
     this.hasMatriculeFiscal = false; 
   
     for (const result of results) {
@@ -272,10 +279,30 @@ export class DemandesAssociationsComponent implements OnInit{
         this.hasMatriculeFiscal = true; 
         this.matricule = result.matricule_fiscal; 
         console.log("Matricule fiscal trouvé :", this.matricule);
-        break;  }
+        break;  
+      }
     }
   
     console.log("hasMatriculeFiscal :", this.hasMatriculeFiscal);
+  
+    // Hide spinner after processing
+    this.spinner.hide();
+  
+    if (this.hasMatriculeFiscal) {
+      // Popup with a tick mark for success
+      Swal.fire({
+        title: "Success!",
+        text: "Matricule fiscal trouvé : " + this.matricule,
+        icon: "success"
+      });
+    } else {
+      // Popup with a X mark for error
+      Swal.fire({
+        title: "Error!",
+        text: "OCR n'a pas pu capturer le matricule fiscal",
+        icon: "error"
+      });
+    }
   }
 
 }
