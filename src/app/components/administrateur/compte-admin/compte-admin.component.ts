@@ -621,37 +621,17 @@ fetchTopDonations() {
         this.service.getAllDonCollecte().subscribe(
           (donCollectes: DonCollecte[]) => {
             this.aggregateDonationsPerDonator(donAssociations, donCollectes).subscribe(aggregatedData => {
-<<<<<<< HEAD
-              console.log('Top donators aggregated data', aggregatedData);
-              const sortedDonators = Object.entries(aggregatedData)
-                .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
-                .sort((a, b) => b.totalDonation - a.totalDonation);
-        
-=======
               console.log('top donateurs aggregated data', aggregatedData);
               const sortedDonators = Object.entries(aggregatedData)
                 .map(([donatorId, totalDonation]) => ({ donatorId, totalDonation }))
                 .sort((a, b) => b.totalDonation - a.totalDonation);
   
->>>>>>> bd7b7d7bb4cdb209e79a5550c9d0ee4973d40dce
               const namesObservables = sortedDonators.map(({ donatorId }) => {
                 return this.getDonatorNameById(donatorId);
               });
   
               console.log('Names Observables:', namesObservables);
   
-<<<<<<< HEAD
-              forkJoin(namesObservables).subscribe(names => {
-                console.log('Names:', names);
-                this.topDonators = sortedDonators.map((donator, index) => ({
-                  donatorId: donator.donatorId,
-                  totalDonation: donator.totalDonation,
-                  name: names[index] || 'Unknown' // Provide a default value if name is undefined
-                }));
-                console.log('Top Donators:', this.topDonators);
-              }, error => {
-                console.error('Error fetching donator names:', error);
-=======
               namesObservables.forEach((observable, index) => {
                 observable.subscribe({
                   next: name => {
@@ -678,7 +658,6 @@ fetchTopDonations() {
                 error: err => {
                   console.error('Error fetching donator names:', err);
                 }
->>>>>>> bd7b7d7bb4cdb209e79a5550c9d0ee4973d40dce
               });
             });
           },
@@ -693,11 +672,7 @@ fetchTopDonations() {
     );
   }
   
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> bd7b7d7bb4cdb209e79a5550c9d0ee4973d40dce
   
   aggregateDonationsPerDonator(donAssociations: DonAssociation[], donCollectes: DonCollecte[]): Observable<{ [key: string]: number }> {
     const aggregatedData: { [key: string]: number } = {};
@@ -732,11 +707,5 @@ fetchTopDonations() {
       take(1) // Ensure the Observable completes after emitting a value
     );
   }
-<<<<<<< HEAD
-  
-  
-   
-=======
 
->>>>>>> bd7b7d7bb4cdb209e79a5550c9d0ee4973d40dce
 }
