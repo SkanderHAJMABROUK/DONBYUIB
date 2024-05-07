@@ -17,7 +17,7 @@
     </div>
     <div>
       <div class="chartdiv">
-        
+
       </div>    
     </div>
     <div *ngIf="allDonations.length > 0">
@@ -37,5 +37,10 @@
         </ul>
       </div>
     <h2>Taux de satisfaction : {{ satisfactionRate }}%</h2>
-
+<div *ngIf="positiveWordcloudUrl">
+  <img [src]="positiveWordcloudUrl" alt="Positive Wordcloud">
+</div>
+<div *ngIf="sentimentAnalysisUrl">
+  <img [src]="sentimentAnalysisUrl" alt="Sentiment Analysis Chart">
+</div>
 </div>
