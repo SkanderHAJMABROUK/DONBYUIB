@@ -89,7 +89,6 @@ export class CompteAdminComponent implements OnInit{
     this.getAcceptedCollectesCount();
     this.getDonateursCount();
 
-   
    }
 
    ngAfterViewInit(): void {
@@ -403,7 +402,7 @@ export class CompteAdminComponent implements OnInit{
         }]
       },
       options: {
-        responsive: true
+        responsive: false
       }
     });
   } 
@@ -443,7 +442,7 @@ export class CompteAdminComponent implements OnInit{
         }]
       },
       options: {        
-        responsive: true,
+        responsive: false,
         scales: {
           x: {
             display: true,
@@ -524,7 +523,7 @@ export class CompteAdminComponent implements OnInit{
         type: 'bar',
         data: data,
         options: {
-          responsive: true,
+          responsive: false,
           scales: {
             y: {
               beginAtZero: true
