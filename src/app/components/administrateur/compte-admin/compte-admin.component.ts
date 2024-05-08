@@ -21,7 +21,7 @@ import * as am4maps from '@amcharts/amcharts4/maps';
 import am4geodata_tunisiaLow from '@amcharts/amcharts4-geodata/tunisiaLow';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 am4core.useTheme(am4themes_animated);
-
+import { fa1, fa2, fa3, fa4, fa5 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-compte-admin',
@@ -43,6 +43,11 @@ export class CompteAdminComponent implements OnInit{
     private firestore: AngularFirestore
     ){}
 
+  fa1=fa1;
+  fa2=fa2;
+  fa3=fa3;
+  fa4=fa4;
+  fa5=fa5;
 
   id!: string;
   data: Admin |undefined; 

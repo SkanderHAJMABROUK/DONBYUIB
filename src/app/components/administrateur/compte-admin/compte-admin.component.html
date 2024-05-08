@@ -42,11 +42,22 @@
     </ul>
   </div>
   <div class="card">
-    <h2>Top Donators</h2>
-    <ul>
-      <li *ngFor="let donator of topDonators">{{ donator.name }}: {{ donator.totalDonation }}</li>
-    </ul>
-  </div>
+  <h2>Top Donators</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Total Donation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let donator of topDonators; let i = index">
+        <td>{{ donator.name }}</td>
+        <td>{{ donator.totalDonation }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
   <div class="card" *ngIf="positiveWordcloudUrl">
     <h2>Positive Wordcloud</h2>
     <img [src]="positiveWordcloudUrl" alt="Positive Wordcloud">
