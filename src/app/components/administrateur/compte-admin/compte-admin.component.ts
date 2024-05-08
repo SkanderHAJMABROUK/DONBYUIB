@@ -122,57 +122,73 @@ export class CompteAdminComponent implements OnInit{
   
 
   mapChart(): void {
-    const tunisiaRegionalData = [
-      { id: 'TN-11', value: 100 },
-      { id: 'TN-12', value: 80 },
-      { id: 'TN-13', value: 60 },
-      { id: 'TN-14', value: 70 },
-      { id: 'TN-21', value: 90 },
-      { id: 'TN-23', value: 85 },
-      { id: 'TN-31', value: 75 },
-      { id: 'TN-32', value: 65 },
-      { id: 'TN-33', value: 60 },
-      { id: 'TN-34', value: 70 },
-      { id: 'TN-51', value: 95 },
-      { id: 'TN-52', value: 85 },
-      { id: 'TN-53', value: 90 },
-      { id: 'TN-61', value: 80 },
-      { id: 'TN-41', value: 75 },
-      { id: 'TN-42', value: 70 },
-      { id: 'TN-43', value: 85 },
-      { id: 'TN-81', value: 90 },
-      { id: 'TN-82', value: 80 },
-      { id: 'TN-83', value: 75 },
-      { id: 'TN-72', value: 70 },
-      { id: 'TN-71', value: 85 },
-      { id: 'TN-73', value: 90 },
-      { id: 'TN-22', value: 80 }
-    ];
-    
+    this.associationService.getActiveAssociations().subscribe(associations => {
+      let counts: { [key: string]: number } = {};
+      associations.forEach(association => {
+        let gouvernorat = association.gouvernerat;
+        if (counts[gouvernorat]) {
+          counts[gouvernorat]++;
+        } else {
+          counts[gouvernorat] = 1;
+        }
+      });
 
-    this.chart = am4core.create('chartdiv', am4maps.MapChart);
-    this.chart.geodata = am4geodata_tunisiaLow; // Use Tunisia map data
-    this.chart.projection = new am4maps.projections.Miller();
+      console.log('counts',counts);
   
-    let polygonSeries = this.chart.series.push(new am4maps.MapPolygonSeries());
-    polygonSeries.useGeodata = true;
+      const tunisiaRegionalData = [
+        { id: 'TN-11', name:'Tunis', value: counts['Tunis'] || 0 },
+        { id: 'TN-12', name:'Ariana', value: counts['Ariana'] || 0 },
+        { id: 'TN-13', name:'Ben Arous', value: counts['Ben Arous'] || 0 },
+        { id: 'TN-14', name:'Manouba', value: counts['Manouba'] || 0 },
+        { id: 'TN-21', name:'Nabeul', value: counts['Nabeul'] || 0 },
+        { id: 'TN-23', name:'Bizerte', value: counts['Bizerte'] || 0 },
+        { id: 'TN-31', name:'Béja', value: counts['Béja'] || 0 },
+        { id: 'TN-32', name:'Jendouba', value: counts['Jendouba'] || 0 },
+        { id: 'TN-33', name:'Le Kef', value: counts['Le Kef'] || 0 },
+        { id: 'TN-34', name:'Siliana', value: counts['Siliana'] || 0 },
+        { id: 'TN-51', name:'Sousse', value: counts['Sousse'] || 0 },
+        { id: 'TN-52', name:'Monastir', value: counts['Monastir'] || 0 },
+        { id: 'TN-53', name:'Mahdia', value: counts['Mahdia'] || 0 },
+        { id: 'TN-61', name:'Sfax', value: counts['Sfax'] || 0 },
+        { id: 'TN-41', name:'Kairouan', value: counts['Kairouan'] || 0 },
+        { id: 'TN-42', name:'Kassérine', value: counts['Kassérine'] || 0 },
+        { id: 'TN-43', name:'Sidi Bouzid', value: counts['Sidi Bouzid'] || 0 },
+        { id: 'TN-81', name:'Gabès', value: counts['Gabès'] || 0 },
+        { id: 'TN-82', name:'Médenine', value: counts['Médenine'] || 0 },
+        { id: 'TN-83', name:'Tataouine', value: counts['Tataouine'] || 0 },
+        { id: 'TN-72', name:'Tozeur', value: counts['Tozeur'] || 0 },
+        { id: 'TN-71', name:'Gafsa', value: counts['Gafsa'] || 0 },
+        { id: 'TN-73', name:'Kébili', value: counts['Kébili'] || 0 },
+        { id: 'TN-22', name:'Zaghouan', value: counts['Zaghouan'] || 0 }
+      ];
   
-    polygonSeries.data = tunisiaRegionalData;
-    polygonSeries.dataFields.value = 'value';
-    console.log('values',polygonSeries.dataFields.value);
-    console.log('value',tunisiaRegionalData.values)
-    polygonSeries.dataFields.id = 'region';
+      this.chart = am4core.create('chartdiv', am4maps.MapChart);
+      this.chart.geodata = am4geodata_tunisiaLow; // Use Tunisia map data
+      this.chart.projection = new am4maps.projections.Miller();
+  
+      let polygonSeries = this.chart.series.push(new am4maps.MapPolygonSeries());
+      polygonSeries.useGeodata = true;
+  
+      polygonSeries.data = tunisiaRegionalData;
+      polygonSeries.dataFields.value = 'value';
+      polygonSeries.dataFields.id = 'id';
+  
+      let polygonTemplate = polygonSeries.mapPolygons.template;
+      polygonTemplate.tooltipText = '{name}: {value}';
+      polygonTemplate.fillOpacity = 0.6;
 
-    let polygonTemplate = polygonSeries.mapPolygons.template;
-    polygonTemplate.tooltipText = '{name}: {value}';
-    polygonTemplate.fillOpacity = 0.6;
+      polygonSeries.heatRules.push({
+        property: 'fill',
+        target: polygonSeries.mapPolygons.template,
+        min: am4core.color('#deebf7'),
+        max: am4core.color('#08519c')
+      });
   
-    // Add a legend to the chart
-    this.chart.legend = new am4maps.Legend();
-    this.chart.legend.position = 'right';
-  }
-  
-  
+      // Add a legend to the chart
+      this.chart.legend = new am4maps.Legend();
+      this.chart.legend.position = 'right';
+    });
+  } 
   
   
   async getAssociationsByCategory() {
