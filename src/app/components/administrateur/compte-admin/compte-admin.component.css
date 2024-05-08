@@ -1,7 +1,56 @@
-.chartdiv{
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 0.8rem;
-    width: 100%;
-    height: 700px;
-    text-align: center;
+.admin-dashboard {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.col {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.chart-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.chartdiv {
+    flex: 2;
+    height: 500px;
+    width: 100%; /* Set the width to 100% to occupy the entire container */
+
+}
+.donations-section,
+.donators-section {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+.satisfaction-section,
+.wordcloud-section,
+.sentiment-analysis-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+}
+
+.canvas {
+    width: 100%; /* Set the width to 100% to make the charts responsive */
+    height: auto; /* Allow the height to adjust according to the width */
 }

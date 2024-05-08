@@ -60,6 +60,9 @@ export class CompteAdminComponent implements OnInit{
   doughnutChart: any;
   allDonations: { associationName: string, totalDonation: number }[] = [];
   topDonators: { donatorId: string, totalDonation: number, name: string }[] = [];
+  activeAssociationsCount: number =0;
+  acceptedCollectesCount: number =0;
+  donateursCount: number =0;
 
   private chart: am4maps.MapChart | undefined; 
 
@@ -82,6 +85,9 @@ export class CompteAdminComponent implements OnInit{
     this.fetchTopDonations();
     this.fetchTopDonators();
     this.mapChart();
+    this.getActiveAssociationsCount();
+    this.getAcceptedCollectesCount();
+    this.getDonateursCount();
 
    
    }
@@ -116,6 +122,39 @@ export class CompteAdminComponent implements OnInit{
       },
       error => {
         console.error('Erreur lors de la récupération des données :', error);
+      }
+    );
+  }
+
+  getDonateursCount() {
+    this.donateurService.getDonateurs().subscribe(
+      donateurs => {
+        this.donateursCount = donateurs.length;
+      },
+      error => {
+        console.error('Error fetching donateurs:', error);
+      }
+    );
+  }
+
+  getAcceptedCollectesCount() {
+    this.collecteService.getAcceptedCollectes().subscribe(
+      collectes => {
+        this.acceptedCollectesCount = collectes.length;
+      },
+      error => {
+        console.error('Error fetching accepted collectes:', error);
+      }
+    );
+  }
+
+  getActiveAssociationsCount() {
+    this.associationService.getActiveAssociations().subscribe(
+      associations => {
+        this.activeAssociationsCount = associations.length;
+      },
+      error => {
+        console.error('Error fetching active associations:', error);
       }
     );
   }
@@ -183,10 +222,7 @@ export class CompteAdminComponent implements OnInit{
         min: am4core.color('#deebf7'),
         max: am4core.color('#08519c')
       });
-  
-      // Add a legend to the chart
-      this.chart.legend = new am4maps.Legend();
-      this.chart.legend.position = 'right';
+
     });
   } 
   
@@ -382,6 +418,12 @@ export class CompteAdminComponent implements OnInit{
     console.log('Rendering Line Chart...');
     console.log('Donations Data:', this.donationsData);
   
+    // Sort the data in descending order by date
+    this.donationsData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  
+    // Only keep the last 7 elements
+    this.donationsData = this.donationsData.slice(0, 7);
+  
     this.lineChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -435,8 +477,7 @@ export class CompteAdminComponent implements OnInit{
     
       }
     });
-  }  
-
+  }
   renderBarChart(): void {
     // Fetch data for accepted and refused demands for each type
     combineLatest([

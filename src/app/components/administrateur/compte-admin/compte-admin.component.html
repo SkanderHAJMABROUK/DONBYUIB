@@ -1,4 +1,15 @@
 <div class="row">
+  <div class="count">
+    <p>Nombre d'associations inscrites <strong>{{ activeAssociationsCount }}</strong></p>
+  </div>
+  <br>
+  <div class="count">
+    <p>Nombre de collectes en cours <strong>{{ acceptedCollectesCount }}</strong></p>
+  </div>
+  <br>
+  <div class="count">
+    <p>Nombre de donateurs inscrits <strong>{{ donateursCount }}</strong></p>
+  </div>
     <div class="col">
         <h2>Chart</h2>
         <canvas class="piechart"></canvas>
@@ -16,8 +27,8 @@
         <canvas id="doughnutChart" class="doughnutChart"></canvas>
     </div>
     <div>
+      <h2>Chart</h2>
       <div class="chartdiv">
-
       </div>    
     </div>
     <div *ngIf="allDonations.length > 0">
