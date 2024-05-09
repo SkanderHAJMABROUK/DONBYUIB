@@ -5,6 +5,7 @@
       </div>
       <div class="collecte-info">
         <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
+        <h4><a [routerLink]="['/listeAssociations/details', selectedCollecte.id_association]">{{associationName}}</a></h4>
         <p class="collecte-description">{{ selectedCollecte.description }}</p>
       </div>
       <div class="dates">

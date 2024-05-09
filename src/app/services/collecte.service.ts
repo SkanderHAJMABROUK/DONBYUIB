@@ -506,5 +506,12 @@ updateCumulativeDonationAmount(collecteId: string, newCumulativeAmount: number):
   });
 }
 
+updateCollecteEtat(collecteId: string, newEtat: string): Promise<void> {
+  const collecteRef = this.firestore.collection('Collecte').doc(collecteId);
+  return collecteRef.update({
+    etat: newEtat
+  });
+}
+
 
 }

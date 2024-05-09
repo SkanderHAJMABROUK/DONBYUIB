@@ -6,6 +6,7 @@ import { CollecteService } from 'src/app/services/collecte.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 import Swal from 'sweetalert2';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-collecte-details',
@@ -18,7 +19,8 @@ export class CollecteDetailsComponent {
     public route:ActivatedRoute,
     private paymentService: PaymentService,
     public router:Router, 
-    private donateurService:DonateurService){}
+    private donateurService:DonateurService,
+    public associationService:AssociationService){}
 
   value=0;
   options:Options={
@@ -35,7 +37,7 @@ export class CollecteDetailsComponent {
   donateurId!: string;
   totalDonationAmount: number = 0;
   amountLeft: number= 0;
-
+  associationName: string | undefined;
 
    ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -52,9 +54,30 @@ export class CollecteDetailsComponent {
 
      this.orderId = localStorage.getItem('order-Id') || '';
      console.log('order id',this.orderId);
+
    }
    
-
+   loadAssociationName() {
+    console.log('Loading association name...');
+    console.log('Selected collecte:', this.selectedCollecte);
+    if (this.selectedCollecte && this.selectedCollecte.id_association) {
+      console.log('Selected collecte and association ID are defined.');
+      console.log('Association ID:', this.selectedCollecte.id_association);
+      this.associationService.getAssociationNameById(this.selectedCollecte.id_association)
+        .subscribe(name => {
+          console.log('Association name received from service:', name);
+          if (name) {
+            this.associationName = name;
+            console.log('Association name:', this.associationName);
+          } else {
+            this.associationName = 'Default Association Name';
+            console.log('Association name set to default:', this.associationName);
+          }
+        });
+    } else {
+      console.log('Selected collecte or association ID is undefined.');
+    }
+  }
    
    getCollecteById(id: string){
     this.service.getCollecteById(id).subscribe({
@@ -64,7 +87,8 @@ export class CollecteDetailsComponent {
           localStorage.setItem('service.showDetails', 'true');
           console.log(data);
           console.log(this.service.showDetails);
-          
+          this.loadAssociationName();
+
           if (this.orderId) {
             this.getOrderStatus(this.orderId);           
           }
@@ -128,6 +152,11 @@ confirmPayment(orderId: string, amount: number): void {
         this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection');
+            if (this.selectedCollecte && this.selectedCollecte.cumul + amount >= this.selectedCollecte.montant) {
+              if(this.selectedCollecte.id){
+                this.service.updateCollecteEtat(this.selectedCollecte.id,'terminee');
+              }
+            }
             window.close();
           })
           .catch(error => {
@@ -183,24 +212,36 @@ showSuccessMessage() {
 }
 
 validateDonationAmount() {
-  if (this.donationAmount === 0) {
-    Swal.fire({
-      position: "center",
-      icon: "warning",
-      title: "Le montant du don ne peut pas être zéro!",
-      showConfirmButton: false,
-      timer: 1500
-    });
-  } else if(this.amountLeft < this.donationAmount){
-    Swal.fire({
-      position: "center",
-      icon: "warning",
-      title: `Il ne reste que ${this.amountLeft}DT vers l'objectif de cette collecte, merci de votre générosité!`,
-      showConfirmButton: false,
-      timer: 2500
-    });
-  }else {
-    this.initiatePayment();
+  if (this.selectedCollecte && this.selectedCollecte.montant && this.selectedCollecte.cumul !== undefined) {
+    if (this.amountLeft == 0) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "La collecte a déjà atteint son objectif. Merci pour votre générosité!",
+        showConfirmButton: false,
+        timer: 2500
+      });
+    } else if (this.donationAmount === 0) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "Le montant du don ne peut pas être zéro!",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } else if (this.amountLeft < this.donationAmount) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: `Il ne reste que ${this.amountLeft}DT vers l'objectif de cette collecte, merci de votre générosité!`,
+        showConfirmButton: false,
+        timer: 2500
+      });
+    } else {
+      this.initiatePayment();
+    }
+  } else {
+    console.error('Erreur: Les données de la collecte sont invalides.');
   }
 }
 
