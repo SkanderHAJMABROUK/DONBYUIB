@@ -223,6 +223,7 @@ const firebaseConfig = {
       {path:'listeCollectes',component:CollecteListComponent},
       { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
 
+
       {path:'listeActualites',component:ActualiteListComponent},
       { path: 'listeActualites/details/:id', component: ActualiteDetailsComponent },
 
