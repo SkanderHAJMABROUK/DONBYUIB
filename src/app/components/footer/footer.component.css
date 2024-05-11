@@ -26,6 +26,8 @@ ul{
 	background-color: #000000;
     padding: 20px ;
 	margin-top: 80px;
+	z-index: 10;
+    position: relative;
 }
 .footer-col{
    width: 25%;
