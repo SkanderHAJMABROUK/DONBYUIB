@@ -25,6 +25,9 @@ ul{
 .footer{
 	background-color: #000000;
     padding: 20px ;
+	margin-top: 80px;
+	z-index: 10;
+    position: relative;
 }
 .footer-col{
    width: 25%;
@@ -32,11 +35,12 @@ ul{
 }
 .footer-col h4{
 	font-size: 18px;
-	color: #ae0b0b;
-	margin-bottom: 35px;
-	font-weight: 500;
-	position: flex;
-	font-weight: bolder;
+    color: #fff;
+    border-bottom: 3px solid #850707;
+    display: inline-block;
+    padding-bottom: 10px;
+    margin-bottom: 35px;
+    font-weight: bolder;
 }
 
 .footer-col ul li:not(:last-child){

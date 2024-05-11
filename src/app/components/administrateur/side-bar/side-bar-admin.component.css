@@ -16,9 +16,10 @@ body {
   
 
 .sidebar {
-    position: relative;
-    margin-top: 5%;
+    position: fixed;
+    margin-top: 83px;
     top: 0;
+    padding-top: 9px;
     left: 0;
     width: 110px;
     height: 100%;

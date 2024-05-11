@@ -2,11 +2,10 @@
     display: flex;
     border: 2px solid black;
     border-radius: 20px;
-    overflow: hidden; /* Prevent content overflow */
-    margin: 20px auto; /* Center the container horizontally */
-    width: 60%; /* Set a reduced width for the container */
-    box-shadow: 0 5px 10px rgba(0,0,0,.2);
-    /* background-color: rgba(0, 0, 0, 0.1); */
+    overflow: hidden;
+    margin: 20px 10%;
+    width: 80%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
 }
 
 .left-content {
