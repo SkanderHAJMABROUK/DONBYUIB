@@ -29,7 +29,6 @@ export class AssociationDemandeComponent implements OnInit{
   }
   donateurId!: string;
   id!: string;
-  data: Association |undefined;
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
   paymentSuccessful!: string|null;
