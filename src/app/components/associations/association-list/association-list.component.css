@@ -28,23 +28,21 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     gap:15px;
-    z-index: 999;
 }
 
 .container .box-container .box {
-  box-shadow: 0 5px 10px rgba(0,0,0,.2);
-  border-radius: 5px;
   background: #fff;
   text-align: center;
-  padding:30px 20px;
+  padding: 30px 20px;
   width: 300px;
-  height: 350px; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
- position: flex;
- border-radius: 20px;
- border: 2px solid black;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 10PX;
+  border: 1px solid black;
 }
 
 .container .box-container .box img {
