@@ -75,7 +75,6 @@ import { DemandeAssociationDetailsComponent } from './components/administrateur/
 import { DemandeActualiteDetailsComponent } from './components/administrateur/demande-actualite-details/demande-actualite-details.component';
 import { DemandeCollecteDetailsComponent } from './components/administrateur/demande-collecte-details/demande-collecte-details.component';
 import { DemandeModificationAssociationComponent } from './components/administrateur/demande-modification-association/demande-modification-association.component';
-import { ChatDialogComponent } from './components/chat-dialog/chat-dialog.component';
 import { ModificationAssociationDetailsComponent } from './components/administrateur/modification-association-details/modification-association-details.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -151,7 +150,6 @@ const firebaseConfig = {
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
     ModificationAssociationDetailsComponent ,
-    ChatDialogComponent,
     DemandesAssociationsComponent,
     AjouterActualiteAdminComponent,
     AjouterCollecteAdminComponent,
@@ -164,7 +162,6 @@ const firebaseConfig = {
     DemandeActualiteDetailsComponent,
     DemandeCollecteDetailsComponent,
     DemandeModificationAssociationComponent,
-    ChatDialogComponent,
     DemandeModificationCollecteComponent,
     ModificationCollecteDetailsComponent,
     DemandeModificationActualiteComponent,
@@ -205,7 +202,6 @@ const firebaseConfig = {
       {path:'admin',component:LoginAdminComponent},
       {path:'admin/profil/:id',component:ProfilAdminComponent},
 
-      {path:'chatbot',component:ChatDialogComponent},
 
 
       {path:'inscrireAssociation',component:InscrireAssociationComponent},

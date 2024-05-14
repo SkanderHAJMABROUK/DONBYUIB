@@ -32,19 +32,17 @@
 }
 
 .box {
-  box-shadow: 0 5px 10px rgba(0,0,0,.2);
-  border-radius: 5px;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 10PX;
+  border: 1px solid black;
   background: #fff;
   text-align: center;
-  padding:20px 10px;
+  padding: 20px 10px;
   width: 300px;
-  height: auto; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
-  position: flex;
-  border-radius: 20px;
-  border: 2px solid black;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .dates, .amount {
