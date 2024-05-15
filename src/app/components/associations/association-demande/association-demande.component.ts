@@ -94,9 +94,7 @@ initiatePayment(): void {
   const returnUrl = `http://localhost:4200/listeAssociations/details/${this.id}`;
   const randomIdentifier = Math.random().toString(36).substring(2, 10);
 
-  // Step 1: Authorization
-this.paymentService.authorizePayment('11561U326A1', this.donationAmount, returnUrl)
-  this.paymentService.authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
+    this.paymentService.authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
     .subscribe(response => {     
       window.location.href = response.formUrl;
       localStorage.setItem('orderId', response.orderId);
