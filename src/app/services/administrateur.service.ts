@@ -73,6 +73,15 @@ export class AdministrateurService {
 
   constructor(private fs:Firestore,public associationService:AssociationService,private firestore:AngularFirestore,private route:Router) { }
 
+
+  getCurrentAdminId(): string | null {
+    console.log(localStorage.getItem('adminId'))
+    return localStorage.getItem('adminId');
+
+  }
+  
+
+
   addAssociation(associationData: Association) {
 
     // Génération du sel
@@ -93,6 +102,7 @@ export class AdministrateurService {
         matricule_fiscale: associationData.matricule_fiscale,
         rib: associationData.rib, // Stockage du mot de passe haché
         mdp: hashedPassword,
+        id_admin: this.id !== null ? this.id : undefined ,
         etat: "actif",
         salt:salt //Stockage du sel
     };
@@ -129,12 +139,14 @@ logOut() {
 }
 
 logIn(login: string, password: string): Observable<boolean> {
+  
   return this.getAdminByLoginAndPassword(login, password).pipe(
     map(admin => {
       if (admin) {
         this.compte = true;
         localStorage.setItem('compte', 'true');
-        localStorage.setItem('adminId', 'admin.id');
+        if(admin.id){
+        localStorage.setItem('adminId', admin.id);}
         this.id=localStorage.getItem('adminId');
         this.route.navigate(['/admin/profil', admin.id], { replaceUrl: true }); // Rediriger avec l'ID de l'administrateur dans l'URL
         return true; // Connexion réussie

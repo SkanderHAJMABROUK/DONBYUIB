@@ -12,5 +12,6 @@ export interface DemandeAssociation {
     rib:string,
     telephone:string,
     etat:string,
-    date:Date
+    date:Date,
+    id_admin?:string
 }

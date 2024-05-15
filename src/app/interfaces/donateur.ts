@@ -11,4 +11,5 @@ export interface Donateur {
     email: string,
     mdp:string,
     salt:string,
+    id_admin?:string
 }

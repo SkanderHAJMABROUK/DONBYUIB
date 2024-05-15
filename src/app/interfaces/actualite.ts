@@ -6,4 +6,5 @@ export interface Actualite {
     image:string,
     date_publication:Date,
     id_association?:string,
+    id_admin?:string
 }

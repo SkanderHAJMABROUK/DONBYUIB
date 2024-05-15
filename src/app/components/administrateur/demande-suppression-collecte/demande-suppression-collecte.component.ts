@@ -124,8 +124,9 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
   }
 
   updateDemandeEtat(id: string, etat: string): Promise<void> {
+    const adminId = this.adminService.getCurrentAdminId();
     const demandeRef = this.firestore.collection('DemandeSuppressionCollecte').doc(id);
-    return demandeRef.update({ etat: etat });
+    return demandeRef.update({ etat: etat, adminId: adminId }); 
   }
 
   updateCollecteEtat(collecteId: string, etat: string): Promise<void> {

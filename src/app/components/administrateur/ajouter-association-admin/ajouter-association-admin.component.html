@@ -53,6 +53,16 @@
         </div>
       </div>
       <div>
+        <label for="gouvernerat">Gouvernerat<span> *</span></label><br>
+        <select id="gouvernerat" formControlName="gouvernerat" required>
+          <option value="" disabled selected>Sélectionner un gouvernerat</option>
+          <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
+        </select>
+        <div class="error-message" *ngIf="aFormGroup.get('gouvernerat')?.invalid && (aFormGroup.get('gouvernerat')?.dirty || aFormGroup.get('gouvernerat')?.touched)">
+          <div *ngIf="aFormGroup.get('gouvernerat')?.errors?.['required']">Le gouvernerat est requis.</div>
+        </div>
+      </div>
+      <div>
         <label for="num_association">Numéro téléphone de l'association<span> *</span></label>
         <input type="tel" id="num_association" formControlName="telephone" placeholder="N° Téléphone" required>
         <div class="error-message" *ngIf="aFormGroup.get('telephone')?.invalid && (aFormGroup.get('telephone')?.dirty || aFormGroup.get('telephone')?.touched)">
@@ -69,12 +79,18 @@
       </div>       
       <div>
         <label for="idfiscale_association">Carte d'identité fiscale<span> *</span></label><br>
-        <input type="file" id="idfiscale_association" formControlName="id_fiscale" (change)="onIdFileSelected($event)" accept="application/pdf" required>
+        <input type="file" id="idfiscale_association" formControlName="id_fiscale" (change)="onIdFileSelected($event)" accept="image/png, image/jpeg" required>
         <div class="error-message" *ngIf="aFormGroup.get('id_fiscale')?.invalid && (aFormGroup.get('id_fiscale')?.dirty || aFormGroup.get('id_fiscale')?.touched)">
           <div *ngIf="aFormGroup.get('id_fiscale')?.errors?.['required']">La carte d'identité fiscale est requise.</div>
         </div>
       </div>
-      
+      <div>
+        <label for="matricule_fiscal_association">Matricule fiscal de l'association<span> *</span></label>
+        <input type="text" id="matricule_fiscal_association" formControlName="matricule_fiscale" placeholder="Matricule fiscal" required>
+        <div class="error-message" *ngIf="aFormGroup.get('matricule_fiscale')?.invalid && (aFormGroup.get('matricule_fiscale')?.dirty || aFormGroup.get('matricule_fiscale')?.touched)">
+          <div *ngIf="aFormGroup.get('matricule_fiscale')?.errors?.['required']">Le matricule fiscal de l'association est requis.</div>
+        </div>
+     </div>
       <div>
         <label for="rib_association">Le relevé d'identité bancaire (RIB) de l'association<span> *</span></label>
         <input type="text" id="rib_association" formControlName="rib" placeholder="N° RIB" required>

@@ -3,5 +3,6 @@ export interface DemandeSuppressionCollecte {
     id_collecte?:string,
     id_association?:string,
     etat:string,
-    date:Date
+    date:Date,
+    id_admin?:string
 }

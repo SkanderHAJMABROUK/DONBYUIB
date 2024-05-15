@@ -240,8 +240,9 @@ export class DemandesAssociationsComponent implements OnInit{
   
 
   updateDemandeEtat(id: string, etat: string): Promise<void> {
+    const adminId = this.adminService.getCurrentAdminId();
     const demandeRef = this.firestore.collection('DemandeAssociation').doc(id);
-    return demandeRef.update({ etat: etat });
+    return demandeRef.update({ etat: etat, adminId: adminId }); 
   }
 
   updateAssociationEtat(associationId: string, etat: string): Promise<void> {

@@ -344,6 +344,17 @@ export class AssociationService {
       map(associations => associations.find(association => association.email === email))
     );
   }
+  
+  getAssociationByName(nom: string): Observable<Association | undefined> {
+    return this.getAssociations().pipe(
+      map(associations => associations.find(association => association.nom === nom))
+    );
+  }
+  getAssociationIdByName(nom: string): Observable<string | undefined> {
+    return this.getAssociationByName(nom).pipe(
+      map(association => association?.id)
+    )
+  }
 
   getAssociationSaltByEmail(email: string): Observable<string | undefined> {
     return this.getAssociationByEmail(email).pipe(

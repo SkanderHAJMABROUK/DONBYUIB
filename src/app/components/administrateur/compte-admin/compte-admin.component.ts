@@ -78,6 +78,7 @@ export class CompteAdminComponent implements OnInit{
       this.service.id=this.id;
       console.log(this.id);
        this.getAdminById(this.id); 
+       this.service.getCurrentAdminId()
      });
 
      this.getAssociationsByCategory();
@@ -98,6 +99,7 @@ export class CompteAdminComponent implements OnInit{
 
    ngAfterViewInit(): void {
     this.getDashboardData(); 
+    this.service.getCurrentAdminId()
     this.getPositiveWordcloud();
     this.getSentimentAnalysisChart();
     this.renderPieChart();

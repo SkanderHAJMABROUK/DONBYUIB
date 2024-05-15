@@ -243,8 +243,9 @@ export class DemandesActualitesComponent implements OnInit{
     } 
 
     updateDemandeEtat(id: string, etat: string): Promise<void> {
+      const adminId = this.adminService.getCurrentAdminId();
       const demandeRef = this.firestore.collection('DemandeActualite').doc(id);
-      return demandeRef.update({ etat: etat });
+      return demandeRef.update({ etat: etat, adminId: adminId }); 
     }
   
     updateActualiteEtat(actualiteId: string, etat: string): Promise<void> {

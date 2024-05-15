@@ -39,6 +39,8 @@ export class AjouterDonateurAdminComponent {
 
         nom: ['', Validators.required],
         telephone: ['', Validators.required] ,
+        adresse: ['', Validators.required] ,
+        gouvernerat: ['', Validators.required] ,
         prenom: ['', Validators.required],
         date_de_naissance: ['', [Validators.required, this.serviceDonateur.dateOfBirthValidator()]],
         email: ['', [Validators.required, Validators.email]],
@@ -50,6 +52,15 @@ export class AjouterDonateurAdminComponent {
         validators: this.passwordMatchValidator()
       }
     );
+    this.getGouvernerats();
+  }
+  
+  gouvernerats: string[] = [];
+
+  getGouvernerats() {
+    this.serviceDonateur.getGouvernerats().subscribe(gouvernerats => {
+      this.gouvernerats = gouvernerats;
+    });
   }
   
   

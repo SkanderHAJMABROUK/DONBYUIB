@@ -122,12 +122,12 @@ export class DemandeSuppressionActualiteComponent {
     cacherImage(): void {
       this.imageAffichee = ''; // Cacher l'image en vidant l'URL
     }
-  
+
     updateDemandeEtat(id: string, etat: string): Promise<void> {
+      const adminId = this.adminService.getCurrentAdminId();
       const demandeRef = this.firestore.collection('DemandeSuppressionActualite').doc(id);
-      return demandeRef.update({ etat: etat });
+      return demandeRef.update({ etat: etat, adminId: adminId }); 
     }
-  
     updateActualiteEtat(actualiteId: string, etat: string): Promise<void> {
       const demandeRef = this.firestore.collection('Actualite').doc(actualiteId);
       return demandeRef.update({ etat: etat });

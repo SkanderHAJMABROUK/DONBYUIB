@@ -46,6 +46,7 @@
   
   .card .chartdiv {
     width: 100%;
+    z-index: -1;
     height: 400px; /* Adjust the height as needed */
     padding: 10px; /* Add padding to the map */
     box-sizing: border-box; /* Include padding in the total width/height */

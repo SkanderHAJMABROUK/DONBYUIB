@@ -27,10 +27,34 @@ collecteHoverState: Map<string, boolean> = new Map();
 collectes:Collecte[]=[];
 
 ngOnInit():void{
-  this.service.getAcceptedCollectes().subscribe((res)=>{
-   this.collectes=res;
- })
+
+ this.getAcceptedCollecte();
  }
+
+ getAcceptedCollecte() {
+  this.service.getAcceptedCollectes().subscribe((res: Collecte[]) => {
+    this.collectes = res;
+    this.collectes.forEach(collecte => {
+      this.checkIfCollecteIsCompleted(collecte);
+    });
+  });
+}
+
+checkIfCollecteIsCompleted(collecte: Collecte): void {
+  const now = new Date();
+  const endDate = new Date(collecte.date_fin);
+  if (endDate < now || collecte.cumul >= collecte.montant) {
+    collecte.etat = 'Terminée';
+    // Mettre à jour la collecte dans la base de données
+    this.service.updateCollecte(collecte)
+      .then(() => {
+        console.log('État de la collecte mis à jour avec succès');
+      })
+      .catch(err => {
+        console.error('Erreur lors de la mise à jour de l\'état de la collecte', err);
+      });
+  }
+}
 
  toggleIconState(collecteId: string, state: boolean): void {
   this.collecteHoverState.set(collecteId, state);

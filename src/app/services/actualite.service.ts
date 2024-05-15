@@ -11,6 +11,7 @@ import { Actualite } from '../interfaces/actualite';
 import { DemandeActualite } from '../interfaces/demande-actualite';
 import { DemandeModificationActualite } from '../interfaces/demande-modification-actualite';
 import { DemandeSuppressionActualite } from '../interfaces/demande-suppression-actualite';
+import { AdministrateurService } from './administrateur.service';
 
 
 @Injectable({
@@ -21,7 +22,7 @@ export class ActualiteService {
   actualiteDetailShowModal:boolean=false;
   actualiteModifierShowModal:boolean=false;
 
-  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
+  constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router,private adminService:AdministrateurService) { }
   showDetails: boolean = localStorage.getItem('service.showDetails') === 'true';
 
 
@@ -296,16 +297,21 @@ async uploadCover(file: File): Promise<string | null> {
 
 ajouterActualite(actualiteData: Actualite) {
 
-  const associationId=this.getAssociationIdFromUrl();
+  
   const datePublication = new Date();
-    
+  const associationId = actualiteData.id_association;
+  const adminId = this.adminService.getCurrentAdminId();  
   const dataToAdd: Actualite = {
       titre: actualiteData.titre,
       description: actualiteData.description,
       image: actualiteData.image,
-      etat:"en_attente",
+      etat:"accepté",
       date_publication: datePublication,
       id_association:associationId,
+      id_admin: adminId !== null ? adminId : undefined 
+
+      
+
       
   };
   return addDoc(collection(this.fs, 'Actualite'), dataToAdd);

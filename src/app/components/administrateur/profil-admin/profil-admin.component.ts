@@ -9,4 +9,5 @@ import { AdministrateurService } from 'src/app/services/administrateur.service';
 })
 export class ProfilAdminComponent {
   constructor(public service:AdministrateurService){}
+  
 }

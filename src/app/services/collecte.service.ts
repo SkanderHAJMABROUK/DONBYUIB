@@ -12,6 +12,7 @@ import { AssociationService } from './association.service';
 import { DemandeCollecte } from '../interfaces/demande-collecte';
 import { DemandeModificationCollecte } from '../interfaces/demande-modification-collecte';
 import { DemandeSuppressionCollecte } from '../interfaces/demande-suppression-collecte';
+import { AdministrateurService } from './administrateur.service';
 
 
 
@@ -21,7 +22,7 @@ import { DemandeSuppressionCollecte } from '../interfaces/demande-suppression-co
 export class CollecteService {
 
   
- constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router) { }
+ constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router,private adminService:AdministrateurService) { }
 
  collectes: Collecte[]=[]
  showErrorNotification: boolean=false;
@@ -58,7 +59,7 @@ export class CollecteService {
  return collectionData(collecteCollection, { idField: 'id' }).pipe(
    map((collectes: any[]) => {
       return collectes
-      .filter(collecte => collecte.etat = 'en_attente')
+      .filter(collecte => collecte.etat === 'en_attente')
       .map(collecte => ({
         id: collecte.id,
         nom: collecte.nom,
@@ -75,26 +76,28 @@ export class CollecteService {
   );
  }
 
+
+
  getAcceptedCollectes(): Observable<Collecte[]> {
   let collecteCollection = collection(this.fs, 'Collecte');
- return collectionData(collecteCollection, { idField: 'id' }).pipe(
-   map((collectes: any[]) => {
-      return collectes
-      .filter(collecte => collecte.etat = 'accepté')
-      .map(collecte => ({
-        id: collecte.id,
-        nom: collecte.nom,
-        etat:collecte.etat,
-        description: collecte.description,
-        image: collecte.image,
-        montant: collecte.montant,
-        cumul:collecte.cumul,
-        date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
-        date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
-        id_association:collecte.id_association,
-      }));
-    })
-  );
+  return collectionData(collecteCollection, { idField: 'id' }).pipe(
+    map((collectes: any[]) => {
+       return collectes
+       .filter(collecte => collecte.etat === 'accepté')
+       .map(collecte => ({
+         id: collecte.id,
+         nom: collecte.nom,
+         etat:collecte.etat,
+         description: collecte.description,
+         image: collecte.image,
+         montant: collecte.montant,
+         cumul:collecte.cumul,
+         date_debut: collecte.date_debut instanceof Timestamp ? collecte.date_debut.toDate() : collecte.date_debut,
+         date_fin: collecte.date_fin instanceof Timestamp ? collecte.date_fin.toDate() : collecte.date_fin,
+         id_association:collecte.id_association,
+       }));
+     })
+   );
  }
 
  getPendingDemandesCollectes(): Observable<DemandeCollecte[]> {
@@ -386,21 +389,31 @@ modifierCollecte(collecteDataToUpdate: Partial<Collecte>): Promise<void> {
     });
 }
 
+getAssociations(): Observable<string[]> {
+  let associationCollection = collection(this.fs, 'Association');
+  return collectionData(associationCollection, { idField: 'id' }).pipe(
+    map((associations: any[]) => {
+      return associations.map(association => association.nom);
+    })
+  );
+}
 
 ajouterCollecte(collecteData: Collecte) {
 
-  const associationId=this.getAssociationIdFromUrl();
-    
+  const associationId = collecteData.id_association;
+  const adminId = this.adminService.getCurrentAdminId();  
   const dataToAdd: Collecte = {
       nom: collecteData.nom,
-      etat: "en_attente",
+      etat: "accepté",
       description: collecteData.description,
       image: collecteData.image,
       montant: collecteData.montant,
       cumul:0,
       date_debut: collecteData.date_debut,
       date_fin: collecteData.date_fin,
-      id_association:associationId,
+      id_association: associationId ,
+      id_admin: adminId !== null ? adminId : undefined 
+
       
   };
   return addDoc(collection(this.fs, 'Collecte'), dataToAdd);
@@ -513,5 +526,11 @@ updateCollecteEtat(collecteId: string, newEtat: string): Promise<void> {
   });
 }
 
+
+updateCollecte(collecte: Collecte): Promise<void> {
+  const collecteRef = this.firestore.collection('Collecte').doc(collecte.id);
+  const { id, ...collecteDataToUpdate } = collecte;
+  return collecteRef.update(collecteDataToUpdate);
+}
 
 }

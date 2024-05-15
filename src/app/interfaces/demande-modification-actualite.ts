@@ -7,4 +7,5 @@ export interface DemandeModificationActualite {
     image:string,
     etat:string,
     date: Date,
+    id_admin?:string
 }

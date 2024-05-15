@@ -50,6 +50,24 @@
         </div>
   
         <div>
+          <label for="adresse">Adresse <span> *</span></label>
+          <input type="text" id="adresse" formControlName="adresse" placeholder="Adresse du donateur" required>
+          <div class="error-message" *ngIf="aFormGroup.get('adresse')?.invalid && (aFormGroup.get('adresse')?.dirty || aFormGroup.get('adresse')?.touched)">
+            <div *ngIf="aFormGroup.get('adresse')?.errors?.['required']">L'adresse' est requise.</div>
+          </div>
+        </div>
+  
+        <div>
+          <label for="gouvernerat">Gouvernerat<span> *</span></label><br>
+          <select id="gouvernerat" formControlName="gouvernerat" required>
+            <option value="" disabled selected>Sélectionner un gouvernerat</option>
+            <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
+          </select>
+          <div class="error-message" *ngIf="aFormGroup.get('gouvernerat')?.invalid && (aFormGroup.get('gouvernerat')?.dirty || aFormGroup.get('gouvernerat')?.touched)">
+            <div *ngIf="aFormGroup.get('gouvernerat')?.errors?.['required']">Le gouvernerat est requis.</div>
+          </div>
+        </div>
+        <div>
           <label for="email">Adresse email <span> *</span></label>
           <input type="email" id="email" formControlName="email" placeholder="adresse@email.com" required>
           <div class="error-message" *ngIf="aFormGroup.get('email')?.invalid && (aFormGroup.get('email')?.dirty || aFormGroup.get('email')?.touched)">

@@ -7,5 +7,6 @@ export interface DemandeActualite {
     date_publication:Date,
     date:Date,
     etat:string,
-    description:string
+    description:string,
+    id_admin?:string
 }

@@ -13,5 +13,6 @@ export interface Association {
     mdp:string,
     rib:string,
     telephone:string,
-    salt?:string
+    salt?:string,
+    id_admin?:string
 }

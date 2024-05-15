@@ -9,5 +9,6 @@ export interface DemandeModificationAssociation {
     adresse:string,
     categorie:string,
     etat:string,
-    date:Date
+    date:Date,
+    id_admin?:string
 }

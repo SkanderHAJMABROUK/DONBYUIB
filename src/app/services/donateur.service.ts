@@ -9,6 +9,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn 
 import { AssociationService } from './association.service';
 import { sha256 } from 'js-sha256';
 import { Commentaire } from '../interfaces/commentaire';
+import { AdministrateurService } from './administrateur.service';
 
 
 @Injectable({
@@ -19,7 +20,8 @@ export class DonateurService {
   
 
   constructor(private fs:Firestore, private fireStorage : AngularFireStorage,  private firestore:AngularFirestore, private route:Router,
-    private aService:AssociationService) { 
+    private aService:AssociationService, private adminService: AdministrateurService
+  ) { 
       this.startTimer();
       this.monitorActivity();
       this.activitySubscription = new Subscription();
@@ -56,11 +58,11 @@ dateOfBirthValidator(): ValidatorFn {
     const salt: string = this.aService.generateSalt(16);
 
     const hashedPassword: string = sha256(donateur.mdp+salt).toString();
-
+    const adminId = this.adminService.getCurrentAdminId();
     const dataToAdd: Donateur = {
         nom: donateur.nom,
         prenom: donateur.prenom,
-        etat: "ajout",
+        etat: "actif",
         photo: donateur.photo,
         telephone:donateur.telephone,
         adresse:donateur.adresse,
@@ -68,8 +70,9 @@ dateOfBirthValidator(): ValidatorFn {
         date_de_naissance:donateur.date_de_naissance,
         email: donateur.email,
         mdp: hashedPassword,
-        salt: salt
-    };
+        salt: salt,
+        id_admin: adminId !== null ? adminId : undefined 
+           };
     return addDoc(collection(this.fs, 'Donateur'), dataToAdd);
 }
 

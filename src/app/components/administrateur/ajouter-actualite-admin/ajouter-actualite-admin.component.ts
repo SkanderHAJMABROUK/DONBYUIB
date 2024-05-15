@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable } from 'rxjs';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { AssociationService } from 'src/app/services/association.service';
+import { CollecteService } from 'src/app/services/collecte.service';
 
 @Component({
   selector: 'app-ajouter-actualite-admin',
@@ -21,7 +23,8 @@ export class AjouterActualiteAdminComponent {
 
 
   constructor(private formBuilder: FormBuilder, public service: ActualiteService, private router: Router,public serviceAssociation:AssociationService,
-    private spinner:NgxSpinnerService) {}
+    private spinner:NgxSpinnerService,
+  private serviceCollecte:CollecteService) {}
 
   ngOnInit(): void {
    
@@ -31,9 +34,12 @@ export class AjouterActualiteAdminComponent {
         titre: ['', Validators.required],
         description: ['', Validators.required],
         image: ['', [Validators.required]],
+        association: ['', Validators.required],
+
 
       }
     );
+    this.getAssociations();
   }
 
   onCoverFileSelected(event: any) {
@@ -47,6 +53,16 @@ export class AjouterActualiteAdminComponent {
 }
 
   
+associations: string[] = [];
+
+  getAssociations() {
+    this.serviceCollecte.getAssociations().subscribe(associations => {
+      this.associations = associations;
+    });
+  }
+  getAssociationIdByName(nom: string):Observable< string | undefined> {
+    return this.serviceAssociation.getAssociationIdByName(nom);
+  }
 
   async onSubmit(): Promise<void>{
     console.log("Fonction onSubmit() appelée");
@@ -67,29 +83,34 @@ export class AjouterActualiteAdminComponent {
       console.log('Cover file uploaded. Download URL:', coverDownloadUrl);
 
      
-      this.service.ajouterActualite({...this.aFormGroup.value,
-        image: coverDownloadUrl
-       })
-        .then(() => {
-          console.log('Données de lactualité ajoutées avec succès dans Firebase Firestore.');
-          // Réinitialiser le formulaire après l'ajout des données
-          this.aFormGroup.reset();
-          this.router.navigate(['/liste-actualites-association'],{ replaceUrl: true });
-          this.showSuccessMessage = true;
-          this.showErrorNotification = false;
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'ajout des données de lactualité dans Firebase Firestore:', error);
-        });
-
-        this.spinner.hide();
-        
+      this.getAssociationIdByName(this.aFormGroup.value.association).subscribe(associationId => {
+        if (associationId) {
+          console.log(associationId);
+          this.service.ajouterActualite({
+            ...this.aFormGroup.value,
+            image: coverDownloadUrl,
+            id_association: associationId
+          })
+          .then(() => {
+            console.log('Données de lactualité ajoutées avec succès dans Firebase Firestore.');
+            this.aFormGroup.reset();
+            this.showSuccessMessage = true;
+            this.showErrorNotification = false;
+          })
+          .catch(error => {
+            console.error('Erreur lors de l\'ajout des données de lactualité dans Firebase Firestore:', error);
+          })
+          .finally(() => {
+            this.spinner.hide();
+          });
+        }
+      });
     } else {
       this.showErrorNotification = true;
       this.showSuccessMessage = false;
       console.log("Formulaire invalide");
-      // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
+  
   }
   
   

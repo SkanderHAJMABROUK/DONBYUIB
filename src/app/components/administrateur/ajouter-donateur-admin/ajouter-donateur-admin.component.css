@@ -17,10 +17,26 @@ body {
 
 .form-container {
     width: 600px;
+    margin-top: 70px;
     padding: 20px;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 10px;
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
     background-color: white;
+}
+select{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #d1d5da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+select:focus{
+    outline: none;
+    border-color: black;
+    box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.594);
 }
 
 
@@ -124,9 +140,7 @@ input:focus {
   
 
 
-.password-input {
-    position: relative;
-}
+
 
 .password-input input[type="password"],
 .password-input input[type="text"] {

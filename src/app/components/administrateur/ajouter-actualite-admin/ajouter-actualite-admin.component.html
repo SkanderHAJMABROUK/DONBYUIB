@@ -25,7 +25,16 @@
           </div>
         </div>
   
-       
+        <div>
+          <label for="association">Association<span> *</span></label><br>
+          <select id="association" formControlName="association" required>
+            <option value="" disabled selected>Sélectionner une association</option>
+            <option *ngFor="let association of associations" [value]="association">{{ association }}</option>
+          </select>
+          <div class="error-message" *ngIf="aFormGroup.get('association')?.invalid && (aFormGroup.get('association')?.dirty || aFormGroup.get('association')?.touched)">
+              <div *ngIf="aFormGroup.get('association')?.errors?.['required']">L'association est requise.</div>
+          </div>
+      </div>
         <div>
           <label for="image">Photo de couverture de l'actualité<span> *</span></label><br>
           <input type="file" id="image" (change)="onCoverFileSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml" required>
@@ -42,7 +51,7 @@
           Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
         </div>
         <div *ngIf="showSuccessMessage" class="success-message">
-          Votre demande a été prise en considération avec succès ! 
+          Actualité ajoutée avec succès ! 
          
         </div>
         

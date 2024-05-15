@@ -1,9 +1,8 @@
 .container {
-    
-    margin: 20px; 
-    padding: auto;
+    margin-top: 70px;
     display: flex;
     flex-wrap: wrap;
+    margin-left: 110px;
     justify-content: space-between;
 }
 

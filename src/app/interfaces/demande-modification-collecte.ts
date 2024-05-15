@@ -9,4 +9,5 @@ export interface DemandeModificationCollecte {
     id_association?:string,
     etat:string,
     date: Date,
+    id_admin?:string
 }

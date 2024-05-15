@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable } from 'rxjs';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { AssociationService } from 'src/app/services/association.service';
 import { CollecteService } from 'src/app/services/collecte.service';
@@ -32,11 +33,13 @@ export class AjouterCollecteAdminComponent {
         montant: ['', Validators.required],
         image: ['', Validators.required],
         date_debut: ['', Validators.required],
+        association: ['', Validators.required],
         date_fin: ['', Validators.required]
 
     
       }, { validator: this.dateFinSupDateDebutValidator }
     );
+    this.getAssociations();
   }
 
   onLogoFileSelected(event: any) {
@@ -57,35 +60,38 @@ export class AjouterCollecteAdminComponent {
       const CoverDownloadUrl = await this.serviceCollecte.uploadCover(CoverFile);
       if (!CoverDownloadUrl) {
         console.error('Failed to upload logo file.');
-        // Handle error appropriately, e.g., show error message to user
         return;
       }
       console.log('Logo file uploaded. Download URL:', CoverDownloadUrl);
-   
-      this.serviceCollecte.ajouterCollecte({...this.aFormGroup.value,
-        image: CoverDownloadUrl,
-       })
-        .then(() => {
-          console.log('Données de la collecte ajoutées avec succès dans Firebase Firestore.');
-          // Réinitialiser le formulaire après l'ajout des données
-          this.aFormGroup.reset();
-          // this.router.navigate(['/demande-association']);
-          this.showSuccessMessage = true;
-          this.showErrorNotification = false;
 
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'ajout des données de la collecte dans Firebase Firestore:', error);
-        });
-
-        this.spinner.hide();
-        
+      this.getAssociationIdByName(this.aFormGroup.value.association).subscribe(associationId => {
+        if (associationId) {
+          console.log(associationId);
+          this.serviceCollecte.ajouterCollecte({
+            ...this.aFormGroup.value,
+            image: CoverDownloadUrl,
+            id_association: associationId
+          })
+          .then(() => {
+            console.log('Données de la collecte ajoutées avec succès dans Firebase Firestore.');
+            this.aFormGroup.reset();
+            this.showSuccessMessage = true;
+            this.showErrorNotification = false;
+          })
+          .catch(error => {
+            console.error('Erreur lors de l\'ajout des données de la collecte dans Firebase Firestore:', error);
+          })
+          .finally(() => {
+            this.spinner.hide();
+          });
+        }
+      });
     } else {
       this.showErrorNotification = true;
       this.showSuccessMessage = false;
       console.log("Formulaire invalide");
-      // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
+  
   }
   dateFinSupDateDebutValidator(control: FormGroup): ValidationErrors | null {
     const dateDebut = control.get('date_debut')?.value;
@@ -97,5 +103,16 @@ export class AjouterCollecteAdminComponent {
     
     return null;
   }
+  associations: string[] = [];
+
+  getAssociations() {
+    this.serviceCollecte.getAssociations().subscribe(associations => {
+      this.associations = associations;
+    });
+  }
+  getAssociationIdByName(nom: string):Observable< string | undefined> {
+    return this.serviceAssociation.getAssociationIdByName(nom);
+  }
+
    
 }

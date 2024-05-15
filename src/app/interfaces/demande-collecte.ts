@@ -9,5 +9,6 @@ export interface DemandeCollecte {
     date_debut:Date,
     date_fin: Date,
     id_association?:string,
-    date:Date
+    date:Date,
+    id_admin?:string
 }

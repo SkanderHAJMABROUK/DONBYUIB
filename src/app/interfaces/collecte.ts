@@ -9,4 +9,5 @@ export interface Collecte {
     date_debut:Date,
     date_fin: Date,
     id_association?:string,
+    id_admin?:string
 }

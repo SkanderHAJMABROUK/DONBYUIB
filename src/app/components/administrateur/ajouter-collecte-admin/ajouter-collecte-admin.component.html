@@ -16,6 +16,18 @@
             <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">Le nom de la collecte est requis.</div>
           </div>
         </div>
+
+        <div>
+          <label for="association">Association<span> *</span></label><br>
+          <select id="association" formControlName="association" required>
+            <option value="" disabled selected>Sélectionner une association</option>
+            <option *ngFor="let association of associations" [value]="association">{{ association }}</option>
+          </select>
+          <div class="error-message" *ngIf="aFormGroup.get('association')?.invalid && (aFormGroup.get('association')?.dirty || aFormGroup.get('association')?.touched)">
+              <div *ngIf="aFormGroup.get('association')?.errors?.['required']">L'association est requise.</div>
+          </div>
+      </div>
+      
   
         <div>
           <label for="description">Description de la collecte<span> *</span></label><br>
@@ -69,7 +81,7 @@
           Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
         </div>
         <div *ngIf="showSuccessMessage" class="success-message">
-          Votre demande a été prise en considération avec succès ! 
+          Collecte ajoutée avec succès ! 
          
         </div>
         

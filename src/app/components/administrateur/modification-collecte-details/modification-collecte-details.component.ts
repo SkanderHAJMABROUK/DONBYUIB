@@ -217,10 +217,11 @@ envoyerRapport(): void {
 }
 
 
-  updateDemandeEtat(id: string, etat: string): Promise<void> {
-    const demandeRef = this.firestore.collection('DemandeModificationCollecte').doc(id);
-    return demandeRef.update({ etat: etat });
-  } 
+updateDemandeEtat(id: string, etat: string): Promise<void> {
+  const adminId = this.adminService.getCurrentAdminId();
+  const demandeRef = this.firestore.collection('DemandeModificationCollecte').doc(id);
+  return demandeRef.update({ etat: etat, adminId: adminId }); 
+}
 
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);

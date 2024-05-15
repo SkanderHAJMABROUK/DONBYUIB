@@ -19,16 +19,25 @@ body {
 
 .form-container {
     width: 600px;
+    margin-top: 70px;
     padding: 20px;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 10px;
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
     background-color: white;
 }
 .description_association {
     width: 100%;
     height: 150px;
   }
-
+  select{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #d1d5da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 h2 {
     color: #000000;
     font-size: 24px;
@@ -148,9 +157,6 @@ select:focus{
   
 
 
-.password-input {
-    position: relative;
-}
 
 .password-input input[type="password"],
 .password-input input[type="text"] {
