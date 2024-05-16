@@ -46,9 +46,6 @@ export class CollecteDetailsComponent {
        this.getCollecteById(this.id); 
      });
 
-     this.fetchTotalDonationAmount();
-     this.getProgressPercentage();
-
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId,'.');
 
@@ -88,6 +85,8 @@ export class CollecteDetailsComponent {
           console.log(data);
           console.log(this.service.showDetails);
           this.loadAssociationName();
+          this.fetchTotalDonationAmount();
+     this.getProgressPercentage();
 
           if (this.orderId) {
             this.getOrderStatus(this.orderId);           
