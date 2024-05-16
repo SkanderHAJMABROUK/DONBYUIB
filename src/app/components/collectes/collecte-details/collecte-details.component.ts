@@ -252,8 +252,7 @@ fetchTotalDonationAmount(): void {
       this.totalDonationAmount = totalAmount;
       console.log('Total donation amount:', totalAmount);
       this.amountLeft = this.getAmountLeft();
-      console.log('amount left', this.amountLeft);
-      
+      console.log('amount left', this.amountLeft);    
 
     }, error => {
       console.error('Error fetching total donation amount:', error);
