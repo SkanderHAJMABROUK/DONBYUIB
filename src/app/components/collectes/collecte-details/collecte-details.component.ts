@@ -179,7 +179,6 @@ confirmPayment(orderId: string, amount: number): void {
 getOrderStatus(orderId: string): void {
   this.paymentService.getOrderStatus(orderId)
     .subscribe(response => {
-      // Extract order status
       console.log(response);
       this.orderStatus = response.OrderStatus as number;
       console.log('order status in function', this.orderStatus);
