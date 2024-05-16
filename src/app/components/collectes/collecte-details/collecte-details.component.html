@@ -1,3 +1,5 @@
+
+
 <div *ngIf="service.showDetails && selectedCollecte" class="collecte-details">
     <div class="left-content">
       <div class="collecte-photo">
@@ -6,11 +8,14 @@
       <div class="collecte-info">
         <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
         <h4><a [routerLink]="['/listeAssociations/details', selectedCollecte.id_association]">{{associationName}}</a></h4>
-        <p class="collecte-description">{{ selectedCollecte.description }}</p>
+        <p class="collecte-description" id="collecteDescription" [ngClass]="{ 'collapsed': showFullDescription }">{{ selectedCollecte.description }}</p>
+        <div  class="showmore">
+        <a  (click)="toggleDescription()">{{ showFullDescription ? 'Voir moins' : 'Voir plus' }}</a>
+      </div>
       </div>
       <div class="dates">
-        <p>Date de début : {{ selectedCollecte.date_debut | date }}</p>
-        <p>Date de fin : {{ selectedCollecte.date_fin | date }}</p>
+        <p class="date_debut">Date de début : {{ selectedCollecte.date_debut | date }}</p>
+        <p class="date_fin">Date de fin : {{ selectedCollecte.date_fin | date }}</p>
       </div>
       <div class="amount">
         <p>Montant : {{ selectedCollecte.montant }}</p>
@@ -46,4 +51,4 @@
       
     </div>
   </div>
-  
+ 

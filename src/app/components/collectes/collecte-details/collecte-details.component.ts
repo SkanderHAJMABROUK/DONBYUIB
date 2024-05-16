@@ -282,5 +282,9 @@ getAmountLeft(): number {
   }
   return 0;
 }
+showFullDescription: boolean = false;
+toggleDescription() {
+    this.showFullDescription = !this.showFullDescription;
+}
 
 }
