@@ -26,14 +26,14 @@
         <div class="details">
             
           </div>
-          <div class="progress-title">
+          <div class="progress-title" >
             <h3>Progression : </h3>
-<h3>{{getProgressPercentage()+'%'}}</h3>
+            <h3>{{getProgressPercentage()+'%'}}</h3>
           </div>
           <div class="progress-bar">
             <div class="progress" [style.width]="getProgressPercentage() + '%'" aria-valuemax="100"></div>
           </div>          
-          <h3>Temps restant : <br>{{ getTimeRemaining(selectedCollecte.date_fin) }}</h3>
+          <h3 *ngIf="!isDonationAllowed">Temps restant : <br>{{ getTimeRemaining(selectedCollecte.date_fin) }}</h3>
       
       <div class="donate">
         <h3>Faire un don</h3> 
@@ -46,8 +46,13 @@
         <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> 
         <label for="montant">Saisir un montant</label>
         <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
-        <a class="validerDon" (click)="validateDonationAmount()">Valider le don de {{donationAmount}} vers "{{selectedCollecte.nom}}".</a>
-      </div>
+        <h4 class="countdown" *ngIf="countdown | async as countdownValue">Commence dans : {{ countdownValue }}</h4>
+        <a class="validerDon" 
+   [class.disabled]="!isDonationAllowed"
+   (click)="isDonationAllowed ? validateDonationAmount() : null">
+   Valider le don de {{donationAmount}} vers "{{selectedCollecte.nom}}".
+</a>
+          </div>
       
     </div>
   </div>

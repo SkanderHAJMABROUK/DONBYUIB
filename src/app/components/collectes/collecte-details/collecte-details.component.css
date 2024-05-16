@@ -221,3 +221,16 @@ p.date_fin {
     color: #cc0000;
     font-size: larger;
 }
+
+h4.countdown {
+    font-size: 1.5em;
+    color: #626262;
+    padding: 7px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+a.validerDon.disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
