@@ -46,9 +46,6 @@ export class CollecteDetailsComponent {
        this.getCollecteById(this.id); 
      });
 
-     this.fetchTotalDonationAmount();
-     this.getProgressPercentage();
-
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId,'.');
 
@@ -88,6 +85,8 @@ export class CollecteDetailsComponent {
           console.log(data);
           console.log(this.service.showDetails);
           this.loadAssociationName();
+          this.fetchTotalDonationAmount();
+     this.getProgressPercentage();
 
           if (this.orderId) {
             this.getOrderStatus(this.orderId);           
@@ -179,7 +178,6 @@ confirmPayment(orderId: string, amount: number): void {
 getOrderStatus(orderId: string): void {
   this.paymentService.getOrderStatus(orderId)
     .subscribe(response => {
-      // Extract order status
       console.log(response);
       this.orderStatus = response.OrderStatus as number;
       console.log('order status in function', this.orderStatus);
@@ -252,8 +250,7 @@ fetchTotalDonationAmount(): void {
       this.totalDonationAmount = totalAmount;
       console.log('Total donation amount:', totalAmount);
       this.amountLeft = this.getAmountLeft();
-      console.log('amount left', this.amountLeft);
-      
+      console.log('amount left', this.amountLeft);    
 
     }, error => {
       console.error('Error fetching total donation amount:', error);
