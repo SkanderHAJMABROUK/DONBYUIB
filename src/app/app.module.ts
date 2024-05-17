@@ -90,7 +90,10 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { AuthGuard } from './services/auth.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetForgottenPasswordComponent } from './components/forgot-password/reset-forgotten-password/reset-forgotten-password.component';
-
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { LOCALE_ID } from '@angular/core';
+registerLocaleData(localeFr, 'fr');
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -237,7 +240,9 @@ const firebaseConfig = {
 
     ])
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule,AuthGuard],
+  providers: [AssociationService,AngularFirestore,AngularFireModule,AuthGuard,
+    { provide: LOCALE_ID, useValue: "fr" }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
