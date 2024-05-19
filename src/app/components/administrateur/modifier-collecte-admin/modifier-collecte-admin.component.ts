@@ -46,7 +46,8 @@ export class ModifierCollecteAdminComponent {
           cumul: this.collecte.cumul,
           date_debut: this.collecteForm.value.date_debut,
           date_fin: this.collecteForm.value.date_fin,
-          image: this.collecte.image // Assurez-vous de transmettre l'URL de l'image existante
+          image: this.collecte.image, // Assurez-vous de transmettre l'URL de l'image existante
+          id_association: this.collecte.id_association
         };
   
         const coverFile = this.collecteForm.value.image;
@@ -70,11 +71,7 @@ export class ModifierCollecteAdminComponent {
       console.error('Formulaire invalide. Veuillez corriger les erreurs.');
     }
   }
-  
-  
-  
-  
-  
+ 
   
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
