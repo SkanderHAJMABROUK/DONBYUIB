@@ -17,9 +17,9 @@
         Photo de profil :
       </p></strong>  
       <p>
-        <img src="{{donateur.photo}}">
+        <img *ngIf="!donateurForm?.value.image" src="{{donateur.photo}}">
     </p> 
-      <input type="file" id="imageFile" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
+      <input type="file" formControlName="photo" id="imageFile" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
       <img *ngIf="donateurForm?.value.image" [src]="donateurForm.value.image" alt="Nouvelle Image">
       
     
@@ -40,9 +40,19 @@
         Téléphone  :
     </p></strong>  
       <input type="tel" formControlName="telephone"><br>
-      
-    
-    
+      <strong><p>
+        Adresse  :
+    </p></strong>  
+      <input type="text" formControlName="adresse"><br>
+
+      <strong><p>
+        Gouvernorat :
+    </p></strong>
+    <select id="gouvernerat" formControlName="gouvernerat" required [value]="donateur.gouvernerat">
+      <option value="" disabled selected>Sélectionner un gouvernerat</option>
+      <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
+    </select>
+       
       <strong><p>
         Date de naissance :
     </p></strong>

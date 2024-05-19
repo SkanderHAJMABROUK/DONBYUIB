@@ -389,6 +389,14 @@ modifierCollecte(collecteDataToUpdate: Partial<Collecte>): Promise<void> {
     });
 }
 
+modifierCollecteByAdmin(collecte: Collecte): Promise<void> {
+  const updatedDonateurData = {
+    ...collecte
+  };
+  const collecteRef = this.firestore.collection('Collecte').doc(collecte.id);
+  return collecteRef.update(updatedDonateurData);
+}
+
 getAssociations(): Observable<string[]> {
   let associationCollection = collection(this.fs, 'Association');
   return collectionData(associationCollection, { idField: 'id' }).pipe(

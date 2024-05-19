@@ -40,7 +40,7 @@ export class ModifierCollecteAdminComponent {
         const collecteDataToUpdate: Collecte = {
           id: this.collecte.id,
           nom: this.collecteForm.value.nom,
-          etat:this.collecteForm.value.etat,
+          etat:this.collecte.etat,
           description: this.collecteForm.value.description,
           montant: this.collecteForm.value.montant,
           cumul: this.collecte.cumul,
@@ -53,14 +53,19 @@ export class ModifierCollecteAdminComponent {
         const coverFile = this.collecteForm.value.image;
   
         // Vérifier si un nouveau fichier a été sélectionné
-        if (coverFile) {
+        if (coverFile instanceof File) {
           const coverDownloadUrl = await this.service.uploadCover(coverFile);
           if (coverDownloadUrl) {
             collecteDataToUpdate.image = coverDownloadUrl;
           }
+        } else if (typeof coverFile === 'string') {
+          // Si aucune nouvelle photo n'a été sélectionnée, mais qu'une photo existante est présente, utilisez-la
+          collecteDataToUpdate.image = coverFile;
+        } else {
+          console.log('Aucune photo sélectionnée')
         }
   
-        await this.service.modifierCollecte(collecteDataToUpdate);
+        await this.service.modifierCollecteByAdmin(collecteDataToUpdate);
         window.location.reload();
       } catch (error) {
         console.error('Erreur lors de la modification de la collecte :', error);

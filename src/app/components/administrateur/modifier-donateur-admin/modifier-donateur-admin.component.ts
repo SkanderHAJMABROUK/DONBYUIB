@@ -19,9 +19,10 @@ export class ModifierDonateurAdminComponent {
   @Input() donateur!:Donateur;
   donateurForm!: FormGroup;
   faXmark=faXmark;
+  gouvernerats: string[] = [];
 
   constructor(public service:DonateurService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,
-    private spinner:NgxSpinnerService,public serviceAdmin:AdministrateurService){}
+    private spinner:NgxSpinnerService,public serviceAdmin:AdministrateurService, private serviceDonateur:DonateurService){}
   
   ngOnInit(): void {
     this.donateurForm = this.formBuilder.group({
@@ -31,7 +32,10 @@ export class ModifierDonateurAdminComponent {
       email: [this.donateur.email],
       telephone: [this.donateur.telephone],
       date_de_naissance: [this.donateur.date_de_naissance instanceof Date ? this.donateur.date_de_naissance.toISOString().split('T')[0] : this.donateur.date_de_naissance],
+      adresse: [this.donateur.adresse],
+      gouvernerat: [this.donateur.gouvernerat]
     });
+    this.getGouvernerats();
   }
   
   async modifierDonateur(): Promise<void> {
@@ -51,17 +55,22 @@ export class ModifierDonateurAdminComponent {
           adresse: this.donateurForm.value.adresse,
           gouvernerat: this.donateurForm.value.gouvernerat,
           date_de_naissance: this.donateurForm.value.date_de_naissance,
-          photo: this.donateur.photo // Assurez-vous de transmettre l'URL de l'image existante
+          photo: this.donateur.photo,
         };
   
         const Photo = this.donateurForm.value.photo;
-  
-        // Vérifier si un nouveau fichier a été sélectionné
-        if (Photo) {
+
+        // Vérifier si un nouveau fichier a été sélectionné et si c'est un objet File
+        if (Photo instanceof File) {
           const photoDownloadUrl = await this.service.uploadPhoto(Photo);
           if (photoDownloadUrl) {
             donateurDataToUpdate.photo = photoDownloadUrl;
           }
+        } else if (typeof Photo === 'string') {
+          // Si aucune nouvelle photo n'a été sélectionnée, mais qu'une photo existante est présente, utilisez-la
+          donateurDataToUpdate.photo = Photo;
+        } else {
+          console.log('Aucune photo sélectionnée')
         }
   
         await this.service.modifierCompte(donateurDataToUpdate);
@@ -76,21 +85,20 @@ export class ModifierDonateurAdminComponent {
     }
   }
   
-  
-  
-  
-  
-  
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
       this.donateurForm.patchValue({
-        image: file
+        photo: file
       });
     }
   }
-  
-  
 
+  getGouvernerats() {
+    this.serviceDonateur.getGouvernerats().subscribe(gouvernerats => {
+      this.gouvernerats = gouvernerats;
+    });
+  }
+  
 }
 

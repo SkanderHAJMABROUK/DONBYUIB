@@ -446,6 +446,14 @@ modifierActualite(actualiteDataToUpdate: Partial<Actualite>): Promise<void> {
     });
 }
 
+modifierActualiteByAdmin(actualite: Actualite): Promise<void> {
+  const updatedActualiteData = {
+    ...actualite
+  };
+  const collecteRef = this.firestore.collection('Actualite').doc(actualite.id);
+  return collecteRef.update(updatedActualiteData);
+}
+
 updateActualiteField(id: string, fieldName: keyof Partial<Actualite>, newValue: any): Promise<void> {
   const actualiteRef = this.firestore.collection('Actualite').doc(id);
   const updatedField: Partial<Actualite> = {};
