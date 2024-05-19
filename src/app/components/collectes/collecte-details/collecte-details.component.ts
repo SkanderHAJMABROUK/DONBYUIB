@@ -7,6 +7,7 @@ import { PaymentService } from 'src/app/services/payment.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 import Swal from 'sweetalert2';
 import { AssociationService } from 'src/app/services/association.service';
+import { EMPTY, Observable, interval, map } from 'rxjs';
 
 @Component({
   selector: 'app-collecte-details',
@@ -38,6 +39,8 @@ export class CollecteDetailsComponent {
   totalDonationAmount: number = 0;
   amountLeft: number= 0;
   associationName: string | undefined;
+  isDonationAllowed = false;
+  countdown: Observable<string> = EMPTY;
 
    ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -87,6 +90,29 @@ export class CollecteDetailsComponent {
           this.loadAssociationName();
           this.fetchTotalDonationAmount();
      this.getProgressPercentage();
+
+
+     this.isDonationAllowed = new Date() >= new Date(this.selectedCollecte.date_debut);
+
+  // Si la donation n'est pas autorisée, commencez le compte à rebours
+  if (!this.isDonationAllowed) {
+    const countdownEnd = new Date(this.selectedCollecte.date_debut).getTime();
+
+    this.countdown = interval(1000).pipe(
+      map(() => {
+        const now = Date.now();
+        const distance = countdownEnd - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        return `${days}j:${hours}h:${minutes}min:${seconds}s`;
+      })
+    );
+  }
+
 
           if (this.orderId) {
             this.getOrderStatus(this.orderId);           
