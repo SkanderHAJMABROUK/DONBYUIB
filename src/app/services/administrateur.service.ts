@@ -15,6 +15,8 @@ import { Admin } from '../interfaces/admin';
 import { DonAssociation } from '../interfaces/don-association';
 import { DonCollecte } from '../interfaces/don-collecte';
 import { Collecte } from '../interfaces/collecte';
+import { Actualite } from '../interfaces/actualite';
+import { Donateur } from '../interfaces/donateur';
 
 @Injectable({
   providedIn: 'root'
@@ -333,6 +335,19 @@ getAssociationIdsByCollecteIds(collecteIds: string[]): Observable<{ [key: string
     })
   );
 }
+deleteActualiteByAdmin(actualite: Actualite): Promise<void> {
+  return this.firestore.collection('Actualite').doc(actualite.id).delete();
+}
+deleteDonateurByAdmin(donateur: Donateur): Promise<void> {
+  return this.firestore.collection('Donateur').doc(donateur.id).delete();
+}
+deleteAssociationByAdmin(association: Association): Promise<void> {
+  return this.firestore.collection('Association').doc(association.id).delete();
+}
+deleteCollecteByAdmin(collecte: Collecte): Promise<void> {
+  return this.firestore.collection('Collecte').doc(collecte.id).delete();
+}
+
 
 
 }

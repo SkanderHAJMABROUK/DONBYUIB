@@ -160,5 +160,16 @@ modifierActualite(actualite:Actualite){
     });
   }
 }
+supprimerActualite(actualite:Actualite){
+
+  this.adminService.deleteActualiteByAdmin(actualite)
+    .then(() => {
+      console.log('suppression marche')
+    })
+    .catch(error => {
+      console.error('Erreur lors de la suppression de l\'actualité :', error);
+      
+    });
+}
 
 }
