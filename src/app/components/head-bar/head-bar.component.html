@@ -53,7 +53,6 @@
             <li><a [routerLink]="['listeActualites']" (click)="closeMenu()">Accueil</a></li>
             <li><a [routerLink]="['listeAssociations']" (click)="closeMenu()">Associations</a></li>
             <li><a [routerLink]="['listeCollectes']" (click)="closeMenu()">Collectes</a></li>
-            <li><a [routerLink]="['chatbot']" (click)="closeMenu()">FAQ</a></li>
             <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">S'inscrire</a></li>
             <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Inscrire mon association</a></li>
             <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Se connecter</a></li>

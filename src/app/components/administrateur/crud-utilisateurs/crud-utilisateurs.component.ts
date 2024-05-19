@@ -107,6 +107,17 @@ modifierDonateur(donateur:Donateur){
     });
   }
 }
+supprimerDonateur(donateur:Donateur){
+
+  this.serviceAdmin.deleteDonateurByAdmin(donateur)
+    .then(() => {
+      console.log('suppression marche')
+    })
+    .catch(error => {
+      console.error('Erreur lors de la suppression de ldonateur :', error);
+      
+    });
+}
 
 
 }

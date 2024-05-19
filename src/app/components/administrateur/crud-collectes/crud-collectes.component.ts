@@ -188,5 +188,16 @@ modifierCollecte(collecte:Collecte){
     });
   }
 }
+supprimerCollecte(collecte:Collecte){
+
+  this.adminService.deleteCollecteByAdmin(collecte)
+    .then(() => {
+      console.log('suppression marche')
+    })
+    .catch(error => {
+      console.error('Erreur lors de la suppression de la collecte:', error);
+      
+    });
+}
 
 }

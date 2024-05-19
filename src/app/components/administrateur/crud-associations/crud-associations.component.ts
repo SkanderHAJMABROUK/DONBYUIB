@@ -116,7 +116,17 @@ modifierAssociation(association:Association){
     });
   }
 }
+supprimerAssociation(association:Association){
 
+  this.adminService.deleteAssociationByAdmin(association)
+    .then(() => {
+      console.log('suppression marche')
+    })
+    .catch(error => {
+      console.error('Erreur lors de la suppression de l\'association :', error);
+      
+    });
+}
 
 
 }
