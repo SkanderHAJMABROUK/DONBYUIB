@@ -4,6 +4,7 @@ import { Donateur } from 'src/app/interfaces/donateur';
 import { DonateurService } from 'src/app/services/donateur.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-utilisateurs',
@@ -107,16 +108,33 @@ modifierDonateur(donateur:Donateur){
     });
   }
 }
-supprimerDonateur(donateur:Donateur){
 
-  this.serviceAdmin.deleteDonateurByAdmin(donateur)
-    .then(() => {
-      console.log('suppression marche')
-    })
-    .catch(error => {
-      console.error('Erreur lors de la suppression de ldonateur :', error);
-      
-    });
+supprimerDonateur(donateur: Donateur) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Vous ne pourrez pas revenir en arrière !',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimez-le !',
+    cancelButtonText: 'Non, annulez !'
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.serviceAdmin.deleteDonateurByAdmin(donateur)
+        .then(() => {
+          Swal.fire({
+            title: 'Supprimé !',
+            text: 'Votre fichier a été supprimé.',
+            icon: 'success'
+          });
+        })
+        .catch(error => {
+          console.error('Erreur lors de la suppression du donateur :', error);
+        });
+    }
+  });
 }
 
 

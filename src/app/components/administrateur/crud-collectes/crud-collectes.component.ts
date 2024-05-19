@@ -6,7 +6,7 @@ import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@f
 import { AssociationService } from 'src/app/services/association.service';
 import { Observable, map } from 'rxjs';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-collectes',
@@ -188,16 +188,33 @@ modifierCollecte(collecte:Collecte){
     });
   }
 }
-supprimerCollecte(collecte:Collecte){
 
-  this.adminService.deleteCollecteByAdmin(collecte)
-    .then(() => {
-      console.log('suppression marche')
-    })
-    .catch(error => {
-      console.error('Erreur lors de la suppression de la collecte:', error);
-      
-    });
+supprimerCollecte(collecte: Collecte) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Vous ne pourrez pas revenir en arrière !',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimez-le !',
+    cancelButtonText: 'Non, annulez !'
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.adminService.deleteCollecteByAdmin(collecte)
+        .then(() => {
+          Swal.fire({
+            title: 'Supprimé !',
+            text: 'Votre fichier a été supprimé.',
+            icon: 'success'
+          });
+        })
+        .catch(error => {
+          console.error('Erreur lors de la suppression de la collecte:', error);
+        });
+    }
+  });
 }
 
 }
