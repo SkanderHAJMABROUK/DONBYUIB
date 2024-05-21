@@ -8,7 +8,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class PaymentService {
 
-  private baseUrl = 'https://test.clictopay.com/payment/rest';
+private baseUrl = '/api';
   private userName = '1218446019';
   private password = 'Uzb92Gn5';
 
