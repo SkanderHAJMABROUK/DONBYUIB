@@ -105,8 +105,7 @@ export class CrudCollectesComponent implements OnInit{
   }
 
   chercherCollecte(): void {
-
-    // Pagination
+    
   const startIndex = (this.currentPage - 1) * this.pageSize;
   const endIndex = startIndex + this.pageSize;
   this.filteredCollecteList = this.filteredCollecteList.slice(startIndex, endIndex);
