@@ -6,6 +6,7 @@ import { Association } from 'src/app/interfaces/association';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import { AssociationService } from 'src/app/services/association.service';
+import { DonateurService } from 'src/app/services/donateur.service';
 
 @Component({
   selector: 'app-modifier-association-admin',
@@ -17,22 +18,33 @@ export class ModifierAssociationAdminComponent {
   @Input() association!:Association;
   associationForm!: FormGroup;
   faXmark=faXmark;
+  gouvernerats: string[] = [];
+
 
   constructor(public adminService:AdministrateurService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,
-    private spinner:NgxSpinnerService){}
+    private spinner:NgxSpinnerService, private serviceDonateur:DonateurService){}
   
     ngOnInit(): void {
       this.associationForm = this.formBuilder.group({
-        logo: [this.association.logo, Validators.required],
-        nom: [this.association.nom, Validators.required],
-        description: [this.association.description, Validators.required],
-        categorie: [this.association.categorie, Validators.required],
-        adresse: [this.association.adresse, Validators.required],
-        email: [this.association.email, [Validators.required, Validators.email]],
-        telephone: [this.association.telephone, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-        rib: [this.association.rib, [Validators.required, Validators.minLength(20), Validators.maxLength(20), this.ribValidator]],
+        logo: [this.association.logo],
+        nom: [this.association.nom],
+        description: [this.association.description],
+        categorie: [this.association.categorie],
+        adresse: [this.association.adresse],
+        gouvernerat: [this.association.gouvernerat],
+        email: [this.association.email, [Validators.email]],
+        telephone: [this.association.telephone, [Validators.minLength(8), Validators.maxLength(8)]],
+        rib: [this.association.rib, [Validators.minLength(20), Validators.maxLength(20)]],
+      });
+      this.getGouvernerats();
+    }
+
+    getGouvernerats() {
+      this.serviceDonateur.getGouvernerats().subscribe(gouvernerats => {
+        this.gouvernerats = gouvernerats;
       });
     }
+
     ribValidator = (control: FormControl): {[key: string]: any} | null => {
       const rib: string | null = control.value;
       if (rib && rib.length === 20) {
@@ -61,11 +73,11 @@ export class ModifierAssociationAdminComponent {
           return false;
       }
   }
+
   
   async modifierAssociation(): Promise<void> {
     if (this.associationForm.valid) {
       this.spinner.show();
-  
       try {
         const associationDataToUpdate: Association = {
           id: this.association.id,
@@ -75,25 +87,25 @@ export class ModifierAssociationAdminComponent {
           adresse: this.associationForm.value.adresse,
           gouvernerat: this.associationForm.value.gouvernerat,
           email: this.associationForm.value.email,
-          telephone: this.associationForm.value.email,
+          telephone: this.associationForm.value.telephone,
           rib: this.associationForm.value.rib,
-          etat:this.association.etat,
-          mdp:this.associationForm.value.mdp,
-          logo:this.association.logo,
-          id_fiscale:this.association.id_fiscale,
+          etat: this.association.etat,
+          mdp: this.association.mdp,
+          logo: this.association.logo,
+          id_fiscale: this.association.id_fiscale,
           matricule_fiscale: this.association.matricule_fiscale,
-
-
         };
   
         const logo = this.associationForm.value.logo;
-  
-        // Vérifier si un nouveau fichier a été sélectionné
-        if (logo) {
+        if (logo instanceof File) {
           const logoDownloadUrl = await this.serviceAssociation.uploadLogo(logo);
           if (logoDownloadUrl) {
             associationDataToUpdate.logo = logoDownloadUrl;
           }
+        } else if (typeof logo === 'string') {
+          associationDataToUpdate.logo = logo;
+        } else {
+          console.log('Aucune photo sélectionnée');
         }
   
         await this.adminService.modifierAssociation(associationDataToUpdate);
@@ -104,14 +116,9 @@ export class ModifierAssociationAdminComponent {
         this.spinner.hide();
       }
     } else {
-      console.error('Formulaire invalide. Veuillez corriger les erreurs.');
+      console.log('Formulaire invalide. Veuillez corriger les erreurs.');
     }
   }
-  
-  
-  
-  
-  
   
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
@@ -120,8 +127,6 @@ export class ModifierAssociationAdminComponent {
         logo: file
       });
     }
-  }
-  
-  
+  }  
 
 }

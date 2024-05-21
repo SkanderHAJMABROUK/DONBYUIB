@@ -4,6 +4,7 @@ import { Association } from 'src/app/interfaces/association';
 import { AssociationService } from 'src/app/services/association.service';
 import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-associations',
@@ -116,16 +117,33 @@ modifierAssociation(association:Association){
     });
   }
 }
-supprimerAssociation(association:Association){
 
-  this.adminService.deleteAssociationByAdmin(association)
-    .then(() => {
-      console.log('suppression marche')
-    })
-    .catch(error => {
-      console.error('Erreur lors de la suppression de l\'association :', error);
-      
-    });
+supprimerAssociation(association: Association) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Vous ne pourrez pas revenir en arrière !',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimez-le !',
+    cancelButtonText: 'Non, annulez !'
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.adminService.deleteAssociationByAdmin(association)
+        .then(() => {
+          Swal.fire({
+            title: 'Supprimé !',
+            text: 'Votre fichier a été supprimé.',
+            icon: 'success'
+          });
+        })
+        .catch(error => {
+          console.error('Erreur lors de la suppression de l\'association :', error);
+        });
+    }
+  });
 }
 
 

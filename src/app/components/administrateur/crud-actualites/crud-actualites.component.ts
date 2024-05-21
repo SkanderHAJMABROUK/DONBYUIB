@@ -6,6 +6,7 @@ import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@f
 import { AssociationService } from 'src/app/services/association.service';
 import { Observable, map } from 'rxjs';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-actualites',
@@ -160,16 +161,33 @@ modifierActualite(actualite:Actualite){
     });
   }
 }
-supprimerActualite(actualite:Actualite){
 
-  this.adminService.deleteActualiteByAdmin(actualite)
-    .then(() => {
-      console.log('suppression marche')
-    })
-    .catch(error => {
-      console.error('Erreur lors de la suppression de l\'actualité :', error);
-      
-    });
+supprimerActualite(actualite: Actualite) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Vous ne pourrez pas revenir en arrière !',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Oui, supprimez-le !',
+    cancelButtonText: 'Non, annulez !'
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.adminService.deleteActualiteByAdmin(actualite)
+        .then(() => {
+          Swal.fire({
+            title: 'Supprimé !',
+            text: 'Votre fichier a été supprimé.',
+            icon: 'success'
+          });
+        })
+        .catch(error => {
+          console.error('Erreur lors de la suppression de l\'actualité :', error);
+        });
+    }
+  });
 }
 
 }

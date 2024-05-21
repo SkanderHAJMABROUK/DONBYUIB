@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Actualite } from 'src/app/interfaces/actualite';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
@@ -19,7 +20,9 @@ export class ModifierActualiteAdminComponent {
 
   actualiteForm!: FormGroup;
 
-  constructor(public service:ActualiteService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,public adminService:AdministrateurService){}
+  constructor(public service:ActualiteService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,public adminService:AdministrateurService,
+    private spinner:NgxSpinnerService
+  ){}
   
   ngOnInit(): void {
     this.actualiteForm = this.formBuilder.group({
@@ -32,24 +35,61 @@ export class ModifierActualiteAdminComponent {
   
  
 
-  async modifierActualite(): Promise<void> {
-    if (this.actualiteForm.valid) {
-      let actualiteDataToUpdate: Actualite = {
-        id: this.actualite.id, // Assurez-vous de récupérer l'ID de la collecte
-        ...this.actualiteForm.value // Utilisez les valeurs du formulaire
-      };
-      const ImageFile = this.actualiteForm.value.image;
-      const ImageDownloadUrl = await this.service.uploadCover(ImageFile);
-      if(ImageDownloadUrl){actualiteDataToUpdate.image = ImageDownloadUrl;
-      this.service.modifierActualite({...actualiteDataToUpdate,image:ImageDownloadUrl})
+  // async modifierActualite(): Promise<void> {
+  //   if (this.actualiteForm.valid) {
+  //     let actualiteDataToUpdate: Actualite = {
+  //       id: this.actualite.id, // Assurez-vous de récupérer l'ID de la collecte
+  //       ...this.actualiteForm.value // Utilisez les valeurs du formulaire
+  //     };
+  //     const ImageFile = this.actualiteForm.value.image;
+  //     const ImageDownloadUrl = await this.service.uploadCover(ImageFile);
+  //     if(ImageDownloadUrl){actualiteDataToUpdate.image = ImageDownloadUrl;
+  //     this.service.modifierActualite({...actualiteDataToUpdate,image:ImageDownloadUrl})
      
 
-        .then(() => window.location.reload()) // Rechargez la page après la modification
-        .catch(error => console.error('Erreur lors de la modification de la collecte :', error));
-    } else {
-      console.error('Formulaire invalide. Veuillez corriger les erreurs.');
+  //       .then(() => window.location.reload()) // Rechargez la page après la modification
+  //       .catch(error => console.error('Erreur lors de la modification de la collecte :', error));
+  //   } else {
+  //     console.error('Formulaire invalide. Veuillez corriger les erreurs.');
+  //   }
+  // }}
+
+  async modifierActualite() : Promise<void>{
+    if(this.actualiteForm.valid){
+
+      this.spinner.show();
+
+      try{
+        const actualiteDataToUpdate: Actualite = {
+          id: this.actualite.id,
+          etat:this.actualite.etat,
+          titre: this.actualiteForm.value.titre,
+          description: this.actualiteForm.value.description,
+          image: this.actualite.image,
+          date_publication: this.actualiteForm.value.date_publication
+        };
+
+        const imageFile = this.actualiteForm.value.image;
+
+        if(imageFile instanceof File){
+          const imageDownloadUrl = await this.service.uploadCover(imageFile);
+          if(imageDownloadUrl){
+            actualiteDataToUpdate.image = imageDownloadUrl;
+          }
+        }
+
+        this.service.modifierActualiteByAdmin({...actualiteDataToUpdate,image:actualiteDataToUpdate.image})
+        .then(() => 
+          window.location.reload())
+        .catch(error => 
+          console.error('Erreur lors de la modification de l\'actualité :', error));
     }
-  }}
+    catch(error){
+      console.error('Erreur lors de la modification de l\'actualité :', error);
+    }
+    finally{
+      this.spinner.hide();
+    }}}
 
   onImageSelected(event: any) {
     const file: File = event.target.files[0];

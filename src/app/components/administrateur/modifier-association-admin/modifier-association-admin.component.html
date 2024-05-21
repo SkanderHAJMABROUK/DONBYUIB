@@ -15,9 +15,12 @@
   
       <strong><p>
         Logo de l'association :
-      </p></strong>   
-      <input type="file" id="imageFile" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
-      <img *ngIf="associationForm?.value.image" [src]="associationForm.value.image" alt="Nouvelle Image">
+      </p></strong>
+      <p>
+        <img src="{{association.logo}}">
+      </p>   
+      <input type="file" formControlName="logo" id="imageFile" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
+      <!-- <img *ngIf="associationForm?.value.logo" [src]="associationForm.value.logo" alt="Nouvelle Image"> -->
       
     
       <strong><p>
@@ -36,6 +39,13 @@
     </p></strong>  
       <input type="text" formControlName="adresse"><br>
      
+      <strong><p>
+        Gouvernorat :
+    </p></strong>
+    <select id="gouvernerat" formControlName="gouvernerat" required [value]="association.gouvernerat">
+      <option value="" disabled selected>Sélectionner un gouvernerat</option>
+      <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
+    </select>
      
       <strong><p>Email de l'association :</p></strong>
       <input type="email" formControlName="email" ><br>
