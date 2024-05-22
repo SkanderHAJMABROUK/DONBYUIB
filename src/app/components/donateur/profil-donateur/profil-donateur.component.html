@@ -20,11 +20,13 @@
     <p>{{ selectedDonateur.gouvernerat }}</p>
 
     <div class="buttons">
-      <button type="submit" (click)="setModifierCompte()" [routerLink]="['modifier']">Modifier</button>
-      <button (click)="service.modifierMdp=true;service.compteDonateur=false">Modifier le mot de passe</button> 
+      <button type="submit" (click)="service.modifiercompte = true" [routerLink]="['modifier']">Modifier</button>
+      <button (click)="service.modifierMdp=true;service.compteDonateur=false">Modifier le mot de passe</button>
+      <button>Modifier l'adresse email</button> 
     </div>
         
   </div>
   <app-reset-password *ngIf="service.modifierMdp"></app-reset-password>
+  <!-- <app-email-verification></app-email-verification> -->
 </div>
 

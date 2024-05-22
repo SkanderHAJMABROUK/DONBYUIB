@@ -66,7 +66,7 @@ export class ForgotPasswordComponent {
           (donateur: any) => {
             if (donateur) {
               console.log('Email exists for donor:', donateur);
-              this.sendVerificationEmail(donateur.nom+''+donateur.prenom,donateur.id);
+              this.sendVerificationEmail(donateur.nom+' '+donateur.prenom,donateur.id);
               this.showErrorNotification = false;
               this.showSuccessNotification=true;
               this.isButtonDisabled = true;
@@ -94,7 +94,8 @@ export class ForgotPasswordComponent {
     emailjs.send('service_hc9gqua', 'template_9r1lijh', {
       from_name: "DonByUIB",
       to_name: concerned,
-      reset_link: `http://localhost:4200/reset-password/${id}/${this.userType}/${token}`
+      to_email: this.aFormGroup.get('email')?.value, 
+      reset_link: `https://localhost:4200/reset-password/${id}/${this.userType}/${token}`
     }).then(function (response) {
       console.log('Email sent successfully:', response);
     }, function (error) {
