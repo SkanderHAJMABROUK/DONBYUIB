@@ -49,6 +49,9 @@ export class ModifierDonateurComponent {
       date_de_naissance: [this.donateur.date_de_naissance instanceof Date ? this.donateur.date_de_naissance.toISOString().split('T')[0] : this.donateur.date_de_naissance, [Validators.required, this.service.dateOfBirthValidator()]],
       photo: [this.donateur?.photo || '', Validators.required], 
       email: [this.donateur?.email || '', [Validators.required, Validators.email]], 
+      adresse: [this.donateur.adresse],
+      gouvernerat: [this.donateur.gouvernerat],
+      telephone: [this.donateur.telephone],
     });
   }
   

@@ -39,6 +39,7 @@ export class DemandesActualitesComponent implements OnInit{
   imageAffichee: string = ''; 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
  selectedActualite!:DemandeActualite;
+ rapportRefus : string = '';
 
  constructor(private actualiteService: ActualiteService, private router: Router, public adminService:AdministrateurService,
   private firestore: AngularFirestore, private associationService: AssociationService) { }
@@ -126,13 +127,22 @@ export class DemandesActualitesComponent implements OnInit{
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Oui, refuser",
+        input: 'textarea', // Use input type textarea
+        inputPlaceholder: 'Raison du refus', // Placeholder for the textarea
+        inputAttributes: {
+        autocapitalize: 'off'
+      }
       }).then((result) => {
         if (result.isConfirmed) {
+
+          this.rapportRefus += this.capitalizeFirstLetter(result.value);
+
           if (selectedDemandeActualite.id) {
             this.updateDemandeEtat(selectedDemandeActualite.id, "refusé").then(() => {
               console.log(selectedDemandeActualite.id_actualite);
               if (selectedDemandeActualite.id_actualite) {
                 this.actualiteService.deleteActualiteById(selectedDemandeActualite.id_actualite).then(() => {
+                  this.envoyerRapport(this.selectedDemandeActualite);
                   Swal.fire({
                     title: "Refusé!",
                     text: `La demande de ${selectedDemandeActualite.titre} a été refusée.`,
@@ -291,6 +301,22 @@ export class DemandesActualitesComponent implements OnInit{
       } else {
         return 'Association not found';
       }
-    }    
+    }   
+    
+    envoyerRapport(selectedDemandeActualite: DemandeActualite): void {
+
+        const demandeRef = this.firestore.collection('DemandeActualite').doc(selectedDemandeActualite.id);
+        demandeRef.update({ rapport: this.rapportRefus })
+          .then(() => {
+            console.log('Rapport envoyé avec succès.');
+          })
+          .catch(error => {
+            console.error('Erreur lors de l\'envoi du rapport :', error);
+          });
+    }
+
+    capitalizeFirstLetter(str: string): string {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
 }

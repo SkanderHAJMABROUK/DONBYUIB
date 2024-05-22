@@ -44,6 +44,8 @@ export class DemandesAssociationsComponent implements OnInit{
   selectedCategorie: string = '';
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
   selectedAssociation!:DemandeAssociation;
+  rapportRefus : string = '';
+
   constructor(private associationService: AssociationService, private router: Router, public adminService:AdministrateurService,
     private firestore: AngularFirestore,private ocr:OcrService,
     private spinner: NgxSpinnerService) { }
@@ -123,12 +125,21 @@ export class DemandesAssociationsComponent implements OnInit{
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Oui, refuser",
+      input: 'textarea', // Use input type textarea
+    inputPlaceholder: 'Raison du refus', // Placeholder for the textarea
+    inputAttributes: {
+      autocapitalize: 'off'
+    }
     }).then((result) => {
       if (result.isConfirmed) {
+
+        this.rapportRefus += this.capitalizeFirstLetter(result.value);
+
         if (selectedDemandeAssociation.id) {
           this.updateDemandeEtat(selectedDemandeAssociation.id, "refusé").then(() => {
             if (selectedDemandeAssociation.id_association) {
               this.associationService.deleteAssociationById(selectedDemandeAssociation.id_association).then(() => {
+                this.envoyerRapport(this.selectedDemandeAssociation);
                 Swal.fire({
                   title: "Refusé!",
                   text: `La demande de ${selectedDemandeAssociation.nom} a été refusée.`,
@@ -305,5 +316,21 @@ export class DemandesAssociationsComponent implements OnInit{
       });
     }
   }
+
+  envoyerRapport(selectedDemandeAssociation: DemandeAssociation): void {
+
+    const demandeRef = this.firestore.collection('DemandeAssociation').doc(selectedDemandeAssociation.id);
+    demandeRef.update({ rapport: this.rapportRefus })
+      .then(() => {
+        console.log('Rapport envoyé avec succès.');
+      })
+      .catch(error => {
+        console.error('Erreur lors de l\'envoi du rapport :', error);
+      });
+}
+
+capitalizeFirstLetter(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 }
