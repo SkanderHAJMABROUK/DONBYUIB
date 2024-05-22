@@ -27,7 +27,6 @@ export class CrudAssociationsComponent {
   currentPage: number = 1;
   selectedPageSize: string = '10'; // Par défaut, la taille de la page est définie sur 10
   selectedEtat: string = ''; // Par défaut, aucun état sélectionné
-  etats: string[] = []; // Liste des états possibles
   categories: string[] = [];
   selectedCategorie: string = '';
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
@@ -39,15 +38,6 @@ export class CrudAssociationsComponent {
     this.getAssociations();
   }
 
-  getEtats(): void {
-    // Exclure les valeurs nulles et vides
-    this.etats = Array.from(new Set(this.associations
-      .map(association => association.etat)
-      .filter(etat => !!etat))); // Filtre les valeurs nulles ou vides
-  
-    console.log('Etats', this.etats); // Récupère les états uniques parmi les donateurs
-  }
-
   getCategories(){
     this.categories = Array.from(new Set(this.associations
       .map(association => association.categorie)
@@ -55,9 +45,8 @@ export class CrudAssociationsComponent {
   }
 
   getAssociations(): void {
-    this.associationService.getAssociations().subscribe(associations => {
+    this.associationService.getActiveAssociations().subscribe(associations => {
       this.associations = associations;
-      // this.getEtats(); // Initialise la liste des états
       this.getCategories();
       this.chercherAssociation();
     });
