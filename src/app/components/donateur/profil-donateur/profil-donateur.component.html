@@ -12,6 +12,12 @@
     <p>{{ selectedDonateur.date_de_naissance |date }}</p>
     <strong><p>Email : </p></strong>
     <p>{{ selectedDonateur.email }}</p>
+    <strong><p>Téléphone : </p></strong>
+    <p>{{ selectedDonateur.telephone }}</p>
+    <strong><p>Adresse : </p></strong>
+    <p>{{ selectedDonateur.adresse }}</p>
+    <strong><p>Gouvernorat : </p></strong>
+    <p>{{ selectedDonateur.gouvernerat }}</p>
 
     <div class="buttons">
       <button type="submit" (click)="setModifierCompte()" [routerLink]="['modifier']">Modifier</button>

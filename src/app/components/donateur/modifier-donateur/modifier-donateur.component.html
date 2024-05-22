@@ -41,6 +41,27 @@
       </div>
 
       <div>
+
+        <label for="telephone">Téléphone :</label>
+        <input type="tel" formControlName="telephone"><br>
+
+      </div>
+      <div>
+
+        <label for="adresse">Adresse :</label>
+        <input type="text" formControlName="adresse"><br>
+
+      </div>
+      <div>
+
+        <label for="gouvernorat">Gouvernorat :</label>
+        <select id="gouvernerat" formControlName="gouvernerat" required [value]="donateur.gouvernerat">
+          <option value="" disabled selected>Sélectionner un gouvernerat</option>
+          <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
+        </select>
+      </div>
+
+      <div>
         <label for="date_naissance">Date de naissance :</label>
         <input type="date" id="date_naissance" formControlName="date_de_naissance" required>
         <div class="error-message" *ngIf="aFormGroup.get('date_de_naissance')?.invalid && (aFormGroup.get('date_de_naissance')?.dirty || aFormGroup.get('date_de_naissance')?.touched)">

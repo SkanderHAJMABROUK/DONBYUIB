@@ -17,10 +17,10 @@ export class ModifierDonateurComponent {
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
-
+  gouvernerats: string[] = [];
 
   constructor(private formBuilder: FormBuilder, public service: DonateurService, private router: Router, private route:ActivatedRoute,
-    private spinner:NgxSpinnerService) {}
+    private spinner:NgxSpinnerService, private serviceDonateur:DonateurService) {}
 
 
   donateur!:Donateur
@@ -53,6 +53,7 @@ export class ModifierDonateurComponent {
       gouvernerat: [this.donateur.gouvernerat],
       telephone: [this.donateur.telephone],
     });
+    this.getGouvernerats();
   }
   
   onImageSelected(event: any) {
@@ -88,6 +89,12 @@ export class ModifierDonateurComponent {
       this.showErrorNotification = true;
       console.log("Formulaire invalide");
     }
+  }
+
+  getGouvernerats() {
+    this.serviceDonateur.getGouvernerats().subscribe(gouvernerats => {
+      this.gouvernerats = gouvernerats;
+    });
   }
  
 }
