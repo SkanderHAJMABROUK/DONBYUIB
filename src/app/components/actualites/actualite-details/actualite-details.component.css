@@ -48,13 +48,19 @@
   }
   
   .right-content .details button {
-    background-color: #8d1111;
-    color: white;
-    padding: 5%;
     margin-left: 60%;
+    background-color: #850707;
     border: none;
-    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
     cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.2s;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 20px;
     font-size: 10px;
     
     
