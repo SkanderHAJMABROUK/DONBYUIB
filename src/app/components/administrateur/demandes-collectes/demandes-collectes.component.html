@@ -32,7 +32,7 @@
           <td><img [src]="collecte.image" alt="Logo" class="donateur-photo" (click)="afficherImage(collecte.image)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ getAssociationNameById(collecte.id_association) }}</td>
           <td>{{ collecte.nom }} </td>
-          <td>{{ collecte.date }}</td>
+          <td>{{ collecte.date | date}}</td>
           <td>{{collecte.date_debut}} : {{collecte.date_fin}}</td>
           <td>{{collecte.montant}}</td>
 

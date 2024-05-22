@@ -30,7 +30,7 @@
           <td><img [src]="actualite.image" alt="Logo" class="donateur-photo" (click)="afficherImage(actualite.image)"></td> <!-- Champ image avec la source de la photo -->
           <td>{{ getAssociationNameById(actualite.id_association) }}</td>
           <td>{{ actualite.titre }} </td>
-          <td>{{ actualite.date_publication }}</td>
+          <td>{{ actualite.date_publication | date }}</td>
 
           <td>
             <div class="crud-buttons">
