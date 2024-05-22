@@ -35,6 +35,7 @@ id:string='';
 modifiercompte:boolean=false;
 modifierMdp:boolean=false;
 compteDonateur:boolean=true;
+modifierEmail:boolean=false;
 
 private timeoutId: any;
   private activitySubscription: Subscription;

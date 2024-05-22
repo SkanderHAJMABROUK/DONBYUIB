@@ -25,6 +25,7 @@ export class ProfilDonateurComponent {
     this.service.compteDonateur=true;
         this.service.modifierMdp=false;
         this.service.modifiercompte=false;
+        this.service.modifierEmail=false;
     this.route.params.subscribe(params => {
       this.id = params['id']; 
       this.service.id=this.id;

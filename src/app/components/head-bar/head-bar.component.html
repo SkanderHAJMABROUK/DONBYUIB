@@ -27,7 +27,8 @@
         class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"
         (click)="serviceDonateur.compteDonateur=true;
         serviceDonateur.modifierMdp=false;
-        serviceDonateur.modifiercompte=false" > 
+        serviceDonateur.modifiercompte=false;
+        serviceDonateur.modifierEmail=false" > 
             <span>{{ serviceDonateur.nomDonateur + ' '}}</span> <span>{{ serviceDonateur.prenomDonateur }}</span>
 
             <div class="connection-indicator"></div>
