@@ -74,6 +74,7 @@ export class ActualiteDetailsComponent {
   }
 
   ajouterCommentaire(): void {
+    if(this.commentaireForm.valid) {
     const idDonateur = this.donateurService.id;
     const idActualite = this.id;
     const contenu = this.commentaireForm.get('contenu')?.value;
@@ -90,6 +91,11 @@ export class ActualiteDetailsComponent {
       });
 
       this.commentaireForm.reset();
+    }else{
+      console.error('Donateur non connecté');
+    }
+  }else{
+      console.error('Formulaire invalide');
     }
   }
 
