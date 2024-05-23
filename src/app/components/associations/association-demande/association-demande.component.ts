@@ -91,12 +91,12 @@ updateDonationAmountFromSlider(event: any) {
 
 initiatePayment(): void {
 
-  const returnUrl = `http://localhost:4200/listeAssociations/details/${this.id}`;
+  const returnUrl = `https://localhost:4200/listeAssociations/details/${this.id}`;
   const randomIdentifier = Math.random().toString(36).substring(2, 10);
 
     this.paymentService.authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
     .subscribe(response => {     
-      window.location.href = response.formUrl;
+      window.open(response.formUrl, '_blank');
       localStorage.setItem('orderId', response.orderId);
       this.orderId = response.orderId;
 

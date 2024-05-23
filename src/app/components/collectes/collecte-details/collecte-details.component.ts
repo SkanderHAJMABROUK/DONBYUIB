@@ -35,7 +35,7 @@ export class CollecteDetailsComponent {
   donationAmount: number = 0;
   orderId: string = ''; 
   orderStatus: number = 0;
-  donateurId!: string;
+  donateurId: string ='';
   totalDonationAmount: number = 0;
   amountLeft: number= 0;
   associationName: string | undefined;
@@ -153,12 +153,12 @@ updateDonationAmountFromSlider(event: any) {
 
 
 initiatePayment(): void {
-  const returnUrl = `http://localhost:4200/listeCollectes/details/${this.id}`;
+  const returnUrl = `https://localhost:4200/listeCollectes/details/${this.id}`;
   const randomIdentifier = Math.random().toString(36).substring(2, 10);
 
   this.paymentService.authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
     .subscribe(response => {     
-      window.location.href = response.formUrl;
+      window.open(response.formUrl, '_blank');
       localStorage.setItem('order-Id', response.orderId);
       this.orderId = response.orderId;
 
@@ -174,6 +174,10 @@ confirmPayment(orderId: string, amount: number): void {
     .subscribe(response => {
       if (this.selectedCollecte && this.selectedCollecte.id) {
         const date = new Date();
+        console.log('Adding donation to DonCollecte collection...');
+console.log('Order ID:', orderId);
+console.log('Amount:', amount);
+
         this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection');
