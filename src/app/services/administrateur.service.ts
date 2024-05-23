@@ -113,9 +113,8 @@ export class AdministrateurService {
 
 modifierAssociation(assocation: Association): Promise<void> {
   const updatedAssociationData = {
-    ...assocation,
-    etat: "modification_acceptée"
-  };
+    ...assocation
+    };
   let associationRef = this.firestore.collection('Association').doc(assocation.id); 
   return associationRef.update(updatedAssociationData);
 }
