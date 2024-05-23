@@ -78,7 +78,7 @@ input:focus {
 
 
 .btn_valider {
-  background-color:rgba(255, 0, 0, 0.594);
+  background-color: #850707;
   border: none;
   color: white;
   padding: 10px 15px 10px 15px;
@@ -99,9 +99,9 @@ input:focus {
 hr {
   border: none;
   height: 1.5px;
-  background-color: rgba(255, 0, 0, 0.594); 
-  width: 50%; 
-  margin: 0 auto; 
+  background-color: #850707;
+  width: 50%;
+  margin: 0 auto;
   margin-bottom: 4%;
 }
 
