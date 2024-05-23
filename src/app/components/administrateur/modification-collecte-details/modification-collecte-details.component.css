@@ -1,4 +1,5 @@
 .dialog {
+    margin-top: 40px;
     height: auto; /* Change height to auto for dynamic content */
     max-height: 80%; /* Adjust max-height for better responsiveness */
     width: 80%; /* Adjust width for better responsiveness */
