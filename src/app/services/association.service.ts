@@ -33,6 +33,7 @@ export class AssociationService {
 
   modifierAss:boolean=false;
   modifierMdpAss:boolean=false;
+  modifierEmail:boolean=false;
   id!:string|undefined;
 
   private timeoutId: any;

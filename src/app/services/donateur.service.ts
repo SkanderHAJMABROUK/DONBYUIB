@@ -309,4 +309,11 @@ getGouvernerats(): Observable<string[]> {
   );
 }
 
+updateDonateurField(id: string, fieldName: keyof Partial<Donateur>, newValue: any): Promise<void> {
+  const associationRef = this.firestore.collection('Donateur').doc(id);
+  const updatedField: Partial<Donateur> = {};
+  updatedField[fieldName] = newValue;
+  return associationRef.update(updatedField);
+}
+
 }

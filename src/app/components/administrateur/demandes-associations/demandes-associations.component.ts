@@ -270,7 +270,7 @@ export class DemandesAssociationsComponent implements OnInit{
     if(associationId)
     this.ocr.processImage(associationId).subscribe((data)=>{
       this.results=data;
-      console.log(data);
+      console.log('ocr data',data);
       this.checkMatriculeFiscal(this.results);   
       
         
@@ -290,7 +290,7 @@ export class DemandesAssociationsComponent implements OnInit{
       if (result.matricule_fiscal !== null) {
         this.hasMatriculeFiscal = true; 
         this.matricule = result.matricule_fiscal; 
-        console.log("Matricule fiscal trouvé :", this.matricule);
+        console.log("Matricule fiscal trouvée :", this.matricule);
         break;  
       }
     }
@@ -304,7 +304,7 @@ export class DemandesAssociationsComponent implements OnInit{
       // Popup with a tick mark for success
       Swal.fire({
         title: "Success!",
-        text: "Matricule fiscal trouvé : " + this.matricule,
+        text: "Matricule fiscal trouvée : " + this.matricule,
         icon: "success"
       });
     } else {
@@ -334,3 +334,4 @@ capitalizeFirstLetter(str: string): string {
 }
 
 }
+
