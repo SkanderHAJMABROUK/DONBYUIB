@@ -93,6 +93,7 @@ import { ResetForgottenPasswordComponent } from './components/forgot-password/re
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { LOCALE_ID } from '@angular/core';
+import { ResetEmailComponent } from './components/reset-email/reset-email.component';
 registerLocaleData(localeFr, 'fr');
 
 const firebaseConfig = {
@@ -175,7 +176,8 @@ const firebaseConfig = {
     SuppressionActualiteDetailsComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
-    ResetForgottenPasswordComponent  
+    ResetForgottenPasswordComponent,
+    ResetEmailComponent  
     ],
   imports: [
     CommonModule,
