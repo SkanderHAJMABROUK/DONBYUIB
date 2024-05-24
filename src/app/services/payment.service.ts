@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import emailjs from '@emailjs/browser';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,14 @@ private baseUrl = '/api';
           return donations.reduce((total: number, donation: any) => total + parseFloat(donation.montant), 0);
         })
       );
+  }
+
+  async envoyerRemerciement(nomAssociation:string, email:string){
+      emailjs.init('MvwF-7177T4obuulo');
+      emailjs.send('service_ogd42ys', 'template_x879hbi', {
+        destinataire: nomAssociation,
+        to_email: email
+      });
   }
 
 }

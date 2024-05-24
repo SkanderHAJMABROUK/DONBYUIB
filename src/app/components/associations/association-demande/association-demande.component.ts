@@ -7,6 +7,7 @@ import { Options } from 'ngx-slider-v2';
 import { PaymentService } from 'src/app/services/payment.service';
 import { DonateurService } from 'src/app/services/donateur.service';
 import Swal from 'sweetalert2';
+import { Donateur } from 'src/app/interfaces/donateur';
 
 
 @Component({
@@ -27,14 +28,14 @@ export class AssociationDemandeComponent implements OnInit{
     floor: 0,
     ceil: 2000
   }
-  donateurId!: string;
+  donateurId!: string|null;
   id!: string;
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
   paymentSuccessful!: string|null;
   orderId: string = ''; 
   orderStatus: number = 0; 
-  
+  donateur: Donateur | undefined;
   faSquarePhone = faSquarePhone; 
   faAt = faAt;
 
@@ -52,6 +53,12 @@ export class AssociationDemandeComponent implements OnInit{
      console.log('oninit'+this.paymentSuccessful)
      this.orderId = localStorage.getItem('orderId') || '';
      console.log('order id',this.orderId);
+
+     if (this.donateurId) {
+      this.donateurService.getDonateurById(this.donateurId).subscribe(donateur => {
+        this.donateur = donateur;
+      });
+    }
 
    }
 
@@ -115,6 +122,7 @@ confirmPayment(orderId: string, amount: number): void {
         console.log('Selected Association:', this.selectedAssociation);
         // Pas besoin d'ajouter le don ici
         const date = new Date();
+        if(this.donateurId)
         this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection DonAssociation');
@@ -146,6 +154,9 @@ getOrderStatus(orderId: string): void {
 
       if (this.orderStatus == 2) {
         this.showSuccessMessage();
+        if(this.selectedAssociation && this.donateur){
+          this.paymentService.envoyerRemerciement(this.selectedAssociation.nom ,this.donateur.email);
+        }
       } 
     }, error => {
       console.error('Error fetching order status:', error);

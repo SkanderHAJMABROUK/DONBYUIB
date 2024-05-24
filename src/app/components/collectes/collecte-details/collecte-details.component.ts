@@ -8,6 +8,7 @@ import { DonateurService } from 'src/app/services/donateur.service';
 import Swal from 'sweetalert2';
 import { AssociationService } from 'src/app/services/association.service';
 import { EMPTY, Observable, interval, map } from 'rxjs';
+import { Donateur } from 'src/app/interfaces/donateur';
 
 @Component({
   selector: 'app-collecte-details',
@@ -35,7 +36,8 @@ export class CollecteDetailsComponent {
   donationAmount: number = 0;
   orderId: string = ''; 
   orderStatus: number = 0;
-  donateurId: string ='';
+  donateurId!: string |null;
+  donateurEMail: string | undefined;
   totalDonationAmount: number = 0;
   amountLeft: number= 0;
   associationName: string | undefined;
@@ -51,6 +53,12 @@ export class CollecteDetailsComponent {
 
      this.donateurId=this.donateurService.id;
      console.log('donateur',this.donateurId,'.');
+
+     if (this.donateurId) {
+      this.donateurService.getDonateurById(this.donateurId).subscribe(donateur => {
+        this.donateurEMail = donateur?.email;
+      });
+    }
 
      this.orderId = localStorage.getItem('order-Id') || '';
      console.log('order id',this.orderId);
@@ -112,8 +120,6 @@ export class CollecteDetailsComponent {
       })
     );
   }
-
-
           if (this.orderId) {
             this.getOrderStatus(this.orderId);           
           }
@@ -177,7 +183,7 @@ confirmPayment(orderId: string, amount: number): void {
         console.log('Adding donation to DonCollecte collection...');
 console.log('Order ID:', orderId);
 console.log('Amount:', amount);
-
+        if(this.donateurId)
         this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection');
@@ -186,6 +192,7 @@ console.log('Amount:', amount);
                 this.service.updateCollecteEtat(this.selectedCollecte.id,'terminee');
               }
             }
+            
             window.close();
           })
           .catch(error => {
@@ -214,6 +221,11 @@ getOrderStatus(orderId: string): void {
 
       if (this.orderStatus == 2) {
         this.showSuccessMessage();
+        if(this.associationName && this.donateurEMail){
+          this.paymentService.envoyerRemerciement(this.associationName,this.donateurEMail);
+        }else{
+            console.log('email' , this.associationName,this.donateurEMail)        
+        }
       }
     }, error => {
       console.error('Error fetching order status:', error);
@@ -229,7 +241,7 @@ showSuccessMessage() {
       title: "Félicitations!",
       text: `Votre don à la collecte '${nomCollecte}' a été transmis avec succès`,
       imageUrl: imageCollecte,
-      imageWidth: 200,
+      imageWidth: 300,
       imageHeight: 200,
       imageAlt: "Oops!"
     });
