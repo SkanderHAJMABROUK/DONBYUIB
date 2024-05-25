@@ -331,6 +331,12 @@ export class AssociationService {
     )
   }
 
+  getAssociationEmailById(id: string): Observable<string | undefined> {
+    return this.getAssociationById(id).pipe(
+      map(association => association?.email)
+    )
+  }
+
   getAssociationByEmailAndPassword(email: string, password: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map(associations => {

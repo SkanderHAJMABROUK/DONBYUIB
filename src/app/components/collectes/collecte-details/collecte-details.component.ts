@@ -36,34 +36,36 @@ export class CollecteDetailsComponent {
   donationAmount: number = 0;
   orderId: string = ''; 
   orderStatus: number = 0;
-  donateurId!: string |null;
+  donateurId: string | null = null;
   donateurEMail: string | undefined;
   totalDonationAmount: number = 0;
   amountLeft: number= 0;
   associationName: string | undefined;
   isDonationAllowed = false;
   countdown: Observable<string> = EMPTY;
+  showFullDescription: boolean = false;
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id']; 
       console.log(this.id)
-       this.getCollecteById(this.id); 
-     });
-
-     this.donateurId=this.donateurService.id;
-     console.log('donateur',this.donateurId,'.');
-
-     if (this.donateurId) {
+      this.getCollecteById(this.id); 
+    });
+  
+    this.donateurId = this.donateurService.id;
+  
+    if (this.donateurId != null) {
       this.donateurService.getDonateurById(this.donateurId).subscribe(donateur => {
         this.donateurEMail = donateur?.email;
+        console.log('Donateur email:', this.donateurEMail);
       });
+    } else {
+      console.log('Donateur ID is null or undefined.');
     }
-
-     this.orderId = localStorage.getItem('order-Id') || '';
-     console.log('order id',this.orderId);
-
-   }
+     
+    this.orderId = localStorage.getItem('order-Id') || '';
+    console.log('order id', this.orderId);
+  }
    
    loadAssociationName() {
     console.log('Loading association name...');
@@ -97,12 +99,11 @@ export class CollecteDetailsComponent {
           console.log(this.service.showDetails);
           this.loadAssociationName();
           this.fetchTotalDonationAmount();
-     this.getProgressPercentage();
+          this.getProgressPercentage();
 
 
      this.isDonationAllowed = new Date() >= new Date(this.selectedCollecte.date_debut);
 
-  // Si la donation n'est pas autorisée, commencez le compte à rebours
   if (!this.isDonationAllowed) {
     const countdownEnd = new Date(this.selectedCollecte.date_debut).getTime();
 
@@ -191,9 +192,7 @@ console.log('Amount:', amount);
               if(this.selectedCollecte.id){
                 this.service.updateCollecteEtat(this.selectedCollecte.id,'terminee');
               }
-            }
-            
-            window.close();
+            }           
           })
           .catch(error => {
             console.error('Erreur lors de l\'ajout du don à la collection :', error);
@@ -221,16 +220,37 @@ getOrderStatus(orderId: string): void {
 
       if (this.orderStatus == 2) {
         this.showSuccessMessage();
-        if(this.associationName && this.donateurEMail){
-          this.paymentService.envoyerRemerciement(this.associationName,this.donateurEMail);
-        }else{
-            console.log('email' , this.associationName,this.donateurEMail)        
+
+        if (this.selectedCollecte && this.selectedCollecte.id_association) {
+          this.associationService.getAssociationNameById(this.selectedCollecte.id_association)
+            .subscribe(name => {
+              this.associationName = name || 'Default Association Name';
+              console.log('Association name:', this.associationName);
+
+              if (this.donateurEMail) {
+                console.log('Sending email to:', this.donateurEMail);
+                this.paymentService.envoyerRemerciement(this.associationName, this.donateurEMail)
+                  .then(response => {
+                    console.log('Email sent:', response);
+                  })
+                  .catch(error => {
+                    console.error('Error while sending email:', error);
+                  });
+              } else {
+                console.log('email', this.associationName, this.donateurEMail)
+              }
+            }, error => {
+              console.error('Error fetching association name:', error);
+            });
+        } else {
+          console.error('Erreur: selectedCollecte or id_association is undefined.');
         }
       }
     }, error => {
       console.error('Error fetching order status:', error);
     });
 }
+
 
 showSuccessMessage() {
   if (this.selectedCollecte) {
@@ -321,7 +341,7 @@ getAmountLeft(): number {
   }
   return 0;
 }
-showFullDescription: boolean = false;
+
 toggleDescription() {
     this.showFullDescription = !this.showFullDescription;
 }

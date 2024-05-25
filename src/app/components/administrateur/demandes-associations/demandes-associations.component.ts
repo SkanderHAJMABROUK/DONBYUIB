@@ -213,6 +213,28 @@ export class DemandesAssociationsComponent implements OnInit{
                   text: `La demande de ${selectedDemandeAssociation.nom} a été acceptée.`,
                   icon: "success"
                 });
+
+                if(selectedDemandeAssociation && selectedDemandeAssociation.id_association) {
+                  this.associationService.getAssociationEmailById(selectedDemandeAssociation.id_association).subscribe(toEmail => {
+                    if (toEmail) {
+                      console.log('Retrieved email:', toEmail);
+                      if(selectedDemandeAssociation.id_association){
+                      // Use getAssociationNameById from associationService
+                      this.associationService.getAssociationNameById(selectedDemandeAssociation.id_association).subscribe(associationName => {
+                        if(associationName){
+                          const titreDemande = `l\'inscription de l\'association "${selectedDemandeAssociation.nom}"`;
+                          const typeDemande = 'INSCRIPTION D\'ASSOCIATION';
+                          const dateDemande = selectedDemandeAssociation.date ? this.formatDate(new Date(selectedDemandeAssociation.date)) : '';
+                          const dateReponse = this.formatDate(new Date());
+                          this.adminService.sendAcceptationNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse);
+                        }                        
+                      });}
+                    } else {
+                      console.error('Email address not found for the association.');
+                    }
+                  });
+                }
+
               }).catch(error => {
                 console.error('Erreur lors de la mise à jour de l\'état de l\'association:', error);
                 Swal.fire({
@@ -331,6 +353,15 @@ export class DemandesAssociationsComponent implements OnInit{
 
 capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+formatDate(date: Date): string {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${day} - ${month} - ${year} ${hours}:${minutes}`;
 }
 
 }
