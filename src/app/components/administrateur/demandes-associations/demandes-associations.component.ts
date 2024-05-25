@@ -139,12 +139,41 @@ export class DemandesAssociationsComponent implements OnInit{
           this.updateDemandeEtat(selectedDemandeAssociation.id, "refusé").then(() => {
             if (selectedDemandeAssociation.id_association) {
               this.associationService.deleteAssociationById(selectedDemandeAssociation.id_association).then(() => {
-                this.envoyerRapport(this.selectedDemandeAssociation);
+
+                if(selectedDemandeAssociation.id){
+                  this.envoyerRapport(selectedDemandeAssociation.id);
+                } else {
+                  console.error('ID de la demande indéfini.');
+                }                
+                
                 Swal.fire({
                   title: "Refusé!",
                   text: `La demande de ${selectedDemandeAssociation.nom} a été refusée.`,
                   icon: "success"
                 });
+
+                if(selectedDemandeAssociation && selectedDemandeAssociation.id_association) {
+                  this.associationService.getAssociationEmailById(selectedDemandeAssociation.id_association).subscribe(toEmail => {
+                    if (toEmail) {
+                      console.log('Retrieved email:', toEmail);
+                      if(selectedDemandeAssociation.id_association){
+                      // Use getAssociationNameById from associationService
+                      this.associationService.getAssociationNameById(selectedDemandeAssociation.id_association).subscribe(associationName => {
+                        if(associationName){
+                          const titreDemande = `l\'inscription de l\'association "${selectedDemandeAssociation.nom}"`;
+                          const typeDemande = 'INSCRIPTION D\'ASSOCIATION';
+                          const dateDemande = selectedDemandeAssociation.date ? this.formatDate(new Date(selectedDemandeAssociation.date)) : '';
+                          const dateReponse = this.formatDate(new Date());
+                          const causeRefus = this.rapportRefus;
+                          this.adminService.sendRefusNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse,causeRefus);
+                        }                        
+                      });}
+                    } else {
+                      console.error('Email address not found for the association.');
+                    }
+                  });
+                }
+
               }).catch(error => {
                 console.error('Erreur lors de la suppression de l\'association:', error);
                 Swal.fire({
@@ -339,17 +368,27 @@ export class DemandesAssociationsComponent implements OnInit{
     }
   }
 
-  envoyerRapport(selectedDemandeAssociation: DemandeAssociation): void {
-
-    const demandeRef = this.firestore.collection('DemandeAssociation').doc(selectedDemandeAssociation.id);
-    demandeRef.update({ rapport: this.rapportRefus })
-      .then(() => {
-        console.log('Rapport envoyé avec succès.');
-      })
-      .catch(error => {
-        console.error('Erreur lors de l\'envoi du rapport :', error);
+  envoyerRapport(id: string): void {
+    if (id) {
+      const demandeRef = this.firestore.collection('DemandeAssociation').doc(id);
+      
+      demandeRef.get().subscribe(docSnapshot => {
+        if (docSnapshot.exists) {
+          demandeRef.update({ rapport: this.rapportRefus })
+            .then(() => {
+              console.log('Rapport envoyé avec succès.');
+            })
+            .catch(error => {
+              console.error('Erreur lors de l\'envoi du rapport :', error);
+            });
+        } else {
+          console.error('Document does not exist for the given ID:', id);
+        }
       });
-}
+    } else {
+      console.error('ID de la demande indéfini.');
+    }
+  }
 
 capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);

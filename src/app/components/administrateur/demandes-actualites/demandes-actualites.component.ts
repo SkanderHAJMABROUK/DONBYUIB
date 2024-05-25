@@ -142,12 +142,42 @@ export class DemandesActualitesComponent implements OnInit{
               console.log(selectedDemandeActualite.id_actualite);
               if (selectedDemandeActualite.id_actualite) {
                 this.actualiteService.deleteActualiteById(selectedDemandeActualite.id_actualite).then(() => {
-                  this.envoyerRapport(this.selectedDemandeActualite);
+
+                  if(selectedDemandeActualite.id){
+                    this.envoyerRapport(selectedDemandeActualite.id);
+                  } else {
+                    console.error('ID de la demande indéfini.');
+                  }                  
+                  
                   Swal.fire({
                     title: "Refusé!",
                     text: `La demande de ${selectedDemandeActualite.titre} a été refusée.`,
                     icon: "success"
                   });
+
+                  if(selectedDemandeActualite && selectedDemandeActualite.id_association) {
+                    this.associationService.getAssociationEmailById(selectedDemandeActualite.id_association).subscribe(toEmail => {
+                      if (toEmail) {
+                        console.log('Retrieved email:', toEmail);
+                        if(selectedDemandeActualite.id_association){
+                        // Use getAssociationNameById from associationService
+                        this.associationService.getAssociationNameById(selectedDemandeActualite.id_association).subscribe(associationName => {
+                          if(associationName){
+                            const titreDemande = `la publication de l\'actualité "${selectedDemandeActualite.titre}"`;
+                            const typeDemande = 'PUBLICATION D\'ACTUALITÉ';
+                            const dateDemande = selectedDemandeActualite.date ? this.formatDate(new Date(selectedDemandeActualite.date)) : '';
+                            const dateReponse = this.formatDate(new Date());
+                            const causeRefus = this.rapportRefus;
+                            this.adminService.sendRefusNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse,causeRefus);
+                          }                        
+                        });}
+                      } else {
+                        console.error('Email address not found for the association.');
+                      }
+                    });
+                  }
+
+
                 }).catch(error => {
                   console.error('Erreur lors de la suppression de l\'actualité:', error);
                   Swal.fire({
@@ -325,16 +355,26 @@ export class DemandesActualitesComponent implements OnInit{
       }
     }   
     
-    envoyerRapport(selectedDemandeActualite: DemandeActualite): void {
-
-        const demandeRef = this.firestore.collection('DemandeActualite').doc(selectedDemandeActualite.id);
-        demandeRef.update({ rapport: this.rapportRefus })
-          .then(() => {
-            console.log('Rapport envoyé avec succès.');
-          })
-          .catch(error => {
-            console.error('Erreur lors de l\'envoi du rapport :', error);
-          });
+    envoyerRapport(id: string): void {
+      if (id) {
+        const demandeRef = this.firestore.collection('DemandeActualite').doc(id);
+        
+        demandeRef.get().subscribe(docSnapshot => {
+          if (docSnapshot.exists) {
+            demandeRef.update({ rapport: this.rapportRefus })
+              .then(() => {
+                console.log('Rapport envoyé avec succès.');
+              })
+              .catch(error => {
+                console.error('Erreur lors de l\'envoi du rapport :', error);
+              });
+          } else {
+            console.error('Document does not exist for the given ID:', id);
+          }
+        });
+      } else {
+        console.error('ID de la demande indéfini.');
+      }
     }
 
     capitalizeFirstLetter(str: string): string {
