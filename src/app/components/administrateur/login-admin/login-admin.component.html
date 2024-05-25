@@ -21,9 +21,6 @@
     </div>
     <a href="">Mot de passe oublié?</a><br>
   
-    <input type="checkbox" id="remember_me" class="checkbox" required>
-    <label for="remember_me">Se souvenir de moi</label>
-  
     <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha"></ngx-recaptcha2>
     
     <div *ngIf="showErrorNotification" class="error-notification">
