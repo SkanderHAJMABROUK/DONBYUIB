@@ -384,4 +384,20 @@ async sendRefusNotification(email:string | undefined,
   });
 }
 
+async sendModificationResultNotification(email:string | undefined,
+  nom:string,
+  nom_association:string,
+  date_demande:string,
+  details_modification:string)
+{
+  emailjs.init('MvwF-7177T4obuulo');
+  emailjs.send('service_ogd42ys', 'template_5rw7v7m', {
+    to_email:email,
+    nom:nom,
+    nom_association:nom_association,
+    date_demande:date_demande,
+    details_modification:details_modification
+  });
+}
+
 }
