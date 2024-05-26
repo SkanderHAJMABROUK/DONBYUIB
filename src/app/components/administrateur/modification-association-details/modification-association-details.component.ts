@@ -92,6 +92,23 @@ export class ModificationAssociationDetailsComponent implements OnInit {
                         this.updateDemandeEtat(this.demande.id, 'accepté')
                             .then(() => {
                                 console.log('Demandes : ', this.modifiedFields);
+                                if (this.demande && this.demande.id_association) {
+                                  this.associationService.getAssociationEmailById(this.demande.id_association).subscribe(toEmail => {
+                                    if (toEmail) {
+                                      console.log('Retrieved email:', toEmail);
+                                      const associationId = this.demande.id_association!;
+                                      this.associationService.getAssociationNameById(associationId).subscribe(associationName => {
+                                        if (associationName) {
+                                          const dateDemande = this.demande.date ? this.formatDate(new Date(this.demande.date)) : '';
+                                          const detailsModifications = this.generateDetailsModifications(1); // Scenario 1
+                                          this.adminService.sendModificationResultNotification(toEmail, "", associationName, dateDemande, detailsModifications);
+                                        }
+                                      });
+                                    } else {
+                                      console.error('Email address not found for the association.');
+                                    }
+                                  });
+                                }
                             });
                     }
 
@@ -172,6 +189,25 @@ rejectModification(label: string): void {
                             text: `La modification du champ ${label} a été refusée.`,
                             icon: "success"
                         });
+
+                        if (this.demande && this.demande.id_association) {
+                          this.associationService.getAssociationEmailById(this.demande.id_association).subscribe(toEmail => {
+                            if (toEmail) {
+                              console.log('Retrieved email:', toEmail);
+                              const associationId = this.demande.id_association!;
+                              this.associationService.getAssociationNameById(associationId).subscribe(associationName => {
+                                if (associationName) {
+                                  const dateDemande = this.demande.date ? this.formatDate(new Date(this.demande.date)) : '';
+                                  const detailsModifications = this.generateDetailsModifications(0); // Scenario 1
+                                  this.adminService.sendModificationResultNotification(toEmail, "", associationName, dateDemande, detailsModifications);
+                                }
+                              });
+                            } else {
+                              console.error('Email address not found for the association.');
+                            }
+                          });
+                        }
+
                     });
             } else {
                 Swal.fire({
@@ -225,6 +261,25 @@ updateDemandeEtat(id: string, etat: string): Promise<void> {
   
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day} - ${month} - ${year} ${hours}:${minutes}`;
+  }
+
+  generateDetailsModifications(scenario: number): string {
+    if (scenario === 1) {
+      return this.acceptedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification acceptée`).join('\n');
+    } else {
+      const acceptedDetails = this.acceptedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification acceptée`).join('\n');
+      const refusedDetails = this.refusedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification refusée`).join('\n');
+      return `${acceptedDetails}\n${refusedDetails}\n\nRapport des refus : ${this.rapportRefus}`;
+    }
   }
 
 }

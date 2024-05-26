@@ -242,6 +242,39 @@ export class DemandeSuppressionActualiteComponent {
                     text: `La demande de suppression a été refusée.`,
                     icon: "success"
                   });
+
+                  if (selectedDemandeActualite && selectedDemandeActualite.id_association) {
+                    this.associationService.getAssociationEmailById(selectedDemandeActualite.id_association).subscribe(toEmail => {
+                      if (toEmail) {
+                        console.log('Retrieved email:', toEmail);
+                  
+                        if (selectedDemandeActualite.id_association) {
+                          this.associationService.getAssociationNameById(selectedDemandeActualite.id_association).subscribe(associationName => {
+                            if (associationName) {
+                  
+                              if (selectedDemandeActualite.id_actualite) {
+                                this.actualiteService.getActualiteTitleById(selectedDemandeActualite.id_actualite).subscribe(actualiteTitre => {
+                                  const titreDemande = `la suppression de l'actualité "${actualiteTitre}"`;
+                                  const typeDemande = "SUPPRESSION D'ACTUALITÉ";
+                                  const dateDemande = selectedDemandeActualite.date ? this.formatDate(new Date(selectedDemandeActualite.date)) : '';
+                                  const dateReponse = this.formatDate(new Date());
+                                  const causeRefus = this.rapportRefus;
+                  
+                                  this.adminService.sendRefusNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse, causeRefus);
+                                });
+                              } else {
+                                console.error('ID d\'actualité non défini.');
+                              }
+                  
+                            }
+                          });
+                        }
+                      } else {
+                        console.error('Email address not found for the association.');
+                      }
+                    });
+                  }
+
                 }).catch(error => {
                   console.error('Erreur lors de la suppression de la collecte:', error);
                   Swal.fire({
@@ -310,6 +343,38 @@ export class DemandeSuppressionActualiteComponent {
                     text: `La demande de suppression a été acceptée.`,
                     icon: "success"
                   });
+
+                  if (selectedDemandeActualite && selectedDemandeActualite.id_association) {
+                    this.associationService.getAssociationEmailById(selectedDemandeActualite.id_association).subscribe(toEmail => {
+                      if (toEmail) {
+                        console.log('Retrieved email:', toEmail);
+                  
+                        if (selectedDemandeActualite.id_association) {
+                          this.associationService.getAssociationNameById(selectedDemandeActualite.id_association).subscribe(associationName => {
+                            if (associationName) {
+                  
+                              if (selectedDemandeActualite.id_actualite) {
+                                this.actualiteService.getActualiteTitleById(selectedDemandeActualite.id_actualite).subscribe(actualiteTitre => {
+                                  const titreDemande = `la suppression de l'actualité "${actualiteTitre}"`;
+                                  const typeDemande = "SUPPRESSION D'ACTUALITÉ";
+                                  const dateDemande = selectedDemandeActualite.date ? this.formatDate(new Date(selectedDemandeActualite.date)) : '';
+                                  const dateReponse = this.formatDate(new Date());
+                  
+                                  this.adminService.sendAcceptationNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse);
+                                });
+                              } else {
+                                console.error('ID d\'actualité non défini.');
+                              }
+                  
+                            }
+                          });
+                        }
+                      } else {
+                        console.error('Email address not found for the association.');
+                      }
+                    });
+                  }
+
                 }).catch(error => {
                   console.error('Erreur lors de la mise à jour de l\'état de l\'actualité:', error);
                   Swal.fire({
@@ -355,6 +420,15 @@ export class DemandeSuppressionActualiteComponent {
           .catch(error => {
             console.error('Erreur lors de l\'envoi du rapport :', error);
           });      
+    }
+
+    formatDate(date: Date): string {
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+      const year = date.getFullYear();
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${day} - ${month} - ${year} ${hours}:${minutes}`;
     }
 
   

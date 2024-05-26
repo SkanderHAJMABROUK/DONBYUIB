@@ -6,6 +6,7 @@ import { Actualite } from 'src/app/interfaces/actualite';
 import { ActualiteService } from 'src/app/services/actualite.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import Swal from 'sweetalert2';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-modification-actualite-details',
@@ -25,7 +26,7 @@ export class ModificationActualiteDetailsComponent {
   rapportRefus : string = '';
 
   constructor(public adminService: AdministrateurService, private actualiteService: ActualiteService,
-    private firestore: AngularFirestore) { }
+    private firestore: AngularFirestore, private associationService: AssociationService) { }
 
   ngOnInit(): void {
     this.modifiedFields = [];
@@ -95,6 +96,33 @@ export class ModificationActualiteDetailsComponent {
                         this.updateDemandeEtat(this.demande.id, 'accepté')
                             .then(() => {
                                 console.log('Demandes : ', this.modifiedFields);
+                                if (this.demande && this.demande.id_association) {
+                                  this.associationService.getAssociationEmailById(this.demande.id_association).subscribe(toEmail => {
+                                    if (toEmail) {
+                                      console.log('Retrieved email:', toEmail);
+                                      if (this.demande.id_association) {
+                                        // Use getAssociationNameById from associationService
+                                        this.associationService.getAssociationNameById(this.demande.id_association).subscribe(associationName => {
+                                          if (associationName) {
+                                            // Ensure id_collecte is a string before using it
+                                            const id_actualite = this.demande.id_actualite ? this.demande.id_actualite : '';
+                                            if (id_actualite) {
+                                              this.actualiteService.getActualiteTitleById(id_actualite).subscribe(actualiteName => {
+                                                const dateDemande = this.demande.date ? this.formatDate(new Date(this.demande.date)) : '';
+                                                const detailsModifications = this.generateDetailsModifications(1);
+                                                this.adminService.sendModificationResultNotification(toEmail, actualiteName, associationName, dateDemande, detailsModifications);
+                                              });
+                                            } else {
+                                              console.error('id_collecte is undefined or not a valid string.');
+                                            }
+                                          }
+                                        });
+                                      }
+                                    } else {
+                                      console.error('Email address not found for the association.');
+                                    }
+                                  });
+                                }
                             });
                     }
 
@@ -174,6 +202,35 @@ rejectModification(label: string): void {
                             text: `La modification du champ ${label} a été refusée.`,
                             icon: "success"
                         });
+
+                        if (this.demande && this.demande.id_association) {
+                          this.associationService.getAssociationEmailById(this.demande.id_association).subscribe(toEmail => {
+                            if (toEmail) {
+                              console.log('Retrieved email:', toEmail);
+                              if (this.demande.id_association) {
+                                // Use getAssociationNameById from associationService
+                                this.associationService.getAssociationNameById(this.demande.id_association).subscribe(associationName => {
+                                  if (associationName) {
+                                    // Ensure id_collecte is a string before using it
+                                    const id_actualite = this.demande.id_actualite ? this.demande.id_actualite : '';
+                                    if (id_actualite) {
+                                      this.actualiteService.getActualiteTitleById(id_actualite).subscribe(actualiteName => {
+                                        const dateDemande = this.demande.date ? this.formatDate(new Date(this.demande.date)) : '';
+                                        const detailsModifications = this.generateDetailsModifications(0);
+                                        this.adminService.sendModificationResultNotification(toEmail, actualiteName, associationName, dateDemande, detailsModifications);
+                                      });
+                                    } else {
+                                      console.error('id_collecte is undefined or not a valid string.');
+                                    }
+                                  }
+                                });
+                              }
+                            } else {
+                              console.error('Email address not found for the association.');
+                            }
+                          });
+                        }
+
                     });
             } else {
                 Swal.fire({
@@ -226,6 +283,25 @@ envoyerRapport(): void {
 
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day} - ${month} - ${year} ${hours}:${minutes}`;
+  }
+
+  generateDetailsModifications(scenario: number): string {
+    if (scenario === 1) {
+      return this.acceptedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification acceptée`).join('\n');
+    } else {
+      const acceptedDetails = this.acceptedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification acceptée`).join('\n');
+      const refusedDetails = this.refusedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification refusée`).join('\n');
+      return `${acceptedDetails}\n${refusedDetails}\n\nRapport des refus : ${this.rapportRefus}`;
+    }
   }
 
 

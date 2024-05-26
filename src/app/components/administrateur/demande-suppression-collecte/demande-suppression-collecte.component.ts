@@ -244,6 +244,39 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
                   text: `La demande de suppression a été refusée.`,
                   icon: "success"
                 });
+
+                if (selectedDemandeCollecte && selectedDemandeCollecte.id_association) {
+                  this.associationService.getAssociationEmailById(selectedDemandeCollecte.id_association).subscribe(toEmail => {
+                    if (toEmail) {
+                      console.log('Retrieved email:', toEmail);
+                
+                      if (selectedDemandeCollecte.id_association) {
+                        this.associationService.getAssociationNameById(selectedDemandeCollecte.id_association).subscribe(associationName => {
+                          if (associationName) {
+                
+                            if (selectedDemandeCollecte.id_collecte) {
+                              this.collecteService.getCollecteNameById(selectedDemandeCollecte.id_collecte).subscribe(collecteName => {
+                                const titreDemande = `la suppression de la collecte "${collecteName}"`;
+                                const typeDemande = "SUPPRESSION DE LA COLLECTE";
+                                const dateDemande = selectedDemandeCollecte.date ? this.formatDate(new Date(selectedDemandeCollecte.date)) : '';
+                                const dateReponse = this.formatDate(new Date());
+                                const causeRefus = this.rapportRefus;
+                
+                                this.adminService.sendRefusNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse, causeRefus);
+                              });
+                            } else {
+                              console.error('ID de la collecte non défini.');
+                            }
+                
+                          }
+                        });
+                      }
+                    } else {
+                      console.error('Email address not found for the association.');
+                    }
+                  });
+                }
+
               }).catch(error => {
                 console.error('Erreur lors de la suppression de la collecte:', error);
                 Swal.fire({
@@ -311,6 +344,39 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
                   text: `La demande de suppression a été acceptée.`,
                   icon: "success"
                 });
+
+                if (selectedDemandeCollecte && selectedDemandeCollecte.id_association) {
+                  this.associationService.getAssociationEmailById(selectedDemandeCollecte.id_association).subscribe(toEmail => {
+                    if (toEmail) {
+                      console.log('Retrieved email:', toEmail);
+                
+                      if (selectedDemandeCollecte.id_association) {
+                        this.associationService.getAssociationNameById(selectedDemandeCollecte.id_association).subscribe(associationName => {
+                          if (associationName) {
+                
+                            if (selectedDemandeCollecte.id_collecte) {
+                              this.collecteService.getCollecteNameById(selectedDemandeCollecte.id_collecte).subscribe(collecteName => {
+                                const titreDemande = `la suppression de la collecte "${collecteName}"`;
+                                const typeDemande = "SUPPRESSION DE LA COLLECTE";
+                                const dateDemande = selectedDemandeCollecte.date ? this.formatDate(new Date(selectedDemandeCollecte.date)) : '';
+                                const dateReponse = this.formatDate(new Date());
+                
+                                this.adminService.sendAcceptationNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse);
+                              });
+                            } else {
+                              console.error('ID de la collecte non défini.');
+                            }
+                
+                          }
+                        });
+                      }
+                    } else {
+                      console.error('Email address not found for the association.');
+                    }
+                  });
+                }
+
+
               }).catch(error => {
                 console.error('Erreur lors de la mise à jour de l\'état de la collecte:', error);
                 Swal.fire({
@@ -356,6 +422,15 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
       .catch(error => {
         console.error('Erreur lors de l\'envoi du rapport :', error);
       });      
+}
+
+formatDate(date: Date): string {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${day} - ${month} - ${year} ${hours}:${minutes}`;
 }
 
 }
