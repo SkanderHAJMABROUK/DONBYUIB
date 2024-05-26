@@ -17,6 +17,7 @@ import { DonCollecte } from '../interfaces/don-collecte';
 import { Collecte } from '../interfaces/collecte';
 import { Actualite } from '../interfaces/actualite';
 import { Donateur } from '../interfaces/donateur';
+import emailjs from '@emailjs/browser';
 
 @Injectable({
   providedIn: 'root'
@@ -113,9 +114,8 @@ export class AdministrateurService {
 
 modifierAssociation(assocation: Association): Promise<void> {
   const updatedAssociationData = {
-    ...assocation,
-    etat: "modification_acceptée"
-  };
+    ...assocation
+    };
   let associationRef = this.firestore.collection('Association').doc(assocation.id); 
   return associationRef.update(updatedAssociationData);
 }
@@ -348,6 +348,40 @@ deleteCollecteByAdmin(collecte: Collecte): Promise<void> {
   return this.firestore.collection('Collecte').doc(collecte.id).delete();
 }
 
+async sendAcceptationNotification(email:string | undefined,
+  nom_association:string,
+  titre_demande:string,
+  type_demande:string,
+  date_demande:string,
+  date_reponse:string){
+  emailjs.init('Ll48-OBaZnWxVPBb8');
+  emailjs.send('service_rmsqvw8', 'template_klajns3', {
+    to_email:email,
+    nom_association:nom_association,
+    titre_demande:titre_demande,
+    type_demande:type_demande,
+    date_demande:date_demande,
+    date_reponse:date_reponse
+  });
+}
 
+async sendRefusNotification(email:string | undefined,
+  nom_association:string,
+  titre_demande:string,
+  type_demande:string,
+  date_demande:string,
+  date_reponse:string,
+  cause_refus:string){
+  emailjs.init('Ll48-OBaZnWxVPBb8');
+  emailjs.send('service_rmsqvw8', 'template_twbhr9n', {
+    to_email:email,
+    nom_association:nom_association,
+    titre_demande:titre_demande,
+    type_demande:type_demande,
+    date_demande:date_demande,
+    date_reponse:date_reponse,
+    cause_refus:cause_refus
+  });
+}
 
 }

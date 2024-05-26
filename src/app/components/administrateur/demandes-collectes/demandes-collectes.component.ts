@@ -120,7 +120,7 @@ export class DemandesCollectesComponent implements OnInit{
       return demandeRef.update({ etat: etat, adminId: adminId }); 
     }
 
-    updateActualiteEtat(actualiteId: string, etat: string): Promise<void> {
+    updateCollecteEtat(actualiteId: string, etat: string): Promise<void> {
       const demandeRef = this.firestore.collection('Collecte').doc(actualiteId);
       return demandeRef.update({ etat: etat });
     }
@@ -190,12 +190,41 @@ export class DemandesCollectesComponent implements OnInit{
               console.log(selectedDemandeCollecte.id_collecte);
               if (selectedDemandeCollecte.id_collecte) {
                 this.collecteService.deleteCollecteById(selectedDemandeCollecte.id_collecte).then(() => {
-                  this.envoyerRapport(this.selectedDemandeCollecte);
+
+                  if(selectedDemandeCollecte.id){
+                    this.envoyerRapport(selectedDemandeCollecte.id);
+                  } else {
+                    console.error('ID de la demande indéfini.');
+                  }
+
                   Swal.fire({
                     title: "Refusé!",
                     text: `La demande de ${selectedDemandeCollecte.nom} a été refusée.`,
                     icon: "success"
                   });
+
+                  if(selectedDemandeCollecte && selectedDemandeCollecte.id_association) {
+                    this.associationService.getAssociationEmailById(selectedDemandeCollecte.id_association).subscribe(toEmail => {
+                      if (toEmail) {
+                        console.log('Retrieved email:', toEmail);
+                        if(selectedDemandeCollecte.id_association){
+                        // Use getAssociationNameById from associationService
+                        this.associationService.getAssociationNameById(selectedDemandeCollecte.id_association).subscribe(associationName => {
+                          if(associationName){
+                            const titreDemande = `le lancement de la collecte "${selectedDemandeCollecte.nom}"`;
+                            const typeDemande = 'LANCEMENT DE COLLECTE';
+                            const dateDemande = selectedDemandeCollecte.date ? this.formatDate(new Date(selectedDemandeCollecte.date)) : '';
+                            const dateReponse = this.formatDate(new Date());
+                            const causeRefus = this.rapportRefus;
+                            this.adminService.sendRefusNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse,causeRefus);
+                          }                        
+                        });}
+                      } else {
+                        console.error('Email address not found for the association.');
+                      }
+                    });
+                  }
+
                 }).catch(error => {
                   console.error('Erreur lors de la suppression de la collecte:', error);
                   Swal.fire({
@@ -258,22 +287,46 @@ export class DemandesCollectesComponent implements OnInit{
             this.updateDemandeEtat(selectedDemandeCollecte.id, "accepté").then(() => {
               // Mettre à jour l'état de l'association à "accepté"
               if (selectedDemandeCollecte.id_collecte) {
-                this.updateActualiteEtat(selectedDemandeCollecte.id_collecte, "accepté").then(() => {
+                this.updateCollecteEtat(selectedDemandeCollecte.id_collecte, "accepté").then(() => {
                   Swal.fire({
                     title: "Accepté!",
                     text: `La demande de ${selectedDemandeCollecte.nom} a été acceptée.`,
                     icon: "success"
                   });
+
+                  if(selectedDemandeCollecte && selectedDemandeCollecte.id_association) {
+                    this.associationService.getAssociationEmailById(selectedDemandeCollecte.id_association).subscribe(toEmail => {
+                      if (toEmail) {
+                        console.log('Retrieved email:', toEmail);
+                        if(selectedDemandeCollecte.id_association){
+                        // Use getAssociationNameById from associationService
+                        this.associationService.getAssociationNameById(selectedDemandeCollecte.id_association).subscribe(associationName => {
+                          if(associationName){
+                            const titreDemande = `le lancement de la collecte "${selectedDemandeCollecte.nom}"`;
+                            const typeDemande = 'LANCEMENT DE COLLECTE';
+                            const dateDemande = selectedDemandeCollecte.date ? this.formatDate(new Date(selectedDemandeCollecte.date)) : '';
+                            const dateReponse = this.formatDate(new Date());
+                            this.adminService.sendAcceptationNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse);
+                          }                        
+                        });}
+                      } else {
+                        console.error('Email address not found for the association.');
+                      }
+                    });
+                  }
+                  
+
                 }).catch(error => {
-                  console.error('Erreur lors de la mise à jour de l\'état de l\'actualité:', error);
+                  console.error('Erreur lors de la mise à jour de l\'état de la collecte:', error);
                   Swal.fire({
                     title: "Erreur",
                     text: "Une erreur s'est produite lors de l'acceptation de la demande.",
                     icon: "error"
                   });
+                  
                 });
               } else {
-                console.error('ID de l\'actualité indéfini.');
+                console.error('ID de la collecte indéfini.');
                 Swal.fire({
                   title: "Erreur",
                   text: "ID de l'actualité indéfini.",
@@ -300,21 +353,40 @@ export class DemandesCollectesComponent implements OnInit{
       });
     } 
 
-    envoyerRapport(selectedDemandeCollecte: DemandeCollecte): void {
-
-      const demandeRef = this.firestore.collection('DemandeCollecte').doc(selectedDemandeCollecte.id);
-      demandeRef.update({ rapport: this.rapportRefus })
-        .then(() => {
-          console.log('Rapport envoyé avec succès.');
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'envoi du rapport :', error);
+    envoyerRapport(id: string): void {
+      if (id) {
+        const demandeRef = this.firestore.collection('DemandeCollecte').doc(id);
+        
+        demandeRef.get().subscribe(docSnapshot => {
+          if (docSnapshot.exists) {
+            demandeRef.update({ rapport: this.rapportRefus })
+              .then(() => {
+                console.log('Rapport envoyé avec succès.');
+              })
+              .catch(error => {
+                console.error('Erreur lors de l\'envoi du rapport :', error);
+              });
+          } else {
+            console.error('Document does not exist for the given ID:', id);
+          }
         });
-  }
+      } else {
+        console.error('ID de la demande indéfini.');
+      }
+    }
+    
 
   capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day} - ${month} - ${year} ${hours}:${minutes}`;
+  }
 
 }

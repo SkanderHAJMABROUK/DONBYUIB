@@ -31,14 +31,14 @@ connexionDonateur:boolean=false;
 nomDonateur:string='';
 prenomDonateur:string='';
 showErrorNotification: boolean=false;
-id:string='';
+id = sessionStorage.getItem('donateurId');
 modifiercompte:boolean=false;
 modifierMdp:boolean=false;
 compteDonateur:boolean=true;
 modifierEmail:boolean=false;
 
 private timeoutId: any;
-  private activitySubscription: Subscription;
+private activitySubscription: Subscription;
 
 
 dateOfBirthValidator(): ValidatorFn {
@@ -180,6 +180,7 @@ logIn(email: string, password: string): Observable<boolean> {
         this.prenomDonateur = donateur.prenom;
         console.log(this.nomDonateur ,this.prenomDonateur);
         sessionStorage.setItem('connexionDonateur', 'true');
+        sessionStorage.setItem('donateurId', donateur.id); 
         sessionStorage.setItem('nomDonateur', this.nomDonateur); 
         sessionStorage.setItem('prenomDonateur', this.prenomDonateur);
         this.resetTimer();
@@ -204,6 +205,7 @@ logOut(){
   this.connexionDonateur=false;
   sessionStorage.setItem('connexionDonateur','false');
   sessionStorage.removeItem('nomDonateur');
+  sessionStorage.removeItem('donateurId');
   sessionStorage.removeItem('prenomDonateur');
    this.route.navigate(['/login']);
    this.activitySubscription.unsubscribe();

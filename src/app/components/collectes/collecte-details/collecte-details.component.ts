@@ -8,6 +8,7 @@ import { DonateurService } from 'src/app/services/donateur.service';
 import Swal from 'sweetalert2';
 import { AssociationService } from 'src/app/services/association.service';
 import { EMPTY, Observable, interval, map } from 'rxjs';
+import { Donateur } from 'src/app/interfaces/donateur';
 
 @Component({
   selector: 'app-collecte-details',
@@ -35,27 +36,36 @@ export class CollecteDetailsComponent {
   donationAmount: number = 0;
   orderId: string = ''; 
   orderStatus: number = 0;
-  donateurId!: string;
+  donateurId: string | null = null;
+  donateurEMail: string | undefined;
   totalDonationAmount: number = 0;
   amountLeft: number= 0;
   associationName: string | undefined;
   isDonationAllowed = false;
   countdown: Observable<string> = EMPTY;
+  showFullDescription: boolean = false;
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.id = params['id']; 
       console.log(this.id)
-       this.getCollecteById(this.id); 
-     });
-
-     this.donateurId=this.donateurService.id;
-     console.log('donateur',this.donateurId,'.');
-
-     this.orderId = localStorage.getItem('order-Id') || '';
-     console.log('order id',this.orderId);
-
-   }
+      this.getCollecteById(this.id); 
+    });
+  
+    this.donateurId = this.donateurService.id;
+  
+    if (this.donateurId != null) {
+      this.donateurService.getDonateurById(this.donateurId).subscribe(donateur => {
+        this.donateurEMail = donateur?.email;
+        console.log('Donateur email:', this.donateurEMail);
+      });
+    } else {
+      console.log('Donateur ID is null or undefined.');
+    }
+     
+    this.orderId = localStorage.getItem('order-Id') || '';
+    console.log('order id', this.orderId);
+  }
    
    loadAssociationName() {
     console.log('Loading association name...');
@@ -89,12 +99,11 @@ export class CollecteDetailsComponent {
           console.log(this.service.showDetails);
           this.loadAssociationName();
           this.fetchTotalDonationAmount();
-     this.getProgressPercentage();
+          this.getProgressPercentage();
 
 
      this.isDonationAllowed = new Date() >= new Date(this.selectedCollecte.date_debut);
 
-  // Si la donation n'est pas autorisée, commencez le compte à rebours
   if (!this.isDonationAllowed) {
     const countdownEnd = new Date(this.selectedCollecte.date_debut).getTime();
 
@@ -112,8 +121,6 @@ export class CollecteDetailsComponent {
       })
     );
   }
-
-
           if (this.orderId) {
             this.getOrderStatus(this.orderId);           
           }
@@ -153,12 +160,12 @@ updateDonationAmountFromSlider(event: any) {
 
 
 initiatePayment(): void {
-  const returnUrl = `http://localhost:4200/listeCollectes/details/${this.id}`;
+  const returnUrl = `https://localhost:4200/listeCollectes/details/${this.id}`;
   const randomIdentifier = Math.random().toString(36).substring(2, 10);
 
   this.paymentService.authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
     .subscribe(response => {     
-      window.location.href = response.formUrl;
+      window.open(response.formUrl, '_blank');
       localStorage.setItem('order-Id', response.orderId);
       this.orderId = response.orderId;
 
@@ -174,6 +181,10 @@ confirmPayment(orderId: string, amount: number): void {
     .subscribe(response => {
       if (this.selectedCollecte && this.selectedCollecte.id) {
         const date = new Date();
+        console.log('Adding donation to DonCollecte collection...');
+console.log('Order ID:', orderId);
+console.log('Amount:', amount);
+        if(this.donateurId)
         this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection');
@@ -181,8 +192,7 @@ confirmPayment(orderId: string, amount: number): void {
               if(this.selectedCollecte.id){
                 this.service.updateCollecteEtat(this.selectedCollecte.id,'terminee');
               }
-            }
-            window.close();
+            }           
           })
           .catch(error => {
             console.error('Erreur lors de l\'ajout du don à la collection :', error);
@@ -210,11 +220,37 @@ getOrderStatus(orderId: string): void {
 
       if (this.orderStatus == 2) {
         this.showSuccessMessage();
+
+        if (this.selectedCollecte && this.selectedCollecte.id_association) {
+          this.associationService.getAssociationNameById(this.selectedCollecte.id_association)
+            .subscribe(name => {
+              this.associationName = name || 'Default Association Name';
+              console.log('Association name:', this.associationName);
+
+              if (this.donateurEMail) {
+                console.log('Sending email to:', this.donateurEMail);
+                this.paymentService.envoyerRemerciement(this.associationName, this.donateurEMail)
+                  .then(response => {
+                    console.log('Email sent:', response);
+                  })
+                  .catch(error => {
+                    console.error('Error while sending email:', error);
+                  });
+              } else {
+                console.log('email', this.associationName, this.donateurEMail)
+              }
+            }, error => {
+              console.error('Error fetching association name:', error);
+            });
+        } else {
+          console.error('Erreur: selectedCollecte or id_association is undefined.');
+        }
       }
     }, error => {
       console.error('Error fetching order status:', error);
     });
 }
+
 
 showSuccessMessage() {
   if (this.selectedCollecte) {
@@ -225,7 +261,7 @@ showSuccessMessage() {
       title: "Félicitations!",
       text: `Votre don à la collecte '${nomCollecte}' a été transmis avec succès`,
       imageUrl: imageCollecte,
-      imageWidth: 200,
+      imageWidth: 300,
       imageHeight: 200,
       imageAlt: "Oops!"
     });
@@ -305,7 +341,7 @@ getAmountLeft(): number {
   }
   return 0;
 }
-showFullDescription: boolean = false;
+
 toggleDescription() {
     this.showFullDescription = !this.showFullDescription;
 }
