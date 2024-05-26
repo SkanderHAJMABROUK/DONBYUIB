@@ -57,6 +57,10 @@
             <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">S'inscrire</a></li>
             <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Inscrire mon association</a></li>
             <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Se connecter</a></li>
+            <li><a [routerLink]="['login/profilAssociation',serviceAssociation.id]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
+                <span>{{ serviceAssociation.nomAssociation }}</span>
+                <div class="connection-indicator"></div>
+           </a></li>
             <li>  <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" (click)="closeMenu()"> 
                 <span>{{ serviceDonateur.nomDonateur }}</span><span>{{ serviceDonateur.prenomDonateur }}</span>
     
