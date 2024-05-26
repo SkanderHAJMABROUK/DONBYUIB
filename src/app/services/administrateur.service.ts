@@ -385,7 +385,7 @@ async sendRefusNotification(email:string | undefined,
 }
 
 async sendModificationResultNotification(email:string | undefined,
-  nom:string,
+  nom:string | undefined,
   nom_association:string,
   date_demande:string,
   details_modification:string)

@@ -6,6 +6,7 @@ import { Collecte } from 'src/app/interfaces/collecte';
 import { CollecteService } from 'src/app/services/collecte.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import Swal from 'sweetalert2';
+import { AssociationService } from 'src/app/services/association.service';
 
 @Component({
   selector: 'app-modification-collecte-details',
@@ -25,7 +26,7 @@ export class ModificationCollecteDetailsComponent implements OnInit{
   rapportRefus : string = '';
 
   constructor(public adminService: AdministrateurService, private collecteService: CollecteService,
-    private firestore: AngularFirestore) { }
+    private firestore: AngularFirestore, private associationService:AssociationService) { }
 
   ngOnInit(): void {
     this.modifiedFields = [];
@@ -94,6 +95,34 @@ export class ModificationCollecteDetailsComponent implements OnInit{
                         this.updateDemandeEtat(this.demande.id, 'accepté')
                             .then(() => {
                                 console.log('Demandes : ', this.modifiedFields);
+                                if (this.demande && this.demande.id_association) {
+                                  this.associationService.getAssociationEmailById(this.demande.id_association).subscribe(toEmail => {
+                                    if (toEmail) {
+                                      console.log('Retrieved email:', toEmail);
+                                      if (this.demande.id_association) {
+                                        // Use getAssociationNameById from associationService
+                                        this.associationService.getAssociationNameById(this.demande.id_association).subscribe(associationName => {
+                                          if (associationName) {
+                                            // Ensure id_collecte is a string before using it
+                                            const id_collecte = this.demande.id_collecte ? this.demande.id_collecte : '';
+                                            if (id_collecte) {
+                                              this.collecteService.getCollecteNameById(id_collecte).subscribe(collecteName => {
+                                                const dateDemande = this.demande.date ? this.formatDate(new Date(this.demande.date)) : '';
+                                                const detailsModifications = this.generateDetailsModifications(1);
+                                                this.adminService.sendModificationResultNotification(toEmail, collecteName, associationName, dateDemande, detailsModifications);
+                                              });
+                                            } else {
+                                              console.error('id_collecte is undefined or not a valid string.');
+                                            }
+                                          }
+                                        });
+                                      }
+                                    } else {
+                                      console.error('Email address not found for the association.');
+                                    }
+                                  });
+                                }
+                                
                             });
                     }
 
@@ -173,6 +202,34 @@ rejectModification(label: string): void {
                             text: `La modification du champ ${label} a été refusée.`,
                             icon: "success"
                         });
+
+                        if (this.demande && this.demande.id_association) {
+                          this.associationService.getAssociationEmailById(this.demande.id_association).subscribe(toEmail => {
+                            if (toEmail) {
+                              console.log('Retrieved email:', toEmail);
+                              if (this.demande.id_association) {
+                                // Use getAssociationNameById from associationService
+                                this.associationService.getAssociationNameById(this.demande.id_association).subscribe(associationName => {
+                                  if (associationName) {
+                                    // Ensure id_collecte is a string before using it
+                                    const id_collecte = this.demande.id_collecte ? this.demande.id_collecte : '';
+                                    if (id_collecte) {
+                                      this.collecteService.getCollecteNameById(id_collecte).subscribe(collecteName => {
+                                        const dateDemande = this.demande.date ? this.formatDate(new Date(this.demande.date)) : '';
+                                        const detailsModifications = this.generateDetailsModifications(0);
+                                        this.adminService.sendModificationResultNotification(toEmail, collecteName, associationName, dateDemande, detailsModifications);
+                                      });
+                                    } else {
+                                      console.error('id_collecte is undefined or not a valid string.');
+                                    }
+                                  }
+                                });
+                              }
+                            } else {
+                              console.error('Email address not found for the association.');
+                            }
+                          });
+                        }
                     });
             } else {
                 Swal.fire({
@@ -234,6 +291,16 @@ updateDemandeEtat(id: string, etat: string): Promise<void> {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${day} - ${month} - ${year} ${hours}:${minutes}`;
+  }
+
+  generateDetailsModifications(scenario: number): string {
+    if (scenario === 1) {
+      return this.acceptedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification acceptée`).join('\n');
+    } else {
+      const acceptedDetails = this.acceptedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification acceptée`).join('\n');
+      const refusedDetails = this.refusedFields.map(field => `${this.capitalizeFirstLetter(field.label)}: Modification refusée`).join('\n');
+      return `${acceptedDetails}\n${refusedDetails}\n\nRapport des refus : ${this.rapportRefus}`;
+    }
   }
 
 }

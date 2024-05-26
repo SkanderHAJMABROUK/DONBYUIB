@@ -48,9 +48,9 @@ export class ModifierActualiteComponent implements OnInit{
 
   initializeForm(): void {
     this.actualiteForm = this.formBuilder.group({
-      titre: [{ value: this.actualite?.titre || '', disabled: this.isModificationDemandPending }, Validators.required],
-      description: [{ value: this.actualite?.description || '', disabled: this.isModificationDemandPending }, Validators.required],
-      image: [{ value: this.actualite?.image || '', disabled: this.isModificationDemandPending }, Validators.required],
+      titre: [{ value: this.actualite?.titre, disabled: this.isModificationDemandPending }, Validators.required],
+      description: [{ value: this.actualite?.description, disabled: this.isModificationDemandPending }, Validators.required],
+      image: [{ value: this.actualite?.image, disabled: this.isModificationDemandPending }, Validators.required],
     });
     this.initialValues = { ...this.actualiteForm.getRawValue() };
   }
