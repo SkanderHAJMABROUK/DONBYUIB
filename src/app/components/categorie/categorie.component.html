@@ -26,6 +26,9 @@
         <fa-icon [icon]="faGraduationCap" [ngClass]="{ 'icon-selected': selectedIconIndex === 5 }"></fa-icon><br>
         <span>Éducation</span>
       </div>
+      <div class="search-input">
+        <input type="text" placeholder="Search associations..." #searchInput (input)="filterBySearchTerm(searchInput.value)">    </div>
     </div>
+    
     
   </body>

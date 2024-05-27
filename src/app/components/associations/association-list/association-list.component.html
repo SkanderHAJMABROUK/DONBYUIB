@@ -1,6 +1,7 @@
 
-  <app-categorie (categorySelected)="filterByCategory($event)"></app-categorie>
+  <app-categorie (categorySelected)="filterByCategory($event)" (searchTerm)="filterBySearchTerm($event)"></app-categorie>
   <body>  
+    
     <div class="container">
     
         <div class="box-container" >

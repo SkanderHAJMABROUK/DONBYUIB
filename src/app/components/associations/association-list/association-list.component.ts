@@ -3,7 +3,6 @@ import { Association } from '../../../interfaces/association';
 import { AssociationService } from '../../../services/association.service';
 import { faSuitcaseMedical, faEarthAfrica , faGraduationCap , faBaby , faPaw , faHandshakeAngle , faHandHoldingDollar} from '@fortawesome/free-solid-svg-icons';
 
-
 @Component({
   selector: 'app-association-list',
   templateUrl: './association-list.component.html',
@@ -24,22 +23,36 @@ export class AssociationListComponent {
   
   associations:Association[]=[];
   categorySelected: string | null = null;
+  searchTerm: string | null = null;
 
-  
-  
+  applyFilters(): void {
+    this.service.getActiveAssociations().subscribe((res: Association[]) => {
+      let filtered = res;
+
+      if (this.categorySelected) {
+        filtered = filtered.filter((association: Association) => {
+          return association.categorie === this.categorySelected;
+        });
+      }
+
+      if (this.searchTerm) {
+        filtered = filtered.filter((association: Association) => {
+          return association.nom.toLowerCase().includes(this.searchTerm?.toLowerCase() || '');
+        });
+      }
+
+      this.associations = filtered;
+    });
+  }
+
   filterByCategory(cat: string): void {
     this.categorySelected = cat;
-    console.log(this.categorySelected);
-    if(this.categorySelected){
-      this.service.getActiveAssociations().subscribe((res: Association[]) => {
-        this.associations = res.filter((association: Association) => {
-          return association.categorie === cat;
-        });
-      });
-    } else {this.service.getActiveAssociations().subscribe((res)=>{
-      this.associations=res;    
-    })
-    }   
+    this.applyFilters();
+  }
+
+  filterBySearchTerm(searchTerm: string): void {
+    this.searchTerm = searchTerm;
+    this.applyFilters();
   }
 
   toggleIconState(associationId: string, state: boolean): void {
@@ -56,5 +69,4 @@ export class AssociationListComponent {
     this.service.showDetails = true;
     localStorage.setItem('service.showDetails', 'true');
   }
-
 }

@@ -19,6 +19,7 @@ export class CategorieComponent {
   faHandshakeAngle=faHandshakeAngle;
 
   @Output() categorySelected = new EventEmitter<string>();
+  @Output() searchTerm = new EventEmitter<string>();
 
   selectedCategory: string | null = null;
   selectedIconIndex: number | null = null;
@@ -39,5 +40,10 @@ export class CategorieComponent {
     this.categorySelected.emit(undefined);
     this.selectedCategory = null;
     this.selectedIconIndex = null;
+  }
+
+  filterBySearchTerm(searchTerm: string):void
+  {
+    this.searchTerm.emit(searchTerm);
   }
 }

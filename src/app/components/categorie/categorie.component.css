@@ -29,4 +29,21 @@
     font-size: 2.5rem; /* Adjust the size as needed */
   }
 
+  .search-input {
+    width: 100%;
+    max-width: 200px;
+    margin: 20px 0;
+}
+
+.search-input input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: none; /* Remove the box shadow */
+    outline: none; /* Remove the outline */
+    background-color: #f0f0f0; /* Change to a light gray background */
+    text-align: left; /* Center the text */
+}
+
   
