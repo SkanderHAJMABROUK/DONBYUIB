@@ -21,7 +21,6 @@ export class LoginAdminComponent {
       mdp: ['', Validators.required],
     });
 
-    console.log(sha256('0000'+'Au2rrGSKeUt5XyXn'))
   }
 
   constructor(private formBuilder : FormBuilder , private route:Router, public service:AdministrateurService

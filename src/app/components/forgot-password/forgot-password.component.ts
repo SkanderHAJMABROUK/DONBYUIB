@@ -17,6 +17,7 @@ import emailjs from '@emailjs/browser';
 export class ForgotPasswordComponent {
 
   protected aFormGroup!: FormGroup;
+  invalidEmail: boolean = false;
   showErrorNotification: boolean = false;
   showSuccessNotification: boolean = false;
   userType: string = '';
@@ -55,6 +56,8 @@ export class ForgotPasswordComponent {
       this.startResendCountdown();
             } else {
               console.log('Email does not exist for association:', email);
+              this.showErrorNotification = true;
+              this.invalidEmail = false;
             }
           },
           (error) => {
@@ -70,9 +73,12 @@ export class ForgotPasswordComponent {
               this.showErrorNotification = false;
               this.showSuccessNotification=true;
               this.isButtonDisabled = true;
-      this.startResendCountdown();
+              this.startResendCountdown();
             } else {
               console.log('Email does not exist for donor:', email);
+              this.showErrorNotification = true;
+              this.invalidEmail = false;
+
             }
           },
           (error) => {
@@ -81,7 +87,7 @@ export class ForgotPasswordComponent {
         );
       }
     } else {
-      this.showErrorNotification = true;
+      this.invalidEmail = true;
     }
 
   }
