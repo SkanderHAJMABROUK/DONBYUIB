@@ -51,16 +51,10 @@
 
       <div>
         <label for="categorie_association">Catégorie de l'association<span> *</span></label><br>
-      <select id="categorie_association" formControlName="categorie" required>
-        <option value="" disabled selected>Sélectionner une catégorie</option>
-        <option value="humanitaire">Humanitaire</option>
-        <option value="environnement">Environnement</option>
-        <option value="santé">Santé</option>
-        <option value="éducation">Éducation</option>
-        <option value="enfance">Enfance</option>
-        <option value="animaux">Animaux</option>
-        <option value="autres">Autres</option>
-      </select>
+        <select id="categorie_association" formControlName="categorie" required>
+          <option value="" disabled selected>Sélectionner une catégorie</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
       </div>
         
      

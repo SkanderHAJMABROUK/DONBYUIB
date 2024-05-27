@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AssociationService } from 'src/app/services/association.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from 'src/app/interfaces/association';
@@ -16,36 +16,43 @@ export class ModifierAssociationComponent {
   showSuccessMessage: boolean = false;
   isModificationDemandPending: boolean = false;
   modificationDate: string | undefined;
-  association!:Association
-  associationId!:string
+  association!: Association;
+  associationId!: string;
   isFormModified: boolean = false;
   aucunChangement: boolean = false;
-  initialValues: any; 
+  initialValues: any;
+  categories: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, public service: AssociationService, private router: Router, 
-    private route:ActivatedRoute, private spinner:NgxSpinnerService) {}
+  aFormGroup: FormGroup;
 
-
-  protected aFormGroup: FormGroup = this.formBuilder.group({
-    nom: ['', Validators.required],
-    description: ['', Validators.required],
-    adresse: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-    rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
-    categorie: ['', Validators.required]
-  });
-
+  constructor(
+    private formBuilder: FormBuilder,
+    public service: AssociationService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
+  ) {
+    this.aFormGroup = this.formBuilder.group({
+      nom: ['', Validators.required],
+      description: ['', Validators.required],
+      adresse: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      telephone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
+      rib: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(20), this.ribValidator]],
+      categorie: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.associationId= params['id']; // Obtain association ID from URL parameters
-      
+      this.associationId = params['id']; // Obtain association ID from URL parameters
+
       this.service.checkPendingModificationDemand(this.associationId).subscribe(isPending => {
         this.isModificationDemandPending = isPending;
         this.initializeForm();
+        this.getCategories();
         this.service.getModificationDateByAssociationId(this.associationId).subscribe(modificationDate => {
-        this.modificationDate = modificationDate;
+          this.modificationDate = modificationDate;
         });
       });
 
@@ -62,29 +69,32 @@ export class ModifierAssociationComponent {
     this.aFormGroup.valueChanges.subscribe(() => {
       this.isFormModified = !this.aFormGroup.pristine; // Set flag based on form state
     });
-    
   }
 
   initializeForm(): void {
-    this.aFormGroup = this.formBuilder.group({
-      nom: [{ value: this.association?.nom || '', disabled: this.isModificationDemandPending }, Validators.required],
-      description: [{ value: this.association?.description || '', disabled: this.isModificationDemandPending }, Validators.required],
-      adresse: [{ value: this.association?.adresse || '', disabled: this.isModificationDemandPending }, Validators.required],
-      email: [{ value: this.association?.email || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.email]],
-      telephone: [{ value: this.association?.telephone || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]],
-      rib: [{ value: this.association?.rib || '', disabled: this.isModificationDemandPending }, [Validators.required, Validators.minLength(20), Validators.maxLength(20)]],
-      categorie: [{ value: this.association?.categorie || '', disabled: this.isModificationDemandPending }, Validators.required],
+    this.aFormGroup.patchValue({
+      nom: this.association?.nom || '',
+      description: this.association?.description || '',
+      adresse: this.association?.adresse || '',
+      email: this.association?.email || '',
+      telephone: this.association?.telephone || '',
+      rib: this.association?.rib || '',
+      categorie: this.association?.categorie || ''
     });
     this.initialValues = { ...this.aFormGroup.getRawValue() };
+
+    if (this.isModificationDemandPending) {
+      this.aFormGroup.disable();
+    }
   }
- 
-  async onSubmit(): Promise<void>{
+
+  async onSubmit(): Promise<void> {
     console.log("onSubmit() function called");
-    
+
     if (this.isModificationDemandPending) {
       this.showSuccessMessage = false;
-      console.log("existe");
-      return; 
+      console.log("Modification demand is pending");
+      return;
     }
 
     if (JSON.stringify(this.initialValues) === JSON.stringify(this.aFormGroup.getRawValue())) {
@@ -92,7 +102,7 @@ export class ModifierAssociationComponent {
       this.aucunChangement = true;
       return;
     }
-    
+
     if (this.aFormGroup.valid) {
       console.log("Form is valid");
 
@@ -111,8 +121,41 @@ export class ModifierAssociationComponent {
       this.showErrorNotification = true;
       console.log("Form is invalid");
     }
-}
-
-
   }
 
+  ribValidator = (control: FormControl): { [key: string]: any } | null => {
+    const rib: string | null = control.value;
+    if (rib && rib.length === 20) {
+      if (!this.checkRIB(rib)) {
+        return { 'invalidRIB': true };
+      }
+    } else {
+      return { 'invalidRIB': true };
+    }
+    return null;
+  }
+
+  checkRIB(RIB: string): boolean {
+    if (RIB.length === 20) {
+      const cle: string = RIB.substring(18, 20);
+      const ribf2: string = RIB.substring(0, 18) + "00";
+      const p12: string = ribf2.substring(0, 10);
+      const p22: string = ribf2.substring(10, 20);
+      const r12: number = parseInt(p12) % 97;
+      const tmp2: string = r12.toString().concat(p22);
+      const r22: number = parseInt(tmp2) % 97;
+      const res2: number = 97 - r22;
+      const estOKRib: boolean = parseInt(cle) === res2;
+
+      return estOKRib;
+    } else {
+      return false;
+    }
+  }
+
+  getCategories() {
+    this.service.getCategories().subscribe(categories => {
+      this.categories = categories;
+    });
+  }
+}
