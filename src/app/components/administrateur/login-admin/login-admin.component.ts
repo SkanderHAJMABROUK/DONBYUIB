@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { sha256 } from 'js-sha256';
+import { Log } from 'src/app/interfaces/log';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-login-admin',
@@ -23,7 +25,8 @@ export class LoginAdminComponent {
 
   }
 
-  constructor(private formBuilder : FormBuilder , private route:Router, public service:AdministrateurService
+  constructor(private formBuilder : FormBuilder , private route:Router, public service:AdministrateurService,
+    private logService:LogService
    ){}
 
   siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; 
@@ -64,9 +67,11 @@ export class LoginAdminComponent {
           this.service.logIn(login, hashedPassword).subscribe(
             (loggedIn: boolean) => {
               if(loggedIn){
-                let message: string = `Tentative de connexion réussie de l'admin avec le login ${login}`
+                let message: string = `Tentative de connexion réussie de l'admin avec le login ${login}`;
+                this.logSignin(message);
               }else{
                 let message: string = `Tentative de connexion échouée de l'admin avec le login ${login}`;
+                this.logSignin(message);
               }
             }
           );
@@ -80,6 +85,23 @@ export class LoginAdminComponent {
     (error) => {
       console.error('Error retrieving salt by email:', error);
     });
+  }
+
+  logSignin(message:string): void {
+    const newLog: Log = {
+      date: new Date(), // Current date
+      message: message // Message for the log
+    };
+    this.logService.addLog(newLog).subscribe(
+      response => {
+        console.log('Log added successfully:', response);
+        // Handle success
+      },
+      error => {
+        console.error('Error adding log:', error);
+        // Handle error
+      }
+    );
   }
 
   
