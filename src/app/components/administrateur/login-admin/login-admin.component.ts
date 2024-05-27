@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { sha256 } from 'js-sha256';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 
 @Component({
@@ -19,13 +20,12 @@ export class LoginAdminComponent {
       login: ['', Validators.required], 
       mdp: ['', Validators.required],
     });
+
+    console.log(sha256('0000'+'Au2rrGSKeUt5XyXn'))
   }
 
   constructor(private formBuilder : FormBuilder , private route:Router, public service:AdministrateurService
-   ){
-
-
-  }
+   ){}
 
   siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; 
 
@@ -56,19 +56,31 @@ export class LoginAdminComponent {
     const login = this.aFormGroup.get('login')?.value;
     const mdp = this.aFormGroup.get('mdp')?.value;
 
-    if (login && mdp) {
-      this.service.logIn(login, mdp).subscribe(success => {
-        if (success) {
-          // Connexion réussie, vous pouvez rediriger l'utilisateur vers la page appropriée
-          console.log('Connexion réussie !');
+    this.service.getAdminSaltByLogin(login).subscribe(
+      (salt: string | undefined) => {
+        if(salt){
+          console.log('Salt found for login:', login , 'is', salt);
+          const hashedPassword = sha256(mdp + salt);
+
+          this.service.logIn(login, hashedPassword).subscribe(
+            (loggedIn: boolean) => {
+              if(loggedIn){
+                let message: string = `Tentative de connexion réussie de l'admin avec le login ${login}`
+              }else{
+                let message: string = `Tentative de connexion échouée de l'admin avec le login ${login}`;
+              }
+            }
+          );
         } else {
-          // Connexion échouée, affichez un message d'erreur à l'utilisateur
-          console.error('Connexion échouée. Veuillez vérifier vos informations de connexion.');
+          // Gérer le cas où le sel n'est pas trouvé pour l'email donné
+          console.error('Salt not found for login:', login);
+          this.service.showErrorNotification = true;
         }
-      });
-    } else {
-      console.error('Veuillez remplir tous les champs.');
-    }
+
+    },
+    (error) => {
+      console.error('Error retrieving salt by email:', error);
+    });
   }
 
   

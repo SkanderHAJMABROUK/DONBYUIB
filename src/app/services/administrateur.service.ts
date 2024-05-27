@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore, DocumentData } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, getDocs, query, where } from '@angular/fire/firestore';
 import { Association } from '../interfaces/association';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
@@ -120,14 +120,17 @@ modifierAssociation(assocation: Association): Promise<void> {
   return associationRef.update(updatedAssociationData);
 }
 
+
 getAdminByLoginAndPassword(login: string, password: string): Observable<Admin | undefined> {
+  console.log('Login:', login);
+  console.log('Password:', password);
+  
   return this.firestore.collection<Admin>('Admin', ref => ref.where('login', '==', login).where('mdp', '==', password))
     .valueChanges({ idField: 'id' })
     .pipe(
-      map(admins => admins[0]) // Supposant que le login est unique, nous prenons le premier élément trouvé
+      map(admin => admin[0]) 
     );
 }
-
 
 getAdminById(adminId: string): Observable<Admin | undefined> {
   return this.firestore.collection<Admin>('Admin').doc(adminId).valueChanges({ idField: 'id' });
@@ -399,5 +402,38 @@ async sendModificationResultNotification(email:string | undefined,
     details_modification:details_modification
   });
 }
+
+getAdmins(): Observable<Admin[]> {
+  let adminCollection = collection(this.fs, 'Admin');
+  return collectionData(adminCollection, { idField: 'id' }).pipe(
+    map((admins: any[]) => {
+      return admins.map(admin => ({
+        login:admin.login,
+        mdp:admin.mdp,
+        salt:admin.salt
+      }));
+    })
+  );
+}
+
+getAdminByLogin(login: string): Observable<Admin | undefined> {
+  return this.getAdmins().pipe(
+    map(admins => admins.find(admin => admin.login === login))
+  );
+}
+
+getAdminSaltByLogin(login: string): Observable<string | undefined> {
+  return this.getAdminByLogin(login).pipe(
+    map((admin: Admin | undefined) => {
+      // Vérifie si l'association a été trouvée
+      if (admin) {
+        // Retourne le sel de l'association
+        return admin.salt;
+      } else {
+        // Si aucune association n'a été trouvée, retourne undefined
+        return undefined;
+      }
+    })
+  );}
 
 }
