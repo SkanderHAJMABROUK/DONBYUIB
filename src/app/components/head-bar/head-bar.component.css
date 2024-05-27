@@ -40,7 +40,6 @@ a{
 }
 a:hover{  
     color: rgba(0, 0, 0, 0.42);
-    text-decoration: underline;
 }
 
 .navbar{
@@ -82,6 +81,11 @@ a:hover{
 .action_btn:active{
     scale:0.95;
   
+}
+
+.active-link {
+    font-weight: bold;    
+    font-size: 1.15rem;
 }
 
 .dropdown_menu{

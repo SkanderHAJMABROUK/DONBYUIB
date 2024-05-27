@@ -5,18 +5,16 @@
             <a [routerLink]="['listeAssociations']"><img src="../../assets/images/logodonbyuib.png" alt="Oups"></a>
         </div>
         <ul class="links">
-            <li><a [routerLink]="['listeActualites']">Accueil</a></li>
-            <li><a [routerLink]="['listeAssociations']">Associations</a></li>
-            <li><a [routerLink]="['listeCollectes']">Collectes</a></li>
-    
+            <li><a [routerLink]="['listeActualites']" routerLinkActive="active-link">Accueil</a></li>
+            <li><a [routerLink]="['listeAssociations']" routerLinkActive="active-link">Associations</a></li>
+            <li><a [routerLink]="['listeCollectes']" routerLinkActive="active-link">Collectes</a></li>
         </ul>
 
+        <a [routerLink]="['Sinscrire']" class="action_btn" *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">S'inscrire</a>
 
-        <a [routerLink]="['Sinscrire']" class="action_btn" *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur">S'inscrire</a>
 
-
-        <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" >Inscrire mon association</a>
-        <a [routerLink]="['login']" class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" >Se connecter</a>
+        <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">Inscrire mon association</a>
+        <a [routerLink]="['login']" class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">Se connecter</a>
  
         <a [routerLink]="['login/profilAssociation',serviceAssociation.id]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
              <span>{{ serviceAssociation.nomAssociation }}</span>
