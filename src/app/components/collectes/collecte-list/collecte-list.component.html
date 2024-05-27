@@ -1,22 +1,34 @@
 <div class="container">
+
+  
+  <div class="search-container">
+    <label  id="etat-label" for="etat-select"><strong>Filtrer par association:</strong></label>
+    <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherCollecte()">
+        <option value="" selected>Tous</option>
+        <option *ngFor="let association of associationsNames" [value]="association"><i>{{association}}</i></option>
+    </select>
+    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherCollecte()" placeholder="Rechercher..." class="search-input">
+</div>
+
+
   <div class="box-container">
-    <div class="box" *ngFor="let collecte of collectes">
+    <div class="box" *ngFor="let collecte of filteredCollecteList">
       <img [src]="collecte.image" alt="Oups!">
       <h3>{{ collecte.nom }}</h3>
       <p class="description">{{ collecte.description }}</p>
       <div class="details">
         <div class="dates">
-          <p>Date de début : {{ collecte.date_debut | date }}</p>
-          <p>Date de fin : {{ collecte.date_fin | date }}</p>
+          <p><strong>Date de début :</strong> {{ collecte.date_debut | date }}</p>
+          <p><strong>Date de fin :</strong> {{ collecte.date_fin | date }}</p>
         </div>
         <div class="amount">
-          <p>Montant : {{ collecte.montant }}</p>
+          <p><strong>Montant :</strong>Montant : {{ collecte.montant }}</p>
         </div>
       </div>
       <div class="progress-bar">
         <div class="progress" [style.width]="getProgressPercentage(collecte)+'%'"></div>
       </div>
-      <p>Temps restant : {{ getTimeRemaining(collecte.date_fin) }}</p>
+      <p><strong>Temps restant :</strong> {{ getTimeRemaining(collecte.date_fin) }}</p>
       <a class="btn" [routerLink]="['details', collecte.id]"
         (click)="toggleShowDetails()"
         (mouseenter)="collecte.id && toggleIconState(collecte.id, true)" 

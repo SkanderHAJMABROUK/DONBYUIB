@@ -19,7 +19,7 @@
 
 .box-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap:15px;
   z-index: 999;
 }
@@ -99,3 +99,55 @@ h3::after {
   background-color: #ffffff;
   color: red;
 }
+
+.search-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 15px;
+  width: 50%;
+}
+
+.search-input:focus {
+  border-color: #00000046; /* Change la couleur de la bordure lorsque la barre de recherche est sélectionnée */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Ajoute une légère ombre à la bordure */
+  outline: none; /* Supprime l'outline par défaut */
+}
+
+#etat-select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width:20%;
+  margin: 15px 15px 15px 0; /* Ajustez la marge droite pour aligner correctement avec les autres éléments */
+  vertical-align: middle; /* Ajustez l'alignement vertical */
+}
+
+#etat-select:focus {
+  border-color: #00000046;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+#etat-label {
+  margin: 15px 15px 15px 0; /* Ajustez la marge droite pour aligner correctement avec les autres éléments */
+  vertical-align: middle; /* Ajustez l'alignement vertical */
+}
+
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 50%; /* Limit the width to 40% of the screen width */
+  margin-left: auto; /* Push the container to the right */
+}
+
+#etat-label,
+#etat-select,
+#searchInput {
+  margin: 10px;
+}
+
+
