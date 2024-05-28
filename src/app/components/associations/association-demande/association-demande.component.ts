@@ -28,7 +28,7 @@ export class AssociationDemandeComponent implements OnInit{
     floor: 0,
     ceil: 2000
   }
-  donateurId!: string|null;
+  donateurId: string | null = null;
   id!: string;
   selectedAssociation!: Association |undefined; 
   donationAmount: number = 0;
@@ -122,8 +122,8 @@ confirmPayment(orderId: string, amount: number): void {
         console.log('Selected Association:', this.selectedAssociation);
         // Pas besoin d'ajouter le don ici
         const date = new Date();
-        if(this.donateurId)
-        this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, this.donateurId)
+        const donateurId = this.donateurId || '';
+        this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection DonAssociation');
             this.paymentSuccessful = localStorage.getItem('PaymentStatus')// Retrieve payment status from localStorage

@@ -182,10 +182,10 @@ confirmPayment(orderId: string, amount: number): void {
       if (this.selectedCollecte && this.selectedCollecte.id) {
         const date = new Date();
         console.log('Adding donation to DonCollecte collection...');
-console.log('Order ID:', orderId);
-console.log('Amount:', amount);
-        if(this.donateurId)
-        this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, this.donateurId)
+        console.log('Order ID:', orderId);
+        console.log('Amount:', amount);
+        const donateurId = this.donateurId || '';
+        this.paymentService.addDonCollecte(this.selectedCollecte.id, amount, date, donateurId)
           .then(() => {
             console.log('Don ajouté avec succès à la collection');
             if (this.selectedCollecte && this.selectedCollecte.cumul + amount >= this.selectedCollecte.montant) {
