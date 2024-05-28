@@ -45,7 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let donation of allDonations | slice:0:5; let i = index">
+        <tr *ngFor="let donation of allDonations ; let i = index">
           <td>{{ donation.associationName }}</td>
           <td>{{ donation.totalDonation }}</td>
         </tr>
