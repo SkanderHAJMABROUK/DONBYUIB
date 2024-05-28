@@ -37,27 +37,39 @@
   </div>
   <div class="card">
     <h2>All Donations</h2>
-    <ul>
-      <li *ngFor="let donation of allDonations">{{ donation.associationName }}</li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Association Name</th>
+          <th>Donation Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let donation of allDonations | slice:0:5; let i = index">
+          <td>{{ donation.associationName }}</td>
+          <td>{{ donation.totalDonation }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  
   <div class="card">
-  <h2>Top Donators</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Total Donation</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let donator of topDonators; let i = index">
-        <td>{{ donator.name }}</td>
-        <td>{{ donator.totalDonation }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <h2>Top Donators</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Total Donation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let donator of topDonators | slice:0:5 ; let i = index">
+          <td>{{ donator.name }}</td>
+          <td>{{ donator.totalDonation }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div class="card" *ngIf="positiveWordcloudUrl">
     <h2>Positive Wordcloud</h2>
     <img [src]="positiveWordcloudUrl" alt="Positive Wordcloud">

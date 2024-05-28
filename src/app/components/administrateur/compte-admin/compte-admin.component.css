@@ -1,62 +1,79 @@
 .dashboard-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding-left: 115px;
-    padding-top: 100px;
-  }
-  
-  .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px; /* Adjust padding as needed */
-    margin: 10px; /* Add margin between cards */
-    border: 1px solid #ccc; /* Add border for visualization */
-    border-radius: 20px;
-  }
-  
-  .card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .card p {
-    font-size: 1.5rem;
-    margin: 0;
-  }
-  
-  .canvas-container {
-    width: 100%;
-    height: 300px;
-  }
-  
-  .canvas-container canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 50px;
+  background-color: #f4f4f415; /* Light background color */
+  margin-left: 100px;  /* Add left margin */
+  margin-top: 80px;   /* Add top margin */
+}
 
-  .card img {
-    max-width: 100%;
-    height: auto;
-    display: block; /* Ensures images don't inherit any unwanted whitespace */
-  }
-  
-  .card .chartdiv {
-    width: 100%;
-    z-index: -1;
-    height: 400px; /* Adjust the height as needed */
-    padding: 10px; /* Add padding to the map */
-    box-sizing: border-box; /* Include padding in the total width/height */
-  }
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff; /* White background for cards */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: transform 0.2s; /* Smooth transition */
+}
 
-  table {
-    width: 100%;
+.card:hover {
+  transform: translateY(-5px); /* Lift on hover */
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+  color: #333333; /* Darker text color */
+  text-align: center;
+}
+
+.card p {
+  font-size: 1.25rem;
+  margin: 0;
+  color: #555555; /* Medium text color */
+}
+
+.chartdiv, .canvas-container {
+  width: 100%;
+  height: 300px; /* Standardize height */
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px; /* Rounded corners for images */
+}
+
+.card .chartdiv {
+  height: 400px; /* Specific height for map */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Remove cell spacing */
+}
+
+th, td {
+  text-align: center;
+  padding: 10px; /* Standardize padding */
+  border-bottom: 1px solid #eeeeee; /* Light border */
+}
+
+th {
+  background-color: #fafafa; /* Slightly different background for headers */
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9; /* Slight hover effect for rows */
+}
+
+@media (max-width: 600px) {
+  .dashboard-container {
+    grid-template-columns: 1fr; /* Single column layout for small screens */
   }
-  
-  th, td {
-    text-align: center;
-    padding: 15px;
-  }
+}
