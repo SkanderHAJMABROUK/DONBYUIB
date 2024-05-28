@@ -398,12 +398,16 @@ export class CompteAdminComponent implements OnInit{
           label: 'Nombre d\'associations',
           data: this.associationsByCategory.map(item => item.count),
           backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(75, 192, 192, 0.5)',
-            'rgba(153, 102, 255, 0.5)',
-            'rgba(255, 159, 64, 0.5)'
+            'rgba(33, 150, 243, 0.5)', // Blue
+'rgba(76, 175, 80, 0.5)',  // Green
+'rgba(255, 193, 7, 0.5)',  // Yellow
+'rgba(156, 39, 176, 0.5)', // Purple
+'rgba(255, 87, 34, 0.5)',  // Deep Orange
+'rgba(0, 188, 212, 0.5)',  // Cyan
+'rgba(96, 125, 139, 0.5)', // Blue Grey
+'rgba(233, 30, 99, 0.5)',  // Pink
+'rgba(3, 169, 244, 0.5)',  // Light Blue
+'rgba(121, 85, 72, 0.5)'   // Brown
           ],
           borderWidth: 1
         }]
@@ -500,7 +504,7 @@ export class CompteAdminComponent implements OnInit{
         datasets: [
           {
             label: 'Accepted',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: 'rgba(33, 150, 243, 0.5)',
             data: [
               associationsAccepted.length,
               collecteAccepted.length,
@@ -509,7 +513,7 @@ export class CompteAdminComponent implements OnInit{
           },
           {
             label: 'Refused',
-            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            backgroundColor: 'rgba(96, 125, 139, 0.5)',
             data: [
               associationsRefused.length,
               collecteRefused.length,
@@ -561,9 +565,16 @@ export class CompteAdminComponent implements OnInit{
               const datasets = [{
                 data: Object.values(aggregatedData),
                 backgroundColor: [
-                  'rgba(255, 99, 132, 0.5)',
-                  'rgba(54, 162, 235, 0.5)',
-                  'rgba(255, 206, 86, 0.5)',
+                  'rgba(33, 150, 243, 0.5)', // Blue
+    'rgba(76, 175, 80, 0.5)',  // Green
+    'rgba(255, 193, 7, 0.5)',  // Yellow
+    'rgba(156, 39, 176, 0.5)', // Purple
+    'rgba(255, 87, 34, 0.5)',  // Deep Orange
+    'rgba(0, 188, 212, 0.5)',  // Cyan
+    'rgba(96, 125, 139, 0.5)', // Blue Grey
+    'rgba(233, 30, 99, 0.5)',  // Pink
+    'rgba(3, 169, 244, 0.5)',  // Light Blue
+    'rgba(121, 85, 72, 0.5)'   // Brown
                 ],
                 borderWidth: 1
               }];
