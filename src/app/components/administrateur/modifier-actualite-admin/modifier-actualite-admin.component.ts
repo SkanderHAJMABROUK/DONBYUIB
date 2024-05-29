@@ -32,27 +32,6 @@ export class ModifierActualiteAdminComponent {
       date_publication: [this.actualite.date_publication instanceof Date ? this.actualite.date_publication.toISOString().split('T')[0] : this.actualite.date_publication],
     });
   }
-  
- 
-
-  // async modifierActualite(): Promise<void> {
-  //   if (this.actualiteForm.valid) {
-  //     let actualiteDataToUpdate: Actualite = {
-  //       id: this.actualite.id, // Assurez-vous de récupérer l'ID de la collecte
-  //       ...this.actualiteForm.value // Utilisez les valeurs du formulaire
-  //     };
-  //     const ImageFile = this.actualiteForm.value.image;
-  //     const ImageDownloadUrl = await this.service.uploadCover(ImageFile);
-  //     if(ImageDownloadUrl){actualiteDataToUpdate.image = ImageDownloadUrl;
-  //     this.service.modifierActualite({...actualiteDataToUpdate,image:ImageDownloadUrl})
-     
-
-  //       .then(() => window.location.reload()) // Rechargez la page après la modification
-  //       .catch(error => console.error('Erreur lors de la modification de la collecte :', error));
-  //   } else {
-  //     console.error('Formulaire invalide. Veuillez corriger les erreurs.');
-  //   }
-  // }}
 
   async modifierActualite() : Promise<void>{
     if(this.actualiteForm.valid){

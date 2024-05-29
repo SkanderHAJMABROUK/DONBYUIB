@@ -6,6 +6,7 @@
   background-color: #f4f4f415; /* Light background color */
   margin-left: 100px;  /* Add left margin */
   margin-top: 80px;   /* Add top margin */
+  z-index: 1; /* Ensure it has a proper z-index */
 }
 
 .card {
