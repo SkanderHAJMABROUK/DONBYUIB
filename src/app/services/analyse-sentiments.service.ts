@@ -8,25 +8,27 @@ import { AnalyseSentiment } from '../interfaces/analyse-sentiment';
   providedIn: 'root'
 })
 export class AnalyseSentimentsService {
-  private apiUrl = 'http://localhost:5000'; 
-  private positiveWordcloudUrl = 'http://127.0.0.1:5000/positive-wordcloud';
-  private sentimentAnalysisUrl = 'http://127.0.0.1:5000/sentiment-analysis';
 
 
+  // private baseUrl = 'http://127.0.0.1:5000';
+  private baseUrl = '/flaskapi';
 
   constructor(private http: HttpClient) { }
   
   getSatisfactionRate(): Observable<AnalyseSentiment> {
-    return this.http.get<AnalyseSentiment>(`${this.apiUrl}/satisfaction-rate`);
+    return this.http.get<AnalyseSentiment>(`${this.baseUrl}/satisfaction-rate`);
   }
-  
+
   getPositiveWordcloud(): Observable<Blob> {
-    return this.http.get(this.positiveWordcloudUrl, { responseType: 'blob' });
+    const url = `${this.baseUrl}/positive-wordcloud`;
+    console.log(`Fetching Positive Wordcloud from: ${url}`);
+    return this.http.get(url, { responseType: 'blob' });
   }
+
   getSentimentAnalysisChart(): Observable<Blob> {
-    return this.http.get(this.sentimentAnalysisUrl, { responseType: 'blob' });
+    const url = `${this.baseUrl}/sentiment-analysis`;
+    console.log(`Fetching Sentiment Analysis Chart from: ${url}`);
+    return this.http.get(url, { responseType: 'blob' });
   }
-
-
 
 }
