@@ -70,22 +70,20 @@
     background-color: white;
     color:#8d1111 ;
     font-weight: bold;
+  } 
+
+  .actualite-photo {
+    margin-bottom: 20px;
+    width: 600px; /* Increased width for the logo */
+    height: auto; /* Set height to auto */
   }
   
-  
-
-/* Style for the image container */
-.actualite-photo {
-    margin-bottom: 20px;
-    width: 150px; /* Set a fixed width for the logo */
-}
-
-/* Style for the image */
-.actualite-photo img {
+  /* Style for the image */
+  .actualite-photo img {
     max-width: 100%;
     max-height: 100%; /* Maintain aspect ratio */
     border-radius: 10px;
-}
+  }
 
 /* Style for the association info */
 .actualite-info {
