@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActualiteService } from '../../../services/actualite.service';
 import { Actualite } from '../../../interfaces/actualite';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { Association } from 'src/app/interfaces/association';
+import { AssociationService } from 'src/app/services/association.service';
 
 
 @Component({
@@ -12,7 +14,9 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
 export class ActualiteListComponent {
 
 
-  constructor(public service:ActualiteService){}
+  constructor(public actualiteService:ActualiteService,
+    public associationService:AssociationService
+  ){}
 
   customOptions: OwlOptions = {
     autoplay: true,
@@ -43,16 +47,21 @@ export class ActualiteListComponent {
 
 
   actualites:Actualite[]=[];
+  associations:Association[]=[];
   
   ngOnInit():void{
-    this.service.getAcceptedActualites().subscribe((res)=>{
+    this.actualiteService.getAcceptedActualites().subscribe((res)=>{
      this.actualites=res;
      console.log(this.actualites);
    })
+   this.associationService.getActiveAssociations().subscribe((res)=>{
+    this.associations=res;
+    console.log(this.associations);
+  })
    }
     
    toggleShowDetails() {
-    this.service.showDetails = true;
+    this.actualiteService.showDetails = true;
     localStorage.setItem('service.showDetails', 'true');
   }
   

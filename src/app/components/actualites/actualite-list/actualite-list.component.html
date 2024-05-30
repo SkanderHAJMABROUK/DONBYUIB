@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="main-heading">" Grâce à vous... "</div>
+  <div class="actualite-heading">" Grâce à vous... "</div>
   <owl-carousel-o [options]="customOptions">
     <ng-template carouselSlide *ngFor="let actualite of actualites">
       <a class="btn" [routerLink]="['details', actualite.id]"
@@ -11,8 +11,22 @@
             <p>{{actualite.description}}</p>
           </div>
         </div>
-      </a>    
-       
+      </a>      
     </ng-template>  
   </owl-carousel-o>
+
+  <div class="association-heading">Les associations partenaires</div>
+
+  <div class="associations">
+    <a [routerLink]="['/listeAssociations/details', association.id]" *ngFor="let association of associations | slice:0:10">
+      <div class="association">
+        <img [src]="association.logo" alt="{{association.nom}}">
+        <h4>{{association.nom}}</h4>
+      </div>
+    </a>
+  </div>
+
+  <div class="button-container">
+    <button class="all-associations-button" [routerLink]="['/listeAssociations']">Afficher toutes les associations</button>  </div>
+
 </div>
