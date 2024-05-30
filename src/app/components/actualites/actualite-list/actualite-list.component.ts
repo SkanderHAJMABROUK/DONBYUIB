@@ -4,6 +4,8 @@ import { Actualite } from '../../../interfaces/actualite';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { Association } from 'src/app/interfaces/association';
 import { AssociationService } from 'src/app/services/association.service';
+import { Collecte } from 'src/app/interfaces/collecte';
+import { CollecteService } from 'src/app/services/collecte.service';
 
 
 @Component({
@@ -15,7 +17,8 @@ export class ActualiteListComponent {
 
 
   constructor(public actualiteService:ActualiteService,
-    public associationService:AssociationService
+    public associationService:AssociationService,
+    public collecteService:CollecteService
   ){}
 
   customOptions: OwlOptions = {
@@ -48,6 +51,7 @@ export class ActualiteListComponent {
 
   actualites:Actualite[]=[];
   associations:Association[]=[];
+  collectes:Collecte[]=[];
   
   ngOnInit():void{
     this.actualiteService.getAcceptedActualites().subscribe((res)=>{
@@ -58,11 +62,57 @@ export class ActualiteListComponent {
     this.associations=res;
     console.log(this.associations);
   })
+  this.collecteService.getAcceptedCollectes().subscribe((res)=>{
+    this.collectes=res;
+    console.log(this.collectes);
+  })
    }
     
    toggleShowDetails() {
     this.actualiteService.showDetails = true;
     localStorage.setItem('service.showDetails', 'true');
+  }
+
+  getProgressPercentage(collecte: Collecte): number {
+    if (collecte && collecte.montant && collecte.cumul !== undefined) {
+      const montant = collecte.montant;
+      const cumul = collecte.cumul;
+      if (montant > 0) {
+        return Math.floor((cumul / montant) * 100);
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  getAssociationName(associationId: string): string {
+    const association = this.associations.find(association => association.id === associationId);
+    return association ? association.nom : '';
+  }
+
+  getTimeRemaining(startDate: Date, endDate: Date): string {
+    const now = new Date();
+    const startTime = new Date(startDate);
+    const endTime = new Date(endDate);
+  
+    if (now < startTime) {
+      const timeDiff = startTime.getTime() - now.getTime();
+      const daysUntilStart = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      return 'Commence dans ' + daysUntilStart + ' jours';
+    }
+  
+    const timeDiff = endTime.getTime() - now.getTime();
+    const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  
+    if (daysRemaining <= 0) {
+      return 'Terminée';
+    } else if (daysRemaining === 1) {
+      return '1 jour restant';
+    } else {
+      return 'Il reste '+daysRemaining + ' jours';
+    }
   }
   
   

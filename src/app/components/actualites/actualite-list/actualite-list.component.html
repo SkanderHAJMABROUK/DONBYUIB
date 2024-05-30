@@ -27,6 +27,28 @@
   </div>
 
   <div class="button-container">
-    <button class="all-associations-button" [routerLink]="['/listeAssociations']">Afficher toutes les associations</button>  </div>
+    <button class="all-associations-button" [routerLink]="['/listeAssociations']">Afficher toutes les associations</button>  
+  </div>
+
+  <div class="collecte-heading">Les collectes de fonds</div>
+
+  <div class="collectes">
+    <div class="collecte-card" [routerLink]="['/listeCollectes/details', collecte.id]" *ngFor="let collecte of collectes | slice:0:5">
+      <img [src]="collecte.image" alt="{{collecte.nom}}">
+      <h3>{{collecte.nom}}</h3>
+      <h4 [routerLink]="['/listeAssociations/details', collecte.id_association]">{{collecte.id_association ? getAssociationName(collecte.id_association) : ''}}</h4>
+      <p>{{getTimeRemaining(collecte.date_debut,collecte.date_fin)}}</p>
+      <div class="collecte-indicator">{{collecte.cumul}}<strong>/{{collecte.montant}}DT</strong></div>
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="getProgressPercentage(collecte)">
+          <span>{{getProgressPercentage(collecte)}}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button class="all-associations-button" [routerLink]="['/listeCollectes']">Afficher toutes les collectes</button>  
+  </div>
 
 </div>

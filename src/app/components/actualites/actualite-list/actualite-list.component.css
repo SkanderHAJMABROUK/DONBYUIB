@@ -13,7 +13,7 @@
 .actualite-heading::after {
   content: '';
   display: block;
-  width: 70%;
+  width: 50%;
   height: 2px;
   background-color: black;
   margin: auto;
@@ -25,7 +25,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black background */
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
   color: white;
   padding: 20px;
   text-align: center;
@@ -51,7 +51,7 @@
 
 .carousel-item img {
   width: 100%;
-  height: 500px;
+  height: 600px;
   object-fit: contain;
 }
 
@@ -65,7 +65,7 @@
 .association-heading::after {
   content: '';
   display: block;
-  width: 70%;
+  width: 50%;
   height: 2px;
   background-color: black;
   margin: auto;
@@ -137,8 +137,102 @@
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   padding: 10px 20px; /* Adjust this to change the size of the button */
-  border: none;
-  cursor: pointer;
   border: 2px solid rgb(0, 0, 0);
+  cursor: pointer;
   margin-top: 5%;
+  transition: border 0.3s ease-in-out; /* Add this line */
+}
+
+.all-associations-button:hover {
+  border: 2px solid transparent; /* Add this rule */
+}
+
+.collecte-heading {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  margin-top: 50px;
+}
+
+.collecte-heading::after {
+  content: '';
+  display: block;
+  width: 50%;
+  height: 2px;
+  background-color: black;
+  margin: auto;
+  margin-top: 15px; /* Adjust the space between the underline and the text */
+}
+
+.collectes {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.collecte-card {
+  width: 18%; /* Adjust this to change the size of the cards */
+  border: 1px solid #7f7f7f;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 1%; /* Add some margin around the cards */
+  text-align: center;
+  background-color: #fff; /* Add a background color */
+  transition: 0.3s; /* Add a transition */
+  cursor: url('../../../../assets/images/heart-logo-png-transparent.png'), auto;
+}
+
+.collecte-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Add a hover effect */
+}
+
+.collecte-card img {
+  width: 100%; /* This makes the image take up the full width of the card */
+  height: 200px; /* This sets a fixed height for the image */
+  object-fit: cover; /* This makes the image cover its entire container without distorting its aspect ratio */
+}
+
+.collecte-card h3 {
+  height: 60px; /* This sets a fixed height for the title */
+  overflow: hidden; /* This hides any overflow */
+  text-overflow: ellipsis; /* This adds an ellipsis (...) when the text overflows */
+  display: -webkit-box; /* This makes the text form a block */
+  -webkit-line-clamp: 2; /* This limits the text to 2 lines */
+  -webkit-box-orient: vertical; /* This makes the text overflow vertically */
+  font-size: 17px;
+}
+
+.collecte-card h4 {
+  font-size: 17px;
+  color: #de1515; /* This sets the color of the text to red */
+}
+
+.collecte-card p {
+  color: grey; /* This sets the color of the text to grey */
+}
+
+.collecte-indicator {
+  color:#000;
+  text-align: right; /* This aligns the text to the right */
+  margin-bottom: 5px; /* This adds some space between the indicator and the progress bar */
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #f3f3f3;
+  border-radius: 5px; /* Add rounded corners to the progress bar */
+  position: relative; /* Add this to position the span correctly */
+}
+
+.progress {
+  height: 100%;
+  background-color: #de1515;
+  border-radius: 5px; /* Add rounded corners to the progress */
+  display: flex; /* Add this to center the text vertically */
+  align-items: center; /* Add this to center the text vertically */
+  justify-content: center; /* Add this to center the text horizontally */
+  color: #fff; /* Add this to make the text white */
+  font-size: 13px; /* Adjust this to change the size of the text */
 }
