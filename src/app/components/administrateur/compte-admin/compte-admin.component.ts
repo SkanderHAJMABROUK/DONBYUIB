@@ -22,11 +22,23 @@ import am4geodata_tunisiaLow from '@amcharts/amcharts4-geodata/tunisiaLow';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 am4core.useTheme(am4themes_animated);
 import { fa1, fa2, fa3, fa4, fa5 } from '@fortawesome/free-solid-svg-icons';
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-compte-admin',
   templateUrl: './compte-admin.component.html',
-  styleUrls: ['./compte-admin.component.css']
+  styleUrls: ['./compte-admin.component.css'],
+  animations: [
+    trigger('numberCountAnimation', [
+      transition('void => *', [
+        animate('1s ease-in', keyframes([
+          style({ opacity: 0, transform: 'translateY(-75%)', offset: 0 }),
+          style({ opacity: .5, transform: 'translateY(35px)', offset: .3 }),
+          style({ opacity: 1, transform: 'translateY(0)', offset: 1.0 }),
+        ]))
+      ])
+    ])
+  ]
 })
 export class CompteAdminComponent implements OnInit{
   satisfactionRate!: number;
@@ -118,7 +130,6 @@ export class CompteAdminComponent implements OnInit{
       this.chart.dispose();
     }
   }
-  
 
    getAdminById(id: string){
     this.service.getAdminById(id).subscribe(
