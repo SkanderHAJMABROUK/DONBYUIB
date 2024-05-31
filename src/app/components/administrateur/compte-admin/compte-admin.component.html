@@ -16,54 +16,53 @@
     <p>{{ satisfactionRate }}%</p>
   </div>
   <div class="card">
-    <h2>Map</h2>
+    <h2>Répartition des associations par gouvernorat</h2>
     <div class="chartdiv"></div>
   </div>
   <div class="card">
-    <h2>Chart</h2>
-    <canvas class="piechart"></canvas>
+    <h2>Répartition des associations par catégorie</h2>
+    <canvas class="piechart" width="400" height="400"></canvas>
   </div>
   <div class="card">
-    <h2>Donations Chart</h2>
-    <canvas class="linechart"></canvas>
+    <h2>Évolution des dons</h2>
+    <canvas class="linechart" width="400" height="300"></canvas>
   </div>
   <div class="card">
-    <h2>Chart</h2>
-    <canvas id="barChart" class="barChart"></canvas>
+    <h2>Demandes acceptées et refusées</h2>
+    <canvas id="barChart" class="barChart" width="400" height="300"></canvas>
   </div>
   <div class="card">
-    <h2>Chart</h2>
-    <canvas id="doughnutChart" class="doughnutChart"></canvas>
+    <h2>Dons par association</h2>
+    <canvas id="doughnutChart" class="doughnutChart" width="400" height="400"></canvas>
   </div>
   <div class="card">
-    <h2>All Donations</h2>
+    <h2>Top 5 des associations bénéficiaires</h2>
     <table>
       <thead>
         <tr>
-          <th>Association Name</th>
+          <th>Nom de l'association</th>
           <th>Montant en DT</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let donation of allDonations ; let i = index">
+        <tr *ngFor="let donation of allDonations | slice:0:5; let i = index">
           <td>{{ donation.associationName }}</td>
           <td><strong>{{ donation.totalDonation }}</strong></td>
         </tr>
       </tbody>
     </table>
   </div>
-  
   <div class="card">
-    <h2>Top Donators</h2>
+    <h2>Top 5 des donateurs</h2>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Nom</th>
           <th>Montant en DT</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let donator of topDonators | slice:0:5 ; let i = index">
+        <tr *ngFor="let donator of topDonators | slice:0:5; let i = index">
           <td>{{ donator.name }}</td>
           <td><strong>{{ donator.totalDonation }}</strong></td>
         </tr>
@@ -71,11 +70,11 @@
     </table>
   </div>
   <div class="card" *ngIf="positiveWordcloudUrl">
-    <h2>Positive Wordcloud</h2>
+    <h2>Nuage de mots positifs</h2>
     <img [src]="positiveWordcloudUrl" alt="Positive Wordcloud">
   </div>
   <div class="card" *ngIf="sentimentAnalysisUrl">
-    <h2>Sentiment Analysis Chart</h2>
+    <h2>Analyse de sentiment</h2>
     <img [src]="sentimentAnalysisUrl" alt="Sentiment Analysis Chart">
   </div>
 </div>

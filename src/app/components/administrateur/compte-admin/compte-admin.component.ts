@@ -392,6 +392,7 @@ export class CompteAdminComponent implements OnInit{
 
     this.pieChart = new Chart(ctx, {
       type: 'pie',
+
       data: {
         labels: this.associationsByCategory.map(item => item.category),
         datasets: [{
@@ -413,7 +414,12 @@ export class CompteAdminComponent implements OnInit{
         }]
       },
       options: {
-        responsive: false
+        responsive: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          },
+        },
       }
     });
   } 
@@ -429,15 +435,20 @@ export class CompteAdminComponent implements OnInit{
     console.log('Donations Data:', this.donationsData);
   
     // Sort the data in descending order by date
-    this.donationsData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    this.donationsData.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   
     // Only keep the last 7 elements
     this.donationsData = this.donationsData.slice(0, 7);
+
+    this.donationsData.reverse();
   
     this.lineChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: this.donationsData.map(item => item.date.toLocaleDateString()),
+        labels: this.donationsData.map(item => {
+          let date = new Date(item.date);
+          return date.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+        }),
         datasets: [{
           label: 'Association Donations',
           data: this.donationsData.map(item => item.associationDonations),
@@ -454,6 +465,11 @@ export class CompteAdminComponent implements OnInit{
       },
       options: {        
         responsive: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        },
         scales: {
           x: {
             display: true,
@@ -535,6 +551,11 @@ export class CompteAdminComponent implements OnInit{
         data: data,
         options: {
           responsive: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+          },
           scales: {
             y: {
               beginAtZero: true
@@ -603,7 +624,12 @@ export class CompteAdminComponent implements OnInit{
                     datasets: datasets
                   },
                   options: {
-                    responsive: true
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'bottom',
+                      },
+                    },
                   }
                 });
               } catch (error) {
