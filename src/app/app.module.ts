@@ -207,8 +207,6 @@ const firebaseConfig = {
       {path:'admin',component:LoginAdminComponent},
       {path:'admin/profil/:id',component:ProfilAdminComponent,canActivate: [AuthGuard]},
 
-
-
       {path:'inscrireAssociation',component:InscrireAssociationComponent},
       {path:'inscrireAssociation/email',component:EmailVerificationComponent},
 

@@ -20,7 +20,7 @@
 .box-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  gap:15px;
+  gap:40px;
   z-index: 999;
 }
 
@@ -98,7 +98,7 @@ h3::after {
 
 .btn {
   display: inline-block;
-  background-color: #ff0000;
+  background-color: #de1515;
   color: white;
   padding: 8px 16px;
   border-radius: 5px;
@@ -107,7 +107,7 @@ h3::after {
 
 .btn:hover {
   background-color: #ffffff;
-  color: red;
+  color: #de1515;
 }
 
 .search-input {
