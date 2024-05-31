@@ -205,7 +205,7 @@ const firebaseConfig = {
 
     RouterModule.forRoot([
       {path:'admin',component:LoginAdminComponent},
-      {path:'admin/profil/:id',component:ProfilAdminComponent},
+      {path:'admin/profil/:id',component:ProfilAdminComponent,canActivate: [AuthGuard]},
 
 
 

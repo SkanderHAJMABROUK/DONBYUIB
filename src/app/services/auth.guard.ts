@@ -15,9 +15,15 @@ export class AuthGuard implements CanActivate {
         
     const isConnected = sessionStorage.getItem('connexion') === 'true';
     const isDonatorConnected = sessionStorage.getItem('connexionDonateur') === 'true';
+    const isAdminConnected = sessionStorage.getItem('compte') === 'true';
 
-    if (isConnected || isDonatorConnected) {
+    if (state.url.startsWith('/login') && (isConnected || isDonatorConnected)) {
       return true;
+    } else if (state.url.startsWith('/admin') && isAdminConnected) {
+      return true;
+    } else if (state.url.startsWith('/admin')) {
+      this.router.navigate(['/admin']);
+      return false;
     } else {
       this.router.navigate(['/login']);
       return false;
