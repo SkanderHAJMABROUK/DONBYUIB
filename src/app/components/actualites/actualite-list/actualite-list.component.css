@@ -11,7 +11,7 @@
 }
 
 .actualite-heading::after {
-  content: '';
+  content: "";
   display: block;
   width: 50%;
   height: 2px;
@@ -63,7 +63,7 @@
 }
 
 .association-heading::after {
-  content: '';
+  content: "";
   display: block;
   width: 50%;
   height: 2px;
@@ -84,7 +84,7 @@
   align-items: center;
   justify-content: space-between;
   height: 200px; /* Adjust this to change the height of each association */
-  cursor: url('../../../../assets/images/heart-logo-png-transparent.png'), auto;
+  cursor: url("../../../../assets/images/heart-logo-png-transparent.png"), auto;
 }
 
 .association h4 {
@@ -154,7 +154,7 @@
 }
 
 .collecte-heading::after {
-  content: '';
+  content: "";
   display: block;
   width: 50%;
   height: 2px;
@@ -179,11 +179,11 @@
   text-align: center;
   background-color: #fff; /* Add a background color */
   transition: 0.3s; /* Add a transition */
-  cursor: url('../../../../assets/images/heart-logo-png-transparent.png'), auto;
+  cursor: url("../../../../assets/images/heart-logo-png-transparent.png"), auto;
 }
 
 .collecte-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Add a hover effect */
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); /* Add a hover effect */
 }
 
 .collecte-card img {
@@ -212,7 +212,7 @@
 }
 
 .collecte-indicator {
-  color:#000;
+  color: #000;
   text-align: right; /* This aligns the text to the right */
   margin-bottom: 5px; /* This adds some space between the indicator and the progress bar */
 }

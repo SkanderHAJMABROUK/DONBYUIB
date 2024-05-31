@@ -6,7 +6,6 @@
     text-decoration: none;
     transition: .2s linear;
     position: relative;
-    margin-top: 2.7%;
 }
 
 .container {
@@ -15,6 +14,7 @@
     display: flex;
     flex-direction: column;
     z-index: 0;
+    margin-top: 2.5%;
 }
 
 .box-container {
@@ -36,6 +36,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4; 
   position: relative;
+  margin-top: 2.7%;
 }
 .box {
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
@@ -53,6 +54,7 @@
 
 .dates, .amount {
   width: auto; /* Adjust based on your design */
+  margin-top: 2.7%;
 }
 
 .box img {
@@ -70,20 +72,28 @@ h3::after {
   height: 1.5px;
   background-color: black;
   margin: auto;
-  margin-top: 15px; /* Adjust the space between the underline and the text */
+  margin-top: 15px; 
 }
 
 .progress-bar {
-  border-radius: 5px;
-  height: 15px;
-  margin: 10px 0;
+  width: 100%;
+  height: 20px;
+  background-color: #f3f3f3;
+  border-radius: 5px; /* Add rounded corners to the progress bar */
+  position: relative; /* Add this to position the span correctly */
+  margin-top: 2.7%;
 
 }
 
 .progress {
-  background-color: #606060c2;
-  border-radius: 5px;
   height: 100%;
+  background-color: #de1515;
+  border-radius: 5px; /* Add rounded corners to the progress */
+  display: flex; /* Add this to center the text vertically */
+  align-items: center; /* Add this to center the text vertically */
+  justify-content: center; /* Add this to center the text horizontally */
+  color: #fff; /* Add this to make the text white */
+  font-size: 13px; /* Adjust this to change the size of the text */
 }
 
 .btn {
@@ -142,6 +152,7 @@ h3::after {
   flex-wrap: wrap;
   width: 50%; /* Limit the width to 40% of the screen width */
   margin-left: auto; /* Push the container to the right */
+  margin-bottom: 2%;
 }
 
 #etat-label,
