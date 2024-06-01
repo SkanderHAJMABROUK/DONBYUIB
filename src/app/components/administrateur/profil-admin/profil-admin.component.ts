@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 
 
@@ -7,7 +7,11 @@ import { AdministrateurService } from 'src/app/services/administrateur.service';
   templateUrl: './profil-admin.component.html',
   styleUrls: ['./profil-admin.component.css']
 })
-export class ProfilAdminComponent {
+export class ProfilAdminComponent implements OnInit{
   constructor(public service:AdministrateurService){}
+
+  ngOnInit(){
+    this.service.compte=true;
+  }
   
 }
