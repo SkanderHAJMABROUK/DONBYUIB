@@ -27,6 +27,9 @@
 
   .category-icon fa-icon.icon-selected {
     font-size: 2.5rem; /* Adjust the size as needed */
+    color: #de1515; /* Change the color to tomato */
+    padding: 10px; /* Add some space around the icon */
+    transition: all 0.8s ease; /* Smooth transition */
   }
 
   .search-input {

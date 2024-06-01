@@ -58,7 +58,7 @@
 /* Style for the image container */
 .collecte-photo {
     margin-bottom: 20px;
-    width: 150px; /* Set a fixed width for the logo */
+    width: 500px; /* Set a fixed width for the logo */
 }
 
 /* Style for the image */
@@ -200,7 +200,7 @@
   }
   
   .progress {
-    background-color: #818181c2;
+    background-color: #de1515;
     border-radius: 5px;
     height: 100%;
   }
