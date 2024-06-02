@@ -204,40 +204,48 @@ const firebaseConfig = {
     provideFirestore(() => getFirestore()),
 
     RouterModule.forRoot([
-      {path:'admin',component:LoginAdminComponent},
-      {path:'admin/profil/:id',component:ProfilAdminComponent,canActivate: [AuthGuard]},
-
-      {path:'inscrireAssociation',component:InscrireAssociationComponent},
-      {path:'inscrireAssociation/email',component:EmailVerificationComponent},
-
-      {path:'',component:ActualiteListComponent},
-
-      {path:'Sinscrire',component:SinscrireComponent},
-      {path:'sinscrire/email',component:EmailVerificationComponent},
-
-      {path:'listeAssociations',component:AssociationListComponent},
-      { path:'listeAssociations/details/:id', component: AssociationDemandeComponent },
-
-
-      {path:'listeCollectes',component:CollecteListComponent},
-      { path: 'listeCollectes/details/:id', component: CollecteDetailsComponent },
-
-
-      {path:'listeActualites',component:ActualiteListComponent},
-      { path: 'listeActualites/details/:id', component: ActualiteDetailsComponent },
-
-
-      {path:'login',component:LoginComponent},
-      {path: 'login/profilAssociation/:id', component: ProfilAssociationComponent,canActivate: [AuthGuard]},
-      {path: 'login/profilDonateur/:id', component: ProfilDonateurComponent,canActivate: [AuthGuard]},
-      {path: 'login/profilDonateur/:id/modifier', component: ModifierDonateurComponent,canActivate: [AuthGuard]},
-
-
-      {path:'login/forgot-password',component:ForgotPasswordComponent},
-      {path:'reset-password/:id/:userType/:token', component: ResetForgottenPasswordComponent },
-
-      {path:'login/profilAssociation/:id/compteAssociation', component:CompteAssociationComponent,canActivate: [AuthGuard]},
-
+      { path: 'admin', component: LoginAdminComponent },
+      { path: 'admin', canActivate: [AuthGuard], children: [
+        { path: 'profil/:id', component: ProfilAdminComponent }
+      ]},
+    
+      { path: 'inscrireAssociation', children: [
+        { path: '', component: InscrireAssociationComponent },
+        { path: 'email', component: EmailVerificationComponent }
+      ]},
+    
+      { path: '', component: ActualiteListComponent },
+    
+      { path: 'Sinscrire', children: [
+        { path: '', component: SinscrireComponent },
+        { path: 'email', component: EmailVerificationComponent }
+      ]},
+    
+      { path: 'listeAssociations', children: [
+        { path: '', component: AssociationListComponent },
+        { path: 'details/:id', component: AssociationDemandeComponent }
+      ]},
+    
+      { path: 'listeCollectes', children: [
+        { path: '', component: CollecteListComponent },
+        { path: 'details/:id', component: CollecteDetailsComponent }
+      ]},
+    
+      { path: 'listeActualites', children: [
+        { path: '', component: ActualiteListComponent },
+        { path: 'details/:id', component: ActualiteDetailsComponent }
+      ]},
+    
+      { path: 'login', children: [
+        { path: '', component: LoginComponent },
+        { path: 'profilAssociation/:id', component: ProfilAssociationComponent, canActivate: [AuthGuard] },
+        { path: 'profilDonateur/:id', component: ProfilDonateurComponent, canActivate: [AuthGuard] },
+        { path: 'profilDonateur/:id/modifier', component: ModifierDonateurComponent, canActivate: [AuthGuard] },
+        { path: 'forgot-password', component: ForgotPasswordComponent },
+        { path: 'profilAssociation/:id/compteAssociation', component: CompteAssociationComponent, canActivate: [AuthGuard] },
+      ]},
+    
+      { path: 'reset-password/:id/:userType/:token', component: ResetForgottenPasswordComponent },
     ])
   ],
   providers: [AssociationService,AngularFirestore,AngularFireModule,AuthGuard,
