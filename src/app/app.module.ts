@@ -95,6 +95,7 @@ import localeFr from '@angular/common/locales/fr';
 import { LOCALE_ID } from '@angular/core';
 import { ResetEmailComponent } from './components/reset-email/reset-email.component';
 registerLocaleData(localeFr, 'fr');
+import { AngularFirePerformanceModule } from '@angular/fire/compat/performance';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
@@ -105,7 +106,6 @@ const firebaseConfig = {
   appId: "1:586021322511:web:fe97e78a0e10165d2b487a",
   measurementId: "G-D749N7NPLF"
 };
-
 
 @NgModule({
   declarations: [
@@ -200,9 +200,9 @@ const firebaseConfig = {
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireStorageModule,
+    AngularFirePerformanceModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideFirestore(() => getFirestore()),
-
     RouterModule.forRoot([
       { path: 'admin', component: LoginAdminComponent },
       { path: 'admin', canActivate: [AuthGuard], children: [
