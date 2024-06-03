@@ -34,11 +34,48 @@
       <h3>Faire un don</h3>
       <!-- Added title -->
       <div class="donate-buttons">
-        <!-- Added container for buttons -->
-        <button (click)="updateDonationAmountFromButton(10)">10DT</button>
-        <button (click)="updateDonationAmountFromButton(20)">20DT</button>
-        <button (click)="updateDonationAmountFromButton(50)">50DT</button>
-        <button (click)="updateDonationAmountFromButton(100)">100DT</button>
+        <div class="heart-icons">
+          <div
+            (click)="updateDonationAmountFromButton(10)"
+            class="heart-donate"
+          >
+            <img
+              src="../../../../assets/images/hearticon.png"
+              alt="Heart"
+            />
+            <span class="amount-inside">10DT</span>
+          </div>
+          <div
+            (click)="updateDonationAmountFromButton(20)"
+            class="heart-donate"
+          >
+            <img
+              src="../../../../assets/images/hearticon.png"
+              alt="Heart"
+            />
+            <span class="amount-inside">20DT</span>
+          </div>
+          <div
+            (click)="updateDonationAmountFromButton(50)"
+            class="heart-donate"
+          >
+            <img
+              src="../../../../assets/images/hearticon.png"
+              alt="Heart"
+            />
+            <span class="amount-inside">50DT</span>
+          </div>
+          <div
+            (click)="updateDonationAmountFromButton(100)"
+            class="heart-donate"
+          >
+            <img
+              src="../../../../assets/images/hearticon.png"
+              alt="Heart"
+            />
+            <span class="amount-inside">100DT</span>
+          </div>
+        </div>
       </div>
       <ngx-slider
         [(value)]="donationAmount"

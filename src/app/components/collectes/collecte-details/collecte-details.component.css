@@ -1,296 +1,310 @@
 .parent-container {
-    max-width: 1200px; /* Set the maximum width you desire */
-    margin: 0 auto; /* Center the container */
-    padding: 0 20px; /* Add some padding for better visual spacing */
-  }
+  max-width: 1200px; /* Set the maximum width you desire */
+  margin: 0 auto; /* Center the container */
+  padding: 0 20px; /* Add some padding for better visual spacing */
+}
 
 .collecte-details {
-    display: flex;
-    overflow: hidden;
-    margin: 20px 10%;
-    margin-top: 100px;
-    width: 80%;
-    box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    border: 1px solid black;
+  display: flex;
+  overflow: hidden;
+  margin: 20px 10%;
+  margin-top: 100px;
+  width: 80%;
+  box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid black;
 }
 
 .collecte-details .content-container {
-    display: flex;
-    flex-direction: column; /* Display content containers vertically */
-    width: 100%; /* Occupy full width */
-  }
-  
-  .left-content {
-    border-right: 1px solid black;
-    overflow: hidden;
-    line-height: 1.5;
-    flex-grow: 1; /* Allow left content to grow */
-    text-align: center; /* Center the content horizontally */
-  }
-  
-  .right-content {
-    padding: 20px;
-    overflow: hidden;
-    flex-grow: 1;
-    
-  }
+  display: flex;
+  flex-direction: column; /* Display content containers vertically */
+  width: 100%; /* Occupy full width */
+}
 
-  .left-content, .right-content {
-    padding: 20px;
-    flex-grow: 1; /* Allow both content sections to grow */
-    overflow: auto; /* Enable scrolling if content overflows */
-  }
+.left-content {
+  border-right: 1px solid black;
+  overflow: hidden;
+  line-height: 1.5;
+  flex-grow: 1; /* Allow left content to grow */
+  text-align: center; /* Center the content horizontally */
+}
 
+.right-content {
+  padding: 20px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.left-content,
+.right-content {
+  padding: 20px;
+  flex-grow: 1; /* Allow both content sections to grow */
+  overflow: auto; /* Enable scrolling if content overflows */
+}
 
 .collecte-description {
-    margin-top: 5px;
-    text-align: center;
-    color: #777;
-    font-size: 18px;
-    line-height: 1.5;
-    flex-grow: 1;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4; /* Limit to 4 lines */
-    position: relative;
-    white-space: normal; /* Allow normal wrapping */
-    text-overflow: ellipsis; /* Show ellipsis for overflow */
+  margin-top: 5px;
+  text-align: center;
+  color: #777;
+  font-size: 18px;
+  line-height: 1.5;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  position: relative;
+  white-space: normal; /* Allow normal wrapping */
+  text-overflow: ellipsis; /* Show ellipsis for overflow */
 }
 
 .collecte-description.collapsed,
 .collecte-description.full {
-    -webkit-line-clamp: unset; /* Show all lines */
-    overflow: visible; /* Allow overflow */
+  -webkit-line-clamp: unset; /* Show all lines */
+  overflow: visible; /* Allow overflow */
 }
 .showmore {
-    font-size: 15px; 
-    color: blue;
-    font-weight: bolder; 
-    text-decoration: underline; /* Souligné comme un lien */
-    cursor: pointer; /* Curseur de la souris comme un pointeur */
+  font-size: 15px;
+  color: blue;
+  font-weight: bolder;
+  text-decoration: underline; /* Souligné comme un lien */
+  cursor: pointer; /* Curseur de la souris comme un pointeur */
 }
 
 .collecte-photo {
-    margin-bottom: 20px;
-    height: 400px;
-    width: 100%; /* Set width to 100% to allow centering */
-    display: flex; /* Center the content horizontally */
-    justify-content: center; /* Center the content horizontally */
-    overflow: hidden;
-    position: relative;
+  margin-bottom: 20px;
+  height: 400px;
+  width: 100%; /* Set width to 100% to allow centering */
+  display: flex; /* Center the content horizontally */
+  justify-content: center; /* Center the content horizontally */
+  overflow: hidden;
+  position: relative;
 }
 
 .collecte-photo img {
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
 }
 
 .collecte-photo img:hover {
-    transform: scale(1.1); /* Scale and slightly rotate the image */
+  transform: scale(1.1); /* Scale and slightly rotate the image */
 }
 
 /* Style for the association info */
 .collecte-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
 }
 
 /* Style for the association name */
 .collecte-info .collecte-name {
-    margin-bottom: 5px; /* Adjust margin as needed */
-    text-align: center; /* Center the text horizontally */
-    border-bottom: 1px solid black; /* Add a small line below the name */
-    padding-bottom: 5px; /* Add space below the name */
+  margin-bottom: 5px; /* Adjust margin as needed */
+  text-align: center; /* Center the text horizontally */
+  border-bottom: 1px solid black; /* Add a small line below the name */
+  padding-bottom: 5px; /* Add space below the name */
 }
 
 /* Style for the association description */
 .collecte-info .collecte-description {
-    margin-top: 5px; /* Adjust margin as needed */
-    text-align: center; /* Center the text horizontally */
+  margin-top: 5px; /* Adjust margin as needed */
+  text-align: center; /* Center the text horizontally */
 }
 
-
-
-
-
-
 /* Style for the donate section */
-.donate h3{
-    margin: 0;
-    border-bottom: 1px solid black;
-    margin-bottom: 15px; /* Adjust margin as needed */
-    margin-top: 15px;
-    font-size: 24px; /* Increase font size */
+.donate h3 {
+  margin: 0;
+  border-bottom: 1px solid black;
+  margin-bottom: 15px; /* Adjust margin as needed */
+  margin-top: 15px;
+  font-size: 24px; /* Increase font size */
 }
 
 .donate {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content horizontally */
-    margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  margin-top: 70px;
 }
 
 /* Style for the donate buttons */
 .donate-buttons {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-  }
-  
-  .heart-icons {
-    display: flex; /* Display heart icons horizontally */
-    gap: 10px; /* Add spacing between heart icons */
-  }
-  
-  .heart-donate {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .heart-donate img {
-    width: 100px;
-    margin-right: 10px;
-  }
-  
-  .amount-inside {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    position: absolute;
-    font-size: 18px;
-    top: 45%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-  }
-  
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+}
+
+.heart-icons {
+  display: flex; /* Display heart icons horizontally */
+  gap: 10px; /* Add spacing between heart icons */
+}
+
+.heart-donate {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.heart-donate img {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.amount-inside {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  position: absolute;
+  font-size: 18px;
+  top: 45%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+}
 
 /* Style for the range input */
 .donate input[type="range"] {
-    width: 100%;
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /* Style for the label of the range input */
 .donate label {
-    margin-bottom: 10px; /* Add space below the label */
-    font-weight: bold; /* Make the label bold */
-    font-size: 18px; /* Increase font size */
+  margin-bottom: 10px; /* Add space below the label */
+  font-weight: bold; /* Make the label bold */
+  font-size: 18px; /* Increase font size */
 }
 
 /* Style for the line between contact and donate parts */
 .right-content .donate {
-    border-top: 1px solid black; /* Add border between sections */
-    padding-top: 8px; /* Add space between the sections */
-}
-.donate ngx-slider{
-    color:red;
-}
-.validerDon{
-    padding: 1em 2.1em 1.1em;
-    border-radius: 3px;
-    margin: 8px 8px 8px 8px;
-    color: #fbdedb;
-    display: inline-block;
-    background: #e74c3c;
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    -o-transition: 0.3s;
-    transition: 0.3s;
-    font-weight: 800;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    text-align: center;
-    text-decoration: none;
-    -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
-    -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
-    box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
-    position: relative;
-    border-radius: 50em;
-    background-color: #cc0000;
-}
-.validerDon:hover, .validerDon:focus{
-    opacity: 0.8;
-}
-.validerDon:active{
-    -webkit-transform: scale(0.80);
-    -moz-transform: scale(0.80);
-    -ms-transform: scale(0.80);
-    -o-transform: scale(0.80);
-    transform: scale(0.80);
+  border-top: 1px solid black; /* Add border between sections */
+  padding-top: 8px; /* Add space between the sections */
 }
 
-.dates, .amount {
-    width: auto; /* Adjust based on your design */
-    font-size: 17px;
-  }
+.validerDon {
+  padding: 1em 2.1em 1.1em;
+  border-radius: 3px;
+  margin: 8px 8px 8px 8px;
+  color: #fbdedb;
+  display: inline-block;
+  background: #e74c3c;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  position: relative;
+  border-radius: 50em;
+  background-color: #cc0000;
+}
+.validerDon:hover,
+.validerDon:focus {
+  opacity: 0.8;
+}
+.validerDon:active {
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  transform: scale(0.8);
+}
+
+.dates,
+.amount {
+  width: auto; /* Adjust based on your design */
+  font-size: 17px;
+}
 
 .progress-bar {
-    width: 100%;
-    height: 25px;
-    background-color: #f3f3f3;
-    border-radius: 5px; /* Add rounded corners to the progress bar */
-    position: relative; /* Add this to position the span correctly */
-    margin-top: 2.7%;
-  
-  }
-  
-  .progress {
-    height: 100%;
-    background-color: #de1515;
-    border-radius: 5px; /* Add rounded corners to the progress */
-    display: flex; /* Add this to center the text vertically */
-    align-items: center; /* Add this to center the text vertically */
-    justify-content: center; /* Add this to center the text horizontally */
-    color: #fff; /* Add this to make the text white */
-    font-size: 18px; /* Adjust this to change the size of the text */
-  }
-  p.date_debut {
-    font-weight: bolder;
-    color: black;
+  width: 100%;
+  height: 25px;
+  background-color: #f3f3f3;
+  border-radius: 5px; /* Add rounded corners to the progress bar */
+  position: relative; /* Add this to position the span correctly */
 }
-p.date_fin {
-    font-weight: bolder;
-    color: black;
+
+.progress {
+  height: 100%;
+  background-color: #de1515;
+  border-radius: 5px; /* Add rounded corners to the progress */
+  display: flex; /* Add this to center the text vertically */
+  align-items: center; /* Add this to center the text vertically */
+  justify-content: center; /* Add this to center the text horizontally */
+  color: #fff; /* Add this to make the text white */
+  font-size: 18px; /* Adjust this to change the size of the text */
 }
-  a{
-    cursor: pointer;
+
+a {
+  cursor: pointer;
 }
 
 .amount {
-    font-weight: bolder;
-    color: #cc0000;
-    font-size: larger;
+  font-weight: bold;
+  color: #cc0000;
+  font-size: 24px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.amount strong {
+  margin-left: 5px;
+}
+
+.amount::before {
+  content: "Objectif";
+  color: #626262;
+  font-size: 16px;
+  margin-right: 7px;
 }
 
 h4.countdown {
-    font-size: 1.5em;
-    color: #626262;
-    padding: 7px;
-    text-align: center;
-    margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #626262;
+  padding: 7px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 a.validerDon.disabled {
-    cursor: not-allowed;
-    opacity: 0.8;
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
 .dates {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .date_debut,
 .date_fin {
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border: 2px solid #000000;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 2px solid #a5a5a558;
 }
+.calendar {
+  font-size: 1.5rem;
+  color: #de1515;
+}
+.cumul {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.1rem;
+  margin-bottom: 0.7%;
+}
+h4 a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit the color from parent */
+  }
+
+  

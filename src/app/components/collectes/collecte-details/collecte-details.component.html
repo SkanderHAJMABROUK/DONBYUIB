@@ -11,6 +11,7 @@
         </div>
         <div class="collecte-info">
           <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
+          <!-- <img [src]="associationLogo" alt="Oups!" class="logo-image" /> -->
           <h4>
             <a
               [routerLink]="[
@@ -33,25 +34,29 @@
             }}</a>
           </div>
           <div class="amount">
-            <p>Objectif : {{ selectedCollecte.montant }} DT</p>
+            <p> {{ selectedCollecte.montant }} DT</p>
           </div>
         </div>
         <div class="dates">
           <p class="date_debut">
-            Date de début : {{ selectedCollecte.date_debut | date }}
+            Date de début : <strong>{{ selectedCollecte.date_debut | date }}</strong>
           </p>
           <p class="date_fin">
-            Date de fin : {{ selectedCollecte.date_fin | date }}
+            Date de fin : <strong>{{ selectedCollecte.date_fin | date }}</strong>
           </p>
         </div>
       </div>
 
       <div class="right-content">
+        <div class="cumul">
+          <span>{{selectedCollecte.cumul}}/<strong>{{selectedCollecte.montant}}DT</strong></span>
+        </div>
         <div class="progress-bar">
           <div class="progress" [style.width.%]="getProgressPercentage()">
             <span>{{ getProgressPercentage() }}%</span>
           </div>
         </div>
+        
         <h3 *ngIf="!isDonationAllowed">
           Temps restant : <br />{{
             getTimeRemaining(selectedCollecte.date_fin)

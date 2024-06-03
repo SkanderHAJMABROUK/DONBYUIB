@@ -331,6 +331,12 @@ export class AssociationService {
     )
   }
 
+  getAssociationLogoById(id: string): Observable<string | undefined> {
+    return this.getAssociationById(id).pipe(
+      map(association => association?.logo)
+    )
+  }
+
   getAssociationEmailById(id: string): Observable<string | undefined> {
     return this.getAssociationById(id).pipe(
       map(association => association?.email)

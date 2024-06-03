@@ -146,23 +146,37 @@
     align-items: center; /* Center content horizontally */
 }
 
-/* Style for the donate buttons */
-.donate button {
-    margin: 10px 5px; /* Add margin between buttons and between input and button */
-    padding: 8px 16px; /* Adjust button padding */
-    border: none;
-    border-radius: 5px;
-    background-color: #cc0000; /* Set red background color */
-    color: white;
+.donate-buttons {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+  }
+  
+  .heart-icons {
+    display: flex; /* Display heart icons horizontally */
+    gap: 10px; /* Add spacing between heart icons */
+  }
+  
+  .heart-donate {
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    position: relative;
+  }
+  
+  .heart-donate img {
+    width: 100px;
+    margin-right: 10px;
+  }
+  
+  .amount-inside {
+    color: rgb(255, 255, 255);
     font-weight: bold;
-    transition: background-color 0.3s ease; /* Add smooth transition on hover */
-}
-
-/* Change background color of donate buttons on hover */
-.donate button:hover {
-    background-color: #ff000077; 
-}
+    position: absolute;
+    font-size: 18px;
+    top: 45%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+  }
 
 /* Style for the range input */
 .donate input[type="range"] {
