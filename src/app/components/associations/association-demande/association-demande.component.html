@@ -1,12 +1,17 @@
-<div *ngIf="service.showDetails && selectedAssociation" class="association-details">
+<div
+  *ngIf="service.showDetails && selectedAssociation"
+  class="association-details"
+>
   <div class="left-content">
     <div class="association-logo">
-      <img [src]="selectedAssociation.logo" alt="Oups!" class="logo-image">
+      <img [src]="selectedAssociation.logo" alt="Oups!" class="logo-image" />
     </div>
     <div class="association-info">
       <h2 class="association-name">{{ selectedAssociation.nom }}</h2>
-      <h4>{{selectedAssociation.categorie}}</h4>
-      <p class="association-description">{{ selectedAssociation.description }}</p>
+      <h4>{{ selectedAssociation.categorie }}</h4>
+      <p class="association-description">
+        {{ selectedAssociation.description }}
+      </p>
     </div>
   </div>
 
@@ -14,32 +19,43 @@
     <div class="association-contact">
       <h3>Contact</h3>
       <div class="contact-info">
-          <div class="contact-item">
-              <fa-icon class="phone-icon" [icon]="faSquarePhone"></fa-icon>
-              <p>{{ selectedAssociation.telephone }}</p>
-          </div>
-          <div class="contact-item">
-              <fa-icon class="email-icon" [icon]="faAt"></fa-icon>
-              <p>{{ selectedAssociation.email }}</p>
-          </div>
+        <div class="contact-item">
+          <fa-icon class="phone-icon" [icon]="faSquarePhone"></fa-icon>
+          <p>{{ selectedAssociation.telephone }}</p>
+        </div>
+        <div class="contact-item">
+          <fa-icon class="email-icon" [icon]="faAt"></fa-icon>
+          <p>{{ selectedAssociation.email }}</p>
+        </div>
       </div>
     </div>
-    
+
     <div class="donate">
-      <h3>Faire un don</h3> <!-- Added title -->
-      <div class="donate-buttons"> <!-- Added container for buttons -->
+      <h3>Faire un don</h3>
+      <!-- Added title -->
+      <div class="donate-buttons">
+        <!-- Added container for buttons -->
         <button (click)="updateDonationAmountFromButton(10)">10DT</button>
         <button (click)="updateDonationAmountFromButton(20)">20DT</button>
         <button (click)="updateDonationAmountFromButton(50)">50DT</button>
         <button (click)="updateDonationAmountFromButton(100)">100DT</button>
       </div>
-      <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> <!-- Updated ngx-slider with change event -->
+      <ngx-slider
+        [(value)]="donationAmount"
+        [options]="options"
+        (change)="updateDonationAmountFromSlider($event)"
+      ></ngx-slider>
+      <!-- Updated ngx-slider with change event -->
       <label for="montant">Saisir un montant</label>
-      <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
-      <a class="validerDon" 
-      (click)="validateDonationAmount()">
-      Valider le don vers "{{selectedAssociation.nom}}" ➛</a>
+      <input
+        id="montant"
+        type="text"
+        [(ngModel)]="donationAmount"
+        placeholder="Saisir un montant"
+      />
+      <a class="validerDon" (click)="validateDonationAmount()">
+        Valider le don vers "{{ selectedAssociation.nom }}" ➛</a
+      >
     </div>
-    
   </div>
 </div>
