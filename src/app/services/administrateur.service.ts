@@ -165,7 +165,7 @@ export class AdministrateurService {
       map((admin) => {
         if (admin) {
           this.compte = true;
-          sessionStorage.setItem('compte', 'true');
+          localStorage.setItem('compte', 'true');
           if (admin.id) {
             localStorage.setItem('adminId', admin.id);
           }

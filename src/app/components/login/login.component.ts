@@ -83,6 +83,7 @@ export class LoginComponent {
                     this.serviceAssociation.logIn(email, hashedPassword).subscribe((loggedIn: boolean) => {
                       if (loggedIn) {
                         console.log(`Successful login attempt of association with email ${email}`);
+
                       } else {
                         console.log(`Failed login attempt of association with email ${email}`);
                       }

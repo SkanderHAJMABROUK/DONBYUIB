@@ -232,7 +232,7 @@ const firebaseConfig = {
       ]},
     
       { path: 'listeActualites', children: [
-        { path: '', component: ActualiteListComponent },
+        { path: '', component: ActualiteListComponent , canActivate: [AuthGuard] },
         { path: 'details/:id', component: ActualiteDetailsComponent }
       ]},
     

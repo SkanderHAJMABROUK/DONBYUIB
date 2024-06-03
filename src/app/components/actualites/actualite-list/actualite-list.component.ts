@@ -6,6 +6,7 @@ import { Association } from 'src/app/interfaces/association';
 import { AssociationService } from 'src/app/services/association.service';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { CollecteService } from 'src/app/services/collecte.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class ActualiteListComponent {
 
   constructor(public actualiteService:ActualiteService,
     public associationService:AssociationService,
-    public collecteService:CollecteService
+    public collecteService:CollecteService,
+    private router: Router
   ){}
 
   customOptions: OwlOptions = {
@@ -54,6 +56,18 @@ export class ActualiteListComponent {
   collectes:Collecte[]=[];
   
   ngOnInit():void{
+
+    // const donateurId = localStorage.getItem('donateurid');
+    // const associationId = localStorage.getItem('associationid');
+
+    // if (donateurId) {
+    //   this.router.navigate(['/login/profilDonateur', donateurId]);
+    // } else if (associationId) {
+    //   this.router.navigate(['/login/profilAssociation', associationId]);
+    // } else {
+    //   console.log('No user connected')
+    // }
+    
     this.actualiteService.getAcceptedActualites().subscribe((res)=>{
      this.actualites=res;
      console.log(this.actualites);

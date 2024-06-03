@@ -179,10 +179,14 @@ logIn(email: string, password: string): Observable<boolean> {
         this.nomDonateur = donateur.nom;
         this.prenomDonateur = donateur.prenom;
         console.log(this.nomDonateur ,this.prenomDonateur);
-        sessionStorage.setItem('connexionDonateur', 'true');
+        localStorage.setItem('connexionDonateur', 'true');
         sessionStorage.setItem('donateurId', donateur.id); 
         sessionStorage.setItem('nomDonateur', this.nomDonateur); 
         sessionStorage.setItem('prenomDonateur', this.prenomDonateur);
+
+        const userid = donateur.id;
+        localStorage.setItem('donateurid', userid || '');
+
         this.resetTimer();
         this.showErrorNotification = false;
 
@@ -203,10 +207,11 @@ logIn(email: string, password: string): Observable<boolean> {
 
 logOut(){
   this.connexionDonateur=false;
-  sessionStorage.setItem('connexionDonateur','false');
+  localStorage.setItem('connexionDonateur','false');
   sessionStorage.removeItem('nomDonateur');
   sessionStorage.removeItem('donateurId');
   sessionStorage.removeItem('prenomDonateur');
+  localStorage.removeItem('donateurid');
    this.route.navigate(['/login']);
    this.activitySubscription.unsubscribe();
 }
