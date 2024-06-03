@@ -11,16 +11,20 @@
         </div>
         <div class="collecte-info">
           <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
-          <!-- <img [src]="associationLogo" alt="Oups!" class="logo-image" /> -->
-          <h4>
-            <a
-              [routerLink]="[
-                '/listeAssociations/details',
-                selectedCollecte.id_association
-              ]"
-              >{{ associationName }}</a
-            >
-          </h4>
+
+          <div class="association">
+            <!-- <img [src]="associationLogo" alt="Oups!" class="logo-image" /> -->
+            <h4>
+              <a
+                [routerLink]="[
+                  '/listeAssociations/details',
+                  selectedCollecte.id_association
+                ]"
+                >{{ associationName }}</a
+              >
+            </h4>
+          </div>
+          
           <p
             class="collecte-description"
             id="collecteDescription"
