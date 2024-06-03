@@ -510,11 +510,10 @@ logIn(email: string, password: string): Observable<boolean> {
         this.connexion = true;
         this.nomAssociation = association.nom;
         localStorage.setItem('connexion', 'true');
-        sessionStorage.setItem('nomAssociation', association.nom);
+        localStorage.setItem('nomAssociation', association.nom);
         this.route.navigate(['/login/profilAssociation', association.id], { replaceUrl: true });
-
-        const userid = association.id;
-        localStorage.setItem('associationid', userid || '');
+        
+        localStorage.setItem('associationId', association.id || '');
 
         this.resetTimer();
         this.showErrorNotification = false;
@@ -536,8 +535,8 @@ logIn(email: string, password: string): Observable<boolean> {
 logOut(){
   this.connexion=false;
   localStorage.setItem('connexion', 'false');
-  sessionStorage.removeItem('nomAssociation');
-  localStorage.removeItem('associationid');
+  localStorage.removeItem('nomAssociation');
+  localStorage.removeItem('associationId');
   this.route.navigate(['/login'], { replaceUrl: true });
   this.activitySubscription.unsubscribe();
 }

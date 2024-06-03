@@ -16,12 +16,12 @@
         <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">Inscrire mon association</a>
         <a [routerLink]="['login']" class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">Se connecter</a>
  
-        <a [routerLink]="['login/profilAssociation',serviceAssociation.id]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
+        <a [routerLink]="['login/profilAssociation',associationid]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
              <span>{{ serviceAssociation.nomAssociation }}</span>
              <div class="connection-indicator"></div>
         </a>
 
-        <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" 
+        <a [routerLink]="['login/profilDonateur',donateurid]" 
         class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"
         (click)="serviceDonateur.compteDonateur=true;
         serviceDonateur.modifierMdp=false;

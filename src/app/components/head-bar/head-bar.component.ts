@@ -18,12 +18,15 @@ export class HeadBarComponent implements OnInit{
   faB = faBars;
   faX = faXmark;
   association!:Association|undefined;
-  connexion=sessionStorage.getItem('connexion');
-  nomAssociation=sessionStorage.getItem('nomAssociation');
+  connexion=localStorage.getItem('connexion');
+  nomAssociation=localStorage.getItem('nomAssociation');
 
-  connexionDonateur=sessionStorage.getItem('connexionDonateur');
-  nomDonateur=sessionStorage.getItem('nomDonateur');
-  prenomDonateur=sessionStorage.getItem('prenomDonateur');
+  connexionDonateur=localStorage.getItem('connexionDonateur');
+  nomDonateur=localStorage.getItem('nomDonateur');
+  prenomDonateur=localStorage.getItem('prenomDonateur');
+
+  associationid=localStorage.getItem('associationid');
+  donateurid=localStorage.getItem('donateurId');
 
   constructor(private  router: Router,
      public serviceAssociation:AssociationService,public serviceDonateur:DonateurService) {}

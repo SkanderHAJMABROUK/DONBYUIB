@@ -7,6 +7,7 @@ import { AssociationService } from 'src/app/services/association.service';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { CollecteService } from 'src/app/services/collecte.service';
 import { Router } from '@angular/router';
+import { DonateurService } from 'src/app/services/donateur.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class ActualiteListComponent {
   constructor(public actualiteService:ActualiteService,
     public associationService:AssociationService,
     public collecteService:CollecteService,
+    public donateurService:DonateurService,
     private router: Router
   ){}
 
@@ -57,16 +59,16 @@ export class ActualiteListComponent {
   
   ngOnInit():void{
 
-    // const donateurId = localStorage.getItem('donateurid');
-    // const associationId = localStorage.getItem('associationid');
+    const donateurId = localStorage.getItem('donateurid');
+    const associationId = localStorage.getItem('associationid');
 
-    // if (donateurId) {
-    //   this.router.navigate(['/login/profilDonateur', donateurId]);
-    // } else if (associationId) {
-    //   this.router.navigate(['/login/profilAssociation', associationId]);
-    // } else {
-    //   console.log('No user connected')
-    // }
+    if (donateurId) {
+      this.donateurService.connexionDonateur = true;
+    } else if (associationId) {
+      this.associationService.connexion = true;
+    } else {
+      console.log('No user connected')
+    }
     
     this.actualiteService.getAcceptedActualites().subscribe((res)=>{
      this.actualites=res;
