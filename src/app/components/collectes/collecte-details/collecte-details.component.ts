@@ -27,7 +27,7 @@ export class CollecteDetailsComponent {
   value=0;
   options:Options={
     floor: 0,
-    ceil: 2000
+    ceil: 2000,
   }
 
   id!: string;

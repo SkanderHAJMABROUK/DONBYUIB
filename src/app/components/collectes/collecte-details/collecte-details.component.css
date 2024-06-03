@@ -1,18 +1,53 @@
+.parent-container {
+    max-width: 1200px; /* Set the maximum width you desire */
+    margin: 0 auto; /* Center the container */
+    padding: 0 20px; /* Add some padding for better visual spacing */
+  }
+
 .collecte-details {
     display: flex;
     overflow: hidden;
     margin: 20px 10%;
     margin-top: 100px;
     width: 80%;
-    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
-    border-radius: 10PX;
+    box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     border: 1px solid black;
 }
+
+.collecte-details .content-container {
+    display: flex;
+    flex-direction: column; /* Display content containers vertically */
+    width: 100%; /* Occupy full width */
+  }
+  
+  .left-content {
+    border-right: 1px solid black;
+    overflow: hidden;
+    line-height: 1.5;
+    flex-grow: 1; /* Allow left content to grow */
+    text-align: center; /* Center the content horizontally */
+  }
+  
+  .right-content {
+    padding: 20px;
+    overflow: hidden;
+    flex-grow: 1;
+    
+  }
+
+  .left-content, .right-content {
+    padding: 20px;
+    flex-grow: 1; /* Allow both content sections to grow */
+    overflow: auto; /* Enable scrolling if content overflows */
+  }
+
+
 .collecte-description {
     margin-top: 5px;
     text-align: center;
     color: #777;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.5;
     flex-grow: 1;
     overflow: hidden;
@@ -30,42 +65,29 @@
     overflow: visible; /* Allow overflow */
 }
 .showmore {
-    font-size: 12px; 
+    font-size: 15px; 
     color: blue;
     font-weight: bolder; 
     text-decoration: underline; /* Souligné comme un lien */
     cursor: pointer; /* Curseur de la souris comme un pointeur */
 }
 
-.left-content {
-    flex: 1; /* Make both sections take up equal space */
-    padding: 20px;
-    border-right: 1px solid black; /* Add border between sections */
-    overflow: hidden; /* Prevent content overflow */
-    display: flex; /* Add display flex to center the content */
-    flex-direction: column; /* Set flex direction to column */
-    align-items: center; /* Center items horizontally */
-    line-height: 1.5; 
-}
-
-/* Style for the right section */
-.right-content {
-    flex: 1; /* Make both sections take up equal space */
-    padding: 20px;
-    overflow: hidden; /* Prevent content overflow */
-}
-
-/* Style for the image container */
 .collecte-photo {
     margin-bottom: 20px;
-    width: 500px; /* Set a fixed width for the logo */
+    height: 400px;
+    width: 100%; /* Set width to 100% to allow centering */
+    display: flex; /* Center the content horizontally */
+    justify-content: center; /* Center the content horizontally */
+    overflow: hidden;
+    position: relative;
 }
 
-/* Style for the image */
 .collecte-photo img {
-    max-width: 100%;
-    max-height: 100%; /* Maintain aspect ratio */
-    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+}
+
+.collecte-photo img:hover {
+    transform: scale(1.1); /* Scale and slightly rotate the image */
 }
 
 /* Style for the association info */
@@ -100,6 +122,7 @@
     margin: 0;
     border-bottom: 1px solid black;
     margin-bottom: 15px; /* Adjust margin as needed */
+    margin-top: 15px;
     font-size: 24px; /* Increase font size */
 }
 
@@ -107,25 +130,42 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Center content horizontally */
+    margin-top: 70px;
 }
 
 /* Style for the donate buttons */
-.donate button {
-    margin: 10px 5px; /* Add margin between buttons and between input and button */
-    padding: 8px 16px; /* Adjust button padding */
-    border: none;
-    border-radius: 5px;
-    background-color: #cc0000; /* Set red background color */
-    color: white;
+.donate-buttons {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+  }
+  
+  .heart-icons {
+    display: flex; /* Display heart icons horizontally */
+    gap: 10px; /* Add spacing between heart icons */
+  }
+  
+  .heart-donate {
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    position: relative;
+  }
+  
+  .heart-donate img {
+    width: 100px;
+    margin-right: 10px;
+  }
+  
+  .amount-inside {
+    color: rgb(255, 255, 255);
     font-weight: bold;
-    transition: background-color 0.3s ease; /* Add smooth transition on hover */
-}
-
-/* Change background color of donate buttons on hover */
-.donate button:hover {
-    background-color: #ff000077; 
-}
+    position: absolute;
+    font-size: 18px;
+    top: 45%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+  }
+  
 
 /* Style for the range input */
 .donate input[type="range"] {
@@ -160,7 +200,7 @@
     -o-transition: 0.3s;
     transition: 0.3s;
     font-weight: 800;
-    font-size: .70em;
+    font-size: 0.9rem;
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
@@ -184,25 +224,28 @@
 
 .dates, .amount {
     width: auto; /* Adjust based on your design */
+    font-size: 17px;
   }
 
-.progress-title{
-    display: flex;
-    justify-content: space-between;
-}
-
-  .progress-bar {
-    border-radius: 5px;
-    height: 15px;
-    margin: 10px 0;
-    border: solid 2px black;
-
+.progress-bar {
+    width: 100%;
+    height: 25px;
+    background-color: #f3f3f3;
+    border-radius: 5px; /* Add rounded corners to the progress bar */
+    position: relative; /* Add this to position the span correctly */
+    margin-top: 2.7%;
+  
   }
   
   .progress {
-    background-color: #de1515;
-    border-radius: 5px;
     height: 100%;
+    background-color: #de1515;
+    border-radius: 5px; /* Add rounded corners to the progress */
+    display: flex; /* Add this to center the text vertically */
+    align-items: center; /* Add this to center the text vertically */
+    justify-content: center; /* Add this to center the text horizontally */
+    color: #fff; /* Add this to make the text white */
+    font-size: 18px; /* Adjust this to change the size of the text */
   }
   p.date_debut {
     font-weight: bolder;
@@ -233,4 +276,21 @@ h4.countdown {
 a.validerDon.disabled {
     cursor: not-allowed;
     opacity: 0.8;
+}
+
+.dates {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.date_debut,
+.date_fin {
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    border: 2px solid #000000;
 }

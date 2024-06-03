@@ -1,59 +1,136 @@
-
-
-<div *ngIf="service.showDetails && selectedCollecte" class="collecte-details">
-    <div class="left-content">
-      <div class="collecte-photo">
-        <img [src]="selectedCollecte.image" alt="Oups!" class="collecte-image">
-      </div>
-      <div class="collecte-info">
-        <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
-        <h4><a [routerLink]="['/listeAssociations/details', selectedCollecte.id_association]">{{associationName}}</a></h4>
-        <p class="collecte-description" id="collecteDescription" [ngClass]="{ 'collapsed': showFullDescription }">{{ selectedCollecte.description }}</p>
-        <div  class="showmore">
-        <a  (click)="toggleDescription()">{{ showFullDescription ? 'Voir moins' : 'Voir plus' }}</a>
-      </div>
-      </div>
-      <div class="dates">
-        <p class="date_debut">Date de début : {{ selectedCollecte.date_debut | date }}</p>
-        <p class="date_fin">Date de fin : {{ selectedCollecte.date_fin | date }}</p>
-      </div>
-      <div class="amount">
-        <p>Montant : {{ selectedCollecte.montant }}</p>
-      </div>
-    </div>
-  
-    <div class="right-content">
-        <div class="details">
-            
-          </div>
-          <div class="progress-title" >
-            <h3>Progression : </h3>
-            <h3>{{getProgressPercentage()+'%'}}</h3>
-          </div>
-          <div class="progress-bar">
-            <div class="progress" [style.width]="getProgressPercentage() + '%'" aria-valuemax="100"></div>
-          </div>          
-          <h3 *ngIf="!isDonationAllowed">Temps restant : <br>{{ getTimeRemaining(selectedCollecte.date_fin) }}</h3>
-      
-      <div class="donate">
-        <h3>Faire un don</h3> 
-        <div class="donate-buttons"> 
-          <button (click)="updateDonationAmountFromButton(10)">10DT</button>
-          <button (click)="updateDonationAmountFromButton(20)">20DT</button>
-          <button (click)="updateDonationAmountFromButton(50)">50DT</button>
-          <button (click)="updateDonationAmountFromButton(100)">100DT</button>
+<div class="parent-container">
+  <div *ngIf="service.showDetails && selectedCollecte" class="collecte-details">
+    <div class="content-container">
+      <div class="left-content">
+        <div class="collecte-photo">
+          <img
+            [src]="selectedCollecte.image"
+            alt="Oups!"
+            class="collecte-image"
+          />
         </div>
-        <ngx-slider [(value)]="donationAmount" [options]="options" (change)="updateDonationAmountFromSlider($event)"></ngx-slider> 
-        <label for="montant">Saisir un montant</label>
-        <input id="montant" type="text" [(ngModel)]="donationAmount" placeholder="Saisir un montant">
-        <h4 class="countdown" *ngIf="countdown | async as countdownValue">Commence dans : {{ countdownValue }}</h4>
-        <a class="validerDon" 
-   [class.disabled]="!isDonationAllowed"
-   (click)="isDonationAllowed ? validateDonationAmount() : null">
-   Valider le don de {{donationAmount}} vers "{{selectedCollecte.nom}}".
-</a>
+        <div class="collecte-info">
+          <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
+          <h4>
+            <a
+              [routerLink]="[
+                '/listeAssociations/details',
+                selectedCollecte.id_association
+              ]"
+              >{{ associationName }}</a
+            >
+          </h4>
+          <p
+            class="collecte-description"
+            id="collecteDescription"
+            [ngClass]="{ collapsed: showFullDescription }"
+          >
+            {{ selectedCollecte.description }}
+          </p>
+          <div class="showmore">
+            <a (click)="toggleDescription()">{{
+              showFullDescription ? "Voir moins" : "Voir plus"
+            }}</a>
           </div>
-      
+          <div class="amount">
+            <p>Objectif : {{ selectedCollecte.montant }} DT</p>
+          </div>
+        </div>
+        <div class="dates">
+          <p class="date_debut">
+            Date de début : {{ selectedCollecte.date_debut | date }}
+          </p>
+          <p class="date_fin">
+            Date de fin : {{ selectedCollecte.date_fin | date }}
+          </p>
+        </div>
+      </div>
+
+      <div class="right-content">
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="getProgressPercentage()">
+            <span>{{ getProgressPercentage() }}%</span>
+          </div>
+        </div>
+        <h3 *ngIf="!isDonationAllowed">
+          Temps restant : <br />{{
+            getTimeRemaining(selectedCollecte.date_fin)
+          }}
+        </h3>
+
+        <div class="donate">
+          <h3>Faire un don</h3>
+          <div class="donate-buttons">
+            <div class="heart-icons">
+              <div
+                (click)="updateDonationAmountFromButton(10)"
+                class="heart-donate"
+              >
+                <img
+                  src="../../../../assets/images/hearticon.png"
+                  alt="Heart"
+                />
+                <span class="amount-inside">10DT</span>
+              </div>
+              <div
+                (click)="updateDonationAmountFromButton(20)"
+                class="heart-donate"
+              >
+                <img
+                  src="../../../../assets/images/hearticon.png"
+                  alt="Heart"
+                />
+                <span class="amount-inside">20DT</span>
+              </div>
+              <div
+                (click)="updateDonationAmountFromButton(50)"
+                class="heart-donate"
+              >
+                <img
+                  src="../../../../assets/images/hearticon.png"
+                  alt="Heart"
+                />
+                <span class="amount-inside">50DT</span>
+              </div>
+              <div
+                (click)="updateDonationAmountFromButton(100)"
+                class="heart-donate"
+              >
+                <img
+                  src="../../../../assets/images/hearticon.png"
+                  alt="Heart"
+                />
+                <span class="amount-inside">100DT</span>
+              </div>
+            </div>
+          </div>
+
+          <ngx-slider
+            [(value)]="donationAmount"
+            [options]="options"
+            (change)="updateDonationAmountFromSlider($event)"
+          ></ngx-slider>
+          <label for="montant">Saisir un montant</label>
+          <input
+            id="montant"
+            type="text"
+            [(ngModel)]="donationAmount"
+            placeholder="Saisir un montant"
+          />
+          <h4 class="countdown" *ngIf="countdown | async as countdownValue">
+            Commence dans : {{ countdownValue }}
+          </h4>
+          <a
+            class="validerDon"
+            [class.disabled]="!isDonationAllowed"
+            (click)="isDonationAllowed ? validateDonationAmount() : null"
+          >
+            Valider le don de {{ donationAmount }} vers "{{
+              selectedCollecte.nom
+            }}".
+          </a>
+        </div>
+      </div>
     </div>
   </div>
- 
+</div>
