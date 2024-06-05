@@ -174,9 +174,9 @@
 
 /* Style for the line between contact and donate parts */
 .right-content .donate {
-  border-top: 1px solid black; /* Add border between sections */
-  padding-top: 8px; /* Add space between the sections */
-}
+  padding-top: 8px;
+    margin-top: 20px;
+  }
 
 .validerDon {
   padding: 1em 2.1em 1.1em;
