@@ -13,7 +13,7 @@
           <h2 class="collecte-name">{{ selectedCollecte.nom }}</h2>
 
           <div class="association">
-            <!-- <img [src]="associationLogo" alt="Oups!" class="logo-image" /> -->
+            <img [src]="associationLogo" alt="Oups!" class="logo-image" />
             <h4>
               <a
                 [routerLink]="[
@@ -37,11 +37,12 @@
               showFullDescription ? "Voir moins" : "Voir plus"
             }}</a>
           </div>
+          
+        </div>
+        <div class="dates">
           <div class="amount">
             <p> {{ selectedCollecte.montant }} DT</p>
           </div>
-        </div>
-        <div class="dates">
           <p class="date_debut">
             Date de début : <strong>{{ selectedCollecte.date_debut | date }}</strong>
           </p>

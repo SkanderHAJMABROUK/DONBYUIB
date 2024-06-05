@@ -307,4 +307,33 @@ h4 a {
     color: inherit; /* Inherit the color from parent */
   }
 
+  .logo-image {
+    width: 45px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
   
+  /* Align the association logo vertically with the association name */
+  .association {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 10px; /* Adjust margin as needed */
+  }
+  
+  /* Adjust spacing between logo and association name */
+  .association img {
+    margin-right: 10px; /* Add spacing between logo and association name */
+  }
+  
+  /* Add ellipsis for overflow */
+  .association h4 {
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow */
+    transition: font-size 0.3s, color 0.3s; /* Add transition for smooth effect */
+  } 
+  
+  .association h4:hover {
+    cursor: pointer;
+    font-size: 110%; /* Increase font size slightly */
+    color: #888; /* Change color to gray */
+  }
