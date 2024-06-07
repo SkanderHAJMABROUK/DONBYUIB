@@ -31,7 +31,7 @@ connexionDonateur:boolean=false;
 nomDonateur:string='';
 prenomDonateur:string='';
 showErrorNotification: boolean=false;
-id = sessionStorage.getItem('donateurId');
+id = localStorage.getItem('donateurId');
 modifiercompte:boolean=false;
 modifierMdp:boolean=false;
 compteDonateur:boolean=true;
@@ -220,7 +220,7 @@ private startTimer() {
     if (this.connexionDonateur && lastActivity) {
       const diff = now - parseInt(lastActivity);
       const diffInMinutes = diff / (1000 * 60);
-      if (diffInMinutes >=1) { // Log out after 24 hours of inactivity
+      if (diffInMinutes >=60) { // Log out after 24 hours of inactivity
         this.logOut(); // Log out user if inactive for 15 minutes
         alert("Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.");
       }

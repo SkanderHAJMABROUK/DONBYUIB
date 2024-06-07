@@ -120,7 +120,6 @@ confirmPayment(orderId: string, amount: number): void {
     .subscribe(response => {
       if (this.selectedAssociation && this.selectedAssociation.id) {
         console.log('Selected Association:', this.selectedAssociation);
-        // Pas besoin d'ajouter le don ici
         const date = new Date();
         const donateurId = this.donateurId || '';
         this.paymentService.addDonAssociation(this.selectedAssociation.id, amount, date, donateurId)
