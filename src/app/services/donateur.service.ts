@@ -248,8 +248,7 @@ export class DonateurService {
       if (this.connexionDonateur && lastActivity) {
         const diff = now - parseInt(lastActivity);
         const diffInMinutes = diff / (1000 * 60);
-        if (diffInMinutes >= 60) {
-          // Log out after 24 hours of inactivity
+        if (diffInMinutes >= 5) {
           this.logOut(); // Log out user if inactive for 15 minutes
           alert(
             "Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.",
