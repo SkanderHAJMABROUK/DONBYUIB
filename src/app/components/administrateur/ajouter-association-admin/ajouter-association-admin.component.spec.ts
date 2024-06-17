@@ -8,7 +8,7 @@ describe('AjouterAssociationAdminComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AjouterAssociationAdminComponent]
+      declarations: [AjouterAssociationAdminComponent],
     });
     fixture = TestBed.createComponent(AjouterAssociationAdminComponent);
     component = fixture.componentInstance;

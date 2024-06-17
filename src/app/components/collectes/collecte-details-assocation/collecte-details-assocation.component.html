@@ -1,46 +1,38 @@
 <div class="dialog">
-    <div class="header">
-        <h3>Détails de la collecte</h3>
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="service.collecteDetailShowModal=false"></fa-icon>
-    </div>
-    <hr />
-    <div class="content">
-        <strong><p>
-            Image de la collecte :
-        </p></strong>
-        <p>
-            <img src="{{collecte.image}}">
-        </p>
-    <strong> <p>
-            Nom de la collecte :
-        </p></strong>
-        <p>
-            {{collecte.nom}} 
-        </p>
-    <strong><p>
-            Description de la collecte :
-        </p></strong>
-        <p>
-            {{ collecte.description }}
-        </p>
-  
-    <strong><p>
-            Montant de la collecte :
-        </p></strong>
-        <p>
-            {{collecte.montant}}
-        </p>
-    <strong><p>
-            Date de début de la collecte :
-        </p></strong>
-        <p>
-            {{collecte.date_debut | date}}
-        </p>
-    <strong><p>
-            Date de fin de la collecte :
-        </p></strong>
-        <p>
-            {{collecte.date_fin | date}}
-        </p>
-    </div>
+  <div class="header">
+    <h3>Détails de la collecte</h3>
+    <fa-icon
+      class="close-icon"
+      [icon]="faXmark"
+      (click)="service.collecteDetailShowModal = false"
+    ></fa-icon>
+  </div>
+  <hr />
+  <div class="content">
+    <strong><p>Image de la collecte :</p></strong>
+    <p>
+      <img src="{{ collecte.image }}" />
+    </p>
+    <strong> <p>Nom de la collecte :</p></strong>
+    <p>
+      {{ collecte.nom }}
+    </p>
+    <strong><p>Description de la collecte :</p></strong>
+    <p>
+      {{ collecte.description }}
+    </p>
+
+    <strong><p>Montant de la collecte :</p></strong>
+    <p>
+      {{ collecte.montant }}
+    </p>
+    <strong><p>Date de début de la collecte :</p></strong>
+    <p>
+      {{ collecte.date_debut | date }}
+    </p>
+    <strong><p>Date de fin de la collecte :</p></strong>
+    <p>
+      {{ collecte.date_fin | date }}
+    </p>
+  </div>
 </div>

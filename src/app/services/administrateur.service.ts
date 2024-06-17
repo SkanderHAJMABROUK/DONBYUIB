@@ -84,7 +84,7 @@ export class AdministrateurService {
     private fs: Firestore,
     public associationService: AssociationService,
     private firestore: AngularFirestore,
-    private route: Router
+    private route: Router,
   ) {}
 
   getCurrentAdminId(): string | null {
@@ -97,7 +97,7 @@ export class AdministrateurService {
     const salt: string = this.associationService.generateSalt(16);
     // Hachage du mot de passe avec salage
     const hashedPassword: string = sha256(
-      associationData.mdp + salt
+      associationData.mdp + salt,
     ).toString();
 
     const dataToAdd: Association = {
@@ -132,14 +132,14 @@ export class AdministrateurService {
 
   getAdminByLoginAndPassword(
     login: string,
-    password: string
+    password: string,
   ): Observable<Admin | undefined> {
     console.log('Login:', login);
     console.log('Password:', password);
 
     return this.firestore
       .collection<Admin>('Admin', (ref) =>
-        ref.where('login', '==', login).where('mdp', '==', password)
+        ref.where('login', '==', login).where('mdp', '==', password),
       )
       .valueChanges({ idField: 'id' })
       .pipe(map((admin) => admin[0]));
@@ -160,7 +160,6 @@ export class AdministrateurService {
   }
 
   logIn(login: string, password: string): Observable<boolean> {
-
     return this.getAdminByLoginAndPassword(login, password).pipe(
       map((admin) => {
         if (admin) {
@@ -175,7 +174,7 @@ export class AdministrateurService {
         } else {
           this.showErrorNotification = true;
           console.error(
-            'Aucun administrateur trouvé avec ce login et ce mot de passe.'
+            'Aucun administrateur trouvé avec ce login et ce mot de passe.',
           );
           return false; // Connexion échouée
         }
@@ -183,10 +182,10 @@ export class AdministrateurService {
       catchError((error) => {
         console.error(
           "Erreur lors de la recherche de l'administrateur:",
-          error
+          error,
         );
         return of(false); // Retourner false en cas d'erreur
-      })
+      }),
     );
   }
 
@@ -194,7 +193,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeCollecte', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -214,7 +213,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeActualite', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -234,7 +233,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeAssociation', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -254,7 +253,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeModificationAssociation', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -274,7 +273,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeModificationCollecte', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -294,7 +293,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeModificationActualite', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -314,7 +313,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeSuppressionActualite', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -334,7 +333,7 @@ export class AdministrateurService {
     try {
       const querySnapshot = await this.firestore
         .collection('DemandeSuppressionCollecte', (ref) =>
-          ref.where('etat', '==', 'en_attente')
+          ref.where('etat', '==', 'en_attente'),
         )
         .get()
         .toPromise();
@@ -387,16 +386,16 @@ export class AdministrateurService {
             }
           });
           return collectesIds;
-        })
+        }),
       );
   }
 
   getAssociationIdsByCollecteIds(
-    collecteIds: string[]
+    collecteIds: string[],
   ): Observable<{ [key: string]: string }> {
     return this.firestore
       .collection<Collecte>('Collecte', (ref) =>
-        ref.where('id', 'in', collecteIds)
+        ref.where('id', 'in', collecteIds),
       )
       .valueChanges()
       .pipe(
@@ -409,7 +408,7 @@ export class AdministrateurService {
           });
           console.log('associations ids in service', associationIds);
           return associationIds;
-        })
+        }),
       );
   }
   deleteActualiteByAdmin(actualite: Actualite): Promise<void> {
@@ -434,7 +433,7 @@ export class AdministrateurService {
     titre_demande: string,
     type_demande: string,
     date_demande: string,
-    date_reponse: string
+    date_reponse: string,
   ) {
     emailjs.init('Ll48-OBaZnWxVPBb8');
     emailjs.send('service_rmsqvw8', 'template_klajns3', {
@@ -454,7 +453,7 @@ export class AdministrateurService {
     type_demande: string,
     date_demande: string,
     date_reponse: string,
-    cause_refus: string
+    cause_refus: string,
   ) {
     emailjs.init('Ll48-OBaZnWxVPBb8');
     emailjs.send('service_rmsqvw8', 'template_twbhr9n', {
@@ -473,7 +472,7 @@ export class AdministrateurService {
     nom: string | undefined,
     nom_association: string,
     date_demande: string,
-    details_modification: string
+    details_modification: string,
   ) {
     emailjs.init('MvwF-7177T4obuulo');
     emailjs.send('service_ogd42ys', 'template_5rw7v7m', {
@@ -494,13 +493,13 @@ export class AdministrateurService {
           mdp: admin.mdp,
           salt: admin.salt,
         }));
-      })
+      }),
     );
   }
 
   getAdminByLogin(login: string): Observable<Admin | undefined> {
     return this.getAdmins().pipe(
-      map((admins) => admins.find((admin) => admin.login === login))
+      map((admins) => admins.find((admin) => admin.login === login)),
     );
   }
 
@@ -515,7 +514,7 @@ export class AdministrateurService {
           // Si aucune association n'a été trouvée, retourne undefined
           return undefined;
         }
-      })
+      }),
     );
   }
 }

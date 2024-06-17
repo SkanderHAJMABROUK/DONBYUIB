@@ -1,6 +1,3 @@
 export interface AnalyseSentiment {
-    satisfaction_rate: number;
-
+  satisfaction_rate: number;
 }
-
-  

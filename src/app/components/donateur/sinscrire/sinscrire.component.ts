@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { faEye , faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { DonateurService } from '../../../services/donateur.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { sha256 } from 'js-sha256';
@@ -11,11 +18,10 @@ import { AssociationService } from 'src/app/services/association.service';
 @Component({
   selector: 'app-sinscrire',
   templateUrl: './sinscrire.component.html',
-  styleUrls: ['./sinscrire.component.css']
+  styleUrls: ['./sinscrire.component.css'],
 })
-export class SinscrireComponent implements OnInit{
-
-  siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; // Site Key
+export class SinscrireComponent implements OnInit {
+  siteKey: string = '6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv'; // Site Key
   password: string = '';
   passwordConfirmation: string = '';
   showPassword: boolean = false;
@@ -27,51 +33,69 @@ export class SinscrireComponent implements OnInit{
   showSuccessMessage: boolean = false;
   showEmailExists: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, public service: DonateurService, 
-    private router: Router,private spinner:NgxSpinnerService, private aService:AssociationService) {}
-
-    
+  constructor(
+    private formBuilder: FormBuilder,
+    public service: DonateurService,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+    private aService: AssociationService,
+  ) {}
 
   ngOnInit(): void {
-
     this.aFormGroup = this.formBuilder.group(
       {
         recaptcha: ['', Validators.required],
 
         nom: ['', Validators.required],
-        telephone: ['', Validators.required] ,
-        adresse: ['', Validators.required] ,
-        gouvernerat: ['', Validators.required] ,
+        telephone: ['', Validators.required],
+        adresse: ['', Validators.required],
+        gouvernerat: ['', Validators.required],
         prenom: ['', Validators.required],
-        date_de_naissance: ['', [Validators.required, this.service.dateOfBirthValidator()]],
+        date_de_naissance: [
+          '',
+          [Validators.required, this.service.dateOfBirthValidator()],
+        ],
         email: ['', [Validators.required, Validators.email]],
         photo: ['', Validators.required],
-        mdp: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordFormatValidator]],
-        mdp_confirmation: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-        accept_terms: ['', Validators.requiredTrue]
+        mdp: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(20),
+            this.passwordFormatValidator,
+          ],
+        ],
+        mdp_confirmation: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(20),
+          ],
+        ],
+        accept_terms: ['', Validators.requiredTrue],
       },
       {
-        validators: this.passwordMatchValidator()
-      }
+        validators: this.passwordMatchValidator(),
+      },
     );
     this.getGouvernerats();
   }
-  
+
   gouvernerats: string[] = [];
 
   getGouvernerats() {
-    this.service.getGouvernerats().subscribe(gouvernerats => {
+    this.service.getGouvernerats().subscribe((gouvernerats) => {
       this.gouvernerats = gouvernerats;
     });
   }
-  
 
   onPhotoFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.aFormGroup.get('photo')?.setValue(file);
     console.log('Le fichier est ', file.name);
   }
-  
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -81,63 +105,60 @@ export class SinscrireComponent implements OnInit{
     this.showPasswordConfirmation = !this.showPasswordConfirmation;
   }
 
-
-  async onSubmit(): Promise<void>{
-
+  async onSubmit(): Promise<void> {
     if (this.aFormGroup.valid) {
-
-      const emailExists = await this.service.checkEmailExists(this.aFormGroup.value.email).toPromise();
+      const emailExists = await this.service
+        .checkEmailExists(this.aFormGroup.value.email)
+        .toPromise();
       if (!emailExists) {
-      console.log("Formulaire valide, reCAPTCHA validé !");
+        console.log('Formulaire valide, reCAPTCHA validé !');
 
-      this.spinner.show(); // Afficher le spinner
-      this.sendVerificationEmail();
+        this.spinner.show(); // Afficher le spinner
+        this.sendVerificationEmail();
 
-      // Upload logo file
-      const File = this.aFormGroup.value.photo;
-      const photoDownloadUrl = await this.service.uploadPhoto(File);
-      if (!photoDownloadUrl) {
-        console.error('Failed to upload file.');
-        // Handle error appropriately, e.g., show error message to user
-        return;
-      }
-      console.log(' file uploaded. Download URL:', photoDownloadUrl);
+        // Upload logo file
+        const File = this.aFormGroup.value.photo;
+        const photoDownloadUrl = await this.service.uploadPhoto(File);
+        if (!photoDownloadUrl) {
+          console.error('Failed to upload file.');
+          // Handle error appropriately, e.g., show error message to user
+          return;
+        }
+        console.log(' file uploaded. Download URL:', photoDownloadUrl);
 
+        const associationData = {
+          ...this.aFormGroup.value,
+          photo: photoDownloadUrl,
+        };
 
-      const associationData = {
-        ...this.aFormGroup.value,
-        photo: photoDownloadUrl
-      };
+        const demandeAssociationData = {
+          id_association: undefined,
+          nom: this.aFormGroup.value.nom,
+          categorie: this.aFormGroup.value.categorie,
+          adresse: this.aFormGroup.value.adresse,
+          description: this.aFormGroup.value.description,
+          email: this.aFormGroup.value.email,
+          id_fiscale: this.aFormGroup.value.id_fiscale,
+          photo: photoDownloadUrl,
+          rib: this.aFormGroup.value.rib,
+          telephone: this.aFormGroup.value.telephone,
+        };
 
-      const demandeAssociationData = {
-        id_association:undefined,
-        nom:this.aFormGroup.value.nom,
-        categorie:this.aFormGroup.value.categorie,
-        adresse:this.aFormGroup.value.adresse,
-        description:this.aFormGroup.value.description,
-        email:this.aFormGroup.value.email,
-        id_fiscale:this.aFormGroup.value.id_fiscale,
-        photo: photoDownloadUrl,
-        rib:this.aFormGroup.value.rib,
-        telephone:this.aFormGroup.value.telephone
-      }
+        localStorage.setItem('type', 'donateur');
+        localStorage.setItem('emailDonateur', associationData.email);
 
-      localStorage.setItem('type' , 'donateur');
-      localStorage.setItem('emailDonateur', associationData.email);
-
-      localStorage.setItem('userData', JSON.stringify(associationData));
-      this.spinner.hide();
-      this.aFormGroup.reset();
-      this.showSuccessMessage=true;
-      this.showErrorNotification=false;
-      this.router.navigate(['/sinscrire/email'],{ replaceUrl: true });
-
-      } else  {
-          this.showEmailExists=true;
+        localStorage.setItem('userData', JSON.stringify(associationData));
+        this.spinner.hide();
+        this.aFormGroup.reset();
+        this.showSuccessMessage = true;
+        this.showErrorNotification = false;
+        this.router.navigate(['/sinscrire/email'], { replaceUrl: true });
+      } else {
+        this.showEmailExists = true;
       }
     } else {
       this.showErrorNotification = true;
-      console.log("Formulaire invalide");
+      console.log('Formulaire invalide');
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
@@ -151,11 +172,11 @@ export class SinscrireComponent implements OnInit{
         return null;
       }
 
-      return passwordControl.value !== confirmPasswordControl.value ? { 'passwordMismatch': true } : null;
+      return passwordControl.value !== confirmPasswordControl.value
+        ? { passwordMismatch: true }
+        : null;
     };
   }
-
- 
 
   passwordFormatValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;
@@ -165,29 +186,31 @@ export class SinscrireComponent implements OnInit{
     const uppercaseRegex = /[A-Z]/;
     const digitRegex = /\d/;
     const specialCharRegex = /[-+!@#$%^&*(),.?":{}|<>]/;
-    if (!uppercaseRegex.test(password) || !digitRegex.test(password) || !specialCharRegex.test(password)) {
+    if (
+      !uppercaseRegex.test(password) ||
+      !digitRegex.test(password) ||
+      !specialCharRegex.test(password)
+    ) {
       return { invalidPasswordFormat: true };
     }
     return null;
   }
 
   async sendVerificationEmail() {
-
     let codeOtp: string = this.aService.genererCodeOTP().toString();
     let salt: string = this.aService.generateSalt(16);
-    let hashedCodeOtp: string = sha256(codeOtp+salt);  
+    let hashedCodeOtp: string = sha256(codeOtp + salt);
 
     localStorage.setItem('codeOtp', hashedCodeOtp);
-    localStorage.setItem('saltOtp',salt);
-  
+    localStorage.setItem('saltOtp', salt);
+
     emailjs.init('_Y9fCqzL5ZcxWYmmg');
 
     emailjs.send('service_hc9gqua', 'template_c1bhstr', {
-      from_name: "DonByUIB",
+      from_name: 'DonByUIB',
       to_name: this.aFormGroup.value.nom,
       code_otp: codeOtp,
-      to_email: this.aFormGroup.value.email
+      to_email: this.aFormGroup.value.email,
     });
-
   }
 }

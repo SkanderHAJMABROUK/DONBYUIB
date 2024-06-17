@@ -1,237 +1,237 @@
 .association-details {
-    display: flex;
-    overflow: hidden;
-    margin: 20px auto;
-    width: 80%;
-    border: 1px solid #00000040;
-    border-radius: 10px;
-    margin-top: 100px;
-    background-color: white;
-    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  overflow: hidden;
+  margin: 20px auto;
+  width: 80%;
+  border: 1px solid #00000040;
+  border-radius: 10px;
+  margin-top: 100px;
+  background-color: white;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
 }
 
 .left-content {
-    flex: 1; /* Make both sections take up equal space */
-    padding: 20px;
-    border-right: 1px solid black; /* Add border between sections */
-    overflow: hidden; /* Prevent content overflow */
-    display: flex; /* Add display flex to center the content */
-    flex-direction: column; /* Set flex direction to column */
-    align-items: center; /* Center items horizontally */
-    line-height: 1.5; 
+  flex: 1; /* Make both sections take up equal space */
+  padding: 20px;
+  border-right: 1px solid black; /* Add border between sections */
+  overflow: hidden; /* Prevent content overflow */
+  display: flex; /* Add display flex to center the content */
+  flex-direction: column; /* Set flex direction to column */
+  align-items: center; /* Center items horizontally */
+  line-height: 1.5;
 }
 
 /* Style for the right section */
 .right-content {
-    flex: 1; /* Make both sections take up equal space */
-    padding: 20px;
-    overflow: hidden; /* Prevent content overflow */
+  flex: 1; /* Make both sections take up equal space */
+  padding: 20px;
+  overflow: hidden; /* Prevent content overflow */
 }
 
 /* Style for the image container */
 .association-logo {
-    margin-bottom: 20px;
-    width: 150px; /* Set a fixed width for the logo */
+  margin-bottom: 20px;
+  width: 150px; /* Set a fixed width for the logo */
 }
 
 /* Style for the image */
 .association-logo img {
-    max-width: 100%;
-    max-height: 100%; /* Maintain aspect ratio */
-    border-radius: 10px;
+  max-width: 100%;
+  max-height: 100%; /* Maintain aspect ratio */
+  border-radius: 10px;
 }
 
 /* Style for the association info */
 .association-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
 }
 
 /* Style for the association name */
 .association-info .association-name {
-    margin-bottom: 5px; /* Adjust margin as needed */
-    text-align: center; /* Center the text horizontally */
-    border-bottom: 1px solid black; /* Add a small line below the name */
-    padding-bottom: 5px; /* Add space below the name */
+  margin-bottom: 5px; /* Adjust margin as needed */
+  text-align: center; /* Center the text horizontally */
+  border-bottom: 1px solid black; /* Add a small line below the name */
+  padding-bottom: 5px; /* Add space below the name */
 }
 
 /* Style for the association description */
 .association-info .association-description {
-    margin-top: 5px; /* Adjust margin as needed */
-    text-align: center; /* Center the text horizontally */
+  margin-top: 5px; /* Adjust margin as needed */
+  text-align: center; /* Center the text horizontally */
 }
 
 /* Style for the association contact */
 .association-contact {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    text-align: center; /* Center text horizontally */
-    height: 150px; /* Set a fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  text-align: center; /* Center text horizontally */
+  height: 150px; /* Set a fixed height */
 }
-
 
 /* Style for the contact title */
 .association-contact h3 {
-    margin: 0;
-    border-bottom: 1px solid black;
-    margin-bottom: 5px; /* Adjust margin as needed */
-    font-size: 24px; /* Increase font size */
+  margin: 0;
+  border-bottom: 1px solid black;
+  margin-bottom: 5px; /* Adjust margin as needed */
+  font-size: 24px; /* Increase font size */
 }
 
 /* Updated Style for the contact information */
 .contact-info {
-    display: flex;
-    justify-content: space-around; /* Spread items across the container */
-    align-items: center; /* Center content vertically */
-    width: 100%; /* Ensure full width */
+  display: flex;
+  justify-content: space-around; /* Spread items across the container */
+  align-items: center; /* Center content vertically */
+  width: 100%; /* Ensure full width */
 }
 
 /* Style for each contact item */
 .contact-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center items horizontally */
-    cursor: pointer; /* Change cursor to pointer */
-    transition: color 0.8s ease; /* Add smooth transition on hover */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: color 0.8s ease; /* Add smooth transition on hover */
 }
 
 /* Style for the phone icon */
 .contact-item .phone-icon,
 .contact-item .email-icon {
-    margin: 5px; /* Adjust margin as needed */
-    color: rgb(0, 0, 0);
-    font-size: 24px; /* Increase icon size */
+  margin: 5px; /* Adjust margin as needed */
+  color: rgb(0, 0, 0);
+  font-size: 24px; /* Increase icon size */
 }
 
 /* Change color of icons and text on hover */
 .contact-item:hover .phone-icon,
 .contact-item:hover .email-icon,
 .contact-item:hover p {
-    color: rgba(0, 0, 0, 0.25); /* Change color on hover */
+  color: rgba(0, 0, 0, 0.25); /* Change color on hover */
 }
 
 .contact-item .phone-icon,
 .contact-item .email-icon {
-    transition: transform 0.3s ease; /* Smooth transition */
+  transition: transform 0.3s ease; /* Smooth transition */
 }
 
 .contact-item:hover .phone-icon,
 .contact-item:hover .email-icon {
-    transform: scale(1.2); /* Increase icon size */
+  transform: scale(1.2); /* Increase icon size */
 }
 
 /* Style for the phone number and email */
 .contact-item p {
-    margin-bottom: 0; /* Reset margin */
-    font-size: 16px; /* Set font size */
-    font-weight: bold; /* Set font weight to bold */
-    text-align: center; /* Center text */
+  margin-bottom: 0; /* Reset margin */
+  font-size: 16px; /* Set font size */
+  font-weight: bold; /* Set font weight to bold */
+  text-align: center; /* Center text */
 }
 
 /* Style for the donate section */
-.donate h3{
-    margin: 0;
-    border-bottom: 1px solid black;
-    margin-bottom: 15px; /* Adjust margin as needed */
-    font-size: 24px; /* Increase font size */
+.donate h3 {
+  margin: 0;
+  border-bottom: 1px solid black;
+  margin-bottom: 15px; /* Adjust margin as needed */
+  font-size: 24px; /* Increase font size */
 }
 
 .donate {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
 }
 
 .donate-buttons {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-  }
-  
-  .heart-icons {
-    display: flex; /* Display heart icons horizontally */
-    gap: 10px; /* Add spacing between heart icons */
-  }
-  
-  .heart-donate {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .heart-donate img {
-    width: 100px;
-    margin-right: 10px;
-  }
-  
-  .amount-inside {
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    position: absolute;
-    font-size: 18px;
-    top: 45%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-  }
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+}
+
+.heart-icons {
+  display: flex; /* Display heart icons horizontally */
+  gap: 10px; /* Add spacing between heart icons */
+}
+
+.heart-donate {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.heart-donate img {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.amount-inside {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  position: absolute;
+  font-size: 18px;
+  top: 45%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+}
 
 /* Style for the range input */
 .donate input[type="range"] {
-    width: 100%;
-    margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 /* Style for the label of the range input */
 .donate label {
-    margin-bottom: 10px; /* Add space below the label */
-    font-weight: bold; /* Make the label bold */
-    font-size: 18px; /* Increase font size */
+  margin-bottom: 10px; /* Add space below the label */
+  font-weight: bold; /* Make the label bold */
+  font-size: 18px; /* Increase font size */
 }
 
 /* Style for the line between contact and donate parts */
 .right-content .donate {
-    border-top: 1px solid black; /* Add border between sections */
-    padding-top: 8px; /* Add space between the sections */
+  border-top: 1px solid black; /* Add border between sections */
+  padding-top: 8px; /* Add space between the sections */
 }
-.donate ngx-slider{
-    color:red;
+.donate ngx-slider {
+  color: red;
 }
-.validerDon{
-    padding: 1em 2.1em 1.1em;
-    border-radius: 3px;
-    margin: 8px 8px 8px 8px;
-    color: #fbdedb;
-    display: inline-block;
-    background: #e74c3c;
-    -webkit-transition: 0.3s;
-    -moz-transition: 0.3s;
-    -o-transition: 0.3s;
-    transition: 0.3s;
-    font-weight: 800;
-    font-size: .70em;
-    text-transform: uppercase;
-    text-align: center;
-    text-decoration: none;
-    -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
-    -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
-    box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
-    position: relative;
-    border-radius: 50em;
-    background-color: #cc0000;
+.validerDon {
+  padding: 1em 2.1em 1.1em;
+  border-radius: 3px;
+  margin: 8px 8px 8px 8px;
+  color: #fbdedb;
+  display: inline-block;
+  background: #e74c3c;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  font-weight: 800;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+  position: relative;
+  border-radius: 50em;
+  background-color: #cc0000;
 }
-.validerDon:hover, .validerDon:focus{
-    opacity: 0.8;
+.validerDon:hover,
+.validerDon:focus {
+  opacity: 0.8;
 }
-.validerDon:active{
-    -webkit-transform: scale(0.80);
-    -moz-transform: scale(0.80);
-    -ms-transform: scale(0.80);
-    -o-transform: scale(0.80);
-    transform: scale(0.80);
+.validerDon:active {
+  -webkit-transform: scale(0.8);
+  -moz-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  transform: scale(0.8);
 }
-a{
-    cursor: pointer;
+a {
+  cursor: pointer;
 }

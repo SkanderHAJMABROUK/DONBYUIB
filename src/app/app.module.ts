@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule  } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,13 +8,13 @@ import { HeadBarComponent } from './components/head-bar/head-bar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FooterComponent } from './components/footer/footer.component';
 import { InscrireAssociationComponent } from './components/associations/inscrire-association/inscrire-association.component';
-import {  HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { RouterModule , RouterOutlet, Routes } from '@angular/router';
+import { RouterModule, RouterOutlet, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { AssociationService} from './services/association.service';
+import { AssociationService } from './services/association.service';
 import { AssociationDemandeComponent } from './components/associations/association-demande/association-demande.component';
 import { AssociationListComponent } from './components/associations/association-list/association-list.component';
 import { ProfilAssociationComponent } from './components/associations/profil-association/profil-association.component';
@@ -41,7 +41,7 @@ import { ActualiteListAssociationComponent } from './components/actualites/actua
 import { AjouterActualiteComponent } from './components/actualites/ajouter-actualite/ajouter-actualite.component';
 import { ActualiteDetailsAssociationsComponent } from './components/actualites/actualite-details-associations/actualite-details-associations.component';
 import { ModifierActualiteComponent } from './components/actualites/modifier-actualite/modifier-actualite.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ActualiteDetailsComponent } from './components/actualites/actualite-details/actualite-details.component';
@@ -98,13 +98,13 @@ registerLocaleData(localeFr, 'fr');
 import { AngularFirePerformanceModule } from '@angular/fire/compat/performance';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U",
-  authDomain: "donbyuib.firebaseapp.com",
-  projectId: "donbyuib",
-  storageBucket: "donbyuib.appspot.com",
-  messagingSenderId: "586021322511",
-  appId: "1:586021322511:web:fe97e78a0e10165d2b487a",
-  measurementId: "G-D749N7NPLF"
+  apiKey: 'AIzaSyCLddLKQR_QtXMBEdt1yIO7vHp6jeWOA9U',
+  authDomain: 'donbyuib.firebaseapp.com',
+  projectId: 'donbyuib',
+  storageBucket: 'donbyuib.appspot.com',
+  messagingSenderId: '586021322511',
+  appId: '1:586021322511:web:fe97e78a0e10165d2b487a',
+  measurementId: 'G-D749N7NPLF',
 };
 
 @NgModule({
@@ -153,7 +153,7 @@ const firebaseConfig = {
     ModifierCollecteAdminComponent,
     DetailsActualiteAdminComponent,
     ModifierActualiteAdminComponent,
-    ModificationAssociationDetailsComponent ,
+    ModificationAssociationDetailsComponent,
     DemandesAssociationsComponent,
     AjouterActualiteAdminComponent,
     AjouterCollecteAdminComponent,
@@ -177,8 +177,8 @@ const firebaseConfig = {
     ResetPasswordComponent,
     ForgotPasswordComponent,
     ResetForgottenPasswordComponent,
-    ResetEmailComponent  
-    ],
+    ResetEmailComponent,
+  ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -205,52 +205,99 @@ const firebaseConfig = {
     provideFirestore(() => getFirestore()),
     RouterModule.forRoot([
       { path: 'admin', component: LoginAdminComponent },
-      { path: 'admin', canActivate: [AuthGuard], children: [
-        { path: 'profil/:id', component: ProfilAdminComponent }
-      ]},
-    
-      { path: 'inscrireAssociation', children: [
-        { path: '', component: InscrireAssociationComponent },
-        { path: 'email', component: EmailVerificationComponent }
-      ]},
-    
+      {
+        path: 'admin',
+        canActivate: [AuthGuard],
+        children: [{ path: 'profil/:id', component: ProfilAdminComponent }],
+      },
+
+      {
+        path: 'inscrireAssociation',
+        children: [
+          { path: '', component: InscrireAssociationComponent },
+          { path: 'email', component: EmailVerificationComponent },
+        ],
+      },
+
       { path: '', component: ActualiteListComponent },
-    
-      { path: 'Sinscrire', children: [
-        { path: '', component: SinscrireComponent },
-        { path: 'email', component: EmailVerificationComponent }
-      ]},
-    
-      { path: 'listeAssociations', children: [
-        { path: '', component: AssociationListComponent },
-        { path: 'details/:id', component: AssociationDemandeComponent }
-      ]},
-    
-      { path: 'listeCollectes', children: [
-        { path: '', component: CollecteListComponent },
-        { path: 'details/:id', component: CollecteDetailsComponent }
-      ]},
-    
-      { path: 'listeActualites', children: [
-        { path: '', component: ActualiteListComponent , canActivate: [AuthGuard] },
-        { path: 'details/:id', component: ActualiteDetailsComponent }
-      ]},
-    
-      { path: 'login', children: [
-        { path: '', component: LoginComponent },
-        { path: 'profilAssociation/:id', component: ProfilAssociationComponent, canActivate: [AuthGuard] },
-        { path: 'profilDonateur/:id', component: ProfilDonateurComponent, canActivate: [AuthGuard] },
-        { path: 'profilDonateur/:id/modifier', component: ModifierDonateurComponent, canActivate: [AuthGuard] },
-        { path: 'forgot-password', component: ForgotPasswordComponent },
-        { path: 'profilAssociation/:id/compteAssociation', component: CompteAssociationComponent, canActivate: [AuthGuard] },
-      ]},
-    
-      { path: 'reset-password/:id/:userType/:token', component: ResetForgottenPasswordComponent },
-    ])
+
+      {
+        path: 'Sinscrire',
+        children: [
+          { path: '', component: SinscrireComponent },
+          { path: 'email', component: EmailVerificationComponent },
+        ],
+      },
+
+      {
+        path: 'listeAssociations',
+        children: [
+          { path: '', component: AssociationListComponent },
+          { path: 'details/:id', component: AssociationDemandeComponent },
+        ],
+      },
+
+      {
+        path: 'listeCollectes',
+        children: [
+          { path: '', component: CollecteListComponent },
+          { path: 'details/:id', component: CollecteDetailsComponent },
+        ],
+      },
+
+      {
+        path: 'listeActualites',
+        children: [
+          {
+            path: '',
+            component: ActualiteListComponent,
+            canActivate: [AuthGuard],
+          },
+          { path: 'details/:id', component: ActualiteDetailsComponent },
+        ],
+      },
+
+      {
+        path: 'login',
+        children: [
+          { path: '', component: LoginComponent },
+          {
+            path: 'profilAssociation/:id',
+            component: ProfilAssociationComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'profilDonateur/:id',
+            component: ProfilDonateurComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'profilDonateur/:id/modifier',
+            component: ModifierDonateurComponent,
+            canActivate: [AuthGuard],
+          },
+          { path: 'forgot-password', component: ForgotPasswordComponent },
+          {
+            path: 'profilAssociation/:id/compteAssociation',
+            component: CompteAssociationComponent,
+            canActivate: [AuthGuard],
+          },
+        ],
+      },
+
+      {
+        path: 'reset-password/:id/:userType/:token',
+        component: ResetForgottenPasswordComponent,
+      },
+    ]),
   ],
-  providers: [AssociationService,AngularFirestore,AngularFireModule,AuthGuard,
-    { provide: LOCALE_ID, useValue: "fr" }
+  providers: [
+    AssociationService,
+    AngularFirestore,
+    AngularFireModule,
+    AuthGuard,
+    { provide: LOCALE_ID, useValue: 'fr' },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -7,13 +7,14 @@ import { DonateurService } from 'src/app/services/donateur.service';
 @Component({
   selector: 'app-details-donateur-admin',
   templateUrl: './details-donateur-admin.component.html',
-  styleUrls: ['./details-donateur-admin.component.css']
+  styleUrls: ['./details-donateur-admin.component.css'],
 })
 export class DetailsDonateurAdminComponent {
-  @Input() donateur!:Donateur
-  faXmark=faXmark;
+  @Input() donateur!: Donateur;
+  faXmark = faXmark;
 
-  
-  constructor(public service:DonateurService,public adminService:AdministrateurService){}
-
+  constructor(
+    public service: DonateurService,
+    public adminService: AdministrateurService,
+  ) {}
 }

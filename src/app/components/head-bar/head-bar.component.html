@@ -1,74 +1,178 @@
 <header>
-    <div class="navbar">
-
-        <div class="logo">
-            <a [routerLink]="['listeAssociations']"><img src="../../assets/images/logodonbyuib.png" alt="Oups"></a>
-        </div>
-        <ul class="links">
-            <li><a [routerLink]="['listeActualites']" routerLinkActive="active-link">Accueil</a></li>
-            <li><a [routerLink]="['listeAssociations']" routerLinkActive="active-link">Associations</a></li>
-            <li><a [routerLink]="['listeCollectes']" routerLinkActive="active-link">Collectes</a></li>
-        </ul>
-
-        <a [routerLink]="['Sinscrire']" class="action_btn" *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">S'inscrire</a>
-
-
-        <a [routerLink]="['inscrireAssociation']"  class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">Inscrire mon association</a>
-        <a [routerLink]="['login']" class="action_btn"  *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" routerLinkActive="active-link">Se connecter</a>
- 
-        <a [routerLink]="['login/profilAssociation',associationid]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
-             <span>{{ serviceAssociation.nomAssociation }}</span>
-             <div class="connection-indicator"></div>
-        </a>
-
-        <a [routerLink]="['login/profilDonateur',donateurid]" 
-        class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"
-        (click)="serviceDonateur.compteDonateur=true;
-        serviceDonateur.modifierMdp=false;
-        serviceDonateur.modifiercompte=false;
-        serviceDonateur.modifierEmail=false" > 
-            <span>{{ serviceDonateur.nomDonateur + ' '}}</span> <span>{{ serviceDonateur.prenomDonateur }}</span>
-
-            <div class="connection-indicator"></div>
-       </a>
-
-
-       <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"  (click)="logoutDonateur();
-       serviceDonateur.compteDonateur=true;
-       serviceDonateur.modifierMdp=false;
-       serviceDonateur.modifiercompte=false"> 
-        Se déconnecter
-        </a>
-
-
-        <div class="toggle_btn" (click)="toggleMenu()">
-            <fa-icon [icon]="isMenuOpen ? faX : faB"></fa-icon>
-        </div>
-
+  <div class="navbar">
+    <div class="logo">
+      <a [routerLink]="['listeAssociations']"
+        ><img src="../../assets/images/logodonbyuib.png" alt="Oups"
+      /></a>
     </div>
+    <ul class="links">
+      <li>
+        <a [routerLink]="['listeActualites']" routerLinkActive="active-link"
+          >Accueil</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="['listeAssociations']" routerLinkActive="active-link"
+          >Associations</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="['listeCollectes']" routerLinkActive="active-link"
+          >Collectes</a
+        >
+      </li>
+    </ul>
 
-    <div class="dropdown_menu" [class.open]="this.isMenuOpen" >
-        <ul>
-            <li><a [routerLink]="['listeActualites']" (click)="closeMenu()">Accueil</a></li>
-            <li><a [routerLink]="['listeAssociations']" (click)="closeMenu()">Associations</a></li>
-            <li><a [routerLink]="['listeCollectes']" (click)="closeMenu()">Collectes</a></li>
-            <li><a [routerLink]="['Sinscrire']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">S'inscrire</a></li>
-            <li><a [routerLink]="['inscrireAssociation']" class="action_btn"    *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Inscrire mon association</a></li>
-            <li><a [routerLink]="['login']" class="action_btn"   *ngIf="!serviceAssociation.connexion && !serviceDonateur.connexionDonateur" (click)="closeMenu()">Se connecter</a></li>
-            <li><a [routerLink]="['login/profilAssociation',serviceAssociation.id]" class="action_btn"  *ngIf="serviceAssociation.connexion" > 
-                <span>{{ serviceAssociation.nomAssociation }}</span>
-                <div class="connection-indicator"></div>
-           </a></li>
-            <li>  <a [routerLink]="['login/profilDonateur',serviceDonateur.id]" class="action_btn"  *ngIf="serviceDonateur.connexionDonateur" (click)="closeMenu()"> 
-                <span>{{ serviceDonateur.nomDonateur }}</span><span>{{ serviceDonateur.prenomDonateur }}</span>
-    
-                <div class="connection-indicator"></div>
-           </a></li>
-           
-       <a  class="action_btn"  *ngIf="serviceDonateur.connexionDonateur"  (click)="logoutDonateur()"> 
-        Se déconnecter
-        </a>
+    <a
+      [routerLink]="['Sinscrire']"
+      class="action_btn"
+      *ngIf="
+        !serviceAssociation.connexion && !serviceDonateur.connexionDonateur
+      "
+      routerLinkActive="active-link"
+      >S'inscrire</a
+    >
 
-        </ul>
+    <a
+      [routerLink]="['inscrireAssociation']"
+      class="action_btn"
+      *ngIf="
+        !serviceAssociation.connexion && !serviceDonateur.connexionDonateur
+      "
+      routerLinkActive="active-link"
+      >Inscrire mon association</a
+    >
+    <a
+      [routerLink]="['login']"
+      class="action_btn"
+      *ngIf="
+        !serviceAssociation.connexion && !serviceDonateur.connexionDonateur
+      "
+      routerLinkActive="active-link"
+      >Se connecter</a
+    >
+
+    <a
+      [routerLink]="['login/profilAssociation', associationid]"
+      class="action_btn"
+      *ngIf="serviceAssociation.connexion"
+    >
+      <span>{{ serviceAssociation.nomAssociation }}</span>
+      <div class="connection-indicator"></div>
+    </a>
+
+    <a
+      [routerLink]="['login/profilDonateur', donateurid]"
+      class="action_btn"
+      *ngIf="serviceDonateur.connexionDonateur"
+      (click)="
+        serviceDonateur.compteDonateur = true;
+        serviceDonateur.modifierMdp = false;
+        serviceDonateur.modifiercompte = false;
+        serviceDonateur.modifierEmail = false
+      "
+    >
+      <span>{{ serviceDonateur.nomDonateur + " " }}</span>
+      <span>{{ serviceDonateur.prenomDonateur }}</span>
+
+      <div class="connection-indicator"></div>
+    </a>
+
+    <a
+      class="action_btn"
+      *ngIf="serviceDonateur.connexionDonateur"
+      (click)="
+        logoutDonateur();
+        serviceDonateur.compteDonateur = true;
+        serviceDonateur.modifierMdp = false;
+        serviceDonateur.modifiercompte = false
+      "
+    >
+      Se déconnecter
+    </a>
+
+    <div class="toggle_btn" (click)="toggleMenu()">
+      <fa-icon [icon]="isMenuOpen ? faX : faB"></fa-icon>
     </div>
+  </div>
+
+  <div class="dropdown_menu" [class.open]="this.isMenuOpen">
+    <ul>
+      <li>
+        <a [routerLink]="['listeActualites']" (click)="closeMenu()">Accueil</a>
+      </li>
+      <li>
+        <a [routerLink]="['listeAssociations']" (click)="closeMenu()"
+          >Associations</a
+        >
+      </li>
+      <li>
+        <a [routerLink]="['listeCollectes']" (click)="closeMenu()">Collectes</a>
+      </li>
+      <li>
+        <a
+          [routerLink]="['Sinscrire']"
+          class="action_btn"
+          *ngIf="
+            !serviceAssociation.connexion && !serviceDonateur.connexionDonateur
+          "
+          (click)="closeMenu()"
+          >S'inscrire</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['inscrireAssociation']"
+          class="action_btn"
+          *ngIf="
+            !serviceAssociation.connexion && !serviceDonateur.connexionDonateur
+          "
+          (click)="closeMenu()"
+          >Inscrire mon association</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['login']"
+          class="action_btn"
+          *ngIf="
+            !serviceAssociation.connexion && !serviceDonateur.connexionDonateur
+          "
+          (click)="closeMenu()"
+          >Se connecter</a
+        >
+      </li>
+      <li>
+        <a
+          [routerLink]="['login/profilAssociation', serviceAssociation.id]"
+          class="action_btn"
+          *ngIf="serviceAssociation.connexion"
+        >
+          <span>{{ serviceAssociation.nomAssociation }}</span>
+          <div class="connection-indicator"></div>
+        </a>
+      </li>
+      <li>
+        <a
+          [routerLink]="['login/profilDonateur', serviceDonateur.id]"
+          class="action_btn"
+          *ngIf="serviceDonateur.connexionDonateur"
+          (click)="closeMenu()"
+        >
+          <span>{{ serviceDonateur.nomDonateur }}</span
+          ><span>{{ serviceDonateur.prenomDonateur }}</span>
+
+          <div class="connection-indicator"></div>
+        </a>
+      </li>
+
+      <a
+        class="action_btn"
+        *ngIf="serviceDonateur.connexionDonateur"
+        (click)="logoutDonateur()"
+      >
+        Se déconnecter
+      </a>
+    </ul>
+  </div>
 </header>

@@ -18,13 +18,13 @@
               <a
                 [routerLink]="[
                   '/listeAssociations/details',
-                  selectedCollecte.id_association
+                  selectedCollecte.id_association,
                 ]"
                 >{{ associationName }}</a
               >
             </h4>
           </div>
-          
+
           <p
             class="collecte-description"
             id="collecteDescription"
@@ -37,31 +37,36 @@
               showFullDescription ? "Voir moins" : "Voir plus"
             }}</a>
           </div>
-          
         </div>
         <div class="dates">
           <div class="amount">
-            <p> {{ selectedCollecte.montant }} DT</p>
+            <p>{{ selectedCollecte.montant }} DT</p>
           </div>
           <p class="date_debut">
-            Date de début : <strong>{{ selectedCollecte.date_debut | date }}</strong>
+            Date de début :
+            <strong>{{ selectedCollecte.date_debut | date }}</strong>
           </p>
           <p class="date_fin">
-            Date de fin : <strong>{{ selectedCollecte.date_fin | date }}</strong>
+            Date de fin :
+            <strong>{{ selectedCollecte.date_fin | date }}</strong>
           </p>
         </div>
       </div>
 
       <div class="right-content">
         <div class="cumul">
-          <span>{{selectedCollecte.cumul}}/<strong>{{selectedCollecte.montant}}DT</strong></span>
+          <span
+            >{{ selectedCollecte.cumul }}/<strong
+              >{{ selectedCollecte.montant }}DT</strong
+            ></span
+          >
         </div>
         <div class="progress-bar">
           <div class="progress" [style.width.%]="getProgressPercentage()">
             <span>{{ getProgressPercentage() }}%</span>
           </div>
         </div>
-        
+
         <h3 *ngIf="!isDonationAllowed">
           Temps restant : <br />{{
             getTimeRemaining(selectedCollecte.date_fin)

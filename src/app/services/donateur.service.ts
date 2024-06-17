@@ -46,7 +46,7 @@ export class DonateurService {
     private firestore: AngularFirestore,
     private route: Router,
     private aService: AssociationService,
-    private adminService: AdministrateurService
+    private adminService: AdministrateurService,
   ) {
     this.startTimer();
     this.monitorActivity();
@@ -137,13 +137,13 @@ export class DonateurService {
           mdp: donateur.mdp,
           salt: donateur.salt,
         }));
-      })
+      }),
     );
   }
 
   getDonateurById(id: string): Observable<Donateur | undefined> {
     return this.getDonateurs().pipe(
-      map((donateurs) => donateurs.find((donateur) => donateur.id === id))
+      map((donateurs) => donateurs.find((donateur) => donateur.id === id)),
     );
   }
 
@@ -161,7 +161,9 @@ export class DonateurService {
 
   getDonateurByEmail(email: string): Observable<Donateur | undefined> {
     return this.getDonateurs().pipe(
-      map((donateurs) => donateurs.find((donateur) => donateur.email === email))
+      map((donateurs) =>
+        donateurs.find((donateur) => donateur.email === email),
+      ),
     );
   }
 
@@ -176,20 +178,20 @@ export class DonateurService {
           // Si aucune association n'a été trouvée, retourne undefined
           return undefined;
         }
-      })
+      }),
     );
   }
 
   getDonateurByEmailAndPassword(
     email: string,
-    password: string
+    password: string,
   ): Observable<Donateur | undefined> {
     return this.getDonateurs().pipe(
       map((donateurs) =>
         donateurs.find(
-          (donateur) => donateur.email === email && donateur.mdp === password
-        )
-      )
+          (donateur) => donateur.email === email && donateur.mdp === password,
+        ),
+      ),
     );
   }
 
@@ -215,7 +217,7 @@ export class DonateurService {
         } else {
           this.showErrorNotification = true;
           console.error(
-            'Aucun donateur trouvé avec cet e-mail et ce mot de passe.'
+            'Aucun donateur trouvé avec cet e-mail et ce mot de passe.',
           );
           return false; // Return false if no donateur is found
         }
@@ -224,7 +226,7 @@ export class DonateurService {
         this.showErrorNotification = true;
         console.error('Erreur lors de la recherche du compte:', error);
         return of(false); // Return false in case of error
-      })
+      }),
     );
   }
 
@@ -250,7 +252,7 @@ export class DonateurService {
           // Log out after 24 hours of inactivity
           this.logOut(); // Log out user if inactive for 15 minutes
           alert(
-            "Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter."
+            "Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.",
           );
         }
       }
@@ -301,7 +303,7 @@ export class DonateurService {
   ajouterCommentaire(
     idDonateur: string,
     idActualite: string,
-    contenu: string
+    contenu: string,
   ): Observable<Commentaire> {
     const commentaire: Commentaire = {
       id_donateur: idDonateur,
@@ -311,14 +313,14 @@ export class DonateurService {
     };
 
     return from(
-      this.firestore.collection<Commentaire>('Commentaire').add(commentaire)
+      this.firestore.collection<Commentaire>('Commentaire').add(commentaire),
     ).pipe(
       map((docRef) => {
         return {
           id: docRef.id,
           ...commentaire,
         };
-      })
+      }),
     );
   }
 
@@ -336,7 +338,7 @@ export class DonateurService {
               ? commentaire.date_de_publication.toDate()
               : commentaire.date_de_publication,
         }));
-      })
+      }),
     );
   }
 
@@ -345,14 +347,14 @@ export class DonateurService {
     return collectionData(gouverneratCollection, { idField: 'id' }).pipe(
       map((gouvernerats: any[]) => {
         return gouvernerats.map((gouvernerat) => gouvernerat.nom);
-      })
+      }),
     );
   }
 
   updateDonateurField(
     id: string,
     fieldName: keyof Partial<Donateur>,
-    newValue: any
+    newValue: any,
   ): Promise<void> {
     const associationRef = this.firestore.collection('Donateur').doc(id);
     const updatedField: Partial<Donateur> = {};

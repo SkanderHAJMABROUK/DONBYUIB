@@ -6,51 +6,41 @@ import { DonateurService } from 'src/app/services/donateur.service';
 @Component({
   selector: 'app-profil-donateur',
   templateUrl: './profil-donateur.component.html',
-  styleUrls: ['./profil-donateur.component.css']
+  styleUrls: ['./profil-donateur.component.css'],
 })
 export class ProfilDonateurComponent {
-
-
-  constructor(public service:DonateurService ,private route:ActivatedRoute, private router:Router){}
-
+  constructor(
+    public service: DonateurService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   id!: string;
-  data: Donateur |undefined;
-  
-  
-  selectedDonateur!: Donateur |undefined; 
-  
-  
-   ngOnInit(): void {
-    this.service.compteDonateur=true;
-        this.service.modifierMdp=false;
-        this.service.modifiercompte=false;
-        this.service.modifierEmail=false;
-    this.route.params.subscribe(params => {
-      this.id = params['id']; 
-      this.service.id=this.id;
+  data: Donateur | undefined;
+
+  selectedDonateur!: Donateur | undefined;
+
+  ngOnInit(): void {
+    this.service.compteDonateur = true;
+    this.service.modifierMdp = false;
+    this.service.modifiercompte = false;
+    this.service.modifierEmail = false;
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+      this.service.id = this.id;
       console.log(this.id);
-       this.getDonateurById(this.id); 
-     });
-     
-  
-   
-   }
-   getDonateurById(id: string){
+      this.getDonateurById(this.id);
+    });
+  }
+  getDonateurById(id: string) {
     this.service.getDonateurById(id).subscribe(
       (data) => {
-        this.selectedDonateur = data; 
+        this.selectedDonateur = data;
         console.log(data);
       },
-      error => {
+      (error) => {
         console.error('Erreur lors de la récupération des données :', error);
-      }
+      },
     );
   }
-  
-  
-  
-  
-    
 }
-

@@ -1,50 +1,49 @@
-
-   .container {
-    padding: 0px;
+.container {
+  padding: 0px;
 }
 
 .actualite {
-    display: flex;
-    margin-left: 2%;
-    justify-content: space-between; /* Aligner les éléments sur la ligne avec un espacement entre eux */
-    align-items: center; /* Aligner les éléments verticalement au centre */
-    margin-bottom: 10px; /* Ajouter un espacement entre chaque actualité */
-    border: 1px solid #920505;
-    padding: 10px; /* Ajouter un espace intérieur */
+  display: flex;
+  margin-left: 2%;
+  justify-content: space-between; /* Aligner les éléments sur la ligne avec un espacement entre eux */
+  align-items: center; /* Aligner les éléments verticalement au centre */
+  margin-bottom: 10px; /* Ajouter un espacement entre chaque actualité */
+  border: 1px solid #920505;
+  padding: 10px; /* Ajouter un espace intérieur */
 }
 
 .icons-container {
-    display: flex;
+  display: flex;
 }
 
 .icon-wrapper {
-    margin: 10px; /* Espacement entre les icônes */
+  margin: 10px; /* Espacement entre les icônes */
 }
 
 fa-icon {
-    font-size: large;
+  font-size: large;
 }
 
 .on-icon:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .search-container {
-    display: flex;
-    justify-content: flex-end; /* Aligner les éléments à droite */
-    margin-bottom: 20px;
-    margin-top: 10px;
+  display: flex;
+  justify-content: flex-end; /* Aligner les éléments à droite */
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .search-container label {
-    margin-right: 10px;
-    font-weight: bolder;
-    margin-top: 5px; /* Décaler légèrement vers le bas */
+  margin-right: 10px;
+  font-weight: bolder;
+  margin-top: 5px; /* Décaler légèrement vers le bas */
 }
 
 #searchInput {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #920505;
-    border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #920505;
+  border-radius: 4px;
 }

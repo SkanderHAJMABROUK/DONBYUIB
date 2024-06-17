@@ -1,4 +1,4 @@
 export interface Log {
-    date:Date,
-    message:string
+  date: Date;
+  message: string;
 }

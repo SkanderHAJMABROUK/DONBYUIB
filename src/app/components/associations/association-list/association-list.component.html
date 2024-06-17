@@ -1,28 +1,33 @@
-
-  <app-categorie (categorySelected)="filterByCategory($event)" (searchTerm)="filterBySearchTerm($event)"></app-categorie>
-  <body>  
-    
-    <div class="container">
-    
-        <div class="box-container" >
-    
-            <div class="box" *ngFor="let ass of associations">
-                <img [src]="ass.logo" alt="Oups!">
-                <h3>{{ ass.nom }}</h3>
-                <p class="description">{{ ass.description }}</p>
-                <a href="#" class="btn" [routerLink]="['details', ass.id]"
-                (click)="toggleShowDetails()"
-               (mouseenter)="ass.id && toggleIconState(ass.id, true)" 
-               (mouseleave)="ass.id && toggleIconState(ass.id, false)">
-              <span *ngIf="!ass.id || !associationHoverState.get(ass.id)">Faire un don</span>
-              <span class="icon" *ngIf="ass.id && associationHoverState.get(ass.id)">
-                  <fa-icon [icon]="faHandHoldingDollar"></fa-icon>
-              </span>
-          </a>
-            </div>
-    
-        </div>
-    
+<app-categorie
+  (categorySelected)="filterByCategory($event)"
+  (searchTerm)="filterBySearchTerm($event)"
+></app-categorie>
+<body>
+  <div class="container">
+    <div class="box-container">
+      <div class="box" *ngFor="let ass of associations">
+        <img [src]="ass.logo" alt="Oups!" />
+        <h3>{{ ass.nom }}</h3>
+        <p class="description">{{ ass.description }}</p>
+        <a
+          href="#"
+          class="btn"
+          [routerLink]="['details', ass.id]"
+          (click)="toggleShowDetails()"
+          (mouseenter)="ass.id && toggleIconState(ass.id, true)"
+          (mouseleave)="ass.id && toggleIconState(ass.id, false)"
+        >
+          <span *ngIf="!ass.id || !associationHoverState.get(ass.id)"
+            >Faire un don</span
+          >
+          <span
+            class="icon"
+            *ngIf="ass.id && associationHoverState.get(ass.id)"
+          >
+            <fa-icon [icon]="faHandHoldingDollar"></fa-icon>
+          </span>
+        </a>
+      </div>
     </div>
-    
+  </div>
 </body>

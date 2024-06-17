@@ -10,48 +10,63 @@ import { CollecteService } from 'src/app/services/collecte.service';
 @Component({
   selector: 'app-modifier-collecte-admin',
   templateUrl: './modifier-collecte-admin.component.html',
-  styleUrls: ['./modifier-collecte-admin.component.css']
+  styleUrls: ['./modifier-collecte-admin.component.css'],
 })
 export class ModifierCollecteAdminComponent {
-
-  @Input() collecte!:Collecte;
+  @Input() collecte!: Collecte;
   collecteForm!: FormGroup;
-  faXmark=faXmark;
+  faXmark = faXmark;
 
-  constructor(public service:CollecteService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,
-    private spinner:NgxSpinnerService,public serviceAdmin:AdministrateurService){}
-  
+  constructor(
+    public service: CollecteService,
+    private formBuilder: FormBuilder,
+    public serviceAssociation: AssociationService,
+    private spinner: NgxSpinnerService,
+    public serviceAdmin: AdministrateurService,
+  ) {}
+
   ngOnInit(): void {
-    this.collecteForm = this.formBuilder.group({
-      nom: [this.collecte.nom],
-      description: [this.collecte.description],
-      image: [this.collecte.image],
-      montant: [this.collecte.montant],
-      date_debut: [this.collecte.date_debut instanceof Date ? this.collecte.date_debut.toISOString().split('T')[0] : this.collecte.date_debut],
-      date_fin: [this.collecte.date_fin instanceof Date ? this.collecte.date_fin.toISOString().split('T')[0] : this.collecte.date_fin]
-    }, { validator: this.dateFinSupDateDebutValidator });
+    this.collecteForm = this.formBuilder.group(
+      {
+        nom: [this.collecte.nom],
+        description: [this.collecte.description],
+        image: [this.collecte.image],
+        montant: [this.collecte.montant],
+        date_debut: [
+          this.collecte.date_debut instanceof Date
+            ? this.collecte.date_debut.toISOString().split('T')[0]
+            : this.collecte.date_debut,
+        ],
+        date_fin: [
+          this.collecte.date_fin instanceof Date
+            ? this.collecte.date_fin.toISOString().split('T')[0]
+            : this.collecte.date_fin,
+        ],
+      },
+      { validator: this.dateFinSupDateDebutValidator },
+    );
   }
-  
+
   async modifierCollecte(): Promise<void> {
     if (this.collecteForm.valid) {
       this.spinner.show();
-  
+
       try {
         const collecteDataToUpdate: Collecte = {
           id: this.collecte.id,
           nom: this.collecteForm.value.nom,
-          etat:this.collecte.etat,
+          etat: this.collecte.etat,
           description: this.collecteForm.value.description,
           montant: this.collecteForm.value.montant,
           cumul: this.collecte.cumul,
           date_debut: this.collecteForm.value.date_debut,
           date_fin: this.collecteForm.value.date_fin,
           image: this.collecte.image, // Assurez-vous de transmettre l'URL de l'image existante
-          id_association: this.collecte.id_association
+          id_association: this.collecte.id_association,
         };
-  
+
         const coverFile = this.collecteForm.value.image;
-  
+
         // Vérifier si un nouveau fichier a été sélectionné
         if (coverFile instanceof File) {
           const coverDownloadUrl = await this.service.uploadCover(coverFile);
@@ -62,9 +77,9 @@ export class ModifierCollecteAdminComponent {
           // Si aucune nouvelle photo n'a été sélectionnée, mais qu'une photo existante est présente, utilisez-la
           collecteDataToUpdate.image = coverFile;
         } else {
-          console.log('Aucune photo sélectionnée')
+          console.log('Aucune photo sélectionnée');
         }
-  
+
         await this.service.modifierCollecteByAdmin(collecteDataToUpdate);
         window.location.reload();
       } catch (error) {
@@ -76,26 +91,24 @@ export class ModifierCollecteAdminComponent {
       console.error('Formulaire invalide. Veuillez corriger les erreurs.');
     }
   }
- 
-  
+
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
       this.collecteForm.patchValue({
-        image: file
+        image: file,
       });
     }
   }
-  
-   dateFinSupDateDebutValidator(control: FormGroup): ValidationErrors | null {
+
+  dateFinSupDateDebutValidator(control: FormGroup): ValidationErrors | null {
     const dateDebut = control.get('date_debut')?.value;
     const dateFin = control.get('date_fin')?.value;
-  
+
     if (dateDebut && dateFin && new Date(dateFin) <= new Date(dateDebut)) {
       return { dateFinSupDateDebut: true };
     }
-    
+
     return null;
   }
-
 }

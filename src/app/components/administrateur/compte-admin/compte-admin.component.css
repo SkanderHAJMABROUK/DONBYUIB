@@ -4,7 +4,7 @@
   gap: 20px;
   padding: 50px;
   background-color: #f4f4f415; /* Light background color */
-  margin-left: 100px;  /* Add left margin */
+  margin-left: 100px; /* Add left margin */
   margin-top: -75px;
   z-index: 1; /* Ensure it has a proper z-index */
 }
@@ -15,8 +15,8 @@
   gap: 20px;
   padding: 50px;
   background-color: #f4f4f415; /* Light background color */
-  margin-left: 100px;  /* Add left margin */
-  margin-top: 80px;   /* Add top margin */
+  margin-left: 100px; /* Add left margin */
+  margin-top: 80px; /* Add top margin */
   z-index: 1; /* Ensure it has a proper z-index */
 }
 
@@ -82,7 +82,8 @@
   color: #555555; /* Medium text color */
 }
 
-.chartdiv, .canvas-container {
+.chartdiv,
+.canvas-container {
   width: 100%;
   height: 300px; /* Standardize height */
 }
@@ -103,7 +104,8 @@ table {
   border-collapse: collapse; /* Remove cell spacing */
 }
 
-th, td {
+th,
+td {
   text-align: center;
   padding: 10px; /* Standardize padding */
   border-bottom: 1px solid #eeeeee; /* Light border */
@@ -122,4 +124,3 @@ tbody tr:hover {
     grid-template-columns: 1fr; /* Single column layout for small screens */
   }
 }
-

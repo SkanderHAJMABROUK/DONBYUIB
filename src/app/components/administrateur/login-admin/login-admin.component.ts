@@ -10,26 +10,25 @@ import { LogService } from 'src/app/services/log.service';
 @Component({
   selector: 'app-login-admin',
   templateUrl: './login-admin.component.html',
-  styleUrls: ['./login-admin.component.css']
+  styleUrls: ['./login-admin.component.css'],
 })
 export class LoginAdminComponent {
-
-
-
   ngOnInit(): void {
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required],
-      login: ['', Validators.required], 
+      login: ['', Validators.required],
       mdp: ['', Validators.required],
     });
-
   }
 
-  constructor(private formBuilder : FormBuilder , private route:Router, public service:AdministrateurService,
-    private logService:LogService
-   ){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: Router,
+    public service: AdministrateurService,
+    private logService: LogService,
+  ) {}
 
-  siteKey: string = "6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv"; 
+  siteKey: string = '6Leiq30pAAAAAAmGTamvErmeEBCejAKqB0gXdocv';
 
   password: string = '';
   showPassword: boolean = false;
@@ -37,7 +36,6 @@ export class LoginAdminComponent {
   faEyeSlash = faEyeSlash;
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
-  
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
@@ -45,13 +43,11 @@ export class LoginAdminComponent {
 
   onSubmit(): void {
     if (this.aFormGroup.valid) {
-
-      this.logIn()
+      this.logIn();
       this.showErrorNotification = false;
     } else {
       this.showErrorNotification = true;
     }
-
   }
 
   logIn() {
@@ -60,50 +56,47 @@ export class LoginAdminComponent {
 
     this.service.getAdminSaltByLogin(login).subscribe(
       (salt: string | undefined) => {
-        if(salt){
-          console.log('Salt found for login:', login , 'is', salt);
+        if (salt) {
+          console.log('Salt found for login:', login, 'is', salt);
           const hashedPassword = sha256(mdp + salt);
 
-          this.service.logIn(login, hashedPassword).subscribe(
-            (loggedIn: boolean) => {
-              if(loggedIn){
+          this.service
+            .logIn(login, hashedPassword)
+            .subscribe((loggedIn: boolean) => {
+              if (loggedIn) {
                 let message: string = `Tentative de connexion réussie de l'admin avec le login ${login}`;
                 this.logSignin(message);
-              }else{
+              } else {
                 let message: string = `Tentative de connexion échouée de l'admin avec le login ${login}`;
                 this.logSignin(message);
               }
-            }
-          );
+            });
         } else {
           // Gérer le cas où le sel n'est pas trouvé pour l'email donné
           console.error('Salt not found for login:', login);
           this.service.showErrorNotification = true;
         }
-
-    },
-    (error) => {
-      console.error('Error retrieving salt by email:', error);
-    });
-  }
-
-  logSignin(message:string): void {
-    const newLog: Log = {
-      date: new Date(), // Current date
-      message: message // Message for the log
-    };
-    this.logService.addLog(newLog).subscribe(
-      response => {
-        console.log('Log added successfully:', response);
-        // Handle success
       },
-      error => {
-        console.error('Error adding log:', error);
-        // Handle error
-      }
+      (error) => {
+        console.error('Error retrieving salt by email:', error);
+      },
     );
   }
 
-  
-
+  logSignin(message: string): void {
+    const newLog: Log = {
+      date: new Date(), // Current date
+      message: message, // Message for the log
+    };
+    this.logService.addLog(newLog).subscribe(
+      (response) => {
+        console.log('Log added successfully:', response);
+        // Handle success
+      },
+      (error) => {
+        console.error('Error adding log:', error);
+        // Handle error
+      },
+    );
+  }
 }

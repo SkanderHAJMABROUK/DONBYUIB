@@ -2,17 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Donateur } from 'src/app/interfaces/donateur';
 import { DonateurService } from 'src/app/services/donateur.service';
-import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {
+  faList,
+  faTrash,
+  faPenToSquare,
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crud-utilisateurs',
   templateUrl: './crud-utilisateurs.component.html',
-  styleUrls: ['./crud-utilisateurs.component.css']
+  styleUrls: ['./crud-utilisateurs.component.css'],
 })
 export class CrudUtilisateursComponent implements OnInit {
-
   faList = faList;
   faPenToSquare = faPenToSquare;
   faTrash = faTrash;
@@ -30,7 +35,11 @@ export class CrudUtilisateursComponent implements OnInit {
   etats: string[] = []; // Liste des états possibles
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
 
-  constructor(private serviceDonateur: DonateurService, private router: Router,public serviceAdmin:AdministrateurService) { }
+  constructor(
+    private serviceDonateur: DonateurService,
+    private router: Router,
+    public serviceAdmin: AdministrateurService,
+  ) {}
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -39,16 +48,19 @@ export class CrudUtilisateursComponent implements OnInit {
 
   getEtats(): void {
     // Exclure les valeurs nulles et vides
-    this.etats = Array.from(new Set(this.donateurs
-      .map(donateur => donateur.etat)
-      .filter(etat => !!etat))); // Filtre les valeurs nulles ou vides
-  
+    this.etats = Array.from(
+      new Set(
+        this.donateurs
+          .map((donateur) => donateur.etat)
+          .filter((etat) => !!etat),
+      ),
+    ); // Filtre les valeurs nulles ou vides
+
     console.log('Etats', this.etats); // Récupère les états uniques parmi les donateurs
   }
-  
 
   getDonateurs(): void {
-    this.serviceDonateur.getDonateurs().subscribe(donateurs => {
+    this.serviceDonateur.getDonateurs().subscribe((donateurs) => {
       this.donateurs = donateurs;
       this.getEtats(); // Initialise la liste des états
       this.chercherDonateur();
@@ -58,11 +70,15 @@ export class CrudUtilisateursComponent implements OnInit {
   chercherDonateur(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.filteredDonateurList = this.donateurs.filter((donateur, index) =>
-      index >= startIndex && index < endIndex &&
-      (donateur.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      donateur.prenom.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-      (!this.selectedEtat || donateur.etat === this.selectedEtat)
+    this.filteredDonateurList = this.donateurs.filter(
+      (donateur, index) =>
+        index >= startIndex &&
+        index < endIndex &&
+        (donateur.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          donateur.prenom
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase())) &&
+        (!this.selectedEtat || donateur.etat === this.selectedEtat),
     );
   }
 
@@ -77,7 +93,6 @@ export class CrudUtilisateursComponent implements OnInit {
     this.chercherDonateur(); // Réapplique la pagination avec la nouvelle taille de page
     this.getTotalPages(); // Recalcule le nombre total de pages
   }
-  
 
   getTotalPages(): number {
     return Math.ceil(this.donateurs.length / this.pageSize);
@@ -91,51 +106,53 @@ export class CrudUtilisateursComponent implements OnInit {
     this.imageAffichee = ''; // Cacher l'image en vidant l'URL
   }
   afficherDetails(donateur: Donateur) {
-    if(donateur.id){
-    this.serviceDonateur.getDonateurById(donateur.id).subscribe((response) => {
-      this.selectedDonateur = response!;
-      this.serviceAdmin.donateurDetailShowModal = true;
-      console.log(response)
-    });
-  }
-}
-
-modifierDonateur(donateur:Donateur){
-  if(donateur.id){
-    this.serviceDonateur.getDonateurById(donateur.id).subscribe((response) => {
-      this.selectedDonateur = response!;
-      this.serviceAdmin.donateurModifierShowModal = true;
-    });
-  }
-}
-
-supprimerDonateur(donateur: Donateur) {
-  Swal.fire({
-    title: 'Êtes-vous sûr ?',
-    text: 'Vous ne pourrez pas revenir en arrière !',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimez-le !',
-    cancelButtonText: 'Non, annulez !'
-
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.serviceAdmin.deleteDonateurByAdmin(donateur)
-        .then(() => {
-          Swal.fire({
-            title: 'Supprimé !',
-            text: 'Votre fichier a été supprimé.',
-            icon: 'success'
-          });
-        })
-        .catch(error => {
-          console.error('Erreur lors de la suppression du donateur :', error);
+    if (donateur.id) {
+      this.serviceDonateur
+        .getDonateurById(donateur.id)
+        .subscribe((response) => {
+          this.selectedDonateur = response!;
+          this.serviceAdmin.donateurDetailShowModal = true;
+          console.log(response);
         });
     }
-  });
-}
+  }
 
+  modifierDonateur(donateur: Donateur) {
+    if (donateur.id) {
+      this.serviceDonateur
+        .getDonateurById(donateur.id)
+        .subscribe((response) => {
+          this.selectedDonateur = response!;
+          this.serviceAdmin.donateurModifierShowModal = true;
+        });
+    }
+  }
 
+  supprimerDonateur(donateur: Donateur) {
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: 'Vous ne pourrez pas revenir en arrière !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le !',
+      cancelButtonText: 'Non, annulez !',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.serviceAdmin
+          .deleteDonateurByAdmin(donateur)
+          .then(() => {
+            Swal.fire({
+              title: 'Supprimé !',
+              text: 'Votre fichier a été supprimé.',
+              icon: 'success',
+            });
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la suppression du donateur :', error);
+          });
+      }
+    });
+  }
 }

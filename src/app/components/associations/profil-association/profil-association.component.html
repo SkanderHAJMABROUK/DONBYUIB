@@ -1,20 +1,25 @@
 <div class="container">
   <app-side-bar></app-side-bar>
-<div class="content">
-<app-compte-association *ngIf="service.compte"></app-compte-association>
-<app-modifier-association *ngIf="service.modifierAss" ></app-modifier-association>
-<app-reset-password *ngIf="service.modifierMdpAss"></app-reset-password>
-<app-reset-email *ngIf="service.modifierEmail"></app-reset-email>
+  <div class="content">
+    <app-compte-association *ngIf="service.compte"></app-compte-association>
+    <app-modifier-association
+      *ngIf="service.modifierAss"
+    ></app-modifier-association>
+    <app-reset-password *ngIf="service.modifierMdpAss"></app-reset-password>
+    <app-reset-email *ngIf="service.modifierEmail"></app-reset-email>
 
-<app-ajouter-collecte *ngIf="service.ajouterCollecte"></app-ajouter-collecte>
-<app-collecte-list-association *ngIf="service.afficherCollecte"></app-collecte-list-association>
+    <app-ajouter-collecte
+      *ngIf="service.ajouterCollecte"
+    ></app-ajouter-collecte>
+    <app-collecte-list-association
+      *ngIf="service.afficherCollecte"
+    ></app-collecte-list-association>
 
-
-
-<app-actualite-list-association *ngIf="service.afficherActualite"></app-actualite-list-association>
-<app-ajouter-actualite *ngIf="service.ajouterActualite"></app-ajouter-actualite>
-
+    <app-actualite-list-association
+      *ngIf="service.afficherActualite"
+    ></app-actualite-list-association>
+    <app-ajouter-actualite
+      *ngIf="service.ajouterActualite"
+    ></app-ajouter-actualite>
+  </div>
 </div>
-</div>
-
-

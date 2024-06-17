@@ -2,52 +2,63 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DemandeSuppressionCollecte } from 'src/app/interfaces/demande-suppression-collecte';
 import { AssociationService } from 'src/app/services/association.service';
-import { faList, faCheck, faXmark, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {
+  faList,
+  faCheck,
+  faXmark,
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
 import Swal from 'sweetalert2';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CollecteService } from 'src/app/services/collecte.service';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators'; 
+import { map } from 'rxjs/operators';
 import { Collecte } from 'src/app/interfaces/collecte';
 
 @Component({
   selector: 'app-demande-suppression-collecte',
   templateUrl: './demande-suppression-collecte.component.html',
-  styleUrls: ['./demande-suppression-collecte.component.css']
+  styleUrls: ['./demande-suppression-collecte.component.css'],
 })
-export class DemandeSuppressionCollecteComponent implements OnInit{
-
+export class DemandeSuppressionCollecteComponent implements OnInit {
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
   faList = faList;
   faCheck = faCheck;
   faXmark = faXmark;
 
-  rapportRefus : string = '';
+  rapportRefus: string = '';
 
   associationsNames: string[] = [];
   selectedAssociation: string = '';
-  associationsIds : string[] = []; 
+  associationsIds: string[] = [];
 
   collectesNames: string[] = [];
-  collectesIds : string[] = [];
+  collectesIds: string[] = [];
 
   showConfirmationModal: boolean = false;
 
   demandesSuppressionCollectes: DemandeSuppressionCollecte[] = [];
   filteredDemandeSuppressionCollecteList: DemandeSuppressionCollecte[] = [];
   searchTerm: string = '';
-  selectedDemandeSuppressionCollecte: DemandeSuppressionCollecte = {} as DemandeSuppressionCollecte;
+  selectedDemandeSuppressionCollecte: DemandeSuppressionCollecte =
+    {} as DemandeSuppressionCollecte;
   pageSize: number = 10;
   currentPage: number = 1;
-  selectedPageSize: string = '10'; 
-  imageAffichee: string = ''; 
+  selectedPageSize: string = '10';
+  imageAffichee: string = '';
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
-  @Input() selectedCollecte!: Collecte; 
-  
- constructor(public collecteService: CollecteService, private router: Router, public adminService:AdministrateurService,
-  private firestore: AngularFirestore, private associationService: AssociationService) { }
+  @Input() selectedCollecte!: Collecte;
+
+  constructor(
+    public collecteService: CollecteService,
+    private router: Router,
+    public adminService: AdministrateurService,
+    private firestore: AngularFirestore,
+    private associationService: AssociationService,
+  ) {}
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
@@ -55,21 +66,25 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
   }
 
   getDemandesSuppressionCollectes(): void {
-    this.collecteService.getPendingDemandesSuppressionCollectes().subscribe(demandesSuppressionCollectes => {
-      this.demandesSuppressionCollectes = demandesSuppressionCollectes;
-      this.getAssociationsIds();
-      this.getCollectesIds();
-      this.chercherCollecte();
-    });
+    this.collecteService
+      .getPendingDemandesSuppressionCollectes()
+      .subscribe((demandesSuppressionCollectes) => {
+        this.demandesSuppressionCollectes = demandesSuppressionCollectes;
+        this.getAssociationsIds();
+        this.getCollectesIds();
+        this.chercherCollecte();
+      });
   }
 
   afficherDetails(collecte: DemandeSuppressionCollecte) {
     if (collecte.id_collecte) {
-      this.collecteService.getCollecteById(collecte.id_collecte).subscribe((response) => {
-        this.selectedCollecte = response!;
-        this.adminService.demandeSuppressionCollecteDetails = true;
-        console.log(response);
-      });
+      this.collecteService
+        .getCollecteById(collecte.id_collecte)
+        .subscribe((response) => {
+          this.selectedCollecte = response!;
+          this.adminService.demandeSuppressionCollecteDetails = true;
+          console.log(response);
+        });
     } else {
       console.error('ID de collecte associé non défini.');
     }
@@ -79,19 +94,32 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
 
-    this.filteredDemandeSuppressionCollecteList = this.demandesSuppressionCollectes.filter((demandeCollecte, index) =>
-      index >= startIndex && index < endIndex &&
-      (
-      (!this.searchTerm || this.getCollecteNameById(demandeCollecte.id_collecte)?.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-      (!this.selectedAssociation || this.getAssociationNameById(demandeCollecte.id_association) === this.selectedAssociation) 
-    ))
-      
+    this.filteredDemandeSuppressionCollecteList =
+      this.demandesSuppressionCollectes.filter(
+        (demandeCollecte, index) =>
+          index >= startIndex &&
+          index < endIndex &&
+          (!this.searchTerm ||
+            this.getCollecteNameById(demandeCollecte.id_collecte)
+              ?.toLowerCase()
+              .includes(this.searchTerm.toLowerCase())) &&
+          (!this.selectedAssociation ||
+            this.getAssociationNameById(demandeCollecte.id_association) ===
+              this.selectedAssociation),
+      );
+
     switch (this.selectedTri) {
       case 'plusRecents':
-        this.filteredDemandeSuppressionCollecteList = this.filteredDemandeSuppressionCollecteList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        this.filteredDemandeSuppressionCollecteList =
+          this.filteredDemandeSuppressionCollecteList.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+          );
         break;
       case 'plusAnciens':
-        this.filteredDemandeSuppressionCollecteList = this.filteredDemandeSuppressionCollecteList.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        this.filteredDemandeSuppressionCollecteList =
+          this.filteredDemandeSuppressionCollecteList.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+          );
         break;
       default:
         break;
@@ -109,7 +137,6 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
     this.chercherCollecte(); // Réapplique la pagination avec la nouvelle taille de page
     this.getTotalPages(); // Recalcule le nombre total de pages
   }
-  
 
   getTotalPages(): number {
     return Math.ceil(this.demandesSuppressionCollectes.length / this.pageSize);
@@ -125,8 +152,10 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
 
   updateDemandeEtat(id: string, etat: string): Promise<void> {
     const adminId = this.adminService.getCurrentAdminId();
-    const demandeRef = this.firestore.collection('DemandeSuppressionCollecte').doc(id);
-    return demandeRef.update({ etat: etat, adminId: adminId }); 
+    const demandeRef = this.firestore
+      .collection('DemandeSuppressionCollecte')
+      .doc(id);
+    return demandeRef.update({ etat: etat, adminId: adminId });
   }
 
   updateCollecteEtat(collecteId: string, etat: string): Promise<void> {
@@ -135,33 +164,38 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
   }
 
   getAssociationsIds(): void {
-    this.associationsIds = Array.from(new Set(
-      this.demandesSuppressionCollectes
-        .map(demandeCollecte => demandeCollecte.id_association)
-        .filter(id_association => id_association !== undefined && id_association !== null)
-    )) as string[];
+    this.associationsIds = Array.from(
+      new Set(
+        this.demandesSuppressionCollectes
+          .map((demandeCollecte) => demandeCollecte.id_association)
+          .filter(
+            (id_association) =>
+              id_association !== undefined && id_association !== null,
+          ),
+      ),
+    ) as string[];
 
-    this.getAssociationsNamesByIds(this.associationsIds); // Call function to fetch association names 
+    this.getAssociationsNamesByIds(this.associationsIds); // Call function to fetch association names
   }
 
   getAssociationsNamesByIds(ids: string[]) {
-    const observables: Observable<string | undefined>[] = ids.map(id =>
+    const observables: Observable<string | undefined>[] = ids.map((id) =>
       this.associationService.getAssociationNameById(id).pipe(
-        map(name => name ?? undefined) // Convert undefined values to Observable<undefined>
-      )
+        map((name) => name ?? undefined), // Convert undefined values to Observable<undefined>
+      ),
     );
-        observables.forEach((observable, index) =>
-      observable.subscribe(name => {
+    observables.forEach((observable, index) =>
+      observable.subscribe((name) => {
         console.log(`Observable ${index + 1} emitted value:`, name); // Log emitted values
         if (name !== undefined) {
           this.associationsNames.push(name);
           console.log('Pushed name:', name); // Log pushed name
           console.log(this.associationsNames);
         }
-      })
-    )
-  } 
-  
+      }),
+    );
+  }
+
   getAssociationNameById(id: string | undefined): string {
     if (!id) {
       return 'Unknown Association';
@@ -175,33 +209,37 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
   }
 
   getCollectesIds(): void {
-    this.collectesIds = Array.from(new Set(
-      this.demandesSuppressionCollectes
-        .map(demandeCollecte => demandeCollecte.id_collecte)
-        .filter(id_collecte => id_collecte !== undefined && id_collecte !== null)
-    )) as string[];
+    this.collectesIds = Array.from(
+      new Set(
+        this.demandesSuppressionCollectes
+          .map((demandeCollecte) => demandeCollecte.id_collecte)
+          .filter(
+            (id_collecte) => id_collecte !== undefined && id_collecte !== null,
+          ),
+      ),
+    ) as string[];
 
-    this.getCollectesNamesByIds(this.collectesIds); // Call function to fetch association names 
+    this.getCollectesNamesByIds(this.collectesIds); // Call function to fetch association names
   }
 
   getCollectesNamesByIds(ids: string[]) {
-    const observables: Observable<string | undefined>[] = ids.map(id =>
+    const observables: Observable<string | undefined>[] = ids.map((id) =>
       this.collecteService.getCollecteNameById(id).pipe(
-        map(name => name ?? undefined) // Convert undefined values to Observable<undefined>
-      )
+        map((name) => name ?? undefined), // Convert undefined values to Observable<undefined>
+      ),
     );
-        observables.forEach((observable, index) =>
-      observable.subscribe(name => {
+    observables.forEach((observable, index) =>
+      observable.subscribe((name) => {
         console.log(`Observable ${index + 1} emitted value:`, name); // Log emitted values
         if (name !== undefined) {
           this.collectesNames.push(name);
           console.log('Pushed name:', name); // Log pushed name
           console.log(this.collectesNames);
         }
-      })
-    )
-  } 
-  
+      }),
+    );
+  }
+
   getCollecteNameById(id: string | undefined): string {
     if (!id) {
       return 'Unknown Collecte';
@@ -213,224 +251,321 @@ export class DemandeSuppressionCollecteComponent implements OnInit{
       return 'Collecte not found';
     }
   }
-   
 
-  refuserSuppressionCollecte(selectedDemandeCollecte: DemandeSuppressionCollecte): void {
-
+  refuserSuppressionCollecte(
+    selectedDemandeCollecte: DemandeSuppressionCollecte,
+  ): void {
     Swal.fire({
       title: `Vous voulez refuser la demande de suppression de cette collecte ?`,
-      text: "La demande sera refusée définitivement",
-      icon: "warning",
+      text: 'La demande sera refusée définitivement',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui, refuser",
-      input: 'textarea', 
-    inputPlaceholder: 'Raison du refus', 
-    inputAttributes: {
-      autocapitalize: 'off'
-    }
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, refuser',
+      input: 'textarea',
+      inputPlaceholder: 'Raison du refus',
+      inputAttributes: {
+        autocapitalize: 'off',
+      },
     }).then((result) => {
       if (result.isConfirmed && selectedDemandeCollecte.id) {
         this.rapportRefus += result.value + ` \n`;
         this.envoyerRapport(selectedDemandeCollecte.id);
         if (selectedDemandeCollecte.id) {
-          this.updateDemandeEtat(selectedDemandeCollecte.id, "refusé").then(() => {
-            console.log(selectedDemandeCollecte.id_collecte);
-            if (selectedDemandeCollecte.id_collecte) {
-              this.updateCollecteEtat(selectedDemandeCollecte.id_collecte,"accepté").then(() => {
-                Swal.fire({
-                  title: "Refusé!",
-                  text: `La demande de suppression a été refusée.`,
-                  icon: "success"
-                });
+          this.updateDemandeEtat(selectedDemandeCollecte.id, 'refusé')
+            .then(() => {
+              console.log(selectedDemandeCollecte.id_collecte);
+              if (selectedDemandeCollecte.id_collecte) {
+                this.updateCollecteEtat(
+                  selectedDemandeCollecte.id_collecte,
+                  'accepté',
+                )
+                  .then(() => {
+                    Swal.fire({
+                      title: 'Refusé!',
+                      text: `La demande de suppression a été refusée.`,
+                      icon: 'success',
+                    });
 
-                if (selectedDemandeCollecte && selectedDemandeCollecte.id_association) {
-                  this.associationService.getAssociationEmailById(selectedDemandeCollecte.id_association).subscribe(toEmail => {
-                    if (toEmail) {
-                      console.log('Retrieved email:', toEmail);
-                
-                      if (selectedDemandeCollecte.id_association) {
-                        this.associationService.getAssociationNameById(selectedDemandeCollecte.id_association).subscribe(associationName => {
-                          if (associationName) {
-                
-                            if (selectedDemandeCollecte.id_collecte) {
-                              this.collecteService.getCollecteNameById(selectedDemandeCollecte.id_collecte).subscribe(collecteName => {
-                                const titreDemande = `la suppression de la collecte "${collecteName}"`;
-                                const typeDemande = "SUPPRESSION DE LA COLLECTE";
-                                const dateDemande = selectedDemandeCollecte.date ? this.formatDate(new Date(selectedDemandeCollecte.date)) : '';
-                                const dateReponse = this.formatDate(new Date());
-                                const causeRefus = this.rapportRefus;
-                
-                                this.adminService.sendRefusNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse, causeRefus);
-                              });
-                            } else {
-                              console.error('ID de la collecte non défini.');
+                    if (
+                      selectedDemandeCollecte &&
+                      selectedDemandeCollecte.id_association
+                    ) {
+                      this.associationService
+                        .getAssociationEmailById(
+                          selectedDemandeCollecte.id_association,
+                        )
+                        .subscribe((toEmail) => {
+                          if (toEmail) {
+                            console.log('Retrieved email:', toEmail);
+
+                            if (selectedDemandeCollecte.id_association) {
+                              this.associationService
+                                .getAssociationNameById(
+                                  selectedDemandeCollecte.id_association,
+                                )
+                                .subscribe((associationName) => {
+                                  if (associationName) {
+                                    if (selectedDemandeCollecte.id_collecte) {
+                                      this.collecteService
+                                        .getCollecteNameById(
+                                          selectedDemandeCollecte.id_collecte,
+                                        )
+                                        .subscribe((collecteName) => {
+                                          const titreDemande = `la suppression de la collecte "${collecteName}"`;
+                                          const typeDemande =
+                                            'SUPPRESSION DE LA COLLECTE';
+                                          const dateDemande =
+                                            selectedDemandeCollecte.date
+                                              ? this.formatDate(
+                                                  new Date(
+                                                    selectedDemandeCollecte.date,
+                                                  ),
+                                                )
+                                              : '';
+                                          const dateReponse = this.formatDate(
+                                            new Date(),
+                                          );
+                                          const causeRefus = this.rapportRefus;
+
+                                          this.adminService.sendRefusNotification(
+                                            toEmail,
+                                            associationName,
+                                            titreDemande,
+                                            typeDemande,
+                                            dateDemande,
+                                            dateReponse,
+                                            causeRefus,
+                                          );
+                                        });
+                                    } else {
+                                      console.error(
+                                        'ID de la collecte non défini.',
+                                      );
+                                    }
+                                  }
+                                });
                             }
-                
+                          } else {
+                            console.error(
+                              'Email address not found for the association.',
+                            );
                           }
                         });
-                      }
-                    } else {
-                      console.error('Email address not found for the association.');
                     }
+                  })
+                  .catch((error) => {
+                    console.error(
+                      'Erreur lors de la suppression de la collecte:',
+                      error,
+                    );
+                    Swal.fire({
+                      title: 'Erreur',
+                      text: "Une erreur s'est produite lors du refus de la demande.",
+                      icon: 'error',
+                    });
                   });
-                }
-
-              }).catch(error => {
-                console.error('Erreur lors de la suppression de la collecte:', error);
+              } else {
+                console.error('ID de la collecte indéfini.');
                 Swal.fire({
-                  title: "Erreur",
-                  text: "Une erreur s'est produite lors du refus de la demande.",
-                  icon: "error"
+                  title: 'Erreur',
+                  text: 'ID de la collecte indéfini.',
+                  icon: 'error',
                 });
-              });
-            } else {
-              console.error('ID de la collecte indéfini.');
+              }
+            })
+            .catch((error) => {
+              console.error(
+                "Erreur lors de la mise à jour de l'état de la demande:",
+                error,
+              );
               Swal.fire({
-                title: "Erreur",
-                text: "ID de la collecte indéfini.",
-                icon: "error"
+                title: 'Erreur',
+                text: "Une erreur s'est produite lors du refus de la demande.",
+                icon: 'error',
               });
-            }
-          }).catch(error => {
-            console.error('Erreur lors de la mise à jour de l\'état de la demande:', error);
-            Swal.fire({
-              title: "Erreur",
-              text: "Une erreur s'est produite lors du refus de la demande.",
-              icon: "error"
             });
-          });
         } else {
           console.error('ID de la demande indéfini.');
           Swal.fire({
-            title: "Erreur",
-            text: "ID de la demande indéfini.",
-            icon: "error"
+            title: 'Erreur',
+            text: 'ID de la demande indéfini.',
+            icon: 'error',
           });
         }
       }
     });
   }
 
-  accepterSuppressionCollecte(selectedDemandeCollecte: DemandeSuppressionCollecte): void {
+  accepterSuppressionCollecte(
+    selectedDemandeCollecte: DemandeSuppressionCollecte,
+  ): void {
     if (!selectedDemandeCollecte || !selectedDemandeCollecte.id_collecte) {
-      console.error('La demande de la collecte ou l\'ID de la collecte est indéfinie.');
+      console.error(
+        "La demande de la collecte ou l'ID de la collecte est indéfinie.",
+      );
       Swal.fire({
-        title: "Erreur",
+        title: 'Erreur',
         text: "La demande de l'actualité ou l'ID de la collecte est indéfinie.",
-        icon: "error"
+        icon: 'error',
       });
       return;
     }
-  
+
     Swal.fire({
       title: `Vous voulez accepter la demande de suppression ?`,
-      text: "La demande sera acceptée définitivement",
-      icon: "warning",
+      text: 'La demande sera acceptée définitivement',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui, accepter",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, accepter',
     }).then((result) => {
       if (result.isConfirmed && selectedDemandeCollecte.id) {
-
         if (selectedDemandeCollecte.id) {
-          this.updateDemandeEtat(selectedDemandeCollecte.id, "accepté").then(() => {
-            if (selectedDemandeCollecte.id_collecte) {
-              this.updateCollecteEtat(selectedDemandeCollecte.id_collecte, "supprimé").then(() => {
-                Swal.fire({
-                  title: "Accepté!",
-                  text: `La demande de suppression a été acceptée.`,
-                  icon: "success"
-                });
+          this.updateDemandeEtat(selectedDemandeCollecte.id, 'accepté')
+            .then(() => {
+              if (selectedDemandeCollecte.id_collecte) {
+                this.updateCollecteEtat(
+                  selectedDemandeCollecte.id_collecte,
+                  'supprimé',
+                )
+                  .then(() => {
+                    Swal.fire({
+                      title: 'Accepté!',
+                      text: `La demande de suppression a été acceptée.`,
+                      icon: 'success',
+                    });
 
-                if (selectedDemandeCollecte && selectedDemandeCollecte.id_association) {
-                  this.associationService.getAssociationEmailById(selectedDemandeCollecte.id_association).subscribe(toEmail => {
-                    if (toEmail) {
-                      console.log('Retrieved email:', toEmail);
-                
-                      if (selectedDemandeCollecte.id_association) {
-                        this.associationService.getAssociationNameById(selectedDemandeCollecte.id_association).subscribe(associationName => {
-                          if (associationName) {
-                
-                            if (selectedDemandeCollecte.id_collecte) {
-                              this.collecteService.getCollecteNameById(selectedDemandeCollecte.id_collecte).subscribe(collecteName => {
-                                const titreDemande = `la suppression de la collecte "${collecteName}"`;
-                                const typeDemande = "SUPPRESSION DE LA COLLECTE";
-                                const dateDemande = selectedDemandeCollecte.date ? this.formatDate(new Date(selectedDemandeCollecte.date)) : '';
-                                const dateReponse = this.formatDate(new Date());
-                
-                                this.adminService.sendAcceptationNotification(toEmail, associationName, titreDemande, typeDemande, dateDemande, dateReponse);
-                              });
-                            } else {
-                              console.error('ID de la collecte non défini.');
+                    if (
+                      selectedDemandeCollecte &&
+                      selectedDemandeCollecte.id_association
+                    ) {
+                      this.associationService
+                        .getAssociationEmailById(
+                          selectedDemandeCollecte.id_association,
+                        )
+                        .subscribe((toEmail) => {
+                          if (toEmail) {
+                            console.log('Retrieved email:', toEmail);
+
+                            if (selectedDemandeCollecte.id_association) {
+                              this.associationService
+                                .getAssociationNameById(
+                                  selectedDemandeCollecte.id_association,
+                                )
+                                .subscribe((associationName) => {
+                                  if (associationName) {
+                                    if (selectedDemandeCollecte.id_collecte) {
+                                      this.collecteService
+                                        .getCollecteNameById(
+                                          selectedDemandeCollecte.id_collecte,
+                                        )
+                                        .subscribe((collecteName) => {
+                                          const titreDemande = `la suppression de la collecte "${collecteName}"`;
+                                          const typeDemande =
+                                            'SUPPRESSION DE LA COLLECTE';
+                                          const dateDemande =
+                                            selectedDemandeCollecte.date
+                                              ? this.formatDate(
+                                                  new Date(
+                                                    selectedDemandeCollecte.date,
+                                                  ),
+                                                )
+                                              : '';
+                                          const dateReponse = this.formatDate(
+                                            new Date(),
+                                          );
+
+                                          this.adminService.sendAcceptationNotification(
+                                            toEmail,
+                                            associationName,
+                                            titreDemande,
+                                            typeDemande,
+                                            dateDemande,
+                                            dateReponse,
+                                          );
+                                        });
+                                    } else {
+                                      console.error(
+                                        'ID de la collecte non défini.',
+                                      );
+                                    }
+                                  }
+                                });
                             }
-                
+                          } else {
+                            console.error(
+                              'Email address not found for the association.',
+                            );
                           }
                         });
-                      }
-                    } else {
-                      console.error('Email address not found for the association.');
                     }
+                  })
+                  .catch((error) => {
+                    console.error(
+                      "Erreur lors de la mise à jour de l'état de la collecte:",
+                      error,
+                    );
+                    Swal.fire({
+                      title: 'Erreur',
+                      text: "Une erreur s'est produite lors de l'acceptation de la demande.",
+                      icon: 'error',
+                    });
                   });
-                }
-
-
-              }).catch(error => {
-                console.error('Erreur lors de la mise à jour de l\'état de la collecte:', error);
+              } else {
+                console.error('ID de la collecte indéfini.');
                 Swal.fire({
-                  title: "Erreur",
-                  text: "Une erreur s'est produite lors de l'acceptation de la demande.",
-                  icon: "error"
+                  title: 'Erreur',
+                  text: 'ID de la collecte indéfini.',
+                  icon: 'error',
                 });
-              });
-            } else {
-              console.error('ID de la collecte indéfini.');
+              }
+            })
+            .catch((error) => {
+              console.error(
+                "Erreur lors de la mise à jour de l'état de la demande:",
+                error,
+              );
               Swal.fire({
-                title: "Erreur",
-                text: "ID de la collecte indéfini.",
-                icon: "error"
+                title: 'Erreur',
+                text: "Une erreur s'est produite lors de l'acceptation de la demande.",
+                icon: 'error',
               });
-            }
-          }).catch(error => {
-            console.error('Erreur lors de la mise à jour de l\'état de la demande:', error);
-            Swal.fire({
-              title: "Erreur",
-              text: "Une erreur s'est produite lors de l'acceptation de la demande.",
-              icon: "error"
             });
-          });
         } else {
           console.error('ID de la demande indéfini.');
           Swal.fire({
-            title: "Erreur",
-            text: "ID de la demande indéfini.",
-            icon: "error"
+            title: 'Erreur',
+            text: 'ID de la demande indéfini.',
+            icon: 'error',
           });
         }
       }
     });
   }
 
-  envoyerRapport(id:string): void {
-    const demandeRef = this.firestore.collection('DemandeSuppressionCollecte').doc(id);
-    demandeRef.update({ rapport: this.rapportRefus })
+  envoyerRapport(id: string): void {
+    const demandeRef = this.firestore
+      .collection('DemandeSuppressionCollecte')
+      .doc(id);
+    demandeRef
+      .update({ rapport: this.rapportRefus })
       .then(() => {
         console.log('Rapport envoyé avec succès.');
       })
-      .catch(error => {
-        console.error('Erreur lors de l\'envoi du rapport :', error);
-      });      
-}
+      .catch((error) => {
+        console.error("Erreur lors de l'envoi du rapport :", error);
+      });
+  }
 
-formatDate(date: Date): string {
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
-  const year = date.getFullYear();
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${day} - ${month} - ${year} ${hours}:${minutes}`;
-}
-
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based in JavaScript
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day} - ${month} - ${year} ${hours}:${minutes}`;
+  }
 }

@@ -9,56 +9,52 @@ import { CollecteService } from 'src/app/services/collecte.service';
 import { Router } from '@angular/router';
 import { DonateurService } from 'src/app/services/donateur.service';
 
-
 @Component({
   selector: 'app-actualite-list',
   templateUrl: './actualite-list.component.html',
-  styleUrls: ['./actualite-list.component.css']
+  styleUrls: ['./actualite-list.component.css'],
 })
 export class ActualiteListComponent {
-
-
-  constructor(public actualiteService:ActualiteService,
-    public associationService:AssociationService,
-    public collecteService:CollecteService,
-    public donateurService:DonateurService,
-    private router: Router
-  ){}
+  constructor(
+    public actualiteService: ActualiteService,
+    public associationService: AssociationService,
+    public collecteService: CollecteService,
+    public donateurService: DonateurService,
+    private router: Router,
+  ) {}
 
   customOptions: OwlOptions = {
     autoplay: true,
-    autoplayTimeout:4000,
+    autoplayTimeout: 4000,
     loop: true,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: true,
     dots: false,
     center: true,
-    navText: ['Précédent','Suivant'],
+    navText: ['Précédent', 'Suivant'],
     responsive: {
       0: {
-        items: 1
+        items: 1,
       },
       400: {
-        items: 1
+        items: 1,
       },
       740: {
-        items: 1
+        items: 1,
       },
       940: {
-        items: 1
-      }
+        items: 1,
+      },
     },
-    nav: true
-  }
+    nav: true,
+  };
 
+  actualites: Actualite[] = [];
+  associations: Association[] = [];
+  collectes: Collecte[] = [];
 
-  actualites:Actualite[]=[];
-  associations:Association[]=[];
-  collectes:Collecte[]=[];
-  
-  ngOnInit():void{
-
+  ngOnInit(): void {
     const donateurId = localStorage.getItem('donateurid');
     const associationId = localStorage.getItem('associationid');
 
@@ -67,24 +63,24 @@ export class ActualiteListComponent {
     } else if (associationId) {
       this.associationService.connexion = true;
     } else {
-      console.log('No user connected')
+      console.log('No user connected');
     }
-    
-    this.actualiteService.getAcceptedActualites().subscribe((res)=>{
-     this.actualites=res;
-     console.log(this.actualites);
-   })
-   this.associationService.getActiveAssociations().subscribe((res)=>{
-    this.associations=res;
-    console.log(this.associations);
-  })
-  this.collecteService.getAcceptedCollectes().subscribe((res)=>{
-    this.collectes=res;
-    console.log(this.collectes);
-  })
-   }
-    
-   toggleShowDetails() {
+
+    this.actualiteService.getAcceptedActualites().subscribe((res) => {
+      this.actualites = res;
+      console.log(this.actualites);
+    });
+    this.associationService.getActiveAssociations().subscribe((res) => {
+      this.associations = res;
+      console.log(this.associations);
+    });
+    this.collecteService.getAcceptedCollectes().subscribe((res) => {
+      this.collectes = res;
+      console.log(this.collectes);
+    });
+  }
+
+  toggleShowDetails() {
     this.actualiteService.showDetails = true;
     localStorage.setItem('service.showDetails', 'true');
   }
@@ -104,7 +100,9 @@ export class ActualiteListComponent {
   }
 
   getAssociationName(associationId: string): string {
-    const association = this.associations.find(association => association.id === associationId);
+    const association = this.associations.find(
+      (association) => association.id === associationId,
+    );
     return association ? association.nom : '';
   }
 
@@ -112,27 +110,22 @@ export class ActualiteListComponent {
     const now = new Date();
     const startTime = new Date(startDate);
     const endTime = new Date(endDate);
-  
+
     if (now < startTime) {
       const timeDiff = startTime.getTime() - now.getTime();
       const daysUntilStart = Math.ceil(timeDiff / (1000 * 3600 * 24));
       return 'Commence dans ' + daysUntilStart + ' jours';
     }
-  
+
     const timeDiff = endTime.getTime() - now.getTime();
     const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  
+
     if (daysRemaining <= 0) {
       return 'Terminée';
     } else if (daysRemaining === 1) {
       return '1 jour restant';
     } else {
-      return 'Il reste '+daysRemaining + ' jours';
+      return 'Il reste ' + daysRemaining + ' jours';
     }
   }
-  
-  
-  }
-  
-  
-  
+}

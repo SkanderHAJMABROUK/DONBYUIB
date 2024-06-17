@@ -8,7 +8,7 @@ describe('ResetEmailComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResetEmailComponent]
+      declarations: [ResetEmailComponent],
     });
     fixture = TestBed.createComponent(ResetEmailComponent);
     component = fixture.componentInstance;

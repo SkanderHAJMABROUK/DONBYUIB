@@ -6,13 +6,14 @@ import { ActualiteService } from 'src/app/services/actualite.service';
 @Component({
   selector: 'app-suppression-actualite-details',
   templateUrl: './suppression-actualite-details.component.html',
-  styleUrls: ['./suppression-actualite-details.component.css']
+  styleUrls: ['./suppression-actualite-details.component.css'],
 })
 export class SuppressionActualiteDetailsComponent {
+  @Input() actualite!: Actualite;
+  faXmark = faXmark;
 
-  @Input() actualite!:Actualite
-  faXmark=faXmark;
-
-  constructor(public service:ActualiteService,public adminService:AdministrateurService){}
-
+  constructor(
+    public service: ActualiteService,
+    public adminService: AdministrateurService,
+  ) {}
 }

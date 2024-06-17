@@ -22,7 +22,7 @@ export class CollecteDetailsComponent {
     private paymentService: PaymentService,
     public router: Router,
     private donateurService: DonateurService,
-    public associationService: AssociationService
+    public associationService: AssociationService,
   ) {}
 
   value = 0;
@@ -88,7 +88,7 @@ export class CollecteDetailsComponent {
             this.associationName = 'Default Association Name';
             console.log(
               'Association name set to default:',
-              this.associationName
+              this.associationName,
             );
           }
         });
@@ -114,7 +114,7 @@ export class CollecteDetailsComponent {
             this.associationLogo = 'Default Association Logo';
             console.log(
               'Association logo set to default:',
-              this.associationLogo
+              this.associationLogo,
             );
           }
         });
@@ -141,7 +141,7 @@ export class CollecteDetailsComponent {
 
           if (!this.isDonationAllowed) {
             const countdownEnd = new Date(
-              this.selectedCollecte.date_debut
+              this.selectedCollecte.date_debut,
             ).getTime();
 
             this.countdown = interval(1000).pipe(
@@ -151,15 +151,15 @@ export class CollecteDetailsComponent {
 
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor(
-                  (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                  (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
                 );
                 const minutes = Math.floor(
-                  (distance % (1000 * 60 * 60)) / (1000 * 60)
+                  (distance % (1000 * 60 * 60)) / (1000 * 60),
                 );
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
                 return `${days}j:${hours}h:${minutes}min:${seconds}s`;
-              })
+              }),
             );
           }
           if (this.orderId) {
@@ -214,7 +214,7 @@ export class CollecteDetailsComponent {
         },
         (error) => {
           console.error('Authorization failed:', error);
-        }
+        },
       );
   }
 
@@ -239,7 +239,7 @@ export class CollecteDetailsComponent {
                 if (this.selectedCollecte.id) {
                   this.service.updateCollecteEtat(
                     this.selectedCollecte.id,
-                    'terminee'
+                    'terminee',
                   );
                 }
               }
@@ -247,17 +247,17 @@ export class CollecteDetailsComponent {
             .catch((error) => {
               console.error(
                 "Erreur lors de l'ajout du don à la collection :",
-                error
+                error,
               );
             });
 
           this.service.updateCumulativeDonationAmount(
             this.selectedCollecte.id,
-            this.totalDonationAmount + amount
+            this.totalDonationAmount + amount,
           );
         } else {
           console.error(
-            'Erreur: Aucune collecte sélectionnée ou ID non défini.'
+            'Erreur: Aucune collecte sélectionnée ou ID non défini.',
           );
         }
         console.log('Payment confirmed:', response);
@@ -265,7 +265,7 @@ export class CollecteDetailsComponent {
       (error) => {
         // Handle error
         console.error('Confirmation failed:', error);
-      }
+      },
     );
   }
 
@@ -292,7 +292,7 @@ export class CollecteDetailsComponent {
                     this.paymentService
                       .envoyerRemerciement(
                         this.associationName,
-                        this.donateurEMail
+                        this.donateurEMail,
                       )
                       .then((response) => {
                         console.log('Email sent:', response);
@@ -304,24 +304,24 @@ export class CollecteDetailsComponent {
                     console.log(
                       'email',
                       this.associationName,
-                      this.donateurEMail
+                      this.donateurEMail,
                     );
                   }
                 },
                 (error) => {
                   console.error('Error fetching association name:', error);
-                }
+                },
               );
           } else {
             console.error(
-              'Erreur: selectedCollecte or id_association is undefined.'
+              'Erreur: selectedCollecte or id_association is undefined.',
             );
           }
         }
       },
       (error) => {
         console.error('Error fetching order status:', error);
-      }
+      },
     );
   }
 
@@ -393,7 +393,7 @@ export class CollecteDetailsComponent {
       },
       (error) => {
         console.error('Error fetching total donation amount:', error);
-      }
+      },
     );
   }
 
@@ -427,5 +427,4 @@ export class CollecteDetailsComponent {
   toggleDescription() {
     this.showFullDescription = !this.showFullDescription;
   }
-  
 }

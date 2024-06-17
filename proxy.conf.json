@@ -1,17 +1,18 @@
 {
-    "/api": {
-      "target": "https://test.clictopay.com",
-      "secure": false,
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/api": "/payment/rest"
-      }
-    },
-    "/flaskapi": {
-      "target": "http://localhost:5000",
-      "secure": false,
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/flaskapi": ""
-      }}
+  "/api": {
+    "target": "https://test.clictopay.com",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/payment/rest"
+    }
+  },
+  "/flaskapi": {
+    "target": "http://localhost:5000",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/flaskapi": ""
+    }
   }
+}

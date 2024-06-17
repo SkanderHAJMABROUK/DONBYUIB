@@ -1,84 +1,188 @@
-
-
 <div class="container">
-
-  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-loader" [fullScreen] = "true">
-    <p style="color: white ; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif ;"> Traitement en cours... </p>
+  <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    size="medium"
+    color="#fff"
+    type="square-loader"
+    [fullScreen]="true"
+  >
+    <p
+      style="
+        color: white;
+        font-family: &quot;Gill Sans&quot;, &quot;Gill Sans MT&quot;, Calibri,
+          &quot;Trebuchet MS&quot;, sans-serif;
+      "
+    >
+      Traitement en cours...
+    </p>
   </ngx-spinner>
-  
-    <form [formGroup]="aFormGroup" class="form-container">
-      <h2>Ajouter une collecte</h2>
-      <hr>
-      <div>
-        <label for="nom">Nom de la collecte<span> *</span></label>
-        <input type="text" id="nom" formControlName="nom" placeholder="Nom complet de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('nom')?.invalid && (aFormGroup.get('nom')?.dirty || aFormGroup.get('nom')?.touched)">
-          <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">Le nom de la collecte est requis.</div>
+
+  <form [formGroup]="aFormGroup" class="form-container">
+    <h2>Ajouter une collecte</h2>
+    <hr />
+    <div>
+      <label for="nom">Nom de la collecte<span> *</span></label>
+      <input
+        type="text"
+        id="nom"
+        formControlName="nom"
+        placeholder="Nom complet de la collecte"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('nom')?.invalid &&
+          (aFormGroup.get('nom')?.dirty || aFormGroup.get('nom')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">
+          Le nom de la collecte est requis.
         </div>
       </div>
+    </div>
 
-      <div>
-        <label for="description">Description de la collecte<span> *</span></label><br>
-        <textarea id="description" formControlName="description" placeholder="Description de la collecte" class="description" required></textarea>
-        <div class="error-message" *ngIf="aFormGroup.get('description')?.invalid && (aFormGroup.get('description')?.dirty || aFormGroup.get('description')?.touched)">
-          <div *ngIf="aFormGroup.get('description')?.errors?.['required']">La description de la collecte est requise.</div>
+    <div>
+      <label for="description">Description de la collecte<span> *</span></label
+      ><br />
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Description de la collecte"
+        class="description"
+        required
+      ></textarea>
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('description')?.invalid &&
+          (aFormGroup.get('description')?.dirty ||
+            aFormGroup.get('description')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('description')?.errors?.['required']">
+          La description de la collecte est requise.
         </div>
       </div>
+    </div>
 
-     
-      <div>
-        <label for="image">Photo de couverture de la collecte<span> *</span></label><br>
-        <input type="file" id="image" formControlName="image" (change)="onLogoFileSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml" required>
-        <div class="error-message" *ngIf="aFormGroup.get('image')?.invalid && (aFormGroup.get('image')?.dirty || aFormGroup.get('image')?.touched)">
-          <div *ngIf="aFormGroup.get('image')?.errors?.['required']">La photo de couverture de la collecte est requise.</div>
-        </div>
-      </div>       
-
-      
-      <div>
-        <label for="montant">Le montant estimé de la collecte<span> *</span></label>
-        <input type="text" id="montant" formControlName="montant" placeholder="montant estimé de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('montant')?.invalid && (aFormGroup.get('montant')?.dirty || aFormGroup.get('montant')?.touched)">
-          <div *ngIf="aFormGroup.get('montant')?.errors?.['required']">Le montant estimé de la collecte est requis.</div>
-        </div>
-      </div>
-
-
-      <div>
-        <label for="date_debut">Date du début de la collecte <span> *</span></label>
-        <input type="date" id="date_debut" formControlName="date_debut" placeholder="Date du début de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('date_debut')?.invalid && (aFormGroup.get('date_debut')?.dirty || aFormGroup.get('date_debut')?.touched)">
-          <div *ngIf="aFormGroup.get('date_debut')?.errors?.['required']">La date du début de la collecte est requise.</div>
+    <div>
+      <label for="image"
+        >Photo de couverture de la collecte<span> *</span></label
+      ><br />
+      <input
+        type="file"
+        id="image"
+        formControlName="image"
+        (change)="onLogoFileSelected($event)"
+        accept="image/png, image/jpeg, image/gif, image/svg+xml"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('image')?.invalid &&
+          (aFormGroup.get('image')?.dirty || aFormGroup.get('image')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('image')?.errors?.['required']">
+          La photo de couverture de la collecte est requise.
         </div>
       </div>
+    </div>
 
-
-      <div>
-        <label for="date_fin">Date de fin de la collecte <span> *</span></label>
-        <input type="date" id="date_fin" formControlName="date_fin" placeholder="Date de fin de la collecte" required>
-        <div class="error-message" *ngIf="aFormGroup.get('date_fin')?.invalid && (aFormGroup.get('date_fin')?.dirty || aFormGroup.get('date_fin')?.touched)">
-          <div *ngIf="aFormGroup.get('date_fin')?.errors?.['required']">La date de fin de la collecte est requise.</div>
+    <div>
+      <label for="montant"
+        >Le montant estimé de la collecte<span> *</span></label
+      >
+      <input
+        type="text"
+        id="montant"
+        formControlName="montant"
+        placeholder="montant estimé de la collecte"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('montant')?.invalid &&
+          (aFormGroup.get('montant')?.dirty ||
+            aFormGroup.get('montant')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('montant')?.errors?.['required']">
+          Le montant estimé de la collecte est requis.
         </div>
       </div>
+    </div>
 
-      
-     
-      <p>Les champs avec un astérisque * sont obligatoires</p>
-      
-      <div *ngIf="showErrorNotification" class="error-notification">
-        Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
+    <div>
+      <label for="date_debut"
+        >Date du début de la collecte <span> *</span></label
+      >
+      <input
+        type="date"
+        id="date_debut"
+        formControlName="date_debut"
+        placeholder="Date du début de la collecte"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('date_debut')?.invalid &&
+          (aFormGroup.get('date_debut')?.dirty ||
+            aFormGroup.get('date_debut')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('date_debut')?.errors?.['required']">
+          La date du début de la collecte est requise.
+        </div>
       </div>
-      <div *ngIf="showSuccessMessage" class="success-message">
-        Votre demande a été prise en considération avec succès ! 
-       
-      </div>
-      
-      <div *ngIf="aFormGroup.errors?.['dateFinSupDateDebut']" class="error-message">
-        La date de fin doit être postérieure à la date de début.
-      </div>
+    </div>
 
+    <div>
+      <label for="date_fin">Date de fin de la collecte <span> *</span></label>
+      <input
+        type="date"
+        id="date_fin"
+        formControlName="date_fin"
+        placeholder="Date de fin de la collecte"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('date_fin')?.invalid &&
+          (aFormGroup.get('date_fin')?.dirty ||
+            aFormGroup.get('date_fin')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('date_fin')?.errors?.['required']">
+          La date de fin de la collecte est requise.
+        </div>
+      </div>
+    </div>
 
-      <button type="submit" class="btn_ajouter" (click)="onSubmit()">Ajouter</button>
-    </form>
-  </div>
-  
+    <p>Les champs avec un astérisque * sont obligatoires</p>
+
+    <div *ngIf="showErrorNotification" class="error-notification">
+      Certains champs sont invalides. Veuillez les corriger avant de soumettre
+      le formulaire.
+    </div>
+    <div *ngIf="showSuccessMessage" class="success-message">
+      Votre demande a été prise en considération avec succès !
+    </div>
+
+    <div
+      *ngIf="aFormGroup.errors?.['dateFinSupDateDebut']"
+      class="error-message"
+    >
+      La date de fin doit être postérieure à la date de début.
+    </div>
+
+    <button type="submit" class="btn_ajouter" (click)="onSubmit()">
+      Ajouter
+    </button>
+  </form>
+</div>

@@ -1,452 +1,545 @@
 <link
   rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
 
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <span class="material-symbols-outlined"> passkey </span>
+    </div>
+    <ul class="links">
+      <h4>Compte</h4>
+      <li>
+        <span class="material-symbols-outlined">person</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = true;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Mon compte</a
+        >
+      </li>
+      <li class="logout-link">
+        <span class="material-symbols-outlined">logout</span>
+        <a (click)="logOut()">Se déconnecter</a>
+      </li>
 
-  <body>
-    <div class="sidebar">
-      <div class="logo">
-        <span class="material-symbols-outlined">
-          passkey
-          </span>       
-      </div>
-      <ul class="links">
-        <h4>Compte</h4>
-        <li>
-          <span class="material-symbols-outlined">person</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=true;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Mon compte</a>
-        </li>
-        <li class="logout-link">
-            <span class="material-symbols-outlined">logout</span>
-            <a (click)="logOut()">Se déconnecter</a>
-          </li>
-        
-       
-        <hr>
-        <h4>Donateurs</h4>
-        <li>
-          <span class="material-symbols-outlined">list</span>
-          <a (click)="service.crudUtilisateurs=true;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Gestion des donateurs</a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">add</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=true;
+      <hr />
+      <h4>Donateurs</h4>
+      <li>
+        <span class="material-symbols-outlined">list</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = true;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Gestion des donateurs</a
+        >
+      </li>
+      <li>
+        <span class="material-symbols-outlined">add</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = true;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Ajouter un donateur</a
+        >
+      </li>
 
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Ajouter un donateur</a>
-        </li>
-        
-        
-        <hr>
-        <h4>Associations</h4>
-        <li>
-          <span class="material-symbols-outlined">list</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=true;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Gestion des associations</a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">add</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=true;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Ajouter une association</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
+      <hr />
+      <h4>Associations</h4>
+      <li>
+        <span class="material-symbols-outlined">list</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = true;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Gestion des associations</a
+        >
+      </li>
+      <li>
+        <span class="material-symbols-outlined">add</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = true;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Ajouter une association</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
           [matBadge]="service.demandeAssociationsCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
+          matBadgeColor="warn"
+          aria-hidden="false"
           matBadgeSize="small"
-          [matBadgeHidden]="service.demandeAssociationsCount == 0">
-            data_check
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=true;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Demandes d'ajouts    
-          
-        </a>          
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
+          [matBadgeHidden]="service.demandeAssociationsCount == 0"
+        >
+          data_check
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = true;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes d'ajouts
+        </a>
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
           [matBadge]="service.demandeModificationAssociationsCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
+          matBadgeColor="warn"
+          aria-hidden="false"
           matBadgeSize="small"
-          [matBadgeHidden]="service.demandeModificationAssociationsCount == 0">
-            settings_account_box
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=true;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Demandes de modifications</a>
-        </li>
-        
-        
-        <hr>
-        <h4>Collectes</h4>
-        <li>
-          <span class="material-symbols-outlined">list</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=true;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Gestion des collectes</a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">add</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=true;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Ajouter une collecte</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
-          [matBadge]="service.demandeCollectesCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
-          matBadgeSize="small"
-          [matBadgeHidden]="service.demandeCollectesCount == 0">
-            data_check
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=true;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Demandes d'ajouts</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
-          [matBadge]="service.demandeModificationCollectesCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
-          matBadgeSize="small"
-          [matBadgeHidden]="service.demandeModificationCollectesCount == 0">
-            settings_account_box
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=true;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Demandes de modifications</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
-          [matBadge]="service.demandeSuppressionCollectesCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
-          matBadgeSize="small"
-          [matBadgeHidden]="service.demandeSuppressionCollectesCount == 0">
-            auto_delete
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=true">Demandes de suppressions</a>
-        </li>
-        
-        <hr>
-        <h4>Actualités</h4>
-        <li>
-          <span class="material-symbols-outlined">list</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=true;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Gestion des actualités</a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">add</span>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=true;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Ajouter une actualité</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
-          [matBadge]="service.demandeActualitesCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
-          matBadgeSize="small"
-          [matBadgeHidden]="service.demandeActualitesCount == 0">
-            data_check
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=true;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Demandes d'ajouts</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
-          [matBadge]="service.demandeModificationActualitesCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
-          matBadgeSize="small"
-          [matBadgeHidden]="service.demandeModificationActualitesCount == 0">
-            settings_account_box
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=true;
-          service.demandeSuppressionActualite=false;
-          service.demandeSuppressionCollecte=false">Demandes de modifications</a>
-        </li>
-        <li>
-          <mat-icon class="material-symbols-outlined"
-          [matBadge]="service.demandeSuppressionActualitesCount"
-          matBadgeColor="warn" 
-          aria-hidden="false" 
-          matBadgeSize="small"
-          [matBadgeHidden]="service.demandeSuppressionActualitesCount == 0">
-            auto_delete
-          </mat-icon>
-          <a (click)="service.crudUtilisateurs=false;
-          service.compte=false;
-          service.crudAssociations=false;
-          service.crudCollectes=false;
-          service.ajouterActualite=false;
-          service.ajouterAssociation=false;
-          service.ajouterCollecte=false;
-          service.ajouterDonateur=false;
-          service.crudActualites=false;
-          service.demandeAssociations=false;
-          service.demandeActualite=false;
-          service.demandeCollecte=false;
-          service.demandeModificationAssociation=false;
-          service.demandeModificationAssociationDetails=false;
-          service.demandeModificationCollecte=false;
-          service.demandeModificationActualite=false;
-          service.demandeSuppressionActualite=true;
-          service.demandeSuppressionCollecte=false">Demandes de suppressions</a>
-        </li> 
-        
-      </ul>
+          [matBadgeHidden]="service.demandeModificationAssociationsCount == 0"
+        >
+          settings_account_box
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = true;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes de modifications</a
+        >
+      </li>
 
+      <hr />
+      <h4>Collectes</h4>
+      <li>
+        <span class="material-symbols-outlined">list</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = true;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Gestion des collectes</a
+        >
+      </li>
+      <li>
+        <span class="material-symbols-outlined">add</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = true;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Ajouter une collecte</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matBadge]="service.demandeCollectesCount"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeCollectesCount == 0"
+        >
+          data_check
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = true;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes d'ajouts</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matBadge]="service.demandeModificationCollectesCount"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeModificationCollectesCount == 0"
+        >
+          settings_account_box
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = true;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes de modifications</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matBadge]="service.demandeSuppressionCollectesCount"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeSuppressionCollectesCount == 0"
+        >
+          auto_delete
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = true
+          "
+          >Demandes de suppressions</a
+        >
+      </li>
+
+      <hr />
+      <h4>Actualités</h4>
+      <li>
+        <span class="material-symbols-outlined">list</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = true;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Gestion des actualités</a
+        >
+      </li>
+      <li>
+        <span class="material-symbols-outlined">add</span>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = true;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Ajouter une actualité</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matBadge]="service.demandeActualitesCount"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeActualitesCount == 0"
+        >
+          data_check
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = true;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes d'ajouts</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matBadge]="service.demandeModificationActualitesCount"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeModificationActualitesCount == 0"
+        >
+          settings_account_box
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = true;
+            service.demandeSuppressionActualite = false;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes de modifications</a
+        >
+      </li>
+      <li>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matBadge]="service.demandeSuppressionActualitesCount"
+          matBadgeColor="warn"
+          aria-hidden="false"
+          matBadgeSize="small"
+          [matBadgeHidden]="service.demandeSuppressionActualitesCount == 0"
+        >
+          auto_delete
+        </mat-icon>
+        <a
+          (click)="
+            service.crudUtilisateurs = false;
+            service.compte = false;
+            service.crudAssociations = false;
+            service.crudCollectes = false;
+            service.ajouterActualite = false;
+            service.ajouterAssociation = false;
+            service.ajouterCollecte = false;
+            service.ajouterDonateur = false;
+            service.crudActualites = false;
+            service.demandeAssociations = false;
+            service.demandeActualite = false;
+            service.demandeCollecte = false;
+            service.demandeModificationAssociation = false;
+            service.demandeModificationAssociationDetails = false;
+            service.demandeModificationCollecte = false;
+            service.demandeModificationActualite = false;
+            service.demandeSuppressionActualite = true;
+            service.demandeSuppressionCollecte = false
+          "
+          >Demandes de suppressions</a
+        >
+      </li>
+    </ul>
+  </div>
+</body>

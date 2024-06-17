@@ -25,7 +25,7 @@
   <div class="associations">
     <a
       [routerLink]="['/listeAssociations/details', association.id]"
-      *ngFor="let association of associations | slice : 0 : 10"
+      *ngFor="let association of associations | slice: 0 : 10"
     >
       <div class="association">
         <img [src]="association.logo" alt="{{ association.nom }}" />
@@ -49,7 +49,7 @@
     <div
       class="collecte-card"
       [routerLink]="['/listeCollectes/details', collecte.id]"
-      *ngFor="let collecte of collectes | slice : 0 : 5"
+      *ngFor="let collecte of collectes | slice: 0 : 5"
     >
       <img [src]="collecte.image" alt="{{ collecte.nom }}" />
       <h3>{{ collecte.nom }}</h3>

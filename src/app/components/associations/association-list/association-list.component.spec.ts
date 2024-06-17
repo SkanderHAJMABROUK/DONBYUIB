@@ -8,7 +8,7 @@ describe('AssociationListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AssociationListComponent]
+      declarations: [AssociationListComponent],
     });
     fixture = TestBed.createComponent(AssociationListComponent);
     component = fixture.componentInstance;

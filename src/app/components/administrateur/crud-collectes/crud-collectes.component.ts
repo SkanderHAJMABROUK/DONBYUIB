@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Collecte } from 'src/app/interfaces/collecte';
 import { CollecteService } from 'src/app/services/collecte.service';
-import { faList, faTrash, faPenToSquare, faChevronRight, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {
+  faList,
+  faTrash,
+  faPenToSquare,
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 import { AssociationService } from 'src/app/services/association.service';
 import { Observable, map } from 'rxjs';
 import { AdministrateurService } from 'src/app/services/administrateur.service';
@@ -11,17 +17,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-crud-collectes',
   templateUrl: './crud-collectes.component.html',
-  styleUrls: ['./crud-collectes.component.css']
+  styleUrls: ['./crud-collectes.component.css'],
 })
-export class CrudCollectesComponent implements OnInit{
-
+export class CrudCollectesComponent implements OnInit {
   faList = faList;
   faPenToSquare = faPenToSquare;
   faTrash = faTrash;
   faChevronRight = faChevronRight;
   faChevronLeft = faChevronLeft;
 
-  selectedEtat: string = ''; 
+  selectedEtat: string = '';
   etats: string[] = []; // Liste des états possibles
   collectes: Collecte[] = [];
   associationsNames: string[] = [];
@@ -31,57 +36,70 @@ export class CrudCollectesComponent implements OnInit{
   pageSize: number = 10;
   currentPage: number = 1;
   selectedPageSize: string = '10'; // Par défaut, la taille de la page est définie sur 10
-  selectedAssociation: string = ''; 
-  associationsIds : string[] = []; // Liste des états possibles
+  selectedAssociation: string = '';
+  associationsIds: string[] = []; // Liste des états possibles
   imageAffichee: string = ''; // URL de l'image affichée dans la lightbox
 
   selectedTri: string = 'none'; // Par défaut, aucun tri sélectionné
 
-
-  constructor(private collecteService: CollecteService, private associationService:AssociationService,private router: Router,public adminService:AdministrateurService) { }
+  constructor(
+    private collecteService: CollecteService,
+    private associationService: AssociationService,
+    private router: Router,
+    public adminService: AdministrateurService,
+  ) {}
 
   ngOnInit(): void {
     this.selectedPageSize = '10';
-    this.getCollectes();             
+    this.getCollectes();
   }
 
   getEtats(): void {
     // Exclure les valeurs nulles et vides
-    this.etats = Array.from(new Set(this.collectes
-      .map(collecte => collecte.etat)
-      .filter(etat => !!etat))); // Filtre les valeurs nulles ou vides
-    }
+    this.etats = Array.from(
+      new Set(
+        this.collectes
+          .map((collecte) => collecte.etat)
+          .filter((etat) => !!etat),
+      ),
+    ); // Filtre les valeurs nulles ou vides
+  }
 
   getAssociationsIds(): void {
-    this.associationsIds = Array.from(new Set(
-      this.collectes
-        .map(collecte => collecte.id_association)
-        .filter(id_association => id_association !== undefined && id_association !== null)
-    )) as string[];
+    this.associationsIds = Array.from(
+      new Set(
+        this.collectes
+          .map((collecte) => collecte.id_association)
+          .filter(
+            (id_association) =>
+              id_association !== undefined && id_association !== null,
+          ),
+      ),
+    ) as string[];
 
-    this.getAssociationsNamesByIds(this.associationsIds); // Call function to fetch association names 
+    this.getAssociationsNamesByIds(this.associationsIds); // Call function to fetch association names
   }
 
   getAssociationsNamesByIds(ids: string[]) {
-    const observables: Observable<string | undefined>[] = ids.map(id =>
+    const observables: Observable<string | undefined>[] = ids.map((id) =>
       this.associationService.getAssociationNameById(id).pipe(
-        map(name => name ?? undefined) // Convert undefined values to Observable<undefined>
-      )
+        map((name) => name ?? undefined), // Convert undefined values to Observable<undefined>
+      ),
     );
-  
+
     // Subscribe to each observable and handle the emitted names accordingly
     observables.forEach((observable, index) =>
-      observable.subscribe(name => {
+      observable.subscribe((name) => {
         console.log(`Observable ${index + 1} emitted value:`, name); // Log emitted values
         if (name !== undefined) {
           this.associationsNames.push(name);
           console.log('Pushed name:', name); // Log pushed name
           console.log(this.associationsNames);
         }
-      })
-    )
-  } 
-  
+      }),
+    );
+  }
+
   getAssociationNameById(id: string | undefined): string {
     if (!id) {
       return 'Unknown Association';
@@ -93,10 +111,9 @@ export class CrudCollectesComponent implements OnInit{
       return 'Association not found';
     }
   }
-  
-  
-  getCollectes():void {
-    this.collecteService.getCollectes().subscribe(collectes => {
+
+  getCollectes(): void {
+    this.collecteService.getCollectes().subscribe((collectes) => {
       this.collectes = collectes;
       this.getEtats(); // Initialise la liste des états
       this.getAssociationsIds(); // Initialise la liste des états
@@ -105,44 +122,68 @@ export class CrudCollectesComponent implements OnInit{
   }
 
   chercherCollecte(): void {
-    
-  const startIndex = (this.currentPage - 1) * this.pageSize;
-  const endIndex = startIndex + this.pageSize;
-  this.filteredCollecteList = this.filteredCollecteList.slice(startIndex, endIndex);
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.filteredCollecteList = this.filteredCollecteList.slice(
+      startIndex,
+      endIndex,
+    );
 
-    this.filteredCollecteList = this.collectes.filter((collecte, index) =>
-      index >= startIndex && index < endIndex &&
-      (collecte.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-      (!this.selectedAssociation || this.getAssociationNameById(collecte.id_association) === this.selectedAssociation) &&
-      (!this.selectedEtat || collecte.etat === this.selectedEtat)
-    ))
+    this.filteredCollecteList = this.collectes.filter(
+      (collecte, index) =>
+        index >= startIndex &&
+        index < endIndex &&
+        collecte.nom.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+        (!this.selectedAssociation ||
+          this.getAssociationNameById(collecte.id_association) ===
+            this.selectedAssociation) &&
+        (!this.selectedEtat || collecte.etat === this.selectedEtat),
+    );
 
     // Tri
-  switch (this.selectedTri) {
-    case 'montantAsc':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => a.montant - b.montant);
-      break;
-    case 'montantDesc':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => b.montant - a.montant);
-      break;
-    case 'plusRecents':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(b.date_debut).getTime() - new Date(a.date_debut).getTime());
-      break;
-    case 'plusAnciens':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(a.date_debut).getTime() - new Date(b.date_debut).getTime());
-      break;
-    case 'plusLonguesDurees':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(b.date_fin).getTime() - new Date(b.date_debut).getTime() - (new Date(a.date_fin).getTime() - new Date(a.date_debut).getTime()));
-      break;
-    case 'plusCourtesDurees':
-      this.filteredCollecteList = this.filteredCollecteList.sort((a, b) => new Date(a.date_fin).getTime() - new Date(a.date_debut).getTime() - (new Date(b.date_fin).getTime() - new Date(b.date_debut).getTime()));
-      break;
-    default:
-      break;
+    switch (this.selectedTri) {
+      case 'montantAsc':
+        this.filteredCollecteList = this.filteredCollecteList.sort(
+          (a, b) => a.montant - b.montant,
+        );
+        break;
+      case 'montantDesc':
+        this.filteredCollecteList = this.filteredCollecteList.sort(
+          (a, b) => b.montant - a.montant,
+        );
+        break;
+      case 'plusRecents':
+        this.filteredCollecteList = this.filteredCollecteList.sort(
+          (a, b) =>
+            new Date(b.date_debut).getTime() - new Date(a.date_debut).getTime(),
+        );
+        break;
+      case 'plusAnciens':
+        this.filteredCollecteList = this.filteredCollecteList.sort(
+          (a, b) =>
+            new Date(a.date_debut).getTime() - new Date(b.date_debut).getTime(),
+        );
+        break;
+      case 'plusLonguesDurees':
+        this.filteredCollecteList = this.filteredCollecteList.sort(
+          (a, b) =>
+            new Date(b.date_fin).getTime() -
+            new Date(b.date_debut).getTime() -
+            (new Date(a.date_fin).getTime() - new Date(a.date_debut).getTime()),
+        );
+        break;
+      case 'plusCourtesDurees':
+        this.filteredCollecteList = this.filteredCollecteList.sort(
+          (a, b) =>
+            new Date(a.date_fin).getTime() -
+            new Date(a.date_debut).getTime() -
+            (new Date(b.date_fin).getTime() - new Date(b.date_debut).getTime()),
+        );
+        break;
+      default:
+        break;
+    }
   }
-  }
-
-
 
   onPageChange(page: number): void {
     this.currentPage = page;
@@ -155,7 +196,6 @@ export class CrudCollectesComponent implements OnInit{
     this.chercherCollecte(); // Réapplique la pagination avec la nouvelle taille de page
     this.getTotalPages(); // Recalcule le nombre total de pages
   }
-  
 
   getTotalPages(): number {
     return Math.ceil(this.collectes.length / this.pageSize);
@@ -170,50 +210,56 @@ export class CrudCollectesComponent implements OnInit{
   }
 
   afficherDetails(collecte: Collecte) {
-    if(collecte.id){
-    this.collecteService.getCollecteById(collecte.id).subscribe((response) => {
-      this.selectedCollecte = response!;
-      this.adminService.collecteDetailShowModal = true;
-      console.log(response)
-    });
-  }
-}
-
-modifierCollecte(collecte:Collecte){
-  if(collecte.id){
-    this.collecteService.getCollecteById(collecte.id).subscribe((response) => {
-      this.selectedCollecte = response!;
-      this.adminService.collecteModifierShowModal = true;
-    });
-  }
-}
-
-supprimerCollecte(collecte: Collecte) {
-  Swal.fire({
-    title: 'Êtes-vous sûr ?',
-    text: 'Vous ne pourrez pas revenir en arrière !',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Oui, supprimez-le !',
-    cancelButtonText: 'Non, annulez !'
-
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.adminService.deleteCollecteByAdmin(collecte)
-        .then(() => {
-          Swal.fire({
-            title: 'Supprimé !',
-            text: 'Votre fichier a été supprimé.',
-            icon: 'success'
-          });
-        })
-        .catch(error => {
-          console.error('Erreur lors de la suppression de la collecte:', error);
+    if (collecte.id) {
+      this.collecteService
+        .getCollecteById(collecte.id)
+        .subscribe((response) => {
+          this.selectedCollecte = response!;
+          this.adminService.collecteDetailShowModal = true;
+          console.log(response);
         });
     }
-  });
-}
+  }
 
+  modifierCollecte(collecte: Collecte) {
+    if (collecte.id) {
+      this.collecteService
+        .getCollecteById(collecte.id)
+        .subscribe((response) => {
+          this.selectedCollecte = response!;
+          this.adminService.collecteModifierShowModal = true;
+        });
+    }
+  }
+
+  supprimerCollecte(collecte: Collecte) {
+    Swal.fire({
+      title: 'Êtes-vous sûr ?',
+      text: 'Vous ne pourrez pas revenir en arrière !',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimez-le !',
+      cancelButtonText: 'Non, annulez !',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.adminService
+          .deleteCollecteByAdmin(collecte)
+          .then(() => {
+            Swal.fire({
+              title: 'Supprimé !',
+              text: 'Votre fichier a été supprimé.',
+              icon: 'success',
+            });
+          })
+          .catch((error) => {
+            console.error(
+              'Erreur lors de la suppression de la collecte:',
+              error,
+            );
+          });
+      }
+    });
+  }
 }

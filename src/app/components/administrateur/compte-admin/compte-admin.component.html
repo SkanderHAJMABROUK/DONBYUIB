@@ -1,7 +1,7 @@
 <div class="numbers-container">
   <div class="number-card">
     <h2>Nombre d'Associations Partenaires</h2>
-    <p>{{ activeAssociationsCount}}</p>
+    <p>{{ activeAssociationsCount }}</p>
   </div>
   <div class="number-card">
     <h2>Nombre de Collectes En Cours</h2>
@@ -35,7 +35,12 @@
   </div>
   <div class="card">
     <h2>Dons par Association</h2>
-    <canvas id="doughnutChart" class="doughnutChart" width="400" height="400"></canvas>
+    <canvas
+      id="doughnutChart"
+      class="doughnutChart"
+      width="400"
+      height="400"
+    ></canvas>
   </div>
   <div class="card">
     <h2>Top 5 des Associations Bénéficiaires</h2>
@@ -47,9 +52,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let donation of allDonations | slice:0:5; let i = index">
+        <tr *ngFor="let donation of allDonations | slice: 0 : 5; let i = index">
           <td>{{ donation.associationName }}</td>
-          <td><strong>{{ donation.totalDonation }}</strong></td>
+          <td>
+            <strong>{{ donation.totalDonation }}</strong>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -64,19 +71,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let donator of topDonators | slice:0:5; let i = index">
+        <tr *ngFor="let donator of topDonators | slice: 0 : 5; let i = index">
           <td>{{ donator.name }}</td>
-          <td><strong>{{ donator.totalDonation }}</strong></td>
+          <td>
+            <strong>{{ donator.totalDonation }}</strong>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
   <div class="card" *ngIf="positiveWordcloudUrl">
     <h2>Nuage des Mots Positifs</h2>
-    <img [src]="positiveWordcloudUrl" alt="Positive Wordcloud">
+    <img [src]="positiveWordcloudUrl" alt="Positive Wordcloud" />
   </div>
   <div class="card" *ngIf="sentimentAnalysisUrl">
     <h2>Analyse des Sentiments des Donateurs</h2>
-    <img [src]="sentimentAnalysisUrl" alt="Sentiment Analysis Chart">
+    <img [src]="sentimentAnalysisUrl" alt="Sentiment Analysis Chart" />
   </div>
 </div>

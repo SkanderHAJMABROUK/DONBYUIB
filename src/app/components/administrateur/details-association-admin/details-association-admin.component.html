@@ -1,63 +1,49 @@
 <div class="dialog">
-    <div class="header">
-        <h3>Détails de l'association</h3>
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.associationDetailShowModal=false"></fa-icon>
-    </div>
-    <hr />
-    <div class="content">
-        <strong><p>
-            Logo de l'association:
-        </p></strong>
-        <p>
-            <img src="{{association.logo}}">
-        </p>
-    <strong> <p>
-            Nom de l'association :
-        </p></strong>
-        <p>
-            {{association.nom}} 
-        </p>
-    <strong><p>
-            Description de l'association :
-        </p></strong>
-        <p>
-            {{ association.description }}
-        </p>
-  
-    <strong><p>
-            Adresse de l'association :
-        </p></strong>
-        <p>
-            {{association.adresse}}
-        </p>
-        <strong><p>
-            Numéro de téléphone de l'association :
-        </p></strong>
-        <p>
-            {{association.telephone}}
-        </p>
+  <div class="header">
+    <h3>Détails de l'association</h3>
+    <fa-icon
+      class="close-icon"
+      [icon]="faXmark"
+      (click)="adminService.associationDetailShowModal = false"
+    ></fa-icon>
+  </div>
+  <hr />
+  <div class="content">
+    <strong><p>Logo de l'association:</p></strong>
+    <p>
+      <img src="{{ association.logo }}" />
+    </p>
+    <strong> <p>Nom de l'association :</p></strong>
+    <p>
+      {{ association.nom }}
+    </p>
+    <strong><p>Description de l'association :</p></strong>
+    <p>
+      {{ association.description }}
+    </p>
 
-        <strong><p>
-            Catégorie de l'association :
-        </p></strong>
-        <p>
-            {{association.categorie}}
-        </p>
+    <strong><p>Adresse de l'association :</p></strong>
+    <p>
+      {{ association.adresse }}
+    </p>
+    <strong><p>Numéro de téléphone de l'association :</p></strong>
+    <p>
+      {{ association.telephone }}
+    </p>
 
+    <strong><p>Catégorie de l'association :</p></strong>
+    <p>
+      {{ association.categorie }}
+    </p>
 
-        <strong><p>
-            Adresse email de l'association :
-        </p></strong>
-        <p>
-            {{association.telephone}}
-        </p>
+    <strong><p>Adresse email de l'association :</p></strong>
+    <p>
+      {{ association.telephone }}
+    </p>
 
-        <strong><p>
-            RIB l'association :
-        </p></strong>
-        <p>
-            {{association.telephone}}
-        </p>
-
-    </div>
+    <strong><p>RIB l'association :</p></strong>
+    <p>
+      {{ association.telephone }}
+    </p>
+  </div>
 </div>

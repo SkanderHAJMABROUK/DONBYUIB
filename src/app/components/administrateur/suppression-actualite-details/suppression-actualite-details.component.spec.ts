@@ -8,7 +8,7 @@ describe('SuppressionActualiteDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SuppressionActualiteDetailsComponent]
+      declarations: [SuppressionActualiteDetailsComponent],
     });
     fixture = TestBed.createComponent(SuppressionActualiteDetailsComponent);
     component = fixture.componentInstance;

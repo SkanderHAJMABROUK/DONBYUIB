@@ -12,12 +12,17 @@ import { DonateurService } from 'src/app/services/donateur.service';
 @Component({
   selector: 'app-actualite-details',
   templateUrl: './actualite-details.component.html',
-  styleUrls: ['./actualite-details.component.css']
+  styleUrls: ['./actualite-details.component.css'],
 })
 export class ActualiteDetailsComponent {
   commentaireForm!: FormGroup;
   commentaireAjout: boolean = false;
-  constructor(public service: ActualiteService, public donateurService: DonateurService, public route: ActivatedRoute, private formBuilder: FormBuilder) { }
+  constructor(
+    public service: ActualiteService,
+    public donateurService: DonateurService,
+    public route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+  ) {}
 
   id!: string;
   data: Actualite | undefined;
@@ -31,10 +36,10 @@ export class ActualiteDetailsComponent {
 
   ngOnInit(): void {
     this.commentaireForm = this.formBuilder.group({
-      contenu: ['', Validators.required]
+      contenu: ['', Validators.required],
     });
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.id = params['id'];
       this.getActualiteById(this.id);
     });
@@ -43,9 +48,14 @@ export class ActualiteDetailsComponent {
   }
 
   getComments(): void {
-    this.donateurService.getComments()
+    this.donateurService
+      .getComments()
       .pipe(
-        map((commentaires: Commentaire[]) => commentaires.filter(commentaire => commentaire.id_actualite === this.id))
+        map((commentaires: Commentaire[]) =>
+          commentaires.filter(
+            (commentaire) => commentaire.id_actualite === this.id,
+          ),
+        ),
       )
       .subscribe({
         next: (commentaires: Commentaire[]) => {
@@ -54,7 +64,7 @@ export class ActualiteDetailsComponent {
         },
         error: (error) => {
           console.error('Error fetching comments:', error);
-        }
+        },
       });
   }
 
@@ -67,54 +77,55 @@ export class ActualiteDetailsComponent {
           console.error('No data returned for actualite ID:', id);
         }
       },
-      error: error => {
+      error: (error) => {
         console.error('Error fetching actualite data:', error);
-      }
+      },
     });
   }
 
   ajouterCommentaire(): void {
-    if(this.commentaireForm.valid) {
-    const idDonateur = this.donateurService.id;
-    const idActualite = this.id;
-    const contenu = this.commentaireForm.get('contenu')?.value;
-    if (idDonateur) {
-      this.donateurService.ajouterCommentaire(idDonateur, idActualite, contenu).subscribe({
-        next: (commentaire) => {
-          this.commentaireAjout = true;
-          console.log('Commentaire ajouté avec succès :', commentaire);
-          this.getComments();
-        },
-        error: (error) => {
-          console.error('Erreur lors de l\'ajout du commentaire :', error);
-        }
-      });
+    if (this.commentaireForm.valid) {
+      const idDonateur = this.donateurService.id;
+      const idActualite = this.id;
+      const contenu = this.commentaireForm.get('contenu')?.value;
+      if (idDonateur) {
+        this.donateurService
+          .ajouterCommentaire(idDonateur, idActualite, contenu)
+          .subscribe({
+            next: (commentaire) => {
+              this.commentaireAjout = true;
+              console.log('Commentaire ajouté avec succès :', commentaire);
+              this.getComments();
+            },
+            error: (error) => {
+              console.error("Erreur lors de l'ajout du commentaire :", error);
+            },
+          });
 
-      this.commentaireForm.reset();
-    }else{
-      console.error('Donateur non connecté');
-    }
-  }else{
+        this.commentaireForm.reset();
+      } else {
+        console.error('Donateur non connecté');
+      }
+    } else {
       console.error('Formulaire invalide');
     }
   }
 
   getDonateursIds(): void {
-    this.donateursIds = Array.from(new Set(
-      this.commentaires.map(commentaire => commentaire.id_donateur)
-    )) as string[];
+    this.donateursIds = Array.from(
+      new Set(this.commentaires.map((commentaire) => commentaire.id_donateur)),
+    ) as string[];
 
     this.getDonateursPhotosByIds();
     this.getDonateursNomsByIds();
     this.getDonateursPrenomsByIds();
-    
   }
 
   getDonateursPhotosByIds(): void {
     this.donateursPhotos = []; // Clear existing photos
 
     for (let id of this.donateursIds) {
-      this.donateurService.getDonateurPhotoById(id).subscribe(photo => {
+      this.donateurService.getDonateurPhotoById(id).subscribe((photo) => {
         this.donateursPhotos.push(photo ?? ''); // Push photo to the array
       });
     }
@@ -135,12 +146,11 @@ export class ActualiteDetailsComponent {
     }
   }
 
-
   getDonateursNomsByIds(): void {
     this.donateursNoms = []; // Clear existing photos
 
     for (let id of this.donateursIds) {
-      this.donateurService.getDonateurNomById(id).subscribe(nom => {
+      this.donateurService.getDonateurNomById(id).subscribe((nom) => {
         this.donateursNoms.push(nom ?? ''); // Push photo to the array
       });
     }
@@ -161,26 +171,26 @@ export class ActualiteDetailsComponent {
     }
   }
 
- getFullNameDonateurById(id: string | undefined): string | undefined{
-  if (!id) {
-    return undefined;
-  }
+  getFullNameDonateurById(id: string | undefined): string | undefined {
+    if (!id) {
+      return undefined;
+    }
 
-  const index = this.donateursIds.indexOf(id);
+    const index = this.donateursIds.indexOf(id);
 
-  if (index !== -1) {
-    return this.getDonateurNomById(id)+' '+this.getDonateurPrenomById(id);
-  } else {
-    console.log('Donateur ID not found:', id);
-    return undefined;
+    if (index !== -1) {
+      return this.getDonateurNomById(id) + ' ' + this.getDonateurPrenomById(id);
+    } else {
+      console.log('Donateur ID not found:', id);
+      return undefined;
+    }
   }
- }
 
   getDonateursPrenomsByIds(): void {
     this.donateursPrenoms = []; // Clear existing photos
 
     for (let id of this.donateursIds) {
-      this.donateurService.getDonateurPrenomById(id).subscribe(prenom => {
+      this.donateurService.getDonateurPrenomById(id).subscribe((prenom) => {
         this.donateursPrenoms.push(prenom ?? ''); // Push photo to the array
       });
     }
@@ -200,5 +210,4 @@ export class ActualiteDetailsComponent {
       return undefined;
     }
   }
-
 }

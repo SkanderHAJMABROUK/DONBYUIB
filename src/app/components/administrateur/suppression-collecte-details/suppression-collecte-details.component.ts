@@ -7,13 +7,14 @@ import { CollecteService } from 'src/app/services/collecte.service';
 @Component({
   selector: 'app-suppression-collecte-details',
   templateUrl: './suppression-collecte-details.component.html',
-  styleUrls: ['./suppression-collecte-details.component.css']
+  styleUrls: ['./suppression-collecte-details.component.css'],
 })
 export class SuppressionCollecteDetailsComponent {
+  @Input() collecte!: Collecte;
+  faXmark = faXmark;
 
-  @Input() collecte!:Collecte
-  faXmark=faXmark;
-
-  constructor(public service:CollecteService,public adminService:AdministrateurService){}
-
+  constructor(
+    public service: CollecteService,
+    public adminService: AdministrateurService,
+  ) {}
 }

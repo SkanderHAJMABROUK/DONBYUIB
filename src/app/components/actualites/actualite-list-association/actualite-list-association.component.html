@@ -1,35 +1,69 @@
 <div class="container">
-     <app-actualite-details-associations *ngIf="service.actualiteDetailShowModal" [actualite]="selectedActualite"></app-actualite-details-associations>
-    <app-modifier-actualite *ngIf="service.actualiteModifierShowModal" [actualite]="selectedActualite"></app-modifier-actualite>
- 
-    <div class="search-container">
-      <label for="searchInput">Chercher une actualité :</label>
-      <input type="text" id="searchInput" [ngModel]="searchTerm" (ngModelChange)="chercherActualite($event)" placeholder="Entrer le nom de l'actualité">
+  <app-actualite-details-associations
+    *ngIf="service.actualiteDetailShowModal"
+    [actualite]="selectedActualite"
+  ></app-actualite-details-associations>
+  <app-modifier-actualite
+    *ngIf="service.actualiteModifierShowModal"
+    [actualite]="selectedActualite"
+  ></app-modifier-actualite>
+
+  <div class="search-container">
+    <label for="searchInput">Chercher une actualité :</label>
+    <input
+      type="text"
+      id="searchInput"
+      [ngModel]="searchTerm"
+      (ngModelChange)="chercherActualite($event)"
+      placeholder="Entrer le nom de l'actualité"
+    />
   </div>
- 
-   <div *ngFor="let actualite of filteredActualiteList" class="actualite">
-   
- 
-     {{ actualite.titre }}
-     <div class="icons-container">
-       <div class="icon-wrapper">
-        <i><fa-icon  [icon]="faList" class="on-icon" (click)="afficherDetails(actualite)" *ngIf="actualite.etat!='en_attente_de_suppression'">
-        </fa-icon>
-      </i> 
-       </div>
-       <div class="icon-wrapper">
-        <i><fa-icon  [icon]="faPenToSquare" class="on-icon" (click)="modifierActualite(actualite)" *ngIf="actualite.etat!='en_attente_de_suppression'"></fa-icon></i> 
-       </div>
-       <div class="icon-wrapper">
-        <i><fa-icon  [icon]="faTrash" class="on-icon" (click)="supprimerActualite(actualite)" *ngIf="actualite.etat!='en_attente_de_suppression'"></fa-icon></i> 
-    </div>
-    <div class="icon-wrapper">
-      <div class="deleted-icon" *ngIf="actualite.etat=='en_attente_de_suppression'">
-        <i><fa-icon [icon]="faCircleExclamation" class="on-icon"></fa-icon></i>
-        <span>  Demande de suppression en attente! </span>
+
+  <div *ngFor="let actualite of filteredActualiteList" class="actualite">
+    {{ actualite.titre }}
+    <div class="icons-container">
+      <div class="icon-wrapper">
+        <i
+          ><fa-icon
+            [icon]="faList"
+            class="on-icon"
+            (click)="afficherDetails(actualite)"
+            *ngIf="actualite.etat != 'en_attente_de_suppression'"
+          >
+          </fa-icon>
+        </i>
+      </div>
+      <div class="icon-wrapper">
+        <i
+          ><fa-icon
+            [icon]="faPenToSquare"
+            class="on-icon"
+            (click)="modifierActualite(actualite)"
+            *ngIf="actualite.etat != 'en_attente_de_suppression'"
+          ></fa-icon
+        ></i>
+      </div>
+      <div class="icon-wrapper">
+        <i
+          ><fa-icon
+            [icon]="faTrash"
+            class="on-icon"
+            (click)="supprimerActualite(actualite)"
+            *ngIf="actualite.etat != 'en_attente_de_suppression'"
+          ></fa-icon
+        ></i>
+      </div>
+      <div class="icon-wrapper">
+        <div
+          class="deleted-icon"
+          *ngIf="actualite.etat == 'en_attente_de_suppression'"
+        >
+          <i
+            ><fa-icon [icon]="faCircleExclamation" class="on-icon"></fa-icon
+          ></i>
+          <span> Demande de suppression en attente! </span>
+        </div>
       </div>
     </div>
-      </div>
-   </div>
- </div>
- 
+  </div>
+</div>

@@ -8,7 +8,7 @@ describe('ModifierDonateurComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ModifierDonateurComponent]
+      declarations: [ModifierDonateurComponent],
     });
     fixture = TestBed.createComponent(ModifierDonateurComponent);
     component = fixture.componentInstance;

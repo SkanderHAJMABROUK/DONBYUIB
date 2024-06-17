@@ -8,7 +8,7 @@ describe('CompteAdminComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CompteAdminComponent]
+      declarations: [CompteAdminComponent],
     });
     fixture = TestBed.createComponent(CompteAdminComponent);
     component = fixture.componentInstance;

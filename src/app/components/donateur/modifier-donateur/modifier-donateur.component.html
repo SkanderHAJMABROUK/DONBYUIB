@@ -1,93 +1,157 @@
 <div class="container">
-    <form [formGroup]="aFormGroup" class="form-container" *ngIf="aFormGroup" >
-      <h2>Modifier mon compte</h2>
-      <hr>
-      
-  
-     
+  <form [formGroup]="aFormGroup" class="form-container" *ngIf="aFormGroup">
+    <h2>Modifier mon compte</h2>
+    <hr />
 
-      <div>
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" formControlName="nom" placeholder="Nom du donateur" required>
-        <div class="error-message" *ngIf="aFormGroup.get('nom')?.invalid && (aFormGroup.get('nom')?.dirty || aFormGroup.get('nom')?.touched)">
-          <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">Le nom du donateur est requis.</div>
+    <div>
+      <label for="nom">Nom :</label>
+      <input
+        type="text"
+        id="nom"
+        formControlName="nom"
+        placeholder="Nom du donateur"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('nom')?.invalid &&
+          (aFormGroup.get('nom')?.dirty || aFormGroup.get('nom')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('nom')?.errors?.['required']">
+          Le nom du donateur est requis.
         </div>
       </div>
-
-      <div>
-  <label for="imageFile">Photo de profil :</label>
-  <input type="file"   id="imageFile" formControlName="photo" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
-  <img *ngIf="aFormGroup.get('photo')?.value" [src]="aFormGroup.get('photo')?.value" alt="Aperçu de l'image sélectionnée" class="img-preview">
-</div>
-      
-
-      <div>
-        <label for="prenom">Prénom :</label>
-        <input type="text" id="prenom" formControlName="prenom" placeholder="Prénom du donateur" required>
-        <div class="error-message" *ngIf="aFormGroup.get('prenom')?.invalid && (aFormGroup.get('prenom')?.dirty || aFormGroup.get('prenom')?.touched)">
-          <div *ngIf="aFormGroup.get('prenom')?.errors?.['required']">Le prénom du donateur est requis.</div>
-        </div>
-      </div>
-
-
-
-      <div>
-        <label for="email">Adresse email :</label>
-        <input type="email" id="email" formControlName="email" placeholder="adresse@email.com" required>
-        <div class="error-message" *ngIf="aFormGroup.get('email')?.invalid && (aFormGroup.get('email')?.dirty || aFormGroup.get('email')?.touched)">
-          <div *ngIf="aFormGroup.get('email')?.errors?.['required']">L'adresse email  est requise.</div>
-          <div *ngIf="aFormGroup.get('email')?.errors?.['email']">L'adresse email n'est pas valide.</div>
-        </div>
-      </div>
-
-      <div>
-
-        <label for="telephone">Téléphone :</label>
-        <input type="tel" formControlName="telephone"><br>
-
-      </div>
-      <div>
-
-        <label for="adresse">Adresse :</label>
-        <input type="text" formControlName="adresse"><br>
-
-      </div>
-      <div>
-
-        <label for="gouvernorat">Gouvernorat :</label>
-        <select id="gouvernerat" formControlName="gouvernerat" required [value]="donateur.gouvernerat">
-          <option value="" disabled selected>Sélectionner un gouvernerat</option>
-          <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="date_naissance">Date de naissance :</label>
-        <input type="date" id="date_naissance" formControlName="date_de_naissance" required>
-        <div class="error-message" *ngIf="aFormGroup.get('date_de_naissance')?.invalid && (aFormGroup.get('date_de_naissance')?.dirty || aFormGroup.get('date_de_naissance')?.touched)">
-            <div *ngIf="aFormGroup.get('date_de_naissance')?.errors?.['required']">La date de naissance est requise.</div>
-        </div>
-        <div *ngIf="aFormGroup.get('date_de_naissance')?.errors?.['futureOrCurrentDate']" class="error-message">
-  La date de naissance ne peut pas être dans le futur .
-</div>
     </div>
-      
-        
-     
-     
-     
-    
-      
-      <div *ngIf="showErrorNotification" class="error-notification">
-        Certains champs sont invalides. Veuillez les corriger avant de soumettre le formulaire.
+
+    <div>
+      <label for="imageFile">Photo de profil :</label>
+      <input
+        type="file"
+        id="imageFile"
+        formControlName="photo"
+        (change)="onImageSelected($event)"
+        accept="image/png, image/jpeg, image/gif, image/svg+xml"
+      /><br />
+      <img
+        *ngIf="aFormGroup.get('photo')?.value"
+        [src]="aFormGroup.get('photo')?.value"
+        alt="Aperçu de l'image sélectionnée"
+        class="img-preview"
+      />
+    </div>
+
+    <div>
+      <label for="prenom">Prénom :</label>
+      <input
+        type="text"
+        id="prenom"
+        formControlName="prenom"
+        placeholder="Prénom du donateur"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('prenom')?.invalid &&
+          (aFormGroup.get('prenom')?.dirty || aFormGroup.get('prenom')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('prenom')?.errors?.['required']">
+          Le prénom du donateur est requis.
+        </div>
       </div>
-      <div *ngIf="showSuccessMessage" class="success-message">
-        Informations modifiées avec succès ! 
-       
+    </div>
+
+    <div>
+      <label for="email">Adresse email :</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="adresse@email.com"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('email')?.invalid &&
+          (aFormGroup.get('email')?.dirty || aFormGroup.get('email')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('email')?.errors?.['required']">
+          L'adresse email est requise.
+        </div>
+        <div *ngIf="aFormGroup.get('email')?.errors?.['email']">
+          L'adresse email n'est pas valide.
+        </div>
       </div>
-      
-  
-      <button type="submit" class="btn_modifier" (click)="onSubmit()">Modifier</button>
-    </form>
-  </div>
-  
+    </div>
+
+    <div>
+      <label for="telephone">Téléphone :</label>
+      <input type="tel" formControlName="telephone" /><br />
+    </div>
+    <div>
+      <label for="adresse">Adresse :</label>
+      <input type="text" formControlName="adresse" /><br />
+    </div>
+    <div>
+      <label for="gouvernorat">Gouvernorat :</label>
+      <select
+        id="gouvernerat"
+        formControlName="gouvernerat"
+        required
+        [value]="donateur.gouvernerat"
+      >
+        <option value="" disabled selected>Sélectionner un gouvernerat</option>
+        <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">
+          {{ gouvernerat }}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="date_naissance">Date de naissance :</label>
+      <input
+        type="date"
+        id="date_naissance"
+        formControlName="date_de_naissance"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="
+          aFormGroup.get('date_de_naissance')?.invalid &&
+          (aFormGroup.get('date_de_naissance')?.dirty ||
+            aFormGroup.get('date_de_naissance')?.touched)
+        "
+      >
+        <div *ngIf="aFormGroup.get('date_de_naissance')?.errors?.['required']">
+          La date de naissance est requise.
+        </div>
+      </div>
+      <div
+        *ngIf="
+          aFormGroup.get('date_de_naissance')?.errors?.['futureOrCurrentDate']
+        "
+        class="error-message"
+      >
+        La date de naissance ne peut pas être dans le futur .
+      </div>
+    </div>
+
+    <div *ngIf="showErrorNotification" class="error-notification">
+      Certains champs sont invalides. Veuillez les corriger avant de soumettre
+      le formulaire.
+    </div>
+    <div *ngIf="showSuccessMessage" class="success-message">
+      Informations modifiées avec succès !
+    </div>
+
+    <button type="submit" class="btn_modifier" (click)="onSubmit()">
+      Modifier
+    </button>
+  </form>
+</div>

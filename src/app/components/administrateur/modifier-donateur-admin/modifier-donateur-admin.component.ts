@@ -11,19 +11,23 @@ import { DonateurService } from 'src/app/services/donateur.service';
 @Component({
   selector: 'app-modifier-donateur-admin',
   templateUrl: './modifier-donateur-admin.component.html',
-  styleUrls: ['./modifier-donateur-admin.component.css']
+  styleUrls: ['./modifier-donateur-admin.component.css'],
 })
 export class ModifierDonateurAdminComponent {
-
-
-  @Input() donateur!:Donateur;
+  @Input() donateur!: Donateur;
   donateurForm!: FormGroup;
-  faXmark=faXmark;
+  faXmark = faXmark;
   gouvernerats: string[] = [];
 
-  constructor(public service:DonateurService,private formBuilder: FormBuilder,public serviceAssociation:AssociationService,
-    private spinner:NgxSpinnerService,public serviceAdmin:AdministrateurService, private serviceDonateur:DonateurService){}
-  
+  constructor(
+    public service: DonateurService,
+    private formBuilder: FormBuilder,
+    public serviceAssociation: AssociationService,
+    private spinner: NgxSpinnerService,
+    public serviceAdmin: AdministrateurService,
+    private serviceDonateur: DonateurService,
+  ) {}
+
   ngOnInit(): void {
     this.donateurForm = this.formBuilder.group({
       nom: [this.donateur.nom],
@@ -31,25 +35,29 @@ export class ModifierDonateurAdminComponent {
       photo: [this.donateur.photo],
       email: [this.donateur.email],
       telephone: [this.donateur.telephone],
-      date_de_naissance: [this.donateur.date_de_naissance instanceof Date ? this.donateur.date_de_naissance.toISOString().split('T')[0] : this.donateur.date_de_naissance],
+      date_de_naissance: [
+        this.donateur.date_de_naissance instanceof Date
+          ? this.donateur.date_de_naissance.toISOString().split('T')[0]
+          : this.donateur.date_de_naissance,
+      ],
       adresse: [this.donateur.adresse],
-      gouvernerat: [this.donateur.gouvernerat]
+      gouvernerat: [this.donateur.gouvernerat],
     });
     this.getGouvernerats();
   }
-  
+
   async modifierDonateur(): Promise<void> {
     if (this.donateurForm.valid) {
       this.spinner.show();
-  
+
       try {
         const donateurDataToUpdate: Donateur = {
           id: this.donateur.id,
           nom: this.donateurForm.value.nom,
           prenom: this.donateurForm.value.prenom,
-          etat:this.donateur.etat,
-          mdp:this.donateur.mdp,
-          salt:this.donateur.salt,
+          etat: this.donateur.etat,
+          mdp: this.donateur.mdp,
+          salt: this.donateur.salt,
           email: this.donateurForm.value.email,
           telephone: this.donateurForm.value.telephone,
           adresse: this.donateurForm.value.adresse,
@@ -57,7 +65,7 @@ export class ModifierDonateurAdminComponent {
           date_de_naissance: this.donateurForm.value.date_de_naissance,
           photo: this.donateur.photo,
         };
-  
+
         const Photo = this.donateurForm.value.photo;
 
         // Vérifier si un nouveau fichier a été sélectionné et si c'est un objet File
@@ -70,9 +78,9 @@ export class ModifierDonateurAdminComponent {
           // Si aucune nouvelle photo n'a été sélectionnée, mais qu'une photo existante est présente, utilisez-la
           donateurDataToUpdate.photo = Photo;
         } else {
-          console.log('Aucune photo sélectionnée')
+          console.log('Aucune photo sélectionnée');
         }
-  
+
         await this.service.modifierCompte(donateurDataToUpdate);
         window.location.reload();
       } catch (error) {
@@ -84,21 +92,19 @@ export class ModifierDonateurAdminComponent {
       console.error('Formulaire invalide. Veuillez corriger les erreurs.');
     }
   }
-  
+
   onImageSelected(event: any) {
     const file: File = event.target.files[0];
     if (file) {
       this.donateurForm.patchValue({
-        photo: file
+        photo: file,
       });
     }
   }
 
   getGouvernerats() {
-    this.serviceDonateur.getGouvernerats().subscribe(gouvernerats => {
+    this.serviceDonateur.getGouvernerats().subscribe((gouvernerats) => {
       this.gouvernerats = gouvernerats;
     });
   }
-  
 }
-

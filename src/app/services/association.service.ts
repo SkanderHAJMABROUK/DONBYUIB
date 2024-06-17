@@ -65,7 +65,7 @@ export class AssociationService {
     private route: Router,
     public cookie: CookieService,
     public fireAuth: AngularFireAuth,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.startTimer();
     this.monitorActivity();
@@ -95,7 +95,7 @@ export class AssociationService {
           telephone: association.telephone,
           salt: association.salt,
         }));
-      })
+      }),
     );
   }
 
@@ -122,7 +122,7 @@ export class AssociationService {
             telephone: association.telephone,
             salt: association.salt,
           }));
-      })
+      }),
     );
   }
 
@@ -149,14 +149,14 @@ export class AssociationService {
             telephone: association.telephone,
             salt: association.salt,
           }));
-      })
+      }),
     );
   }
 
   getDemandesAssociations(): Observable<DemandeAssociation[]> {
     let demandeAssociationCollection = collection(
       this.fs,
-      'DemandeAssociation'
+      'DemandeAssociation',
     );
     return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
       map((demandesAssociations: any[]) => {
@@ -179,20 +179,20 @@ export class AssociationService {
               ? demandeAssociation.date.toDate()
               : demandeAssociation.date,
         }));
-      })
+      }),
     );
   }
 
   getPendingDemandesAssociations(): Observable<DemandeAssociation[]> {
     let demandeAssociationCollection = collection(
       this.fs,
-      'DemandeAssociation'
+      'DemandeAssociation',
     );
     return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
       map((demandesAssociations: any[]) => {
         return demandesAssociations
           .filter(
-            (demandeAssociation) => demandeAssociation.etat === 'en_attente'
+            (demandeAssociation) => demandeAssociation.etat === 'en_attente',
           ) // Filter associations with etat 'en_attente'
           .map((demandeAssociation) => ({
             id: demandeAssociation.id,
@@ -213,14 +213,14 @@ export class AssociationService {
                 ? demandeAssociation.date.toDate()
                 : demandeAssociation.date,
           }));
-      })
+      }),
     );
   }
 
   getAcceptedDemandesAssociations(): Observable<DemandeAssociation[]> {
     let demandeAssociationCollection = collection(
       this.fs,
-      'DemandeAssociation'
+      'DemandeAssociation',
     );
     return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
       map((demandesAssociations: any[]) => {
@@ -245,14 +245,14 @@ export class AssociationService {
                 ? demandeAssociation.date.toDate()
                 : demandeAssociation.date,
           }));
-      })
+      }),
     );
   }
 
   getRefusedDemandesAssociations(): Observable<DemandeAssociation[]> {
     let demandeAssociationCollection = collection(
       this.fs,
-      'DemandeAssociation'
+      'DemandeAssociation',
     );
     return collectionData(demandeAssociationCollection, { idField: 'id' }).pipe(
       map((demandesAssociations: any[]) => {
@@ -277,7 +277,7 @@ export class AssociationService {
                 ? demandeAssociation.date.toDate()
                 : demandeAssociation.date,
           }));
-      })
+      }),
     );
   }
 
@@ -286,7 +286,7 @@ export class AssociationService {
   > {
     let demandeModificationAssociationCollection = collection(
       this.fs,
-      'DemandeModificationAssociation'
+      'DemandeModificationAssociation',
     );
     return collectionData(demandeModificationAssociationCollection, {
       idField: 'id',
@@ -308,9 +308,9 @@ export class AssociationService {
               demandeModificationAssociation.date instanceof Timestamp
                 ? demandeModificationAssociation.date.toDate()
                 : demandeModificationAssociation.date,
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -319,7 +319,7 @@ export class AssociationService {
   > {
     let demandeModificationAssociationCollection = collection(
       this.fs,
-      'DemandeModificationAssociation'
+      'DemandeModificationAssociation',
     );
     return collectionData(demandeModificationAssociationCollection, {
       idField: 'id',
@@ -328,7 +328,7 @@ export class AssociationService {
         return demandeModificationAssociation
           .filter(
             (demandeModificationAssociation) =>
-              demandeModificationAssociation.etat === 'en_attente'
+              demandeModificationAssociation.etat === 'en_attente',
           )
           .map((demandeModificationAssociation) => ({
             id: demandeModificationAssociation.id,
@@ -346,7 +346,7 @@ export class AssociationService {
                 ? demandeModificationAssociation.date.toDate()
                 : demandeModificationAssociation.date,
           }));
-      })
+      }),
     );
   }
 
@@ -355,7 +355,7 @@ export class AssociationService {
   > {
     let demandeModificationAssociationCollection = collection(
       this.fs,
-      'DemandeModificationAssociation'
+      'DemandeModificationAssociation',
     );
     return collectionData(demandeModificationAssociationCollection, {
       idField: 'id',
@@ -364,7 +364,7 @@ export class AssociationService {
         return demandeModificationAssociation
           .filter(
             (demandeModificationAssociation) =>
-              demandeModificationAssociation.etat === 'accepté'
+              demandeModificationAssociation.etat === 'accepté',
           )
           .map((demandeModificationAssociation) => ({
             id: demandeModificationAssociation.id,
@@ -382,88 +382,88 @@ export class AssociationService {
                 ? demandeModificationAssociation.date.toDate()
                 : demandeModificationAssociation.date,
           }));
-      })
+      }),
     );
   }
 
   getAssociationById(id: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map((associations) =>
-        associations.find((association) => association.id === id)
-      )
+        associations.find((association) => association.id === id),
+      ),
     );
   }
 
   getDemandeAssociationById(
-    id: string
+    id: string,
   ): Observable<DemandeAssociation | undefined> {
     return this.getDemandesAssociations().pipe(
       map((associations) =>
-        associations.find((association) => association.id === id)
-      )
+        associations.find((association) => association.id === id),
+      ),
     );
   }
 
   getDemandeModificationAssociationById(
-    id: string
+    id: string,
   ): Observable<DemandeModificationAssociation | undefined> {
     return this.getDemandesModificationsAssociations().pipe(
       map((associations) =>
-        associations.find((association) => association.id === id)
-      )
+        associations.find((association) => association.id === id),
+      ),
     );
   }
 
   getAssociationNameById(id: string): Observable<string | undefined> {
     return this.getAssociationById(id).pipe(
-      map((association) => association?.nom)
+      map((association) => association?.nom),
     );
   }
 
   getAssociationLogoById(id: string): Observable<string | undefined> {
     return this.getAssociationById(id).pipe(
-      map((association) => association?.logo)
+      map((association) => association?.logo),
     );
   }
 
   getAssociationEmailById(id: string): Observable<string | undefined> {
     return this.getAssociationById(id).pipe(
-      map((association) => association?.email)
+      map((association) => association?.email),
     );
   }
 
   getAssociationByEmailAndPassword(
     email: string,
-    password: string
+    password: string,
   ): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map((associations) => {
         return associations.find(
           (association) =>
-            association.email === email && association.mdp === password
+            association.email === email && association.mdp === password,
         );
-      })
+      }),
     );
   }
 
   getAssociationByEmail(email: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map((associations) =>
-        associations.find((association) => association.email === email)
-      )
+        associations.find((association) => association.email === email),
+      ),
     );
   }
 
   getAssociationByName(nom: string): Observable<Association | undefined> {
     return this.getAssociations().pipe(
       map((associations) =>
-        associations.find((association) => association.nom === nom)
-      )
+        associations.find((association) => association.nom === nom),
+      ),
     );
   }
   getAssociationIdByName(nom: string): Observable<string | undefined> {
     return this.getAssociationByName(nom).pipe(
-      map((association) => association?.id)
+      map((association) => association?.id),
     );
   }
 
@@ -478,7 +478,7 @@ export class AssociationService {
           this.showErrorNotification = true;
           return undefined;
         }
-      })
+      }),
     );
   }
 
@@ -495,7 +495,7 @@ export class AssociationService {
     const salt: string = this.generateSalt(16);
     // Hachage du mot de passe avec salage
     const hashedPassword: string = sha256(
-      associationData.mdp + salt
+      associationData.mdp + salt,
     ).toString();
 
     const dataToAdd: Association = {
@@ -522,7 +522,7 @@ export class AssociationService {
     const salt: string = this.generateSalt(16);
     // Hachage du mot de passe avec salage
     const hashedPassword: string = sha256(
-      associationData.mdp + salt
+      associationData.mdp + salt,
     ).toString();
 
     const associationToAdd: Association = {
@@ -545,7 +545,7 @@ export class AssociationService {
     // Ajout du document dans la collection Association
     const associationDocRef = await addDoc(
       collection(this.fs, 'Association'),
-      associationToAdd
+      associationToAdd,
     );
 
     // Récupération de l'ID de l'association ajoutée
@@ -574,7 +574,7 @@ export class AssociationService {
 
   modifierAssociation(
     id: string,
-    associationDataToUpdate: Partial<Association>
+    associationDataToUpdate: Partial<Association>,
   ): Promise<void> {
     // Création de l'objet DemandeModificationAssociation
     const demandeModification: DemandeModificationAssociation = {
@@ -600,10 +600,10 @@ export class AssociationService {
       .catch((error) => {
         console.error(
           "Erreur lors de l'ajout de la demande de modification :",
-          error
+          error,
         );
         throw new Error(
-          "Erreur lors de l'ajout de la demande de modification."
+          "Erreur lors de l'ajout de la demande de modification.",
         );
       });
   }
@@ -640,7 +640,7 @@ export class AssociationService {
         } else {
           this.showErrorNotification = true;
           console.error(
-            'Aucune association trouvée avec cet e-mail et ce mot de passe.'
+            'Aucune association trouvée avec cet e-mail et ce mot de passe.',
           );
           return false;
         }
@@ -649,7 +649,7 @@ export class AssociationService {
         this.showErrorNotification = true;
         console.error("Erreur lors de la recherche de l'association:", error);
         return of(false);
-      })
+      }),
     );
   }
 
@@ -674,7 +674,7 @@ export class AssociationService {
           // Log out after 24 hours of inactivity
           this.logOut(); // Log out user if inactive for 15 minutes
           alert(
-            "Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter."
+            "Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.",
           );
         }
       }
@@ -795,16 +795,16 @@ export class AssociationService {
         (ref) =>
           ref
             .where('id_association', '==', associationId)
-            .where('etat', '==', 'en_attente')
+            .where('etat', '==', 'en_attente'),
       )
       .valueChanges()
       .pipe(
-        map((demands) => demands.length > 0) // Si la longueur des demandes en attente est supérieure à 0, retourne true, sinon false
+        map((demands) => demands.length > 0), // Si la longueur des demandes en attente est supérieure à 0, retourne true, sinon false
       );
   }
 
   getModificationDateByAssociationId(
-    associationId: string
+    associationId: string,
   ): Observable<string | undefined> {
     return this.firestore
       .collection<DemandeModificationAssociation>(
@@ -812,7 +812,7 @@ export class AssociationService {
         (ref) =>
           ref
             .where('id_association', '==', associationId)
-            .where('etat', '==', 'en_attente')
+            .where('etat', '==', 'en_attente'),
       )
       .valueChanges()
       .pipe(
@@ -836,14 +836,14 @@ export class AssociationService {
           } else {
             return undefined;
           }
-        })
+        }),
       );
   }
 
   updateAssociationField(
     id: string,
     fieldName: keyof Partial<Association>,
-    newValue: any
+    newValue: any,
   ): Promise<void> {
     const associationRef = this.firestore.collection('Association').doc(id);
     const updatedField: Partial<Association> = {};
@@ -852,11 +852,11 @@ export class AssociationService {
   }
 
   getDemandDateByIdAssociation(
-    id_association: string
+    id_association: string,
   ): Observable<Date | undefined> {
     return this.firestore
       .collection<DemandeAssociation>('DemandeAssociation', (ref) =>
-        ref.where('id_association', '==', id_association)
+        ref.where('id_association', '==', id_association),
       )
       .valueChanges()
       .pipe(
@@ -868,7 +868,7 @@ export class AssociationService {
           } else {
             return undefined;
           }
-        })
+        }),
       );
   }
 
@@ -877,7 +877,7 @@ export class AssociationService {
     return collectionData(categorieCollection, { idField: 'id' }).pipe(
       map((categories: any[]) => {
         return categories.map((category) => category.nom);
-      })
+      }),
     );
   }
 
@@ -886,7 +886,7 @@ export class AssociationService {
     return collectionData(gouverneratCollection, { idField: 'id' }).pipe(
       map((gouvernerats: any[]) => {
         return gouvernerats.map((gouvernerat) => gouvernerat.nom);
-      })
+      }),
     );
   }
 }

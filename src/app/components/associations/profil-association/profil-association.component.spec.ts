@@ -8,7 +8,7 @@ describe('ProfilAssociationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfilAssociationComponent]
+      declarations: [ProfilAssociationComponent],
     });
     fixture = TestBed.createComponent(ProfilAssociationComponent);
     component = fixture.componentInstance;

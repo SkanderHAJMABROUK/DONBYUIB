@@ -1,47 +1,38 @@
 <div class="dialog">
-    <div class="header">
-        <h3>Détails du profil donateur</h3>
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.donateurDetailShowModal=false"></fa-icon>
-    </div>
-    <hr />
-    <div class="content">
-        <strong><p>
-            Photo de profil du donateur :
-        </p></strong>
-        <p>
-            <img src="{{donateur.photo}}">
-        </p>
-    <strong> <p>
-            Nom du donateur :
-        </p></strong>
-        <p>
-            {{donateur.nom}} 
-        </p>
-        <strong> <p>
-            Prénom du donateur :
-        </p></strong>
-        <p>
-            {{donateur.prenom}} 
-        </p>
-    <strong><p>
-           Email du donateur :
-        </p></strong>
-        <p>
-            {{ donateur.email }}
-        </p>
-  
-    <strong><p>
-            Numéro de téléphone du donateur :
-        </p></strong>
-        <p>
-            {{donateur.telephone}}
-        </p>
-    <strong><p>
-            Date de naissance du donateur :
-        </p></strong>
-        <p>
-            {{donateur.date_de_naissance | date}}
-        </p>
-    
-    </div>
+  <div class="header">
+    <h3>Détails du profil donateur</h3>
+    <fa-icon
+      class="close-icon"
+      [icon]="faXmark"
+      (click)="adminService.donateurDetailShowModal = false"
+    ></fa-icon>
+  </div>
+  <hr />
+  <div class="content">
+    <strong><p>Photo de profil du donateur :</p></strong>
+    <p>
+      <img src="{{ donateur.photo }}" />
+    </p>
+    <strong> <p>Nom du donateur :</p></strong>
+    <p>
+      {{ donateur.nom }}
+    </p>
+    <strong> <p>Prénom du donateur :</p></strong>
+    <p>
+      {{ donateur.prenom }}
+    </p>
+    <strong><p>Email du donateur :</p></strong>
+    <p>
+      {{ donateur.email }}
+    </p>
+
+    <strong><p>Numéro de téléphone du donateur :</p></strong>
+    <p>
+      {{ donateur.telephone }}
+    </p>
+    <strong><p>Date de naissance du donateur :</p></strong>
+    <p>
+      {{ donateur.date_de_naissance | date }}
+    </p>
+  </div>
 </div>

@@ -8,7 +8,7 @@ describe('AjouterCollecteAdminComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AjouterCollecteAdminComponent]
+      declarations: [AjouterCollecteAdminComponent],
     });
     fixture = TestBed.createComponent(AjouterCollecteAdminComponent);
     component = fixture.componentInstance;

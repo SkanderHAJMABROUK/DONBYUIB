@@ -1,101 +1,118 @@
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
 
-  <body>
-    <div class="sidebar">
-      <div class="logo">
-        <img src="{{selectedAssociation?.logo}}" alt="logo"  (click)="serviceAssociation.compte=true;
-        serviceAssociation.afficherCollecte=false;
-        serviceAssociation.ajouterCollecte=false;
-        serviceAssociation.afficherActualite=false;
-        serviceAssociation.ajouterActualite=false;
-        serviceAssociation.modifierAss=false;
-        serviceAssociation.modifierMdpAss=false;
-        serviceAssociation.modifierEmail=false;
-">
-       
-      </div>
-      <ul class="links">
-        <h4>Compte</h4>
-        <li>
-          <span class="material-symbols-outlined">person</span>
-          <a (click)="serviceAssociation.compte=true;
-          serviceAssociation.afficherCollecte=false;
-          serviceAssociation.ajouterCollecte=false;
-          serviceAssociation.afficherActualite=false;
-          serviceAssociation.ajouterActualite=false;
-          serviceAssociation.modifierAss=false;
-        serviceAssociation.modifierMdpAss=false;
-        serviceAssociation.modifierEmail=false;
-
-          ">Mon compte</a>
-        </li>
-        <li class="logout-link">
-            <span class="material-symbols-outlined">logout</span>
-            <a (click)="logOut()">Se déconnecter</a>
-          </li>
-        
-       
-        <hr>
-        <h4>Gestion des collectes</h4>
-        <li>
-          <span class="material-symbols-outlined">list</span>
-          <a (click)="serviceAssociation.afficherCollecte=true;
-          serviceAssociation.compte=false;
-          serviceAssociation.ajouterCollecte=false;
-          serviceAssociation.afficherActualite=false;
-          serviceAssociation.ajouterActualite=false;
-          serviceAssociation.modifierAss=false;
-          serviceAssociation.modifierMdpAss=false;
-          serviceAssociation.modifierEmail=false;
-
-          ">Afficher mes collectes</a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">add</span>
-          <a (click)="serviceAssociation.ajouterCollecte=true;
-          serviceAssociation.compte=false;
-          serviceAssociation.afficherCollecte=false;
-          serviceAssociation.afficherActualite=false;
-          serviceAssociation.ajouterActualite=false;
-          serviceAssociation.modifierAss=false;
-          serviceAssociation.modifierMdpAss=false;
-          serviceAssociation.modifierEmail=false;
-
-        ">Ajouter une collecte </a>
-        </li>
-        
-        
-        
-        <hr>
-        <h4>Gestion des actualités</h4>
-        <li>
-          <span class="material-symbols-outlined">list</span>
-          <a (click)="serviceAssociation.afficherCollecte=false;
-          serviceAssociation.compte=false;
-          serviceAssociation.ajouterCollecte=false;
-          serviceAssociation.afficherActualite=true;
-          serviceAssociation.ajouterActualite=false;
-          serviceAssociation.modifierAss=false;
-          serviceAssociation.modifierMdpAss=false;
-          serviceAssociation.modifierEmail=false;
-
-          " >Afficher mes actualités</a>
-        </li>
-        <li>
-          <span class="material-symbols-outlined">add</span>
-          <a (click)="serviceAssociation.afficherCollecte=false;
-          serviceAssociation.compte=false;
-          serviceAssociation.ajouterCollecte=false;
-          serviceAssociation.afficherActualite=false;
-          serviceAssociation.ajouterActualite=true;
-          serviceAssociation.modifierAss=false;
-          serviceAssociation.modifierMdpAss=false;
-          serviceAssociation.modifierEmail=false;
-
-          ">Ajouter une actualité</a>
-        </li>
-        
-        
-      </ul>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img
+        src="{{ selectedAssociation?.logo }}"
+        alt="logo"
+        (click)="
+          serviceAssociation.compte = true;
+          serviceAssociation.afficherCollecte = false;
+          serviceAssociation.ajouterCollecte = false;
+          serviceAssociation.afficherActualite = false;
+          serviceAssociation.ajouterActualite = false;
+          serviceAssociation.modifierAss = false;
+          serviceAssociation.modifierMdpAss = false;
+          serviceAssociation.modifierEmail = false
+        "
+      />
     </div>
-  </body>
+    <ul class="links">
+      <h4>Compte</h4>
+      <li>
+        <span class="material-symbols-outlined">person</span>
+        <a
+          (click)="
+            serviceAssociation.compte = true;
+            serviceAssociation.afficherCollecte = false;
+            serviceAssociation.ajouterCollecte = false;
+            serviceAssociation.afficherActualite = false;
+            serviceAssociation.ajouterActualite = false;
+            serviceAssociation.modifierAss = false;
+            serviceAssociation.modifierMdpAss = false;
+            serviceAssociation.modifierEmail = false
+          "
+          >Mon compte</a
+        >
+      </li>
+      <li class="logout-link">
+        <span class="material-symbols-outlined">logout</span>
+        <a (click)="logOut()">Se déconnecter</a>
+      </li>
+
+      <hr />
+      <h4>Gestion des collectes</h4>
+      <li>
+        <span class="material-symbols-outlined">list</span>
+        <a
+          (click)="
+            serviceAssociation.afficherCollecte = true;
+            serviceAssociation.compte = false;
+            serviceAssociation.ajouterCollecte = false;
+            serviceAssociation.afficherActualite = false;
+            serviceAssociation.ajouterActualite = false;
+            serviceAssociation.modifierAss = false;
+            serviceAssociation.modifierMdpAss = false;
+            serviceAssociation.modifierEmail = false
+          "
+          >Afficher mes collectes</a
+        >
+      </li>
+      <li>
+        <span class="material-symbols-outlined">add</span>
+        <a
+          (click)="
+            serviceAssociation.ajouterCollecte = true;
+            serviceAssociation.compte = false;
+            serviceAssociation.afficherCollecte = false;
+            serviceAssociation.afficherActualite = false;
+            serviceAssociation.ajouterActualite = false;
+            serviceAssociation.modifierAss = false;
+            serviceAssociation.modifierMdpAss = false;
+            serviceAssociation.modifierEmail = false
+          "
+          >Ajouter une collecte
+        </a>
+      </li>
+
+      <hr />
+      <h4>Gestion des actualités</h4>
+      <li>
+        <span class="material-symbols-outlined">list</span>
+        <a
+          (click)="
+            serviceAssociation.afficherCollecte = false;
+            serviceAssociation.compte = false;
+            serviceAssociation.ajouterCollecte = false;
+            serviceAssociation.afficherActualite = true;
+            serviceAssociation.ajouterActualite = false;
+            serviceAssociation.modifierAss = false;
+            serviceAssociation.modifierMdpAss = false;
+            serviceAssociation.modifierEmail = false
+          "
+          >Afficher mes actualités</a
+        >
+      </li>
+      <li>
+        <span class="material-symbols-outlined">add</span>
+        <a
+          (click)="
+            serviceAssociation.afficherCollecte = false;
+            serviceAssociation.compte = false;
+            serviceAssociation.ajouterCollecte = false;
+            serviceAssociation.afficherActualite = false;
+            serviceAssociation.ajouterActualite = true;
+            serviceAssociation.modifierAss = false;
+            serviceAssociation.modifierMdpAss = false;
+            serviceAssociation.modifierEmail = false
+          "
+          >Ajouter une actualité</a
+        >
+      </li>
+    </ul>
+  </div>
+</body>

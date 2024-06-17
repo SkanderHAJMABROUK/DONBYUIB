@@ -20,7 +20,7 @@ export class AssociationDemandeComponent implements OnInit {
     public route: ActivatedRoute,
     private paymentService: PaymentService,
     public router: Router,
-    private donateurService: DonateurService
+    private donateurService: DonateurService,
   ) {}
 
   value = 0;
@@ -111,7 +111,7 @@ export class AssociationDemandeComponent implements OnInit {
         },
         (error) => {
           console.error('Authorization failed:', error);
-        }
+        },
       );
   }
 
@@ -128,11 +128,11 @@ export class AssociationDemandeComponent implements OnInit {
               this.selectedAssociation.id,
               amount,
               date,
-              donateurId
+              donateurId,
             )
             .then(() => {
               console.log(
-                'Don ajouté avec succès à la collection DonAssociation'
+                'Don ajouté avec succès à la collection DonAssociation',
               );
               this.paymentSuccessful = localStorage.getItem('PaymentStatus'); // Retrieve payment status from localStorage
               console.log('confimed ' + this.paymentSuccessful);
@@ -142,12 +142,12 @@ export class AssociationDemandeComponent implements OnInit {
             .catch((error) => {
               console.error(
                 "Erreur lors de l'ajout du don à la collection :",
-                error
+                error,
               );
             });
         } else {
           console.error(
-            'Erreur: Aucune association sélectionnée ou ID non défini.'
+            'Erreur: Aucune association sélectionnée ou ID non défini.',
           );
         }
         console.log('Payment confirmed:', response);
@@ -155,7 +155,7 @@ export class AssociationDemandeComponent implements OnInit {
       (error) => {
         // Handle error
         console.error('Confirmation failed:', error);
-      }
+      },
     );
   }
 
@@ -172,14 +172,14 @@ export class AssociationDemandeComponent implements OnInit {
           if (this.selectedAssociation && this.donateur) {
             this.paymentService.envoyerRemerciement(
               this.selectedAssociation.nom,
-              this.donateur.email
+              this.donateur.email,
             );
           }
         }
       },
       (error) => {
         console.error('Error fetching order status:', error);
-      }
+      },
     );
   }
 

@@ -1,30 +1,56 @@
 <div class="container">
-<app-side-bar-admin></app-side-bar-admin>
-<div class="content">
+  <app-side-bar-admin></app-side-bar-admin>
+  <div class="content">
+    <app-compte-admin *ngIf="service.compte"></app-compte-admin>
 
-  <app-compte-admin *ngIf="service.compte"></app-compte-admin>
+    <app-crud-utilisateurs
+      *ngIf="service.crudUtilisateurs"
+    ></app-crud-utilisateurs>
 
-    <app-crud-utilisateurs *ngIf="service.crudUtilisateurs"></app-crud-utilisateurs>
-
-    <app-crud-associations  *ngIf="service.crudAssociations"></app-crud-associations>
-    <app-ajouter-association-admin *ngIf="service.ajouterAssociation"></app-ajouter-association-admin>
-    <app-demandes-associations *ngIf="service.demandeAssociations"></app-demandes-associations>
+    <app-crud-associations
+      *ngIf="service.crudAssociations"
+    ></app-crud-associations>
+    <app-ajouter-association-admin
+      *ngIf="service.ajouterAssociation"
+    ></app-ajouter-association-admin>
+    <app-demandes-associations
+      *ngIf="service.demandeAssociations"
+    ></app-demandes-associations>
 
     <app-crud-collectes *ngIf="service.crudCollectes"></app-crud-collectes>
-    <app-demandes-collectes *ngIf="service.demandeCollecte"></app-demandes-collectes>
+    <app-demandes-collectes
+      *ngIf="service.demandeCollecte"
+    ></app-demandes-collectes>
 
-    <app-ajouter-donateur-admin *ngIf="service.ajouterDonateur"></app-ajouter-donateur-admin>
-    <app-ajouter-collecte-admin  *ngIf="service.ajouterCollecte"></app-ajouter-collecte-admin>
-    <app-ajouter-actualite-admin *ngIf="service.ajouterActualite"></app-ajouter-actualite-admin>
+    <app-ajouter-donateur-admin
+      *ngIf="service.ajouterDonateur"
+    ></app-ajouter-donateur-admin>
+    <app-ajouter-collecte-admin
+      *ngIf="service.ajouterCollecte"
+    ></app-ajouter-collecte-admin>
+    <app-ajouter-actualite-admin
+      *ngIf="service.ajouterActualite"
+    ></app-ajouter-actualite-admin>
     <app-crud-actualites *ngIf="service.crudActualites"></app-crud-actualites>
-    <app-demandes-actualites *ngIf="service.demandeActualite"></app-demandes-actualites>
+    <app-demandes-actualites
+      *ngIf="service.demandeActualite"
+    ></app-demandes-actualites>
 
-    <app-demande-modification-association *ngIf="service.demandeModificationAssociation"></app-demande-modification-association>
-    <app-demande-modification-collecte *ngIf="service.demandeModificationCollecte"></app-demande-modification-collecte>
-    <app-demande-modification-actualite *ngIf="service.demandeModificationActualite"></app-demande-modification-actualite>
+    <app-demande-modification-association
+      *ngIf="service.demandeModificationAssociation"
+    ></app-demande-modification-association>
+    <app-demande-modification-collecte
+      *ngIf="service.demandeModificationCollecte"
+    ></app-demande-modification-collecte>
+    <app-demande-modification-actualite
+      *ngIf="service.demandeModificationActualite"
+    ></app-demande-modification-actualite>
 
-    <app-demande-suppression-collecte *ngIf="service.demandeSuppressionCollecte"></app-demande-suppression-collecte>
-    <app-demande-suppression-actualite *ngIf="service.demandeSuppressionActualite"></app-demande-suppression-actualite>
-
+    <app-demande-suppression-collecte
+      *ngIf="service.demandeSuppressionCollecte"
+    ></app-demande-suppression-collecte>
+    <app-demande-suppression-actualite
+      *ngIf="service.demandeSuppressionActualite"
+    ></app-demande-suppression-actualite>
   </div>
-  </div>
+</div>

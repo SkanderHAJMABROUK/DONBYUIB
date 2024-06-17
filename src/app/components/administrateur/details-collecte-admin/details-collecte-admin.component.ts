@@ -7,15 +7,14 @@ import { CollecteService } from 'src/app/services/collecte.service';
 @Component({
   selector: 'app-details-collecte-admin',
   templateUrl: './details-collecte-admin.component.html',
-  styleUrls: ['./details-collecte-admin.component.css']
+  styleUrls: ['./details-collecte-admin.component.css'],
 })
 export class DetailsCollecteAdminComponent {
-  @Input() collecte!:Collecte
-  faXmark=faXmark;
+  @Input() collecte!: Collecte;
+  faXmark = faXmark;
 
-  constructor(public service:CollecteService,public adminService:AdministrateurService){}
-
- 
-
-
+  constructor(
+    public service: CollecteService,
+    public adminService: AdministrateurService,
+  ) {}
 }

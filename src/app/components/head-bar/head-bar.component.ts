@@ -1,39 +1,39 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { AssociationService } from 'src/app/services/association.service';
 import { Association } from 'src/app/interfaces/association';
 import { CookieService } from 'ngx-cookie-service';
 import { DonateurService } from 'src/app/services/donateur.service';
 
-
 @Component({
   selector: 'app-head-bar',
   templateUrl: './head-bar.component.html',
-  styleUrls: ['./head-bar.component.css']
+  styleUrls: ['./head-bar.component.css'],
 })
-export class HeadBarComponent implements OnInit{
-
+export class HeadBarComponent implements OnInit {
   isMenuOpen: boolean = false;
   faB = faBars;
   faX = faXmark;
-  association!:Association|undefined;
-  connexion=localStorage.getItem('connexion');
-  nomAssociation=localStorage.getItem('nomAssociation');
+  association!: Association | undefined;
+  connexion = localStorage.getItem('connexion');
+  nomAssociation = localStorage.getItem('nomAssociation');
 
-  connexionDonateur=localStorage.getItem('connexionDonateur');
-  nomDonateur=localStorage.getItem('nomDonateur');
-  prenomDonateur=localStorage.getItem('prenomDonateur');
+  connexionDonateur = localStorage.getItem('connexionDonateur');
+  nomDonateur = localStorage.getItem('nomDonateur');
+  prenomDonateur = localStorage.getItem('prenomDonateur');
 
-  associationid=localStorage.getItem('associationId');
-  donateurid=localStorage.getItem('donateurId');
+  associationid = localStorage.getItem('associationId');
+  donateurid = localStorage.getItem('donateurId');
 
-  constructor(private  router: Router,
-     public serviceAssociation:AssociationService,public serviceDonateur:DonateurService) {}
-   
+  constructor(
+    private router: Router,
+    public serviceAssociation: AssociationService,
+    public serviceDonateur: DonateurService,
+  ) {}
 
   toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;   
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   closeMenu() {
@@ -49,17 +49,19 @@ export class HeadBarComponent implements OnInit{
       this.serviceAssociation.connexion = false;
       this.serviceAssociation.nomAssociation = undefined;
     }
-  
-    if (this.connexionDonateur === 'true' && this.nomDonateur && this.prenomDonateur) {
+
+    if (
+      this.connexionDonateur === 'true' &&
+      this.nomDonateur &&
+      this.prenomDonateur
+    ) {
       this.serviceDonateur.connexionDonateur = true;
       this.serviceDonateur.nomDonateur = this.nomDonateur;
       this.serviceDonateur.prenomDonateur = this.prenomDonateur;
     }
   }
-  
 
-logoutDonateur(){
-  this.serviceDonateur.logOut();
-}
-
+  logoutDonateur() {
+    this.serviceDonateur.logOut();
+  }
 }

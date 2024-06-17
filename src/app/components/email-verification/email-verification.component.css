@@ -38,27 +38,25 @@ label {
   color: #586069;
 }
 
-.checkbox{
+.checkbox {
   width: auto;
 }
 
-span{
+span {
   color: red;
 }
 
-p{
+p {
   font-size: 13px;
   color: red;
   font-style: italic;
 }
 
 .error-message {
-  font-size: 0.9rem; 
-  color: rgb(218, 0, 0); 
-  margin-top: 0; 
+  font-size: 0.9rem;
+  color: rgb(218, 0, 0);
+  margin-top: 0;
 }
-
-
 
 input {
   width: 100%;
@@ -74,8 +72,6 @@ input:focus {
   border-color: rgba(255, 0, 0, 0.594);
   box-shadow: 0px 0px 5px rgba(255, 0, 0, 0.594);
 }
-
-
 
 .btn_valider {
   background-color: #850707;
@@ -94,7 +90,7 @@ input:focus {
 
 .btn_ajouter:hover {
   background-color: #ffffff;
-  color: rgba(255, 0, 0, 0.594)
+  color: rgba(255, 0, 0, 0.594);
 }
 hr {
   border: none;
@@ -105,35 +101,40 @@ hr {
   margin-bottom: 4%;
 }
 
-.error-notification , success-message{
+.error-notification,
+success-message {
   color: #721c24;
   background-color: #f8d7da;
   padding: 10px;
-  margin: 10px 0 10px 0;   
+  margin: 10px 0 10px 0;
   border: 1px solid #f5c6cb;
   border-radius: 8px;
   text-align: center;
 }
 
 .shake {
-  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 @keyframes shake {
-  10%, 90% {
-      transform: translate3d(-1px, 0, 0);
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
   }
 
-  20%, 80% {
-      transform: translate3d(2px, 0, 0);
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
   }
 
-  30%, 50%, 70% {
-      transform: translate3d(-4px, 0, 0);
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
   }
 
-  40%, 60% {
-      transform: translate3d(4px, 0, 0);
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
   }
 }
-

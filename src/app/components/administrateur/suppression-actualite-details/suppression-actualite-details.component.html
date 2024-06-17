@@ -1,33 +1,29 @@
 <div class="dialog">
-    <div class="header">
-        <h3>Détails de l'actualité</h3>
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.demandeSuppressionActualiteDetails=false"></fa-icon>
-    </div>
-    <hr />
-    <div class="content">
-        <strong><p>
-            Couverture de l'actualité :
-        </p></strong>
-        <p>
-            <img src="{{actualite.image}}">
-        </p>
-    <strong> <p>
-            Titre :
-        </p></strong>
-        <p>
-            {{actualite.titre}} 
-        </p>
-    <strong><p>
-            Description de l'actualité :
-        </p></strong>
-        <p>
-            {{ actualite.description }}
-        </p>
-    <strong><p>
-            Date de publication :
-        </p></strong>
-        <p>
-            {{actualite.date_publication | date}}
-        </p>
-    </div>
+  <div class="header">
+    <h3>Détails de l'actualité</h3>
+    <fa-icon
+      class="close-icon"
+      [icon]="faXmark"
+      (click)="adminService.demandeSuppressionActualiteDetails = false"
+    ></fa-icon>
+  </div>
+  <hr />
+  <div class="content">
+    <strong><p>Couverture de l'actualité :</p></strong>
+    <p>
+      <img src="{{ actualite.image }}" />
+    </p>
+    <strong> <p>Titre :</p></strong>
+    <p>
+      {{ actualite.titre }}
+    </p>
+    <strong><p>Description de l'actualité :</p></strong>
+    <p>
+      {{ actualite.description }}
+    </p>
+    <strong><p>Date de publication :</p></strong>
+    <p>
+      {{ actualite.date_publication | date }}
+    </p>
+  </div>
 </div>

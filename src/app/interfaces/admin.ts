@@ -1,6 +1,6 @@
 export interface Admin {
-    id?:string,
-    login:string,
-    mdp:string,
-    salt:string
+  id?: string;
+  login: string;
+  mdp: string;
+  salt: string;
 }

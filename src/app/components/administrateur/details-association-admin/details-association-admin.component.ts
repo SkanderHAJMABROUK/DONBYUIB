@@ -7,12 +7,11 @@ import { AdministrateurService } from 'src/app/services/administrateur.service';
 @Component({
   selector: 'app-details-association-admin',
   templateUrl: './details-association-admin.component.html',
-  styleUrls: ['./details-association-admin.component.css']
+  styleUrls: ['./details-association-admin.component.css'],
 })
 export class DetailsAssociationAdminComponent {
-  @Input() association!:Association;
+  @Input() association!: Association;
 
-  faXmark=faXmark;
-  constructor(public adminService:AdministrateurService){}
-
+  faXmark = faXmark;
+  constructor(public adminService: AdministrateurService) {}
 }

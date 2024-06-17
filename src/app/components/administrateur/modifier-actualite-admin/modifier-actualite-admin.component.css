@@ -1,91 +1,91 @@
 .dialog {
-    height: 80%;
-    max-height: 600px;
-    width: 600px;
-    background-color: white;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    overflow-y: auto;
+  height: 80%;
+  max-height: 600px;
+  width: 600px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
 }
 
 .dialog h3 {
-    color: #850707;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 24px;
+  color: #850707;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 24px;
 }
 
 .dialog hr {
-    border: none;
-    height: 1.5px;
-    background-color: black; 
-    width: 50%;
-    margin: 10px auto;
+  border: none;
+  height: 1.5px;
+  background-color: black;
+  width: 50%;
+  margin: 10px auto;
 }
 
 .dialog p {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .dialog img {
-    max-width: 50%;
-    height: auto;
-    display: block;
-    margin: 0 auto 10px;
-    border-radius: 5px;
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+  border-radius: 5px;
 }
 
 .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .close-icon {
-    cursor: pointer;
-    color: #850707;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  cursor: pointer;
+  color: #850707;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .close-icon:hover {
-    color: red;
+  color: red;
 }
 
 .content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 17px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 17px;
 }
 
 /* Ajoutez ces styles pour les boutons */
 .btn {
-    background-color: #850707;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-top: 10px;
-    cursor: pointer;
+  background-color: #850707;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #a51e1e;
+  background-color: #a51e1e;
 }
 .error-message {
-    color: red;
-    font-size: 0.8em; /* Taille de la police plus petite */
-  }
+  color: red;
+  font-size: 0.8em; /* Taille de la police plus petite */
+}

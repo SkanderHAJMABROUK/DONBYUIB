@@ -1,32 +1,47 @@
 <div class="container">
-<div class="donateur-details" *ngIf="selectedDonateur && service.compteDonateur">
+  <div
+    class="donateur-details"
+    *ngIf="selectedDonateur && service.compteDonateur"
+  >
     <h2>Mon Compte</h2>
-    <hr>
-    <strong><p>Photo de profil : </p></strong>
-    <img [src]="selectedDonateur.photo">
-    <strong><p>Nom : </p></strong>  
+    <hr />
+    <strong><p>Photo de profil :</p></strong>
+    <img [src]="selectedDonateur.photo" />
+    <strong><p>Nom :</p></strong>
     <p>{{ selectedDonateur.nom }}</p>
-    <strong><p>Prénom : </p></strong>  
+    <strong><p>Prénom :</p></strong>
     <p>{{ selectedDonateur.prenom }}</p>
-    <strong><p>Date de naissance : </p></strong>
-    <p>{{ selectedDonateur.date_de_naissance |date }}</p>
-    <strong><p>Email : </p></strong>
+    <strong><p>Date de naissance :</p></strong>
+    <p>{{ selectedDonateur.date_de_naissance | date }}</p>
+    <strong><p>Email :</p></strong>
     <p>{{ selectedDonateur.email }}</p>
-    <strong><p>Téléphone : </p></strong>
+    <strong><p>Téléphone :</p></strong>
     <p>{{ selectedDonateur.telephone }}</p>
-    <strong><p>Adresse : </p></strong>
+    <strong><p>Adresse :</p></strong>
     <p>{{ selectedDonateur.adresse }}</p>
-    <strong><p>Gouvernorat : </p></strong>
+    <strong><p>Gouvernorat :</p></strong>
     <p>{{ selectedDonateur.gouvernerat }}</p>
 
     <div class="buttons">
-      <button type="submit" (click)="service.modifiercompte = true" [routerLink]="['modifier']">Modifier</button>
-      <button (click)="service.modifierMdp=true;service.compteDonateur=false">Modifier le mot de passe</button>
-      <button (click)="service.modifierEmail=true;service.compteDonateur=false">Modifier l'adresse email</button> 
+      <button
+        type="submit"
+        (click)="service.modifiercompte = true"
+        [routerLink]="['modifier']"
+      >
+        Modifier
+      </button>
+      <button
+        (click)="service.modifierMdp = true; service.compteDonateur = false"
+      >
+        Modifier le mot de passe
+      </button>
+      <button
+        (click)="service.modifierEmail = true; service.compteDonateur = false"
+      >
+        Modifier l'adresse email
+      </button>
     </div>
-        
   </div>
   <app-reset-password *ngIf="service.modifierMdp"></app-reset-password>
   <app-reset-email *ngIf="service.modifierEmail"></app-reset-email>
 </div>
-

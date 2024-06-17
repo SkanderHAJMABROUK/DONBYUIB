@@ -1,87 +1,145 @@
 <div class="container">
-    <!-- Barre de recherche -->
-    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherAssociation()" placeholder="Rechercher..." class="search-input">
+  <!-- Barre de recherche -->
+  <input
+    type="text"
+    id="searchInput"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="chercherAssociation()"
+    placeholder="Rechercher..."
+    class="search-input"
+  />
 
-        <!-- Sélecteur de catégories -->
-        <label  id="etat-label" for="etat-select">Filtrer par catégorie:</label>
-        <select id="etat-select" [(ngModel)]="selectedCategorie" (change)="chercherAssociation()">
-          <option value="" selected>Tous</option>
-          <option *ngFor="let categorie of categories" [value]="categorie">{{ categorie }}</option>
-        </select>
-    
-  
-  
-    <!-- Tableau des utilisateurs -->
-    <table>
-      <thead>
-        <tr>
-          <th>Logo</th>
-          <th>Nom</th>
-          <th>Catégorie</th>
-          <th>Adresse</th>
-          <th>E-mail</th>
-          <th>Téléphone</th>
-          <th>RIB</th>
-          <th>ID Fiscale</th>
-          <th>Etat</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let association of filteredAssociationList">
-          <td><img [src]="association.logo" alt="Logo" class="donateur-photo" (click)="afficherImage(association.logo)"></td> <!-- Champ image avec la source de la photo -->
-          <td>{{ association.nom }}</td>
-          <td>{{ association.categorie }}</td>
-          <td>{{ association.adresse }}</td>
-          <td>{{ association.email }}</td>
-          <td>{{ association.telephone }}</td>
-          <td>{{ association.rib }}</td>
-          <td><a href="{{association.id_fiscale}}" target="_blank"><span class="material-symbols-outlined">
-            file_open
-            </span></a></td>
-          <td>{{ association.etat }}</td>
-          <!-- Nouvelle colonne pour les actions -->
-          <td>
-            <div class="crud-buttons">
-              <!-- Bouton Consulter -->
-              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(association)"></fa-icon></button>
+  <!-- Sélecteur de catégories -->
+  <label id="etat-label" for="etat-select">Filtrer par catégorie:</label>
+  <select
+    id="etat-select"
+    [(ngModel)]="selectedCategorie"
+    (change)="chercherAssociation()"
+  >
+    <option value="" selected>Tous</option>
+    <option *ngFor="let categorie of categories" [value]="categorie">
+      {{ categorie }}
+    </option>
+  </select>
+
+  <!-- Tableau des utilisateurs -->
+  <table>
+    <thead>
+      <tr>
+        <th>Logo</th>
+        <th>Nom</th>
+        <th>Catégorie</th>
+        <th>Adresse</th>
+        <th>E-mail</th>
+        <th>Téléphone</th>
+        <th>RIB</th>
+        <th>ID Fiscale</th>
+        <th>Etat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let association of filteredAssociationList">
+        <td>
+          <img
+            [src]="association.logo"
+            alt="Logo"
+            class="donateur-photo"
+            (click)="afficherImage(association.logo)"
+          />
+        </td>
+        <!-- Champ image avec la source de la photo -->
+        <td>{{ association.nom }}</td>
+        <td>{{ association.categorie }}</td>
+        <td>{{ association.adresse }}</td>
+        <td>{{ association.email }}</td>
+        <td>{{ association.telephone }}</td>
+        <td>{{ association.rib }}</td>
+        <td>
+          <a href="{{ association.id_fiscale }}" target="_blank"
+            ><span class="material-symbols-outlined"> file_open </span></a
+          >
+        </td>
+        <td>{{ association.etat }}</td>
+        <!-- Nouvelle colonne pour les actions -->
+        <td>
+          <div class="crud-buttons">
+            <!-- Bouton Consulter -->
+            <button class="action-button view-button">
+              <fa-icon
+                [icon]="faList"
+                (click)="afficherDetails(association)"
+              ></fa-icon>
+            </button>
             <!-- Bouton Modifier -->
-            <button class="action-button edit-button"><fa-icon [icon]="faPenToSquare" (click)="modifierAssociation(association)"></fa-icon></button>
-             
-              <!-- Bouton Supprimer -->
-              <button class="action-button delete-button" (click)="supprimerAssociation(association)"> <fa-icon [icon]="faTrash"></fa-icon>
-              </button>
-               </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <app-details-association-admin *ngIf="adminService.associationDetailShowModal" [association]="selectedAssociation"></app-details-association-admin>
-    <app-modifier-association-admin *ngIf="adminService.associationModifierShowModal" [association]="selectedAssociation"></app-modifier-association-admin>
+            <button class="action-button edit-button">
+              <fa-icon
+                [icon]="faPenToSquare"
+                (click)="modifierAssociation(association)"
+              ></fa-icon>
+            </button>
 
-    <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
-        <div class="lightbox-contenu">
-          <img [src]="imageAffichee" alt="Photo agrandie">
-        </div>
-    </div>
-  
-    <div class="pages">
-      <!-- Pagination -->
-      <div class="pagination">
-        <button class="prev-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1"><fa-icon [icon]="faChevronLeft"></fa-icon></button>
-        <span class="page-info"> Page {{ currentPage }} sur {{ getTotalPages() }} </span>
-        <button class="next-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()"><fa-icon [icon]="faChevronRight"></fa-icon></button>
-      </div>
-  
-      <!-- Choix du nombre d'utilisateurs par page -->
-      <div class="page-size-selection">
-        <label for="page-size-select">Nombre d'associations par page:</label>
-        <select id="page-size-select" [(ngModel)]="selectedPageSize" (change)="onPageSizeChange()">
-            <option value="10" selected>10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-      </div>
+            <!-- Bouton Supprimer -->
+            <button
+              class="action-button delete-button"
+              (click)="supprimerAssociation(association)"
+            >
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-details-association-admin
+    *ngIf="adminService.associationDetailShowModal"
+    [association]="selectedAssociation"
+  ></app-details-association-admin>
+  <app-modifier-association-admin
+    *ngIf="adminService.associationModifierShowModal"
+    [association]="selectedAssociation"
+  ></app-modifier-association-admin>
+
+  <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
+    <div class="lightbox-contenu">
+      <img [src]="imageAffichee" alt="Photo agrandie" />
     </div>
   </div>
-  
+
+  <div class="pages">
+    <!-- Pagination -->
+    <div class="pagination">
+      <button
+        class="prev-page"
+        (click)="onPageChange(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        <fa-icon [icon]="faChevronLeft"></fa-icon>
+      </button>
+      <span class="page-info">
+        Page {{ currentPage }} sur {{ getTotalPages() }}
+      </span>
+      <button
+        class="next-page"
+        (click)="onPageChange(currentPage + 1)"
+        [disabled]="currentPage === getTotalPages()"
+      >
+        <fa-icon [icon]="faChevronRight"></fa-icon>
+      </button>
+    </div>
+
+    <!-- Choix du nombre d'utilisateurs par page -->
+    <div class="page-size-selection">
+      <label for="page-size-select">Nombre d'associations par page:</label>
+      <select
+        id="page-size-select"
+        [(ngModel)]="selectedPageSize"
+        (change)="onPageSizeChange()"
+      >
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+</div>

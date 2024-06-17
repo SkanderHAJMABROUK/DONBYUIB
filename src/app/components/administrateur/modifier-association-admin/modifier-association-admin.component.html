@@ -1,71 +1,84 @@
 <div class="dialog">
-
-    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="large" color="#fff" type="square-loader" [fullScreen]="true">
-      <p style="color: white; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Traitement en cours...</p>
+  <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    size="large"
+    color="#fff"
+    type="square-loader"
+    [fullScreen]="true"
+  >
+    <p
+      style="
+        color: white;
+        font-family: &quot;Gill Sans&quot;, &quot;Gill Sans MT&quot;, Calibri,
+          &quot;Trebuchet MS&quot;, sans-serif;
+      "
+    >
+      Traitement en cours...
+    </p>
   </ngx-spinner>
-  
-  
-    <div class="header">
-        <h3>Modifier l'association</h3>
-        <fa-icon class="close-icon" [icon]="faXmark" (click)="adminService.associationModifierShowModal=false"></fa-icon>
-    </div>
-  <hr>
+
+  <div class="header">
+    <h3>Modifier l'association</h3>
+    <fa-icon
+      class="close-icon"
+      [icon]="faXmark"
+      (click)="adminService.associationModifierShowModal = false"
+    ></fa-icon>
+  </div>
+  <hr />
   <div class="content">
     <form [formGroup]="associationForm" (ngSubmit)="modifierAssociation()">
-  
-      <strong><p>
-        Logo de l'association :
-      </p></strong>
+      <strong><p>Logo de l'association :</p></strong>
       <p>
-        <img src="{{association.logo}}">
-      </p>   
-      <input type="file" formControlName="logo" id="imageFile" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/gif, image/svg+xml"><br>
+        <img src="{{ association.logo }}" />
+      </p>
+      <input
+        type="file"
+        formControlName="logo"
+        id="imageFile"
+        (change)="onImageSelected($event)"
+        accept="image/png, image/jpeg, image/gif, image/svg+xml"
+      /><br />
       <!-- <img *ngIf="associationForm?.value.logo" [src]="associationForm.value.logo" alt="Nouvelle Image"> -->
-      
-    
-      <strong><p>
-        Nom de l'association :
-    </p></strong>  
-      <input type="text" formControlName="nom" ><br>
-      
-    <strong><p>
-      Description de l'association :
-  </p></strong>  
-  <textarea formControlName="description" style="width: 100%; height: 200px;"></textarea><br>    
 
-    <strong><p>
-        Adresse de l'association :
-    </p></strong>  
-      <input type="text" formControlName="adresse"><br>
-     
-      <strong><p>
-        Gouvernorat :
-    </p></strong>
-    <select id="gouvernerat" formControlName="gouvernerat" required [value]="association.gouvernerat">
-      <option value="" disabled selected>Sélectionner un gouvernerat</option>
-      <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">{{ gouvernerat }}</option>
-    </select>
-     
+      <strong><p>Nom de l'association :</p></strong>
+      <input type="text" formControlName="nom" /><br />
+
+      <strong><p>Description de l'association :</p></strong>
+      <textarea
+        formControlName="description"
+        style="width: 100%; height: 200px"
+      ></textarea
+      ><br />
+
+      <strong><p>Adresse de l'association :</p></strong>
+      <input type="text" formControlName="adresse" /><br />
+
+      <strong><p>Gouvernorat :</p></strong>
+      <select
+        id="gouvernerat"
+        formControlName="gouvernerat"
+        required
+        [value]="association.gouvernerat"
+      >
+        <option value="" disabled selected>Sélectionner un gouvernerat</option>
+        <option *ngFor="let gouvernerat of gouvernerats" [value]="gouvernerat">
+          {{ gouvernerat }}
+        </option>
+      </select>
+
       <strong><p>Email de l'association :</p></strong>
-      <input type="email" formControlName="email" ><br>
-    
-
+      <input type="email" formControlName="email" /><br />
 
       <strong><p>Téléphone de l'association :</p></strong>
-      <input type="tel" formControlName="telephone"><br>
-     
+      <input type="tel" formControlName="telephone" /><br />
 
       <strong><p>RIB de l'association :</p></strong>
-      <input type="text" formControlName="rib"><br>
-   
+      <input type="text" formControlName="rib" /><br />
 
-
-
-
-
-
-      <button type="submit" class="btn btn-dark" [ngStyle]="{'width':'300px'}">Modifier</button>
+      <button type="submit" class="btn btn-dark" [ngStyle]="{ width: '300px' }">
+        Modifier
+      </button>
     </form>
-    
   </div>
-  </div>
+</div>

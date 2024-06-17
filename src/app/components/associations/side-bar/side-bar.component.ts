@@ -9,52 +9,46 @@ import { DonateurService } from 'src/app/services/donateur.service';
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.css']
+  styleUrls: ['./side-bar.component.css'],
 })
-export class SideBarComponent implements OnInit{
-
-
-  constructor(public serviceAssociation:AssociationService,public serviceCollecte:CollecteService,public route:ActivatedRoute){}
+export class SideBarComponent implements OnInit {
+  constructor(
+    public serviceAssociation: AssociationService,
+    public serviceCollecte: CollecteService,
+    public route: ActivatedRoute,
+  ) {}
 
   id!: string;
-  data: Association |undefined;
-  selectedAssociation!: Association |undefined; 
-
+  data: Association | undefined;
+  selectedAssociation!: Association | undefined;
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.id = params['id']; 
-      console.log(this.id)
-       this.getAssociationById(this.id); 
-     });
-   }
-   
-   getAssociationById(id: string){
+    this.route.params.subscribe((params) => {
+      this.id = params['id'];
+      console.log(this.id);
+      this.getAssociationById(this.id);
+    });
+  }
+
+  getAssociationById(id: string) {
     this.serviceAssociation.getAssociationById(id).subscribe({
       next: (data: Association | undefined) => {
         if (data !== undefined) {
-          this.selectedAssociation = data; 
+          this.selectedAssociation = data;
           localStorage.setItem('service.showDetails', 'true');
           console.log(data);
-          console.log(this.serviceAssociation.showDetails)
+          console.log(this.serviceAssociation.showDetails);
         } else {
-          console.error('Erreur: Aucune donnée n\'a été renvoyée.');
+          console.error("Erreur: Aucune donnée n'a été renvoyée.");
         }
       },
-      error: error => {
+      error: (error) => {
         console.error('Erreur lors de la récupération des données :', error);
-      }
+      },
     });
   }
-  
-  logOut(){
+
+  logOut() {
     this.serviceAssociation.logOut();
-    
-   }
-
-
-
-  
-
-
+  }
 }

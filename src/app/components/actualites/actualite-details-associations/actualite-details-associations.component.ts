@@ -6,13 +6,11 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-actualite-details-associations',
   templateUrl: './actualite-details-associations.component.html',
-  styleUrls: ['./actualite-details-associations.component.css']
+  styleUrls: ['./actualite-details-associations.component.css'],
 })
 export class ActualiteDetailsAssociationsComponent {
-  @Input() actualite!:Actualite
-  faXmark=faXmark;
+  @Input() actualite!: Actualite;
+  faXmark = faXmark;
 
-  constructor(public service:ActualiteService){}
-
- 
+  constructor(public service: ActualiteService) {}
 }

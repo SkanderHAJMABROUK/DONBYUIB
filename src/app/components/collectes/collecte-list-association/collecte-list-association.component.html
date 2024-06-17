@@ -1,35 +1,68 @@
 <div class="container">
-     <app-collecte-details-assocation *ngIf="service.collecteDetailShowModal" [collecte]="selectedCollecte"></app-collecte-details-assocation>
-    <app-modifier-collecte *ngIf="service.collecteModifierShowModal" [collecte]="selectedCollecte"></app-modifier-collecte>
-  
-    <div class="search-container">
-      <label for="searchInput">Chercher une collecte :</label>
-      <input type="text" id="searchInput" [ngModel]="searchTerm" (ngModelChange)="chercherCollecte($event)" placeholder="Entrer le nom de la collecte">
-  </div>
-  
-  
-    <div *ngFor="let collecte of filteredCollecteList" class="actualite">
-    
-  
-      {{ collecte.nom }}
-      <div class="icons-container">
-        <div class="icon-wrapper">
-        <i><fa-icon [icon]="faList" class="on-icon" (click)="afficherDetails(collecte)" *ngIf="collecte.etat!='en_attente_de_suppression'"></fa-icon></i>
-       </div>
-       <div class="icon-wrapper">
-        <i><fa-icon [icon]="faPenToSquare" class="on-icon" (click)="modifierCollecte(collecte)" *ngIf="collecte.etat!='en_attente_de_suppression'"></fa-icon></i>
-       </div>
-       <div class="icon-wrapper">
-        <i><fa-icon [icon]="faTrash" class="on-icon" (click)="supprimerCollecte(collecte)" *ngIf="collecte.etat!='en_attente_de_suppression'"></fa-icon></i> 
-       </div>
-       <div class="icon-wrapper">
-        <div class="deleted-icon" *ngIf="collecte.etat=='en_attente_de_suppression'">
-          <i><fa-icon [icon]="faCircleExclamation" class="on-icon"></fa-icon></i>
-          <span>  Demande de suppression en attente! </span>
-        </div>
-      </div>
+  <app-collecte-details-assocation
+    *ngIf="service.collecteDetailShowModal"
+    [collecte]="selectedCollecte"
+  ></app-collecte-details-assocation>
+  <app-modifier-collecte
+    *ngIf="service.collecteModifierShowModal"
+    [collecte]="selectedCollecte"
+  ></app-modifier-collecte>
 
+  <div class="search-container">
+    <label for="searchInput">Chercher une collecte :</label>
+    <input
+      type="text"
+      id="searchInput"
+      [ngModel]="searchTerm"
+      (ngModelChange)="chercherCollecte($event)"
+      placeholder="Entrer le nom de la collecte"
+    />
+  </div>
+
+  <div *ngFor="let collecte of filteredCollecteList" class="actualite">
+    {{ collecte.nom }}
+    <div class="icons-container">
+      <div class="icon-wrapper">
+        <i
+          ><fa-icon
+            [icon]="faList"
+            class="on-icon"
+            (click)="afficherDetails(collecte)"
+            *ngIf="collecte.etat != 'en_attente_de_suppression'"
+          ></fa-icon
+        ></i>
+      </div>
+      <div class="icon-wrapper">
+        <i
+          ><fa-icon
+            [icon]="faPenToSquare"
+            class="on-icon"
+            (click)="modifierCollecte(collecte)"
+            *ngIf="collecte.etat != 'en_attente_de_suppression'"
+          ></fa-icon
+        ></i>
+      </div>
+      <div class="icon-wrapper">
+        <i
+          ><fa-icon
+            [icon]="faTrash"
+            class="on-icon"
+            (click)="supprimerCollecte(collecte)"
+            *ngIf="collecte.etat != 'en_attente_de_suppression'"
+          ></fa-icon
+        ></i>
+      </div>
+      <div class="icon-wrapper">
+        <div
+          class="deleted-icon"
+          *ngIf="collecte.etat == 'en_attente_de_suppression'"
+        >
+          <i
+            ><fa-icon [icon]="faCircleExclamation" class="on-icon"></fa-icon
+          ></i>
+          <span> Demande de suppression en attente! </span>
+        </div>
       </div>
     </div>
   </div>
-  
+</div>

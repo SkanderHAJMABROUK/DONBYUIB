@@ -8,7 +8,7 @@ describe('AjouterDonateurAdminComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AjouterDonateurAdminComponent]
+      declarations: [AjouterDonateurAdminComponent],
     });
     fixture = TestBed.createComponent(AjouterDonateurAdminComponent);
     component = fixture.componentInstance;

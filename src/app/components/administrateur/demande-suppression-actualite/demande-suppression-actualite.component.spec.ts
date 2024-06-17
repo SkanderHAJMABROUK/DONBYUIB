@@ -8,7 +8,7 @@ describe('DemandeSuppressionActualiteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DemandeSuppressionActualiteComponent]
+      declarations: [DemandeSuppressionActualiteComponent],
     });
     fixture = TestBed.createComponent(DemandeSuppressionActualiteComponent);
     component = fixture.componentInstance;

@@ -8,7 +8,7 @@ describe('DemandeModificationAssociationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DemandeModificationAssociationComponent]
+      declarations: [DemandeModificationAssociationComponent],
     });
     fixture = TestBed.createComponent(DemandeModificationAssociationComponent);
     component = fixture.componentInstance;

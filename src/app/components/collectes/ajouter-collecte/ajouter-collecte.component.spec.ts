@@ -8,7 +8,7 @@ describe('AjouterCollecteComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AjouterCollecteComponent]
+      declarations: [AjouterCollecteComponent],
     });
     fixture = TestBed.createComponent(AjouterCollecteComponent);
     component = fixture.componentInstance;

@@ -1,81 +1,136 @@
 <div class="container">
-    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherCollecte()" placeholder="Rechercher..." class="search-input">
+  <input
+    type="text"
+    id="searchInput"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="chercherCollecte()"
+    placeholder="Rechercher..."
+    class="search-input"
+  />
 
-    <label  id="etat-label" for="etat-select">Filtrer par association:</label>
-        <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherCollecte()">
-          <option value="" selected>Tous</option>
-          <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
-        </select>
+  <label id="etat-label" for="etat-select">Filtrer par association:</label>
+  <select
+    id="etat-select"
+    [(ngModel)]="selectedAssociation"
+    (change)="chercherCollecte()"
+  >
+    <option value="" selected>Tous</option>
+    <option *ngFor="let association of associationsNames" [value]="association">
+      {{ association }}
+    </option>
+  </select>
 
-    <!-- Champ de tri -->
-    <label id="etat-label" for="tri-select">Trier par :</label>
-    <select id="etat-label" [(ngModel)]="selectedTri" (change)="chercherCollecte()">
-      <option value="none" selected>Aucun tri</option>
-      <option value="plusRecents">Les plus récents</option>
-      <option value="plusAnciens">Les plus anciens</option>
-    </select>
+  <!-- Champ de tri -->
+  <label id="etat-label" for="tri-select">Trier par :</label>
+  <select
+    id="etat-label"
+    [(ngModel)]="selectedTri"
+    (change)="chercherCollecte()"
+  >
+    <option value="none" selected>Aucun tri</option>
+    <option value="plusRecents">Les plus récents</option>
+    <option value="plusAnciens">Les plus anciens</option>
+  </select>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Publiée par</th>
-          <th>Nom</th>
-          <th>Publiée le</th>
-          <th>Durée</th>
-          <th>Montant</th>
+  <table>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Publiée par</th>
+        <th>Nom</th>
+        <th>Publiée le</th>
+        <th>Durée</th>
+        <th>Montant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let collecte of filteredDemandeCollecteList">
+        <td>
+          <img
+            [src]="collecte.image"
+            alt="Logo"
+            class="donateur-photo"
+            (click)="afficherImage(collecte.image)"
+          />
+        </td>
+        <!-- Champ image avec la source de la photo -->
+        <td>{{ getAssociationNameById(collecte.id_association) }}</td>
+        <td>{{ collecte.nom }}</td>
+        <td>{{ collecte.date | date }}</td>
+        <td>{{ collecte.date_debut }} : {{ collecte.date_fin }}</td>
+        <td>{{ collecte.montant }}</td>
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let collecte of filteredDemandeCollecteList">
-          <td><img [src]="collecte.image" alt="Logo" class="donateur-photo" (click)="afficherImage(collecte.image)"></td> <!-- Champ image avec la source de la photo -->
-          <td>{{ getAssociationNameById(collecte.id_association) }}</td>
-          <td>{{ collecte.nom }} </td>
-          <td>{{ collecte.date | date}}</td>
-          <td>{{collecte.date_debut}} : {{collecte.date_fin}}</td>
-          <td>{{collecte.montant}}</td>
-
-          <td>
-            <div class="crud-buttons">
-               
-            <button class="action-button add-button" (click)="accepterActualite(collecte)"><fa-icon [icon]="faCheck"></fa-icon></button>
-             
-            <button class="action-button refuse-button" (click)="refuserActualite(collecte)"> <fa-icon [icon]="faXmark"></fa-icon>
+        <td>
+          <div class="crud-buttons">
+            <button
+              class="action-button add-button"
+              (click)="accepterActualite(collecte)"
+            >
+              <fa-icon [icon]="faCheck"></fa-icon>
             </button>
-              <button class="action-button view-button"><fa-icon [icon]="faList" (click)="afficherDetails(collecte)"></fa-icon></button>
 
-               </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <button
+              class="action-button refuse-button"
+              (click)="refuserActualite(collecte)"
+            >
+              <fa-icon [icon]="faXmark"></fa-icon>
+            </button>
+            <button class="action-button view-button">
+              <fa-icon
+                [icon]="faList"
+                (click)="afficherDetails(collecte)"
+              ></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <app-demande-collecte-details *ngIf="adminService.collecteDetailShowModal" [collecte]="selectedCollecte"></app-demande-collecte-details>
+  <app-demande-collecte-details
+    *ngIf="adminService.collecteDetailShowModal"
+    [collecte]="selectedCollecte"
+  ></app-demande-collecte-details>
 
-    <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
-        <div class="lightbox-contenu">
-          <img [src]="imageAffichee" alt="Photo agrandie">
-        </div>
-    </div>
-  
-    <div class="pages">
-      <div class="pagination">
-        <button class="prev-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1"><fa-icon [icon]="faChevronLeft"></fa-icon></button>
-        <span class="page-info"> Page {{ currentPage }} sur {{ getTotalPages() }} </span>
-        <button class="next-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()"><fa-icon [icon]="faChevronRight"></fa-icon></button>
-      </div>
-  
-      <div class="page-size-selection">
-        <label for="page-size-select">Nombre d'actualités par page:</label>
-        <select id="page-size-select" [(ngModel)]="selectedPageSize" (change)="onPageSizeChange()">
-            <option value="10" selected>10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-      </div>
+  <div class="lightbox" *ngIf="imageAffichee" (click)="cacherImage()">
+    <div class="lightbox-contenu">
+      <img [src]="imageAffichee" alt="Photo agrandie" />
     </div>
   </div>
-  
 
+  <div class="pages">
+    <div class="pagination">
+      <button
+        class="prev-page"
+        (click)="onPageChange(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        <fa-icon [icon]="faChevronLeft"></fa-icon>
+      </button>
+      <span class="page-info">
+        Page {{ currentPage }} sur {{ getTotalPages() }}
+      </span>
+      <button
+        class="next-page"
+        (click)="onPageChange(currentPage + 1)"
+        [disabled]="currentPage === getTotalPages()"
+      >
+        <fa-icon [icon]="faChevronRight"></fa-icon>
+      </button>
+    </div>
+
+    <div class="page-size-selection">
+      <label for="page-size-select">Nombre d'actualités par page:</label>
+      <select
+        id="page-size-select"
+        [(ngModel)]="selectedPageSize"
+        (change)="onPageSizeChange()"
+      >
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+</div>

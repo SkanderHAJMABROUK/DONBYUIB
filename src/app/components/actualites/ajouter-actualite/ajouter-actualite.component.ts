@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { ActualiteService } from '../../../services/actualite.service';
 import { Router } from '@angular/router';
 import { AssociationService } from '../../../services/association.service';
@@ -8,54 +14,47 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-ajouter-actualite',
   templateUrl: './ajouter-actualite.component.html',
-  styleUrls: ['./ajouter-actualite.component.css']
+  styleUrls: ['./ajouter-actualite.component.css'],
 })
-export class AjouterActualiteComponent implements OnInit{
-
-
- 
+export class AjouterActualiteComponent implements OnInit {
   protected aFormGroup!: FormGroup;
   showErrorNotification: boolean = false;
   showSuccessMessage: boolean = false;
 
-
-  constructor(private formBuilder: FormBuilder, public service: ActualiteService, private router: Router,public serviceAssociation:AssociationService,
-    private spinner:NgxSpinnerService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    public service: ActualiteService,
+    private router: Router,
+    public serviceAssociation: AssociationService,
+    private spinner: NgxSpinnerService,
+  ) {}
 
   ngOnInit(): void {
-   
-    this.aFormGroup = this.formBuilder.group(
-      {
-
-        titre: ['', Validators.required],
-        description: ['', Validators.required],
-        image: ['', [Validators.required]],
-
-      }
-    );
-    this.showSuccessMessage=false;
-    this.showSuccessMessage=false;
+    this.aFormGroup = this.formBuilder.group({
+      titre: ['', Validators.required],
+      description: ['', Validators.required],
+      image: ['', [Validators.required]],
+    });
+    this.showSuccessMessage = false;
+    this.showSuccessMessage = false;
   }
 
   onCoverFileSelected(event: any) {
     console.log('La fct change est appelé');
-    const file: File = event?.target?.files[0]; 
+    const file: File = event?.target?.files[0];
     if (file) {
-        this.aFormGroup.get('image')?.setValue(file);
+      this.aFormGroup.get('image')?.setValue(file);
     } else {
-        console.error('Aucun fichier sélectionné');
+      console.error('Aucun fichier sélectionné');
     }
-}
+  }
 
-  
-
-  async onSubmit(): Promise<void>{
-    console.log("Fonction onSubmit() appelée");
+  async onSubmit(): Promise<void> {
+    console.log('Fonction onSubmit() appelée');
     if (this.aFormGroup.valid) {
-
       this.spinner.show();
 
-      console.log("Formulaire valide");
+      console.log('Formulaire valide');
 
       // Upload cover file
       const coverFile = this.aFormGroup.value.image;
@@ -67,32 +66,36 @@ export class AjouterActualiteComponent implements OnInit{
       }
       console.log('Cover file uploaded. Download URL:', coverDownloadUrl);
 
-     
-      this.service.ajouterActualiteAndDemande({...this.aFormGroup.value,
-        image: coverDownloadUrl
-       })
+      this.service
+        .ajouterActualiteAndDemande({
+          ...this.aFormGroup.value,
+          image: coverDownloadUrl,
+        })
         .then(() => {
-          console.log('Données de l\'actualité ajoutées avec succès dans Firebase Firestore.');
+          console.log(
+            "Données de l'actualité ajoutées avec succès dans Firebase Firestore.",
+          );
           // Réinitialiser le formulaire après l'ajout des données
           this.aFormGroup.reset();
-          this.router.navigate(['/liste-actualites-association'],{ replaceUrl: true });
+          this.router.navigate(['/liste-actualites-association'], {
+            replaceUrl: true,
+          });
           this.showSuccessMessage = true;
           this.showErrorNotification = false;
         })
-        .catch(error => {
-          console.error('Erreur lors de l\'ajout des données de lactualité dans Firebase Firestore:', error);
+        .catch((error) => {
+          console.error(
+            "Erreur lors de l'ajout des données de lactualité dans Firebase Firestore:",
+            error,
+          );
         });
 
-        this.spinner.hide();
-        
+      this.spinner.hide();
     } else {
       this.showErrorNotification = true;
       this.showSuccessMessage = false;
-      console.log("Formulaire invalide");
+      console.log('Formulaire invalide');
       // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
-  
-  
 }
-

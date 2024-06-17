@@ -1,68 +1,102 @@
 <div class="container">
+  <input
+    type="text"
+    id="searchInput"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="chercherDemande()"
+    placeholder="Rechercher..."
+    class="search-input"
+  />
 
-    <input type="text" id="searchInput" [(ngModel)]="searchTerm" (ngModelChange)="chercherDemande()" placeholder="Rechercher..." class="search-input">
+  <label id="etat-label" for="etat-select">Filtrer par association:</label>
+  <select
+    id="etat-select"
+    [(ngModel)]="selectedAssociation"
+    (change)="chercherDemande()"
+  >
+    <option value="" selected>Tous</option>
+    <option *ngFor="let association of associationsNames" [value]="association">
+      {{ association }}
+    </option>
+  </select>
 
-    <label  id="etat-label" for="etat-select">Filtrer par association:</label>
-        <select id="etat-select" [(ngModel)]="selectedAssociation" (change)="chercherDemande()">
-          <option value="" selected>Tous</option>
-          <option *ngFor="let association of associationsNames" [value]="association">{{ association }}</option>
-        </select>
+  <!-- Champ de tri -->
+  <label id="etat-label" for="tri-select">Trier par :</label>
+  <select
+    id="etat-label"
+    [(ngModel)]="selectedTri"
+    (change)="chercherDemande()"
+  >
+    <option value="none" selected>Aucun tri</option>
+    <option value="plusRecents">Les plus récents</option>
+    <option value="plusAnciens">Les plus anciens</option>
+  </select>
 
-    <!-- Champ de tri -->
-    <label id="etat-label" for="tri-select">Trier par :</label>
-    <select id="etat-label" [(ngModel)]="selectedTri" (change)="chercherDemande()">
-      <option value="none" selected>Aucun tri</option>
-      <option value="plusRecents">Les plus récents</option>
-      <option value="plusAnciens">Les plus anciens</option>
-    </select>
-
-    <table>
-      <thead>
-        <tr>
+  <table>
+    <thead>
+      <tr>
         <th>Titre</th>
         <th>Publiée par</th>
         <th>Publiée le</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let demande of filteredDemandeModificationActualiteList">
+        <td>{{ demande.titre }}</td>
+        <td>{{ getAssociationNameById(demande.id_association) }}</td>
+        <td>{{ demande.date | date }}</td>
+        <td>
+          <div class="crud-buttons">
+            <button
+              class="action-button view-button"
+              (click)="afficherModifications(demande)"
+            >
+              Consulter
+            </button>
+            <app-modification-actualite-details
+              *ngIf="this.adminService.demandeModificationActualiteDetails"
+              [demande]="selectedDemandeModificationActualite"
+            >
+            </app-modification-actualite-details>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let demande of filteredDemandeModificationActualiteList">
-
-            <td>{{demande.titre}}</td>
-          <td>{{ getAssociationNameById(demande.id_association) }}</td>
-            <td>{{ demande.date| date }}</td>               
-          <td>
-            <div class="crud-buttons">
-               
-              <button class="action-button view-button" (click)="afficherModifications(demande)">Consulter</button>
-              <app-modification-actualite-details *ngIf="this.adminService.demandeModificationActualiteDetails" [demande]="selectedDemandeModificationActualite">
-              
-              </app-modification-actualite-details>
-
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <div class="pages">
-      <div class="pagination">
-        <button class="prev-page" (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1"><fa-icon [icon]="faChevronLeft"></fa-icon></button>
-        <span class="page-info"> Page {{ currentPage }} sur {{ getTotalPages() }} </span>
-        <button class="next-page" (click)="onPageChange(currentPage + 1)" [disabled]="currentPage === getTotalPages()"><fa-icon [icon]="faChevronRight"></fa-icon></button>
-      </div>
-  
-      <div class="page-size-selection">
-        <label for="page-size-select">Nombre de demandes par page:</label>
-        <select id="page-size-select" [(ngModel)]="selectedPageSize" (change)="onPageSizeChange()">
-            <option value="10" selected>10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-      </div>
+  <div class="pages">
+    <div class="pagination">
+      <button
+        class="prev-page"
+        (click)="onPageChange(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        <fa-icon [icon]="faChevronLeft"></fa-icon>
+      </button>
+      <span class="page-info">
+        Page {{ currentPage }} sur {{ getTotalPages() }}
+      </span>
+      <button
+        class="next-page"
+        (click)="onPageChange(currentPage + 1)"
+        [disabled]="currentPage === getTotalPages()"
+      >
+        <fa-icon [icon]="faChevronRight"></fa-icon>
+      </button>
     </div>
 
-
-
+    <div class="page-size-selection">
+      <label for="page-size-select">Nombre de demandes par page:</label>
+      <select
+        id="page-size-select"
+        [(ngModel)]="selectedPageSize"
+        (change)="onPageSizeChange()"
+      >
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
   </div>
+</div>
