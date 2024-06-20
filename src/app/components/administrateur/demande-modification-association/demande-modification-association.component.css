@@ -67,6 +67,11 @@ table td {
   text-overflow: ellipsis;
 }
 
+table td:last-child {
+  max-width: 1px; 
+  overflow: hidden;
+}
+
 .action-button {
   padding: 4px;
   margin: 4px;

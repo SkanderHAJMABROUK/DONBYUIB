@@ -27,7 +27,6 @@ export class HeadBarComponent implements OnInit {
   donateurid = localStorage.getItem('donateurId');
 
   constructor(
-    private router: Router,
     public serviceAssociation: AssociationService,
     public serviceDonateur: DonateurService,
   ) {}
