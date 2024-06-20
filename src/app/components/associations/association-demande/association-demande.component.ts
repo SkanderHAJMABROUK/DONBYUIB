@@ -107,7 +107,9 @@ export class AssociationDemandeComponent implements OnInit {
           localStorage.setItem('orderId', response.orderId);
           this.orderId = response.orderId;
 
-          this.confirmPayment(response.orderId, this.donationAmount);
+          if(this.orderStatus==2){
+            this.confirmPayment(response.orderId, this.donationAmount);
+          }
         },
         (error) => {
           console.error('Authorization failed:', error);
@@ -175,6 +177,8 @@ export class AssociationDemandeComponent implements OnInit {
               this.donateur.email,
             );
           }
+        } else {
+          this.showFailureMessage();
         }
       },
       (error) => {
@@ -195,6 +199,20 @@ export class AssociationDemandeComponent implements OnInit {
         imageWidth: 200,
         imageHeight: 200,
         imageAlt: 'Oops!',
+      });
+    } else {
+      console.log('selectedAssociation is null or undefined');
+    }
+    localStorage.removeItem('orderId');
+  }
+
+  showFailureMessage() {
+    if (this.selectedAssociation) {
+      const nomAssociation = this.selectedAssociation.nom;
+      Swal.fire({
+        title: 'Erreur!',
+        text: `Votre don à ${nomAssociation} a échoué! Veuillez réessayer.`,
+        icon: "error"
       });
     } else {
       console.log('selectedAssociation is null or undefined');

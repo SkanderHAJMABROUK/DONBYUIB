@@ -209,8 +209,9 @@ export class CollecteDetailsComponent {
           window.open(response.formUrl, '_blank');
           localStorage.setItem('order-Id', response.orderId);
           this.orderId = response.orderId;
-
-          this.confirmPayment(response.orderId, this.donationAmount);
+          if(this.orderStatus==2){
+            this.confirmPayment(response.orderId, this.donationAmount);
+          }
         },
         (error) => {
           console.error('Authorization failed:', error);
@@ -317,6 +318,8 @@ export class CollecteDetailsComponent {
               'Erreur: selectedCollecte or id_association is undefined.',
             );
           }
+        } else {
+          this.showFailureMessage();
         }
       },
       (error) => {
@@ -342,6 +345,20 @@ export class CollecteDetailsComponent {
       console.log('selectedCollecte is null or undefined');
     }
     localStorage.removeItem('order-Id');
+  }
+
+  showFailureMessage() {
+    if (this.selectedCollecte) {
+      const nomCollecte = this.selectedCollecte.nom;
+      Swal.fire({
+        title: 'Erreur!',
+        text: `Votre don à ${nomCollecte} a échoué! Veuillez réessayer.`,
+        icon: "error"
+      });
+    } else {
+      console.log('selectedAssociation is null or undefined');
+    }
+    localStorage.removeItem('orderId');
   }
 
   validateDonationAmount() {
