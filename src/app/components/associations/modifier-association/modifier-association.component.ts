@@ -154,6 +154,12 @@ export class ModifierAssociationComponent {
     } else {
       this.showErrorNotification = true;
       console.log('Form is invalid');
+      Object.keys(this.aFormGroup.controls).forEach(key => {
+        const controlErrors = this.aFormGroup.get(key)?.errors;
+        if (controlErrors) {
+          console.log(`${key} errors:`, controlErrors);
+        }
+      });
     }
   }
 
