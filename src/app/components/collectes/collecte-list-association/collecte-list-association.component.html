@@ -47,7 +47,7 @@
           ><fa-icon
             [icon]="faTrash"
             class="on-icon"
-            (click)="supprimerCollecte(collecte)"
+            (click)="supprimerCollecte(collecte);service.collecteModifierShowModal = false;service.collecteDetailShowModal = false;"
             *ngIf="collecte.etat != 'en_attente_de_suppression'"
           ></fa-icon
         ></i>
