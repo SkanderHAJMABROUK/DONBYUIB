@@ -370,7 +370,8 @@ export class ActualiteService {
     return this.getActualites().pipe(
       map((actualites) =>
         actualites.filter(
-          (actualite) => actualite.id_association === associationId && actualite.etat === 'accepté',
+          (actualite) => actualite.id_association === associationId && 
+          (actualite.etat === 'accepté' || actualite.etat === 'en_attente_de_suppression'),
         ),
       ),
     );

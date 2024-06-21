@@ -420,7 +420,9 @@ export class CollecteService {
       map((collectes) =>
         collectes.filter(
           (collecte) => 
-            collecte.id_association === associationId && collecte.etat === 'accepté',
+            collecte.id_association === associationId && 
+            (collecte.etat === 'accepté' || collecte.etat === 'en_attente_de_suppression')
+          ,
         ),
       ),
     );
