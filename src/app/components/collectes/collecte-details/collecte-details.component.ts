@@ -45,7 +45,6 @@ export class CollecteDetailsComponent {
   isDonationAllowed = false;
   countdown: Observable<string> = EMPTY;
   showFullDescription: boolean = false;
-  @ViewChild('calendarContainer') calendarContainer!: ElementRef;
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
