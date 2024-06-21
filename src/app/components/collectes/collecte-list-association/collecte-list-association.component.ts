@@ -90,7 +90,8 @@ export class CollecteListAssociationComponent implements OnInit {
             .then(() => {
               this.service.supprimerCollecte(collecte).subscribe(
                 () => {
-                  this.getCollectesByAssociationId(); // Rafraîchit la liste après la suppression
+                  this.getCollectesByAssociationId(); 
+                  this.service.collecteModifierShowModal = false// Rafraîchit la liste après la suppression
                   Swal.fire(
                     'Deleted!',
                     'Your file has been deleted.',

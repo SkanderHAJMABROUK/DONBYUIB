@@ -126,40 +126,27 @@ export class SinscrireComponent implements OnInit {
         }
         console.log(' file uploaded. Download URL:', photoDownloadUrl);
 
-        const associationData = {
+        const donateurData = {
           ...this.aFormGroup.value,
           photo: photoDownloadUrl,
         };
 
-        const demandeAssociationData = {
-          id_association: undefined,
-          nom: this.aFormGroup.value.nom,
-          categorie: this.aFormGroup.value.categorie,
-          adresse: this.aFormGroup.value.adresse,
-          description: this.aFormGroup.value.description,
-          email: this.aFormGroup.value.email,
-          id_fiscale: this.aFormGroup.value.id_fiscale,
-          photo: photoDownloadUrl,
-          rib: this.aFormGroup.value.rib,
-          telephone: this.aFormGroup.value.telephone,
-        };
-
         localStorage.setItem('type', 'donateur');
-        localStorage.setItem('emailDonateur', associationData.email);
-
-        localStorage.setItem('userData', JSON.stringify(associationData));
+        localStorage.setItem('emailDonateur', donateurData.email);
+        localStorage.setItem('userData', JSON.stringify(donateurData));
         this.spinner.hide();
         this.aFormGroup.reset();
         this.showSuccessMessage = true;
         this.showErrorNotification = false;
-        this.router.navigate(['/sinscrire/email'], { replaceUrl: true });
+        this.router.navigate(['/Sinscrire/email'],
+           { replaceUrl: true });
+
       } else {
         this.showEmailExists = true;
       }
     } else {
       this.showErrorNotification = true;
       console.log('Formulaire invalide');
-      // Afficher un message d'erreur ou effectuer d'autres actions pour gérer les erreurs de validation
     }
   }
 

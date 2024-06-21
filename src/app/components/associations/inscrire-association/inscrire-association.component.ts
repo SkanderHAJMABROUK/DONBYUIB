@@ -172,8 +172,9 @@ export class InscrireAssociationComponent implements OnInit {
         .checkNameExists(this.aFormGroup.value.nom)
         .toPromise();
 
-      if (emailExists) {
+      if (!emailExists) {
         if (!nameExists) {
+          
           this.sendVerificationEmail();
           this.spinner.show();
 

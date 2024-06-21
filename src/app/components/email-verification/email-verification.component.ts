@@ -44,15 +44,27 @@ export class EmailVerificationComponent implements OnInit {
       console.log('Code matched!');
       this.verified = true;
 
-      Swal.fire({
-        icon: 'success',
-        title:
-          "Votre demande d'habilitation est en cours de validation. Un email vous sera envoyé dès l'approbation de la demande!",
-        showConfirmButton: false,
-        timer: 10000,
-      });
-
       let type = localStorage.getItem('type');
+
+      if(type==='association'){
+        Swal.fire({
+          icon: 'success',
+          title:
+            "Votre demande d'habilitation est en cours de validation. Un email vous sera envoyé dès l'approbation de la demande!",
+          showConfirmButton: false,
+          timer: 5000,
+        });
+      } else if (type === 'donateur'){
+        Swal.fire({
+          icon: 'success',
+          title:
+            "Votre compte a été créé avec succès!",
+          showConfirmButton: false,
+          timer: 500,
+        });
+      }
+
+      
 
       if (type === 'association') {
         const associationData = JSON.parse(

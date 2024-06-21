@@ -3,9 +3,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import {
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
   Firestore,
   Timestamp,
   addDoc,
@@ -26,8 +23,6 @@ import {
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import {
   AbstractControl,
-  FormBuilder,
-  FormGroup,
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
