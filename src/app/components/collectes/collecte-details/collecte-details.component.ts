@@ -202,6 +202,8 @@ export class CollecteDetailsComponent {
     const returnUrl = `https://localhost:4200/listeCollectes/details/${this.id}`;
     const randomIdentifier = Math.random().toString(36).substring(2, 10);
 
+    localStorage.setItem('montant', this.donationAmount.toString());
+
     this.paymentService
       .authorizePayment(randomIdentifier, this.donationAmount, returnUrl)
       .subscribe(

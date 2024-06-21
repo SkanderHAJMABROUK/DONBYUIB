@@ -124,6 +124,7 @@ export class AssociationDemandeComponent implements OnInit {
           console.log('Selected Association:', this.selectedAssociation);
           const date = new Date();
           const donateurId = this.donateurId || '';
+          
           this.paymentService
             .addDonAssociation(
               this.selectedAssociation.id,
