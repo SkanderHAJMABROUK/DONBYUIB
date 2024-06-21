@@ -227,6 +227,7 @@ export class CollecteDetailsComponent {
           console.log('Order ID:', orderId);
           console.log('Amount:', amount);
           const donateurId = this.donateurId || '';
+          
           this.paymentService
             .addDonCollecte(this.selectedCollecte.id, amount, date, donateurId)
             .then(() => {
