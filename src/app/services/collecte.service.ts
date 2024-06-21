@@ -419,11 +419,13 @@ export class CollecteService {
     return this.getCollectes().pipe(
       map((collectes) =>
         collectes.filter(
-          (collecte) => collecte.id_association === associationId,
+          (collecte) => 
+            collecte.id_association === associationId && collecte.etat === 'accepté',
         ),
       ),
     );
   }
+  
 
   getCollecteById(id: string): Observable<Collecte | undefined> {
     return this.getCollectes().pipe(
