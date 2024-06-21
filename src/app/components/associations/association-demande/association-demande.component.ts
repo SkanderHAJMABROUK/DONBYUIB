@@ -107,9 +107,8 @@ export class AssociationDemandeComponent implements OnInit {
           localStorage.setItem('orderId', response.orderId);
           this.orderId = response.orderId;
 
-          if(this.orderStatus==2){
-            this.confirmPayment(response.orderId, this.donationAmount);
-          }
+          this.confirmPayment(response.orderId, this.donationAmount);
+
         },
         (error) => {
           console.error('Authorization failed:', error);

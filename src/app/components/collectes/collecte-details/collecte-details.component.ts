@@ -34,7 +34,7 @@ export class CollecteDetailsComponent {
   data: Collecte | undefined;
   selectedCollecte!: Collecte | undefined;
   donationAmount: number = 0;
-  orderId: string = '';
+  orderId!: string ;
   orderStatus: number = 0;
   donateurId: string | null = null;
   donateurEMail: string | undefined;
@@ -209,9 +209,8 @@ export class CollecteDetailsComponent {
           window.open(response.formUrl, '_blank');
           localStorage.setItem('order-Id', response.orderId);
           this.orderId = response.orderId;
-          if(this.orderStatus==2){
-            this.confirmPayment(response.orderId, this.donationAmount);
-          }
+          
+          this.confirmPayment(response.orderId, this.donationAmount);
         },
         (error) => {
           console.error('Authorization failed:', error);
@@ -273,7 +272,7 @@ export class CollecteDetailsComponent {
   getOrderStatus(orderId: string): void {
     this.paymentService.getOrderStatus(orderId).subscribe(
       (response) => {
-        console.log(response);
+        console.log('order status' , response);
         this.orderStatus = response.OrderStatus as number;
         console.log('order status in function', this.orderStatus);
 
