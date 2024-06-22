@@ -236,7 +236,7 @@ export class DonateurService {
   }
 
   private startTimer() {
-    const timer = interval(30000); // Timer set to check every 30 seconds
+    const timer = interval(30000); 
     this.activitySubscription = timer.subscribe(() => {
       const lastActivity = sessionStorage.getItem('lastActivity');
       const now = new Date().getTime();
@@ -244,7 +244,7 @@ export class DonateurService {
         const diff = now - parseInt(lastActivity);
         const diffInMinutes = diff / (1000 * 60);
         if (diffInMinutes >= 1) {
-          this.logOut(); // Log out user if inactive for 15 minutes
+          this.logOut(); 
           alert(
             "Vous avez été déconnecté en raison d'une inactivité prolongée. Veuillez vous reconnecter.",
           );
@@ -254,7 +254,6 @@ export class DonateurService {
   }
 
   monitorActivity() {
-    // Update the last activity timestamp when any activity happens
     window.addEventListener('mousemove', this.updateLastActivity.bind(this));
     window.addEventListener('scroll', this.updateLastActivity.bind(this));
     window.addEventListener('keydown', this.updateLastActivity.bind(this));
